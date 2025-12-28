@@ -13,7 +13,7 @@ get_throws <- function(x) {
   throws_chr <- strsplit(x, "") |>
     unlist()
 
-  match(throws_chr, c(1:9, letters))
+  match(tolower(throws_chr), c(1:9, letters))
 }
 
 no_collisions <- function(throws) {
