@@ -48,6 +48,9 @@ vanilla_siteswap <- S7::new_class(
   package = "jugglr"
 )
 
+asynchronous_siteswap <- vanilla_siteswap
+async_siteswap <- vanilla_siteswap
+
 # TODO: useful print method!
 S7::method(print, vanilla_siteswap) <- function(x, ...) {
   cat("This is vanilla siteswap")
