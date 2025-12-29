@@ -11,4 +11,5 @@ RoxygenNote: 7.3.2.9000
 Imports: 
     cli,
     rlang,
-    S7
+    S7,
+    stringr
