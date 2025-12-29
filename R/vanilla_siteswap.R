@@ -20,10 +20,10 @@ vanilla_siteswap <- S7::new_class(
         mean(self@throws)
       }
     ),
-    has_collisions = S7::new_property(
+    can_throw = S7::new_property(
       class = S7::class_logical,
       getter = function(self) {
-        !no_collisions(self@throws)
+        can_throw(self@throws)
       }
     ),
     satisfies_average_theorem = S7::new_property(
@@ -35,7 +35,7 @@ vanilla_siteswap <- S7::new_class(
     valid = S7::new_property(
       class = S7::class_logical,
       getter = function(self) {
-        self@satisfies_average_theorem && !self@has_collisions
+        self@satisfies_average_theorem && self@can_throw
       }
     )
   ),
@@ -52,6 +52,6 @@ asynchronous_siteswap <- vanilla_siteswap
 async_siteswap <- vanilla_siteswap
 
 # TODO: useful print method!
-S7::method(print, vanilla_siteswap) <- function(x, ...) {
-  cat("This is vanilla siteswap")
-}
+# S7::method(print, vanilla_siteswap) <- function(x, ...) {
+#   cat("This is vanilla siteswap")
+# }

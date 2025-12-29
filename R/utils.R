@@ -16,7 +16,7 @@ get_throws <- function(x) {
   match(tolower(throws_chr), c(1:9, letters))
 }
 
-no_collisions <- function(throws) {
+can_throw <- function(throws) {
   n <- length(throws)
   lands <- ((seq_len(n) - 1) + throws) %% n
   anyDuplicated(lands) == 0
