@@ -1,6 +1,6 @@
 #' @export
-vanilla_siteswap <- S7::new_class(
-  "vanilla_siteswap",
+vanillaSiteswap <- S7::new_class(
+  "vanillaSiteswap",
   properties = list(
     throws = S7::new_property(
       class = S7::class_integer,
@@ -44,12 +44,12 @@ vanilla_siteswap <- S7::new_class(
       "@notation must only contain digits and letters"
     }
   },
-  parent = siteswap,
+  parent = Siteswap,
   package = "jugglr"
 )
 
-asynchronous_siteswap <- vanilla_siteswap
-async_siteswap <- vanilla_siteswap
+asynchronous_siteswap <- vanillaSiteswap
+async_siteswap <- vanillaSiteswap
 
 # TODO: useful print method!
 # S7::method(print, vanilla_siteswap) <- function(x, ...) {
