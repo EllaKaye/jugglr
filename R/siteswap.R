@@ -15,8 +15,8 @@ Siteswap <- S7::new_class(
 )
 
 # just testing - n is not a meaningful argument
-siteswap <- function(notation, n) {
-  if (n == 1) {
+siteswap <- function(notation) {
+  if (str_detect("^[a-wA-W0-9]+$", self@notation)) {
     vanillaSiteswap(notation)
   } else {
     Siteswap(notation)

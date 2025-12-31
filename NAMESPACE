@@ -2,3 +2,4 @@
 
 export(Siteswap)
 export(vanillaSiteswap)
+importFrom(stringr,str_detect)

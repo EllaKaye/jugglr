@@ -40,7 +40,7 @@ vanillaSiteswap <- S7::new_class(
     )
   ),
   validator = function(self) {
-    if (!(grepl("^[a-wA-W0-9]+$", self@notation))) {
+    if (!(str_detect("^[a-wA-W0-9]+$", self@notation))) {
       "@notation must only contain digits and letters a-w"
     }
   },
