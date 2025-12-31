@@ -14,6 +14,12 @@ vanillaSiteswap <- S7::new_class(
         length(self@throws)
       }
     ),
+    symmetry = S7::new_property(
+      class = S7::class_character,
+      getter = function(self) {
+        ifelse(is_even(self@period), "asymmetrical", "symmetrical")
+      }
+    ),
     n_props = S7::new_property(
       class = S7::class_numeric,
       getter = function(self) {
@@ -40,7 +46,7 @@ vanillaSiteswap <- S7::new_class(
     )
   ),
   validator = function(self) {
-    if (!(str_detect("^[a-wA-W0-9]+$", self@notation))) {
+    if (!(str_detect(self@notation, "^[a-wA-W0-9]+$"))) {
       "@notation must only contain digits and letters a-w"
     }
   },
@@ -51,7 +57,21 @@ vanillaSiteswap <- S7::new_class(
 asynchronousSiteswap <- vanillaSiteswap
 asyncSiteswap <- vanillaSiteswap
 
-# TODO: useful print method!
-# S7::method(print, vanilla_siteswap) <- function(x, ...) {
-#   cat("This is vanilla siteswap")
-# }
+# TODO: Any other information to print about the pattern?
+S7::method(print, vanillaSiteswap) <- function(x, ...) {
+  if (x@valid) {
+    cli::cli_bullets(
+      c(
+        "v" = "This is valid vanilla siteswap",
+        "i" = "It uses {x@n_props} props",
+        "i" = "It is {x@symmetry} with period {x@period}"
+      )
+    )
+  } else {
+    cli::cli_bullets(
+      c(
+        "x" = "This siteswap is not a valid juggling pattern"
+      )
+    )
+  }
+}

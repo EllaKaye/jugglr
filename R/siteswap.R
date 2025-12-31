@@ -14,9 +14,9 @@ Siteswap <- S7::new_class(
   package = "jugglr"
 )
 
-# just testing - n is not a meaningful argument
+# TODO: other flavours of siteswap
 siteswap <- function(notation) {
-  if (str_detect("^[a-wA-W0-9]+$", self@notation)) {
+  if (str_detect(notation, "^[a-wA-W0-9]+$")) {
     vanillaSiteswap(notation)
   } else {
     Siteswap(notation)
