@@ -40,16 +40,16 @@ vanillaSiteswap <- S7::new_class(
     )
   ),
   validator = function(self) {
-    if (!(grepl("^[a-zA-Z0-9]+$", self@notation))) {
-      "@notation must only contain digits and letters"
+    if (!(grepl("^[a-wA-W0-9]+$", self@notation))) {
+      "@notation must only contain digits and letters a-w"
     }
   },
   parent = Siteswap,
   package = "jugglr"
 )
 
-asynchronous_siteswap <- vanillaSiteswap
-async_siteswap <- vanillaSiteswap
+asynchronousSiteswap <- vanillaSiteswap
+asyncSiteswap <- vanillaSiteswap
 
 # TODO: useful print method!
 # S7::method(print, vanilla_siteswap) <- function(x, ...) {
