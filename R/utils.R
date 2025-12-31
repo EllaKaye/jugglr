@@ -13,8 +13,11 @@ is_whole_number <- function(x) {
   x %% 1 == 0
 }
 
-get_throws <- function(x) {
-  throws_chr <- strsplit(x, "") |>
+get_throws <- function(notation) {
+  if (!(rlang::is_character(notation, 1))) {
+    cli::cli_abort("notation must be a string")
+  }
+  throws_chr <- strsplit(notation, "") |>
     unlist()
 
   match(tolower(throws_chr), c(1:9, letters))
