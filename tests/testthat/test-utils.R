@@ -5,6 +5,13 @@ test_that("is_even works", {
   expect_false(is_even(2.5))
 })
 
+test_that("is_odd works", {
+  expect_true(is_odd(1))
+  expect_false(is_odd(0))
+  expect_true(is_odd(3))
+  expect_false(is_odd(1.3))
+})
+
 test_that("is_whole_number works", {
   expect_true(is_whole_number(2))
   expect_true(is_whole_number(0))
