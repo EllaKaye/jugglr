@@ -3,3 +3,5 @@
 export(Siteswap)
 export(vanillaSiteswap)
 importFrom(stringr,str_detect)
+importFrom(stringr,str_extract_all)
+importFrom(stringr,str_remove)

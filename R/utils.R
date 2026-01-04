@@ -33,40 +33,32 @@ can_throw <- function(throws) {
   anyDuplicated(lands) == 0
 }
 
-expand_siteswap <- function(pattern) {
-  while (stringr::str_detect(pattern, "\\*")) {
-    # Find position of first *
-    star_pos <- stringr::str_locate(pattern, "\\*")[1, "start"]
-
-    # Split at the *
-    before_star <- stringr::str_sub(pattern, 1, star_pos - 1)
-    after_star <- stringr::str_sub(pattern, star_pos + 1, -1)
-
-    # Find the last parentheses group before *
-    last_group <- stringr::str_extract(before_star, "\\([^)]+\\)[^(]*$")
-
-    if (is.na(last_group)) {
-      break # No group to mirror
-    }
-
-    # Extract just the parentheses content
-    group_match <- stringr::str_extract(last_group, "\\([^)]+\\)")
-
-    # Mirror it
-    content <- stringr::str_remove_all(group_match, "[()]")
-    parts <- stringr::str_split(content, ",")[[1]]
-    mirrored <- paste0("(", paste(rev(parts), collapse = ","), ")")
-
-    # Replace * with mirrored group
-    pattern <- paste0(before_star, mirrored, after_star)
-  }
-
-  pattern
-}
-
 # x is a synchronous siteswap
 extract_throws <- function(x) {
   stringr::str_extract_all(x, "\\w+")[[1]]
+}
+
+expand_siteswap <- function(pattern) {
+  if (!str_detect(pattern, "\\*$")) {
+    return(pattern)
+  }
+
+  base_pattern <- str_remove(pattern, "\\*$")
+  throws <- str_extract_all(base_pattern, "\\([^)]+\\)")[[1]] # sync pairs
+
+  if (length(throws) == 0) {
+    return(pattern)
+  }
+
+  # Create mirror version by reversing the sequence and swapping within each group
+  mirror_throws <- rev(sapply(throws, function(throw) {
+    content <- str_remove_all(throw, "[()]")
+    parts <- str_split(content, ",")[[1]]
+    paste0("(", paste(rev(parts), collapse = ","), ")")
+  }))
+
+  # Combine original and mirror
+  paste0(base_pattern, paste(mirror_throws, collapse = ""))
 }
 
 slide <- function(throws) {
