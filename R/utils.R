@@ -2,6 +2,8 @@
   S7::methods_register()
 }
 
+throw_data <- S7::new_generic("throw_data", "x")
+
 is_even <- function(x) {
   x %% 2 == 0
 }
