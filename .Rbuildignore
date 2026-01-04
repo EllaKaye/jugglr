@@ -1,3 +1,5 @@
 ^jugglr\.Rproj$
 ^\.Rproj\.user$
 ^LICENSE\.md$
+plot_experiments.R
+test_class.R
