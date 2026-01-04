@@ -2,6 +2,16 @@
 vanillaSiteswap <- S7::new_class(
   "vanillaSiteswap",
   properties = list(
+    type = S7::new_property(
+      class = S7::class_character,
+      setter = function(self, value) {
+        if (!is.null(self@type)) {
+          stop("@type is read-only", call. = FALSE)
+        }
+        self@type <- "vanilla"
+        self
+      }
+    ),
     throws = S7::new_property(
       class = S7::class_integer,
       getter = function(self) {
@@ -62,7 +72,7 @@ S7::method(print, vanillaSiteswap) <- function(x, ...) {
   if (x@valid) {
     cli::cli_bullets(
       c(
-        "v" = "This is valid vanilla siteswap",
+        "v" = "{x@notation} is valid {x@type} siteswap",
         "i" = "It uses {x@n_props} props",
         "i" = "It is {x@symmetry} with period {x@period}"
       )
