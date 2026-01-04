@@ -98,27 +98,22 @@ S7::method(throw_data, vanillaSiteswap) <- function(x, n_cycles = 3) {
   throws <- throws |>
     dplyr::mutate(
       catch_beat = beat + throw,
-      catch_hand = ifelse(is_even(throw), hand, 1 - hand)
+      catch_hand = ifelse(is_even(throw), hand, 1 - hand),
+      ball = NA
     )
 
   # track which ball is thrown at each beat
-  # initialise: balls 1, 2, 3 ... are in hands at beats 1, 2, 3
-  max_catch <- max(throws$catch_beat)
-  ball_at_beat <- rep(NA, max_catch)
-  ball_at_beat[1:x@n_props] <- 1:x@n_props
-  ball_at_beat
-  throws$ball <- NA
+  # initialise: balls 1, ..., n_props are first thrown at beats 1, ..., n_props
+  throws$ball[1:x@n_props] <- 1:x@n_props
 
   # simulate the pattern to track balls
   for (i in seq_len(nrow(throws))) {
-    throw_beat <- throws$beat[i]
     catch_beat <- throws$catch_beat[i]
     throw <- throws$throw[i]
+    ball <- throws$ball[i]
 
-    if (throw > 0) {
-      ball_num <- ball_at_beat[throw_beat] # ball being thrown
-      throws$ball[i] <- ball_num # record this
-      ball_at_beat[catch_beat] <- ball_num
+    if (throw > 0 && catch_beat <= nrow(throws)) {
+      throws$ball[catch_beat] <- ball # place ball when it's caught
     }
   }
 
