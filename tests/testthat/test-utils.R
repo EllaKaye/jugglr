@@ -24,4 +24,5 @@ test_that("get_throws works", {
   expect_equal(get_throws("423"), c(4, 2, 3))
   expect_equal(get_throws("42a"), c(4, 2, 10))
   expect_equal(get_throws("42A"), c(4, 2, 10))
+  expect_equal(get_throws("55550"), c(5, 5, 5, 5, 0))
 })

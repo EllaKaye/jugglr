@@ -277,6 +277,10 @@ ladder_data_441 <- create_ladder_data(c(4, 4, 1), n_cycles = 3)
 plot_ladder(ladder_data_441, direction = "vertical")
 plot_ladder(ladder_data_441, direction = "horizontal")
 
+ladder_data_55550 <- create_ladder_data(c(5, 5, 5, 5, 0), n_cycles = 3)
+plot_ladder(ladder_data_55550, direction = "vertical")
+plot_ladder(ladder_data_55550, direction = "horizontal")
+
 # Not valid pattern, but should still be able to plot
 ladder_data_21 <- create_ladder_data(c(2, 1), n_cycles = 3)
 plot_ladder(ladder_data_21, direction = "vertical")

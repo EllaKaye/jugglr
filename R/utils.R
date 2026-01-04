@@ -24,7 +24,7 @@ get_throws <- function(notation) {
   throws_chr <- strsplit(notation, "") |>
     unlist()
 
-  match(tolower(throws_chr), c(1:9, letters))
+  match(tolower(throws_chr), c(0:9, letters)) - 1
 }
 
 can_throw <- function(throws) {
