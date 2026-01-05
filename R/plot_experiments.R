@@ -285,3 +285,49 @@ plot_ladder(ladder_data_55550, direction = "horizontal")
 ladder_data_21 <- create_ladder_data(c(2, 1), n_cycles = 3)
 plot_ladder(ladder_data_21, direction = "vertical")
 plot_ladder(ladder_data_21, direction = "horizontal")
+
+# geom_curve and geom_segment
+df <- data.frame(
+  x1 = c(1, 3, 4),
+  x2 = c(2, 5, 6),
+  y1 = c(0, 0, 1),
+  y2 = c(0, 1, 1),
+  curvature = c(-0.5, 0, 0.5),
+  ball = factor(1:3)
+)
+
+df1 <- filter(df, curvature == -0.5)
+df2 <- filter(df, curvature == 0)
+df3 <- filter(df, curvature == 0.5)
+
+b <- ggplot(
+  df,
+  aes(
+    x = x1,
+    y = y1,
+    xend = x2,
+    yend = y2,
+    colour = ball,
+  )
+) +
+  geom_curve(,
+    data = df1,
+    curvature = -0.5
+  ) +
+  geom_curve(,
+    data = df2,
+    curvature = 0
+  ) +
+  geom_curve(,
+    data = df3,
+    curvature = +0.5
+  )
+b +
+  scale_color_discrete() +
+  #coord_cartesian(ylim = c(0, 1), expand = FALSE) +
+  geom_hline(yintercept = 1) +
+  geom_hline(yintercept = 0) +
+  labs(title = "Siteswap") +
+  theme_minimal() +
+  # theme_void() +
+  theme(panel.grid.major.x = element_line(colour = "grey90"))

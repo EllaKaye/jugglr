@@ -117,5 +117,26 @@ S7::method(throw_data, vanillaSiteswap) <- function(x, n_cycles = 3) {
     }
   }
 
+  throws <- throws |>
+    mutate(ball = factor(ball))
+
   throws
+}
+
+S7::method(timeline, vanillaSiteswap) <- function(x, n_cycles = 3) {
+  throw_data <- throw_data(x)
+
+  p <- ggplot2::ggplot(
+    throw_data,
+    aes(
+      x = beat,
+      y = 0,
+      xend = catch_beat,
+      yend = 0,
+      colour = ball
+    )
+  ) +
+    geom_curve(curvature = -1)
+
+  p
 }
