@@ -21,11 +21,11 @@ is_whole_number <- function(x) {
   x %% 1 == 0
 }
 
-get_throws <- function(notation) {
-  if (!(rlang::is_character(notation, 1))) {
-    cli::cli_abort("notation must be a string")
+get_throws <- function(sequence) {
+  if (!(rlang::is_character(sequence, 1))) {
+    cli::cli_abort("sequence must be a string")
   }
-  throws_chr <- strsplit(notation, "") |>
+  throws_chr <- strsplit(sequence, "") |>
     unlist()
 
   match(tolower(throws_chr), c(0:9, letters)) - 1

@@ -15,7 +15,7 @@ vanillaSiteswap <- S7::new_class(
     throws = S7::new_property(
       class = S7::class_integer,
       getter = function(self) {
-        get_throws(self@notation)
+        get_throws(self@sequence)
       }
     ),
     period = S7::new_property(
@@ -56,8 +56,8 @@ vanillaSiteswap <- S7::new_class(
     )
   ),
   validator = function(self) {
-    if (!(str_detect(self@notation, "^[a-wA-W0-9]+$"))) {
-      "@notation must only contain digits and letters a-w"
+    if (!(str_detect(self@sequence, "^[a-wA-W0-9]+$"))) {
+      "@sequence must only contain digits and letters a-w"
     }
   },
   parent = Siteswap,
@@ -72,7 +72,7 @@ S7::method(print, vanillaSiteswap) <- function(x, ...) {
   if (x@valid) {
     cli::cli_bullets(
       c(
-        "v" = "{x@notation} is valid {x@type} siteswap",
+        "v" = "'{x@sequence}' is valid {x@type} siteswap",
         "i" = "It uses {x@n_props} props",
         "i" = "It is {x@symmetry} with period {x@period}"
       )
@@ -128,7 +128,7 @@ S7::method(timeline, vanillaSiteswap) <- function(x, n_cycles = 3) {
 
   p <- ggplot2::ggplot(
     throw_data,
-    aes(
+    ggplot2::aes(
       x = beat,
       y = 0,
       xend = catch_beat,
@@ -136,7 +136,7 @@ S7::method(timeline, vanillaSiteswap) <- function(x, n_cycles = 3) {
       colour = ball
     )
   ) +
-    geom_curve(curvature = -1)
+    ggplot2::geom_curve(curvature = -1)
 
   p
 }

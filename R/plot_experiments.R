@@ -332,8 +332,8 @@ b +
   # theme_void() +
   theme(panel.grid.major.x = element_line(colour = "grey90"))
 
-throws423 <- throw_data(siteswap("423"))
-throws4413 <- throw_data(siteswap("4413"))
+# throws423 <- throw_data(siteswap("423"))
+# throws4413 <- throw_data(siteswap("4413"))
 
 generate_parabola <- function(x1, x2, height, ball, beat, n_points = 100) {
   vx <- (x1 + x2) / 2 # vertex
@@ -343,24 +343,24 @@ generate_parabola <- function(x1, x2, height, ball, beat, n_points = 100) {
   data.frame(x = xs, y = ys, ball = ball, beat = beat)
 }
 
-all_parabolas_423 <- throws423 |>
-  pmap(~ generate_parabola(..1, ..4, ..3, ..6, ..1)) |>
-  list_rbind()
+# all_parabolas_423 <- throws423 |>
+#   purrr::pmap(~ generate_parabola(..1, ..4, ..3, ..6, ..1)) |>
+#   purrr::list_rbind()
 
-ggplot(
-  all_parabolas_423,
-  aes(x = x, y = y, group = beat, color = ball)
-) +
-  geom_path() +
-  theme_minimal()
+# ggplot(
+#   all_parabolas_423,
+#   aes(x = x, y = y, group = beat, color = ball)
+# ) +
+#   geom_path() +
+#   theme_minimal()
 
-all_parabolas_4413 <- throws4413 |>
-  pmap(~ generate_parabola(..1, ..4, ..3, ..6, ..1)) |>
-  list_rbind()
+# all_parabolas_4413 <- throws4413 |>
+#   purrr::pmap(~ generate_parabola(..1, ..4, ..3, ..6, ..1)) |>
+#   purrr:::list_rbind()
 
-ggplot(
-  all_parabolas_4413,
-  aes(x = x, y = y, group = beat, color = ball)
-) +
-  geom_path() +
-  theme_minimal()
+# ggplot(
+#   all_parabolas_4413,
+#   aes(x = x, y = y, group = beat, color = ball)
+# ) +
+#   geom_path() +
+#   theme_minimal()
