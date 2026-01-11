@@ -142,14 +142,11 @@ S7::method(throw_data, vanillaSiteswap) <- function(x, n_cycles = 3) {
 
 # TODO: Document that when n_props < x@period,
 # will need to increase n_cycles to get a sense of the pattern/see all props being thrown
-# TODO: ability to pass in palette
+# MAYBE: ability to pass in palette
 # - will need to think what happens if pass in fewer values than x@n_props
 # and/or max(throw_data$ball)
 # TODO: message/warning if n_cycles < n_props
-# MAYBE: show caption on plot if valid and n_cycles < n_props
-# TODO: more space in outer margins
-# TODO: bigger, bolder text on axis labels
-# MAYBE: thicker lines
+# TODO: plot caption indicating whether valid, and number of props if so
 #' @export
 S7::method(timeline, vanillaSiteswap) <- function(x, n_cycles = 3) {
   throw_data <- throw_data(x, n_cycles = n_cycles)
@@ -171,10 +168,17 @@ S7::method(timeline, vanillaSiteswap) <- function(x, n_cycles = 3) {
       breaks = 1:(x@period * n_cycles),
       labels = rep(x@throws, n_cycles)
     ) +
+    labs(
+      title = paste0("Siteswap '", x@sequence, "'")
+    ) +
     theme_void() +
     theme(
       axis.text.x = element_text(face = "bold", size = rel(1.5)),
-      plot.margin = margin(20, 20, 20, 20)
+      plot.margin = margin(10, 20, 20, 20),
+      plot.title = element_text(
+        size = rel(1.8),
+        margin = ggplot2::margin(12, 0, 20, 0)
+      )
     )
 
   p
