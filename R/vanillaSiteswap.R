@@ -148,27 +148,34 @@ S7::method(timeline, vanillaSiteswap) <- function(x, n_cycles = 3) {
     }) |>
     purrr::list_rbind()
 
-  offset <- x@period * n_cycles
-  last_throws <- throw_data(x, n = 1) |>
-    mutate(beat = beat + offset, catch_beat = catch_beat + offset)
+  # offset <- x@period * n_cycles
+  # last_throws <- throw_data(x, n = 1) |>
+  #   mutate(beat = beat + offset, catch_beat = catch_beat + offset)
 
-  half_parabolas <- last_throws |>
-    select(beat, catch_beat, throw, ball) |>
-    purrr::pmap(\(beat, catch_beat, throw, ball) {
-      generate_parabola(beat, catch_beat, throw, ball, beat)
-    }) |>
-    purrr::list_rbind() |>
-    group_by(beat) |>
-    slice_head(n = n_points / 2)
+  # half_parabolas <- last_throws |>
+  #   select(beat, catch_beat, throw, ball) |>
+  #   purrr::pmap(\(beat, catch_beat, throw, ball) {
+  #     generate_parabola(beat, catch_beat, throw, ball, beat)
+  #   }) |>
+  #   purrr::list_rbind() |>
+  #   group_by(beat) |>
+  #   slice_head(n = n_points / 2)
 
-  all_parabolas <- bind_rows(full_parabolas, half_parabolas)
+  # all_parabolas <- bind_rows(full_parabolas, half_parabolas)
 
   p <- ggplot(
-    all_parabolas,
+    full_parabolas,
     aes(x = x, y = y, group = beat, color = ball)
   ) +
     geom_path() +
-    theme_minimal()
+    scale_x_continuous(
+      breaks = 1:(x@period * n_cycles),
+      labels = rep(x@throws, n_cycles)
+    ) +
+    #coord_cartesian(xlim = c(1, x@period * (n_cycles + 1))) +
+    theme_void() +
+    theme(axis.text.x = element_text())
 
   p
+  #nrow(throw_data) + offset
 }
