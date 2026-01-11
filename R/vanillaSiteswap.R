@@ -140,11 +140,15 @@ S7::method(throw_data, vanillaSiteswap) <- function(x, n_cycles = 3) {
   throws
 }
 
-# TODO: Note in documentation that need n_cycles >= n_props
-# and will default to n_cycles = n_props otherwise
-# TODO: Document that when n_props < x@period, will need to increase n_cycles to get a sense of the pattern
+# TODO: Document that when n_props < x@period,
+# will need to increase n_cycles to get a sense of the pattern/see all props being thrown
 # TODO: ability to pass in palette
-# TODO: message if n_cycles < n_props
+# - will need to think what happens if pass in fewer values than x@n_props
+# and/or max(throw_data$ball)
+# TODO: message/warning if n_cycles < n_props
+# MAYBE: show caption on plot if valid and n_cycles < n_props
+# TODO: more space in outer margins
+# TODO: bigger, bolder text on axis labels
 # MAYBE: thicker lines
 #' @export
 S7::method(timeline, vanillaSiteswap) <- function(x, n_cycles = 3) {
