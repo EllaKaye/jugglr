@@ -67,7 +67,8 @@ vanillaSiteswap <- S7::new_class(
 asynchronousSiteswap <- vanillaSiteswap
 asyncSiteswap <- vanillaSiteswap
 
-# TODO: Any other information to print about the pattern?
+# MAYBE: Any other information to print about the pattern?
+#' @export
 S7::method(print, vanillaSiteswap) <- function(x, ...) {
   if (x@valid) {
     cli::cli_bullets(
@@ -96,7 +97,7 @@ S7::method(throw_data, vanillaSiteswap) <- function(x, n_cycles = 3) {
   )
 
   throws <- throws |>
-    dplyr::mutate(
+    mutate(
       catch_beat = beat + throw,
       catch_hand = ifelse(is_even(throw), hand, 1 - hand),
       ball = NA
@@ -123,20 +124,35 @@ S7::method(throw_data, vanillaSiteswap) <- function(x, n_cycles = 3) {
   throws
 }
 
+#' @export
 S7::method(timeline, vanillaSiteswap) <- function(x, n_cycles = 3) {
   throw_data <- throw_data(x)
 
-  p <- ggplot2::ggplot(
-    throw_data,
-    ggplot2::aes(
-      x = beat,
-      y = 0,
-      xend = catch_beat,
-      yend = 0,
-      colour = ball
-    )
+  parabolas <- throw_data |>
+    select(beat, catch_beat, throw, ball) |>
+    purrr::pmap(\(beat, catch_beat, throw, ball) {
+      generate_parabola(beat, catch_beat, throw, ball, beat)
+    }) |>
+    purrr::list_rbind()
+
+  p <- ggplot(
+    parabolas,
+    aes(x = x, y = y, group = beat, color = ball)
   ) +
-    ggplot2::geom_curve(curvature = -1)
+    geom_path() +
+    theme_minimal()
+
+  # p <- ggplot2::ggplot(
+  #   throw_data,
+  #   ggplot2::aes(
+  #     x = beat,
+  #     y = 0,
+  #     xend = catch_beat,
+  #     yend = 0,
+  #     colour = ball
+  #   )
+  # ) +
+  #   ggplot2::geom_curve(curvature = -1)
 
   p
 }
