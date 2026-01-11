@@ -88,7 +88,9 @@ S7::method(print, vanillaSiteswap) <- function(x, ...) {
 }
 
 S7::method(throw_data, vanillaSiteswap) <- function(x, n_cycles = 3) {
-  total_throws <- x@period * n_cycles
+  # need total_throws > n_props
+  # otherwise we don't have enough rows in `throws` to place the catches
+  total_throws <- max(x@period * n_cycles, x@n_props)
 
   throws <- data.frame(
     beat = 1:total_throws,
@@ -124,35 +126,49 @@ S7::method(throw_data, vanillaSiteswap) <- function(x, n_cycles = 3) {
   throws
 }
 
+# TODO: Note in documentation that need n_cycles >= n_props
+# and will default to n_cycles = n_props otherwise
+# TODO: no legend
+# TODO: title
+# TODO: ball number instead of beat on x-axis
+# TODO: no y-axis
+# TODO: no gridlines
+# TODO: ability to pass in palette
+# MAYBE: thicker lines
 #' @export
 S7::method(timeline, vanillaSiteswap) <- function(x, n_cycles = 3) {
-  throw_data <- throw_data(x)
+  n_cycles <- max(n_cycles, x@n_props)
+  throw_data <- throw_data(x, n_cycles = n_cycles)
+  n_points <- 100 # number of points in each parabola
 
-  parabolas <- throw_data |>
+  full_parabolas <- throw_data |>
+    select(beat, catch_beat, throw, ball) |>
+    purrr::pmap(\(beat, catch_beat, throw, ball) {
+      generate_parabola(beat, catch_beat, throw, ball, beat, n_points)
+    }) |>
+    purrr::list_rbind()
+
+  offset <- x@period * n_cycles
+  last_throws <- throw_data(x, n = 1) |>
+    mutate(beat = beat + offset, catch_beat = catch_beat + offset)
+
+  half_parabolas <- last_throws |>
     select(beat, catch_beat, throw, ball) |>
     purrr::pmap(\(beat, catch_beat, throw, ball) {
       generate_parabola(beat, catch_beat, throw, ball, beat)
     }) |>
-    purrr::list_rbind()
+    purrr::list_rbind() |>
+    group_by(beat) |>
+    slice_head(n = n_points / 2)
+
+  all_parabolas <- bind_rows(full_parabolas, half_parabolas)
 
   p <- ggplot(
-    parabolas,
+    all_parabolas,
     aes(x = x, y = y, group = beat, color = ball)
   ) +
     geom_path() +
     theme_minimal()
-
-  # p <- ggplot2::ggplot(
-  #   throw_data,
-  #   ggplot2::aes(
-  #     x = beat,
-  #     y = 0,
-  #     xend = catch_beat,
-  #     yend = 0,
-  #     colour = ball
-  #   )
-  # ) +
-  #   ggplot2::geom_curve(curvature = -1)
 
   p
 }

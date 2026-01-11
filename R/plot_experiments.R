@@ -364,3 +364,38 @@ generate_parabola <- function(x1, x2, height, ball, beat, n_points = 100) {
 # ) +
 #   geom_path() +
 #   theme_minimal()
+
+# ss423 <- siteswap("423")
+# throws423 <- throw_data(ss423)
+
+# full_parabolas <- throws423 |>
+#   select(beat, catch_beat, throw, ball) |>
+#   purrr::pmap(\(beat, catch_beat, throw, ball) {
+#     generate_parabola(beat, catch_beat, throw, ball, beat)
+#   }) |>
+#   purrr::list_rbind()
+
+# # TODO: need to get `n_cycles` programmatically
+# last_throws_423 <- throw_data(ss423, n = 1) |>
+#   mutate(beat = beat + 9, catch_beat = catch_beat + 9)
+
+# # TODO: need to get n programmatically
+# half_parabolas <- last_throws_423 |>
+#   select(beat, catch_beat, throw, ball) |>
+#   purrr::pmap(\(beat, catch_beat, throw, ball) {
+#     generate_parabola(beat, catch_beat, throw, ball, beat)
+#   }) |>
+#   purrr::list_rbind() |>
+#   group_by(beat) |>
+#   slice_head(n = 50)
+
+# all_parabolas <- bind_rows(full_parabolas, half_parabolas)
+
+# p <- ggplot(
+#   all_parabolas,
+#   aes(x = x, y = y, group = beat, color = ball)
+# ) +
+#   geom_path() +
+#   theme_minimal()
+
+# p
