@@ -166,13 +166,16 @@ S7::method(timeline, vanillaSiteswap) <- function(x, n_cycles = 3) {
     parabolas,
     aes(x = x, y = y, group = beat, color = ball)
   ) +
-    geom_path(show.legend = FALSE) +
+    geom_path(linewidth = 2, show.legend = FALSE) +
     scale_x_continuous(
       breaks = 1:(x@period * n_cycles),
       labels = rep(x@throws, n_cycles)
     ) +
     theme_void() +
-    theme(axis.text.x = element_text())
+    theme(
+      axis.text.x = element_text(face = "bold", size = rel(1.5)),
+      plot.margin = margin(20, 20, 20, 20)
+    )
 
   p
 }
