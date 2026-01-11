@@ -88,9 +88,7 @@ S7::method(print, vanillaSiteswap) <- function(x, ...) {
 }
 
 S7::method(throw_data, vanillaSiteswap) <- function(x, n_cycles = 3) {
-  # need total_throws > n_props
-  # otherwise we don't have enough rows in `throws` to place the catches
-  total_throws <- max(x@period * n_cycles, x@n_props)
+  total_throws <- x@period * n_cycles
 
   throws <- data.frame(
     beat = 1:total_throws,
@@ -106,17 +104,33 @@ S7::method(throw_data, vanillaSiteswap) <- function(x, n_cycles = 3) {
     )
 
   # track which ball is thrown at each beat
-  # initialise: balls 1, ..., n_props are first thrown at beats 1, ..., n_props
-  throws$ball[1:x@n_props] <- 1:x@n_props
+  # initialise
+  throws$ball[1] <- 1
+  next_ball <- 2
 
   # simulate the pattern to track balls
   for (i in seq_len(nrow(throws))) {
-    catch_beat <- throws$catch_beat[i]
     throw <- throws$throw[i]
-    ball <- throws$ball[i]
 
-    if (throw > 0 && catch_beat <= nrow(throws)) {
-      throws$ball[catch_beat] <- ball # place ball when it's caught
+    # Skip beats with no throw (0)
+    if (throw == 0) {
+      next
+    }
+
+    current_ball <- throws$ball[i]
+
+    # If no ball assigned yet, assign the next available ball
+    if (is.na(current_ball)) {
+      throws$ball[i] <- next_ball
+      current_ball <- next_ball
+      next_ball <- next_ball + 1
+    }
+
+    catch_beat <- throws$catch_beat[i]
+
+    # Place the ball at its catch beat
+    if (catch_beat <= nrow(throws)) {
+      throws$ball[catch_beat] <- current_ball
     }
   }
 
@@ -128,54 +142,33 @@ S7::method(throw_data, vanillaSiteswap) <- function(x, n_cycles = 3) {
 
 # TODO: Note in documentation that need n_cycles >= n_props
 # and will default to n_cycles = n_props otherwise
-# TODO: no legend
-# TODO: title
-# TODO: ball number instead of beat on x-axis
-# TODO: no y-axis
-# TODO: no gridlines
+# TODO: Document that when n_props < x@period, will need to increase n_cycles to get a sense of the pattern
 # TODO: ability to pass in palette
+# TODO: message if n_cycles < n_props
 # MAYBE: thicker lines
 #' @export
 S7::method(timeline, vanillaSiteswap) <- function(x, n_cycles = 3) {
-  n_cycles <- max(n_cycles, x@n_props)
   throw_data <- throw_data(x, n_cycles = n_cycles)
-  n_points <- 100 # number of points in each parabola
 
-  full_parabolas <- throw_data |>
+  parabolas <- throw_data |>
+    filter(throw > 0) |> # nothing to draw when there's no throw
     select(beat, catch_beat, throw, ball) |>
     purrr::pmap(\(beat, catch_beat, throw, ball) {
-      generate_parabola(beat, catch_beat, throw, ball, beat, n_points)
+      generate_parabola(beat, catch_beat, throw, ball, beat)
     }) |>
     purrr::list_rbind()
 
-  # offset <- x@period * n_cycles
-  # last_throws <- throw_data(x, n = 1) |>
-  #   mutate(beat = beat + offset, catch_beat = catch_beat + offset)
-
-  # half_parabolas <- last_throws |>
-  #   select(beat, catch_beat, throw, ball) |>
-  #   purrr::pmap(\(beat, catch_beat, throw, ball) {
-  #     generate_parabola(beat, catch_beat, throw, ball, beat)
-  #   }) |>
-  #   purrr::list_rbind() |>
-  #   group_by(beat) |>
-  #   slice_head(n = n_points / 2)
-
-  # all_parabolas <- bind_rows(full_parabolas, half_parabolas)
-
   p <- ggplot(
-    full_parabolas,
+    parabolas,
     aes(x = x, y = y, group = beat, color = ball)
   ) +
-    geom_path() +
+    geom_path(show.legend = FALSE) +
     scale_x_continuous(
       breaks = 1:(x@period * n_cycles),
       labels = rep(x@throws, n_cycles)
     ) +
-    #coord_cartesian(xlim = c(1, x@period * (n_cycles + 1))) +
     theme_void() +
     theme(axis.text.x = element_text())
 
   p
-  #nrow(throw_data) + offset
 }
