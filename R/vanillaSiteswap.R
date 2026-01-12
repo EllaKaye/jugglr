@@ -100,13 +100,13 @@ S7::method(throw_data, vanillaSiteswap) <- function(x, n_cycles = 3) {
     mutate(
       catch_beat = beat + throw,
       catch_hand = ifelse(is_even(throw), hand, 1 - hand),
-      ball = NA
+      prop = NA
     )
 
   # track which ball is thrown at each beat
   # initialise
-  throws$ball[1] <- 1
-  next_ball <- 2
+  throws$prop[1] <- 1
+  next_prop <- 2
 
   # simulate the pattern to track balls
   for (i in seq_len(nrow(throws))) {
@@ -117,31 +117,35 @@ S7::method(throw_data, vanillaSiteswap) <- function(x, n_cycles = 3) {
       next
     }
 
-    current_ball <- throws$ball[i]
+    current_prop <- throws$prop[i]
 
     # If no ball assigned yet, assign the next available ball
-    if (is.na(current_ball)) {
-      throws$ball[i] <- next_ball
-      current_ball <- next_ball
-      next_ball <- next_ball + 1
+    if (is.na(current_prop)) {
+      throws$prop[i] <- next_prop
+      current_prop <- next_prop
+      next_prop <- next_prop + 1
     }
 
     catch_beat <- throws$catch_beat[i]
 
     # Place the ball at its catch beat
     if (catch_beat <= nrow(throws)) {
-      throws$ball[catch_beat] <- current_ball
+      throws$prop[catch_beat] <- current_prop
     }
   }
 
   throws <- throws |>
-    mutate(ball = factor(ball))
+    mutate(prop = factor(prop))
 
   throws
 }
 
 # TODO: Document that when n_props < x@period,
 # will need to increase n_cycles to get a sense of the pattern/see all props being thrown
+# Can say something like n_cycle likely to need increasing if period is short
+# and/or there are more than three props
+# Also document and give an example of modifying the plot with additional ggplot2 layers,
+# such as palette and labs to remove title and subtitle.
 # MAYBE: ability to pass in palette
 # - will need to think what happens if pass in fewer values than x@n_props
 # and/or max(throw_data$ball)
@@ -153,11 +157,23 @@ S7::method(timeline, vanillaSiteswap) <- function(x, n_cycles = 3) {
 
   parabolas <- throw_data |>
     filter(throw > 0) |> # nothing to draw when there's no throw
-    select(beat, catch_beat, throw, ball) |>
-    purrr::pmap(\(beat, catch_beat, throw, ball) {
-      generate_parabola(beat, catch_beat, throw, ball, beat)
+    select(beat, catch_beat, throw, prop) |>
+    purrr::pmap(\(beat, catch_beat, throw, prop) {
+      generate_parabola(beat, catch_beat, throw, prop, beat)
     }) |>
     purrr::list_rbind()
+
+  subtitle <- ifelse(
+    x@valid,
+    paste("A valid juggling pattern with", x@n_props, "props."),
+    "Not a valid juggling pattern"
+  )
+
+  # generate warning if not all props are shown on plot
+  # TODO: convert to warning with cli, not `stop`
+  if (x@valid && max(as.integer(throw_data$prop), na.rm = TRUE) < x@n_props) {
+    stop("not showing all props")
+  }
 
   p <- ggplot(
     parabolas,
@@ -169,7 +185,8 @@ S7::method(timeline, vanillaSiteswap) <- function(x, n_cycles = 3) {
       labels = rep(x@throws, n_cycles)
     ) +
     labs(
-      title = paste0("Siteswap '", x@sequence, "'")
+      title = paste0("Siteswap '", x@sequence, "'"),
+      subtitle = subtitle
     ) +
     theme_void() +
     theme(
@@ -177,7 +194,11 @@ S7::method(timeline, vanillaSiteswap) <- function(x, n_cycles = 3) {
       plot.margin = margin(10, 20, 20, 20),
       plot.title = element_text(
         size = rel(1.8),
-        margin = ggplot2::margin(12, 0, 20, 0)
+        margin = ggplot2::margin(12, 0, 8, 0)
+      ),
+      plot.subtitle = element_text(
+        size = rel(1.2),
+        margin = ggplot2::margin(0, 0, 8, 0)
       )
     )
 
