@@ -85,10 +85,10 @@ slide <- function(throws) {
   new
 }
 
-generate_parabola <- function(x1, x2, height, ball, beat, n_points = 100) {
+generate_parabola <- function(x1, x2, height, prop, beat, n_points = 100) {
   vx <- (x1 + x2) / 2 # vertex
   xs <- seq(x1, x2, length.out = n_points)
   ys <- height * (1 - ((xs - vx) / (vx - x1))^2)
 
-  data.frame(x = xs, y = ys, ball = ball, beat = beat)
+  data.frame(x = xs, y = ys, prop = prop, beat = beat)
 }
