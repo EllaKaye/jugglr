@@ -134,9 +134,6 @@ S7::method(throw_data, vanillaSiteswap) <- function(x, n_cycles = 3) {
     }
   }
 
-  throws <- throws |>
-    mutate(prop = factor(prop))
-
   throws
 }
 
@@ -145,15 +142,20 @@ S7::method(throw_data, vanillaSiteswap) <- function(x, n_cycles = 3) {
 # Can say something like n_cycle likely to need increasing if period is short
 # and/or there are more than three props
 # Also document and give an example of modifying the plot with additional ggplot2 layers,
-# such as palette and labs to remove title and subtitle.
-# MAYBE: ability to pass in palette
-# - will need to think what happens if pass in fewer values than x@n_props
-# and/or max(throw_data$ball)
+# such as palette.
 # TODO: message/warning if n_cycles < n_props
-# TODO: plot caption indicating whether valid, and number of props if so
 #' @export
-S7::method(timeline, vanillaSiteswap) <- function(x, n_cycles = 3) {
+S7::method(timeline, vanillaSiteswap) <- function(
+  x,
+  n_cycles = 3,
+  title = TRUE
+) {
   throw_data <- throw_data(x, n_cycles = n_cycles)
+
+  max_prop <- max(throw_data$prop, na.rm = TRUE)
+
+  throw_data <- throw_data |>
+    mutate(prop = factor(prop))
 
   parabolas <- throw_data |>
     filter(throw > 0) |> # nothing to draw when there's no throw
@@ -171,22 +173,18 @@ S7::method(timeline, vanillaSiteswap) <- function(x, n_cycles = 3) {
 
   # generate warning if not all props are shown on plot
   # TODO: convert to warning with cli, not `stop`
-  if (x@valid && max(as.integer(throw_data$prop), na.rm = TRUE) < x@n_props) {
+  if (x@valid && max_prop < x@n_props) {
     stop("not showing all props")
   }
 
   p <- ggplot(
     parabolas,
-    aes(x = x, y = y, group = beat, color = ball)
+    aes(x = x, y = y, group = beat, color = prop)
   ) +
     geom_path(linewidth = 2, show.legend = FALSE) +
     scale_x_continuous(
       breaks = 1:(x@period * n_cycles),
       labels = rep(x@throws, n_cycles)
-    ) +
-    labs(
-      title = paste0("Siteswap '", x@sequence, "'"),
-      subtitle = subtitle
     ) +
     theme_void() +
     theme(
@@ -201,6 +199,14 @@ S7::method(timeline, vanillaSiteswap) <- function(x, n_cycles = 3) {
         margin = ggplot2::margin(0, 0, 8, 0)
       )
     )
+
+  if (title) {
+    p <- p +
+      labs(
+        title = paste0("Siteswap '", x@sequence, "'"),
+        subtitle = subtitle
+      )
+  }
 
   p
 }
