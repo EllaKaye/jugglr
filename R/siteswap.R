@@ -21,7 +21,7 @@ Siteswap <- S7::new_class(
 # TODO: other flavours of siteswap
 #' @export
 siteswap <- function(sequence) {
-  if (str_detect(sequence, "^[a-wA-W0-9]+$")) {
+  if (str_detect(sequence, "^[a-zA-Z0-9]+$")) {
     vanillaSiteswap(sequence)
   } else {
     Siteswap(sequence)

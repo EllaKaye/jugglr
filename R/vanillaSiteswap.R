@@ -56,8 +56,8 @@ vanillaSiteswap <- S7::new_class(
     )
   ),
   validator = function(self) {
-    if (!(str_detect(self@sequence, "^[a-wA-W0-9]+$"))) {
-      "@sequence must only contain digits and letters a-w"
+    if (!(str_detect(self@sequence, "^[a-zA-Z0-9]+$"))) {
+      "@sequence must only contain digits and letters"
     }
   },
   parent = Siteswap,
