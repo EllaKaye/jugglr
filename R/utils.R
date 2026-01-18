@@ -6,10 +6,15 @@
 #' @rawNamespace if (getRversion() < "4.3.0") importFrom("S7", "@")
 NULL
 
-throw_data <- new_generic("throw_data", "x")
+# TODO: "siteswap" rather than "x"
+# TODO: document
+throw_data <- new_generic("throw_data", "siteswap")
 
 # TODO: useful documentation
 # TODO: add `n_cycles` arg here
+# TODO: "siteswap" rather than "x"
+# MAYBE: does this need to be a generic? Possibly only useful for vanilla,
+# in which case it could be a regular function
 # see https://rconsortium.github.io/S7/articles/generics-methods.html
 # see https://rconsortium.github.io/S7/articles/packages.html for more on documenting generics/methods
 #' Timeline
@@ -19,7 +24,7 @@ throw_data <- new_generic("throw_data", "x")
 #' @param ... Additional arguments passed to methods
 #'
 #' @export
-timeline <- new_generic("timeline", "x")
+timeline <- new_generic("timeline", "siteswap")
 
 is_even <- function(x) {
   x %% 2 == 0

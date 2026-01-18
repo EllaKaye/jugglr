@@ -87,13 +87,13 @@ method(print, vanillaSiteswap) <- function(x, ...) {
   }
 }
 
-method(throw_data, vanillaSiteswap) <- function(x, n_cycles = 3) {
-  total_throws <- x@period * n_cycles
+method(throw_data, vanillaSiteswap) <- function(siteswap, n_cycles = 3) {
+  total_throws <- siteswap@period * n_cycles
 
   throws <- data.frame(
     beat = 1:total_throws,
     hand = rep(0:1, length.out = total_throws), # 0,1 rather than R/L or L/R
-    throw = rep(x@throws, length.out = total_throws)
+    throw = rep(siteswap@throws, length.out = total_throws)
   )
 
   throws <- throws |>
@@ -145,11 +145,11 @@ method(throw_data, vanillaSiteswap) <- function(x, n_cycles = 3) {
 # such as palette.
 # TODO: still figurng out where to document this
 method(timeline, vanillaSiteswap) <- function(
-  x,
+  siteswap,
   n_cycles = 3,
   title = TRUE
 ) {
-  throw_data <- throw_data(x, n_cycles = n_cycles)
+  throw_data <- throw_data(siteswap, n_cycles = n_cycles)
 
   # TODO: check n_cycles is a single integer (or coercible)
   # What happens when n_cycles is a double, e.g. 1.3
@@ -168,20 +168,20 @@ method(timeline, vanillaSiteswap) <- function(
     purrr::list_rbind()
 
   subtitle <- ifelse(
-    x@valid,
-    paste("A valid juggling pattern with", x@n_props, "props."),
+    siteswap@valid,
+    paste("A valid juggling pattern with", siteswap@n_props, "props."),
     "Not a valid juggling pattern"
   )
 
   # generate warning if not all props are shown on plot
   # TODO: convert to warning with cli, not `stop`
-  if (x@valid && max_prop < x@n_props) {
+  if (siteswap@valid && max_prop < siteswap@n_props) {
     #stop("not showing all props")
     cli::cli_warn(
       c(
-        "!" = "There are {x@n_props} props in siteswap '{x@sequence}', but only {max_prop} {?is/are} shown.",
+        "!" = "There are {siteswap@n_props} props in siteswap '{siteswap@sequence}', but only {max_prop} {?is/are} shown.",
         "i" = "Increase {.arg n_cycles} to see more throws.",
-        "i" = "Setting n_cycles >= {x@period * x@n_props * 2} will show each prop thrown at least twice."
+        "i" = "Setting n_cycles >= {siteswap@period * siteswap@n_props * 2} will show each prop thrown at least twice."
       )
     )
   }
@@ -192,8 +192,8 @@ method(timeline, vanillaSiteswap) <- function(
   ) +
     geom_path(linewidth = 2, show.legend = FALSE) +
     scale_x_continuous(
-      breaks = 1:(x@period * n_cycles),
-      labels = rep(x@throws, n_cycles)
+      breaks = 1:(siteswap@period * n_cycles),
+      labels = rep(siteswap@throws, n_cycles)
     ) +
     theme_void() +
     theme(
@@ -212,7 +212,7 @@ method(timeline, vanillaSiteswap) <- function(
   if (title) {
     p <- p +
       labs(
-        title = paste0("Siteswap '", x@sequence, "'"),
+        title = paste0("Siteswap '", siteswap@sequence, "'"),
         subtitle = subtitle
       )
   }
