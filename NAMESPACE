@@ -2,7 +2,10 @@
 
 export(Siteswap)
 export(siteswap)
+export(timeline)
 export(vanillaSiteswap)
+if (getRversion() < "4.3.0") importFrom("S7", "@")
+import(S7)
 importFrom(dplyr,mutate)
 importFrom(stringr,str_detect)
 importFrom(stringr,str_extract_all)

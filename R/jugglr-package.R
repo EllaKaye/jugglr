@@ -2,6 +2,7 @@
 "_PACKAGE"
 
 ## usethis namespace: start
+#' @import S7
 #' @importFrom dplyr mutate
 #' @importFrom stringr str_detect
 #' @importFrom stringr str_extract_all

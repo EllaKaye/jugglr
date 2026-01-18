@@ -1,9 +1,9 @@
 #' @export
-Siteswap <- S7::new_class(
+Siteswap <- new_class(
   "Siteswap",
   properties = list(
-    sequence = S7::new_property(
-      class = S7::class_character,
+    sequence = new_property(
+      class = class_character,
       validator = function(value) {
         if (length(value) != 1) {
           "must be length 1"

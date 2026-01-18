@@ -1,10 +1,25 @@
 .onLoad <- function(...) {
-  S7::methods_register()
+  methods_register()
 }
 
-throw_data <- S7::new_generic("throw_data", "x")
+# enable usage of <S7_object>@name in package code
+#' @rawNamespace if (getRversion() < "4.3.0") importFrom("S7", "@")
+NULL
 
-timeline <- S7::new_generic("timeline", "x")
+throw_data <- new_generic("throw_data", "x")
+
+# TODO: useful documentation
+# TODO: add `n_cycles` arg here
+# see https://rconsortium.github.io/S7/articles/generics-methods.html
+# see https://rconsortium.github.io/S7/articles/packages.html for more on documenting generics/methods
+#' Timeline
+#'
+#' Plot the timeline
+#' @param x A siteswap object
+#' @param ... Additional arguments passed to methods
+#'
+#' @export
+timeline <- new_generic("timeline", "x")
 
 is_even <- function(x) {
   x %% 2 == 0

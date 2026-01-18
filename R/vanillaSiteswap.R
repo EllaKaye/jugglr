@@ -1,9 +1,9 @@
 #' @export
-vanillaSiteswap <- S7::new_class(
+vanillaSiteswap <- new_class(
   "vanillaSiteswap",
   properties = list(
-    type = S7::new_property(
-      class = S7::class_character,
+    type = new_property(
+      class = class_character,
       setter = function(self, value) {
         if (!is.null(self@type)) {
           stop("@type is read-only", call. = FALSE)
@@ -12,44 +12,44 @@ vanillaSiteswap <- S7::new_class(
         self
       }
     ),
-    throws = S7::new_property(
-      class = S7::class_integer,
+    throws = new_property(
+      class = class_integer,
       getter = function(self) {
         get_throws(self@sequence)
       }
     ),
-    period = S7::new_property(
-      class = S7::class_integer,
+    period = new_property(
+      class = class_integer,
       getter = function(self) {
         length(self@throws)
       }
     ),
-    symmetry = S7::new_property(
-      class = S7::class_character,
+    symmetry = new_property(
+      class = class_character,
       getter = function(self) {
         ifelse(is_even(self@period), "asymmetrical", "symmetrical")
       }
     ),
-    n_props = S7::new_property(
-      class = S7::class_numeric,
+    n_props = new_property(
+      class = class_numeric,
       getter = function(self) {
         mean(self@throws)
       }
     ),
-    can_throw = S7::new_property(
-      class = S7::class_logical,
+    can_throw = new_property(
+      class = class_logical,
       getter = function(self) {
         can_throw(self@throws)
       }
     ),
-    satisfies_average_theorem = S7::new_property(
-      class = S7::class_logical,
+    satisfies_average_theorem = new_property(
+      class = class_logical,
       getter = function(self) {
         is_whole_number(mean(self@throws))
       }
     ),
-    valid = S7::new_property(
-      class = S7::class_logical,
+    valid = new_property(
+      class = class_logical,
       getter = function(self) {
         self@satisfies_average_theorem && self@can_throw
       }
@@ -69,7 +69,7 @@ asyncSiteswap <- vanillaSiteswap
 
 # MAYBE: Any other information to print about the pattern?
 #' @export
-S7::method(print, vanillaSiteswap) <- function(x, ...) {
+method(print, vanillaSiteswap) <- function(x, ...) {
   if (x@valid) {
     cli::cli_bullets(
       c(
@@ -87,7 +87,7 @@ S7::method(print, vanillaSiteswap) <- function(x, ...) {
   }
 }
 
-S7::method(throw_data, vanillaSiteswap) <- function(x, n_cycles = 3) {
+method(throw_data, vanillaSiteswap) <- function(x, n_cycles = 3) {
   total_throws <- x@period * n_cycles
 
   throws <- data.frame(
@@ -143,13 +143,16 @@ S7::method(throw_data, vanillaSiteswap) <- function(x, n_cycles = 3) {
 # and/or there are more than three props
 # Also document and give an example of modifying the plot with additional ggplot2 layers,
 # such as palette.
-#' @export
-S7::method(timeline, vanillaSiteswap) <- function(
+# TODO: still figurng out where to document this
+method(timeline, vanillaSiteswap) <- function(
   x,
   n_cycles = 3,
   title = TRUE
 ) {
   throw_data <- throw_data(x, n_cycles = n_cycles)
+
+  # TODO: check n_cycles is a single integer (or coercible)
+  # What happens when n_cycles is a double, e.g. 1.3
 
   max_prop <- max(throw_data$prop, na.rm = TRUE)
 
