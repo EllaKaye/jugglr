@@ -19,6 +19,7 @@ Siteswap <- S7::new_class(
 # or will this be an error in creating the object?
 
 # TODO: other flavours of siteswap
+# TODO: error if not a valid siteswap string
 #' @export
 siteswap <- function(sequence) {
   if (str_detect(sequence, "^[a-zA-Z0-9]+$")) {

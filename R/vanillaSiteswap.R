@@ -143,7 +143,6 @@ S7::method(throw_data, vanillaSiteswap) <- function(x, n_cycles = 3) {
 # and/or there are more than three props
 # Also document and give an example of modifying the plot with additional ggplot2 layers,
 # such as palette.
-# TODO: message/warning if n_cycles < n_props
 #' @export
 S7::method(timeline, vanillaSiteswap) <- function(
   x,
@@ -174,7 +173,14 @@ S7::method(timeline, vanillaSiteswap) <- function(
   # generate warning if not all props are shown on plot
   # TODO: convert to warning with cli, not `stop`
   if (x@valid && max_prop < x@n_props) {
-    stop("not showing all props")
+    #stop("not showing all props")
+    cli::cli_warn(
+      c(
+        "!" = "There are {x@n_props} props in siteswap '{x@sequence}', but only {max_prop} {?is/are} shown.",
+        "i" = "Increase {.arg n_cycles} to see more throws.",
+        "i" = "Setting n_cycles >= {x@period * x@n_props * 2} will show each prop thrown at least twice."
+      )
+    )
   }
 
   p <- ggplot(
