@@ -6,6 +6,10 @@
 #' @rawNamespace if (getRversion() < "4.3.0") importFrom("S7", "@")
 NULL
 
+# TODO: add functions `is_vanilla_siteswap`, `is_sync_siteswap` etc
+# that I can use in combination `Siteswap` to validate sequence and `siteswap`
+# to determine the subclass
+
 # TODO: "siteswap" rather than "x"
 # TODO: document
 throw_data <- new_generic("throw_data", "siteswap")
@@ -51,6 +55,8 @@ get_throws <- function(sequence) {
   match(tolower(throws_chr), c(0:9, letters)) - 1
 }
 
+# MAYBE: go back to calling this has_collisions,
+# as that is the problem for vanilla and pure sync (non-multiplex) siteswap
 can_throw <- function(throws) {
   n <- length(throws)
   lands <- ((seq_len(n) - 1) + throws) %% n

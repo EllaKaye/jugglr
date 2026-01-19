@@ -68,6 +68,9 @@ asynchronousSiteswap <- vanillaSiteswap
 asyncSiteswap <- vanillaSiteswap
 
 # MAYBE: Any other information to print about the pattern?
+# MAYBE: Of not valid, say more about what the problem is,
+# or suggest visualising with timeline (only vanilla?) or ladder
+# TODO: define print for Siteswap then use `super` and add an extra bullet
 #' @export
 method(print, vanillaSiteswap) <- function(x, ...) {
   if (x@valid) {
@@ -175,6 +178,8 @@ method(timeline, vanillaSiteswap) <- function(
 
   # generate warning if not all props are shown on plot
   # TODO: convert to warning with cli, not `stop`
+  # TODO: separate into `check_all_props_shown(siteswap)` function
+  # Will be useful elsewhere
   if (siteswap@valid && max_prop < siteswap@n_props) {
     #stop("not showing all props")
     cli::cli_warn(
