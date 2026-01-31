@@ -1,3 +1,4 @@
+# MAYBE: add orbits
 #' @export
 vanillaSiteswap <- new_class(
   "vanillaSiteswap",
@@ -70,6 +71,7 @@ asyncSiteswap <- vanillaSiteswap
 # MAYBE: Any other information to print about the pattern?
 # MAYBE: Of not valid, say more about what the problem is,
 # or suggest visualising with timeline (only vanilla?) or ladder
+# MAYBE: print orbits (if calculating them)
 # TODO: define print for Siteswap then use `super` and add an extra bullet
 #' @export
 method(print, vanillaSiteswap) <- function(x, ...) {
@@ -146,6 +148,7 @@ method(throw_data, vanillaSiteswap) <- function(siteswap, n_cycles = 3) {
 # and/or there are more than three props
 # Also document and give an example of modifying the plot with additional ggplot2 layers,
 # such as palette.
+# TODO: maybe no `title` arg, but document how to override it with `labs`
 # TODO: still figurng out where to document this
 method(timeline, vanillaSiteswap) <- function(
   siteswap,
@@ -222,5 +225,131 @@ method(timeline, vanillaSiteswap) <- function(
       )
   }
 
+  p
+}
+
+method(ladder, vanillaSiteswap) <- function(
+  siteswap,
+  n_cycles = 3,
+  direction = c("horizontal", "vertical")
+) {
+  direction <- rlang::arg_match(direction)
+
+  plot_data <- throw_data(siteswap, n_cycles = n_cycles) |>
+    mutate(is_even = is_even(throw)) |>
+    filter(throw > 0)
+
+  # transform plot data based on direction
+  if (direction == "vertical") {
+    # having -beat means 0 is at the "top" of the ladder,
+    # and we go down the negative y-axis as time increases
+    plot_data <- plot_data |>
+      mutate(
+        x_start = hand,
+        y_start = -beat,
+        x_end = catch_hand,
+        y_end = -catch_beat,
+      )
+  } else {
+    plot_data <- plot_data |>
+      mutate(
+        x_start = beat,
+        y_start = hand,
+        x_end = catch_beat,
+        y_end = catch_hand
+      )
+  }
+
+  # Separate odd (straight) and even (curved) throws
+  odd_throws <- plot_data |>
+    dplyr::filter(!is_even)
+  even_throws <- plot_data |>
+    filter(is_even)
+
+  # Create curve points for even heights - curves toward center (0.5)
+  create_curve_points <- function(
+    x_start,
+    y_start,
+    x_end,
+    y_end,
+    direction,
+    prop_num,
+    n_points = 50
+  ) {
+    t <- seq(0, 1, length.out = n_points)
+
+    if (direction == "vertical") {
+      x_control <- 0.5 # Curve toward center
+      y_control <- mean(c(y_start, y_end))
+    } else {
+      x_control <- mean(c(x_start, x_end))
+      y_control <- 0.5 # Curve toward center
+    }
+
+    #x_control <- mean(c(x_start, x_end))
+    #y_control <- 0.5 # Curve toward center
+
+    # Quadratic Bezier curve
+    x <- (1 - t)^2 * x_start + 2 * (1 - t) * t * x_control + t^2 * x_end
+    y <- (1 - t)^2 * y_start + 2 * (1 - t) * t * y_control + t^2 * y_end
+
+    data.frame(x = x, y = y, prop = prop_num)
+  }
+
+  # Generate curve points for even throws
+  if (nrow(even_throws) > 0) {
+    curve_data <- even_throws |>
+      dplyr::rowwise() |>
+      do({
+        curve_pts <- create_curve_points(
+          .$x_start,
+          .$y_start,
+          .$x_end,
+          .$y_end,
+          direction,
+          .$prop
+        )
+        curve_pts$group <- paste0("arc_", .$beat, "_", .$throw)
+        curve_pts
+      }) |>
+      dplyr::ungroup()
+  } else {
+    curve_data <- data.frame(
+      x = numeric(0),
+      y = numeric(0),
+      prop = numeric(0),
+      group = character(0)
+    )
+  }
+
+  #return(curve_data)
+
+  p <- ggplot()
+
+  # Add curved lines for even heights with colors by ball
+  if (nrow(curve_data) > 0) {
+    p <- p +
+      geom_path(
+        data = curve_data,
+        aes(x = x, y = y, group = group, color = factor(prop)),
+        show.legend = FALSE
+      )
+  }
+
+  # Add straight lines for odd heights with colors by ball
+  if (nrow(odd_throws) > 0) {
+    p <- p +
+      geom_segment(
+        data = odd_throws,
+        aes(
+          x = x_start,
+          y = y_start,
+          xend = x_end,
+          yend = y_end,
+          color = factor(prop)
+        ),
+        show.legend = FALSE
+      )
+  }
   p
 }

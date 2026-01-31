@@ -30,6 +30,9 @@ throw_data <- new_generic("throw_data", "siteswap")
 #' @export
 timeline <- new_generic("timeline", "siteswap")
 
+#' @export
+ladder <- new_generic("ladder", "siteswap")
+
 is_even <- function(x) {
   x %% 2 == 0
 }
@@ -68,6 +71,15 @@ extract_throws <- function(x) {
   stringr::str_extract_all(x, "\\w+")[[1]]
 }
 
+orbits <- function(siteswap) {
+  p <- siteswap@period
+  n_props <- siteswap@n_props
+
+  max_len <- p * n_props
+}
+
+
+# To turn synchronous notation with `*` into its full version
 expand_siteswap <- function(pattern) {
   if (!str_detect(pattern, "\\*$")) {
     return(pattern)
