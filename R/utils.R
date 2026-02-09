@@ -134,13 +134,13 @@ generate_parabola <- function(x1, x2, height, prop, beat, n_points = 100) {
 }
 
 # For use within the `animate` function
-format_colour <- function(colour) {
-  paste0("{", paste(colour, collapse = ","), "}")
+format_color <- function(color) {
+  paste0("{", paste(color, collapse = ","), "}")
 }
 
-format_colours <- function(colours) {
-  colours |>
+format_colors <- function(colors) {
+  colors |>
     col2rgb() |>
-    apply(2, format_colour) |>
+    apply(2, format_color) |>
     paste(collapse = "")
 }
