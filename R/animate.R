@@ -2,6 +2,7 @@
 # TODO: all other args the the API takes
 # TODO: make sure this takes either Siteswap objects or strings
 # Or do I want only Siteswap?
+#' @export
 animate <- function(pattern) {
   # The GIF URL is constructed by appending ;redirect=true
   gif_url <- paste0(
