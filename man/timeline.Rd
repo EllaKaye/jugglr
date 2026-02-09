@@ -4,12 +4,12 @@
 \alias{timeline}
 \title{Timeline}
 \usage{
-timeline(x, ...)
+timeline(siteswap, ...)
 }
 \arguments{
-\item{x}{A siteswap object}
-
 \item{...}{Additional arguments passed to methods}
+
+\item{x}{A siteswap object}
 }
 \description{
 Plot the timeline
