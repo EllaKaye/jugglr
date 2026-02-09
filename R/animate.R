@@ -1,15 +1,22 @@
-# TODO: color
 # TODO: all other args the the API takes
 # TODO: make sure this takes either Siteswap objects or strings
+# TODO: document
+# TODO: in documentation, note that setting colors can lead to a delay in showing the animation.
 # Or do I want only Siteswap?
 #' @export
-animate <- function(pattern) {
+animate <- function(pattern, colors = NULL) {
   # The GIF URL is constructed by appending ;redirect=true
   gif_url <- paste0(
     "https://jugglinglab.org/anim?pattern=",
     pattern,
     ";redirect=true"
   )
+
+  # turn R colours into format required by jugglinglab
+  if (!is.null(colors)) {
+    colors <- format_colors(colors)
+    gif_url <- paste0(gif_url, ";colors=", colors)
+  }
 
   html <- sprintf(
     '
