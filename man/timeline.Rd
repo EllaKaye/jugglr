@@ -7,9 +7,9 @@
 timeline(siteswap, ...)
 }
 \arguments{
-\item{...}{Additional arguments passed to methods}
+\item{siteswap}{A siteswap object}
 
-\item{x}{A siteswap object}
+\item{...}{Additional arguments passed to methods}
 }
 \description{
 Plot the timeline

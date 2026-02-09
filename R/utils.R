@@ -1,3 +1,7 @@
+# TODO: sort this file.
+# Maybe split into separate util_ files for different types of functions (e.g. plotting),
+# or different classes.
+
 .onLoad <- function(...) {
   methods_register()
 }
@@ -10,13 +14,11 @@ NULL
 # that I can use in combination `Siteswap` to validate sequence and `siteswap`
 # to determine the subclass
 
-# TODO: "siteswap" rather than "x"
 # TODO: document
 throw_data <- new_generic("throw_data", "siteswap")
 
 # TODO: useful documentation
 # TODO: add `n_cycles` arg here
-# TODO: "siteswap" rather than "x"
 # MAYBE: does this need to be a generic? Possibly only useful for vanilla,
 # in which case it could be a regular function
 # see https://rconsortium.github.io/S7/articles/generics-methods.html
@@ -24,7 +26,7 @@ throw_data <- new_generic("throw_data", "siteswap")
 #' Timeline
 #'
 #' Plot the timeline
-#' @param x A siteswap object
+#' @param siteswap A siteswap object
 #' @param ... Additional arguments passed to methods
 #'
 #' @export
@@ -129,4 +131,16 @@ generate_parabola <- function(x1, x2, height, prop, beat, n_points = 100) {
   ys <- height * (1 - ((xs - vx) / (vx - x1))^2)
 
   data.frame(x = xs, y = ys, prop = prop, beat = beat)
+}
+
+# For use within the `animate` function
+format_colour <- function(colour) {
+  paste0("{", paste(colour, collapse = ","), "}")
+}
+
+format_colours <- function(colours) {
+  colours |>
+    col2rgb() |>
+    apply(2, format_colour) |>
+    paste(collapse = "")
 }
