@@ -144,3 +144,58 @@ format_colors <- function(colors) {
     apply(2, format_color) |>
     paste(collapse = "")
 }
+
+# TODO: helper functions for checking each named arg to `animate`, e.g. colors_string,
+# that checks the input (e.g. with rlang::is_character) and returns a string "arg_name=checked_value"
+
+colors_string <- function(colors) {
+  if (identical(colors, "mixed")) {
+    return("colors=mixed")
+  }
+  if (identical(colors, "orbits")) {
+    return("colors=orbits")
+  }
+
+  colors_fmt = format_colors(colors)
+
+  paste0("colors=", colors_fmt)
+}
+
+# TODO: for animate, for dealing with args passed to ...
+# Takes named list or vector, filters out NULL values
+# collapses for GIF server url
+
+# TTODO: think about what args this needs, and how it wirks inside `animate`
+jugglinglab_url <- function() {
+  NULL
+}
+
+# TODO: test capturing args from ...
+
+# Helper function to validate save path in `animate`
+validate_path <- function(save, ext = "gif") {
+  if (is.null(save)) {
+    return(invisible(NULL))
+  }
+
+  if (!rlang::is_character(save, n = 1)) {
+    cli::cli_abort(
+      "`save` must be a single character string specifying a file path"
+    )
+  }
+
+  if (tolower(tools::file_ext(save)) != tolower(ext)) {
+    cli::cli_abort("`save` must specify a path ending in '.{ext}'")
+  }
+
+  parent_dir <- dirname(save)
+  if (!dir.exists(parent_dir)) {
+    cli::cli_abort("Directory does not exist: {.path {parent_dir}}")
+  }
+
+  if (file.access(parent_dir, mode = 2) != 0) {
+    cli::cli_abort("Directory is not writable: {.path {parent_dir}}")
+  }
+
+  invisible(save)
+}

@@ -251,6 +251,7 @@ method(ladder, vanillaSiteswap) <- function(
         y_end = -catch_beat,
       )
   } else {
+    # horizontal
     plot_data <- plot_data |>
       mutate(
         x_start = beat,
@@ -286,9 +287,6 @@ method(ladder, vanillaSiteswap) <- function(
       y_control <- 0.5 # Curve toward center
     }
 
-    #x_control <- mean(c(x_start, x_end))
-    #y_control <- 0.5 # Curve toward center
-
     # Quadratic Bezier curve
     x <- (1 - t)^2 * x_start + 2 * (1 - t) * t * x_control + t^2 * x_end
     y <- (1 - t)^2 * y_start + 2 * (1 - t) * t * y_control + t^2 * y_end
@@ -321,12 +319,9 @@ method(ladder, vanillaSiteswap) <- function(
       group = character(0)
     )
   }
-
-  #return(curve_data)
-
   p <- ggplot()
 
-  # Add curved lines for even heights with colors by ball
+  # Add curved lines for even heights with colors by prop
   if (nrow(curve_data) > 0) {
     p <- p +
       geom_path(
@@ -336,7 +331,7 @@ method(ladder, vanillaSiteswap) <- function(
       )
   }
 
-  # Add straight lines for odd heights with colors by ball
+  # Add straight lines for odd heights with colors by prop
   if (nrow(odd_throws) > 0) {
     p <- p +
       geom_segment(

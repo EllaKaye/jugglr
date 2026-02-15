@@ -2,6 +2,7 @@
 
 export(Siteswap)
 export(animate)
+export(animate_markdown)
 export(ladder)
 export(siteswap)
 export(timeline)
