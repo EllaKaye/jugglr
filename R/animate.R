@@ -15,21 +15,13 @@
 #' @param path Path to save GIF. If `NULL` (default) view in viewer
 #' @export
 animate <- function(pattern, colors = NULL, ..., path = NULL) {
-  # Validate path if provided
-  validate_path(path, ext = "gif")
-
-  # Build the GIF URL
-  gif_url <- paste0(
-    "https://jugglinglab.org/anim?pattern=",
-    pattern
-  )
-
-  if (!is.null(colors)) {
-    colors_str <- colors_string(colors)
-    gif_url <- paste0(gif_url, ";", colors_str)
+  if (!is.null(path)) {
+    validate_path(path, ext = "gif")
   }
 
-  gif_url <- paste0(gif_url, ";redirect=true")
+  # TODO: add more named args as I add them to animate and/or jugglinglab_url
+  # TODO: test ... is working properly
+  gif_url <- jugglinglab_url(pattern, colors, ...)
 
   # If path is provided, download the GIF
   if (!is.null(path)) {
@@ -82,7 +74,6 @@ animate <- function(pattern, colors = NULL, ..., path = NULL) {
 #'
 #' @rdname animate
 #' @return knitr graphics object for embedding
-#' @inheritParams animate
 #' @export
 animate_markdown <- function(pattern, path, colors = NULL, ...) {
   animate(pattern, colors = colors, path = path, ...)

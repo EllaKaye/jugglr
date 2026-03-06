@@ -165,9 +165,21 @@ colors_string <- function(colors) {
 # Takes named list or vector, filters out NULL values
 # collapses for GIF server url
 
-# TTODO: think about what args this needs, and how it wirks inside `animate`
-jugglinglab_url <- function() {
-  NULL
+# TODO: think about what args this needs, and how it wirks inside `animate`
+# TODO: keep adding args as I add them to `animate` (or vice versa)
+jugglinglab_url <- function(pattern, colors, ...) {
+  gif_url <- paste0(
+    "https://jugglinglab.org/anim?pattern=",
+    pattern
+  )
+
+  if (!is.null(colors)) {
+    colors_str <- colors_string(colors)
+    gif_url <- paste0(gif_url, ";", colors_str)
+  }
+
+  gif_url <- paste0(gif_url, ";redirect=true")
+  gif_url
 }
 
 # TODO: test capturing args from ...
@@ -199,3 +211,20 @@ validate_path <- function(save, ext = "gif") {
 
   invisible(save)
 }
+
+# f2 <- function(arg1, ...) {
+#   # f2 can now receive whatever arguments were passed via ...
+#   dots <- list(...)
+#   cat("arg1:", arg1, "\n")
+#   cat("Received", length(dots), "additional arguments\n")
+#   print(names(dots))
+# }
+
+# f1 <- function(arg1, ...) {
+#   # Pass along whatever ... contains to f2
+#   f2(arg1, ...)
+# }
+
+# # Example calls with different subsets of arguments
+# f1("first", color = "red", size = 10)
+# f1("second", alpha = 0.5, shape = "circle", width = 5)
