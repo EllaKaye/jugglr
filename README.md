@@ -7,14 +7,17 @@
 
 <!-- badges: end -->
 
-**jugglr** is a package to validate and visualise juggling patterns. The
-`siteswap()` function takes a sequence written in siteswap notation and
-creates an S7 object with class `Siteswap` and a child class for the
-type of siteswap, e.g. vanillaSiteswap.
+**jugglr** is a work-in-progress package to validate and visualise
+juggling patterns. The `siteswap()` function takes a sequence written in
+siteswap notation and creates an S7 object with class `Siteswap` and a
+child class for the type of siteswap, e.g. vanillaSiteswap.
 
 At present, only vanilla siteswap is implemented. I plan to support
 synchronous and multiplex siteswap in the near future, and passing
 siteswap after that.
+
+**Note that not all functions are currently documented and test coverage
+is poor - both are works-in-progress.**
 
 ## Installation
 
