@@ -328,6 +328,7 @@ method(ladder, vanillaSiteswap) <- function(
       geom_path(
         data = curve_data,
         aes(x = x, y = y, group = group, color = factor(prop)),
+        linewidth = 0.8,
         show.legend = FALSE
       )
   }
@@ -344,8 +345,74 @@ method(ladder, vanillaSiteswap) <- function(
           yend = y_end,
           color = factor(prop)
         ),
+        linewidth = 0.8,
         show.legend = FALSE
       )
   }
+
+  # Color scale
+  n_props <- max(plot_data$prop, na.rm = TRUE)
+  prop_colors <- scales::hue_pal()(n_props)
+  p <- p +
+    scale_color_manual(
+      values = stats::setNames(prop_colors, seq_len(n_props)),
+      guide = "none"
+    )
+
+  # Add rungs, rails, scales, and theme
+  if (direction == "vertical") {
+    rung_beats <- -seq(1, max(-plot_data$y_end), by = 1)
+    rung_data <- data.frame(y = rung_beats)
+
+    p <- p +
+      geom_segment(
+        data = rung_data,
+        aes(x = 0, y = y, xend = 1, yend = y),
+        linewidth = 0.3,
+        color = "grey80"
+      ) +
+      geom_segment(
+        aes(x = 0, y = -1, xend = 0, yend = -max(-plot_data$y_end)),
+        linewidth = 1
+      ) +
+      geom_segment(
+        aes(x = 1, y = -1, xend = 1, yend = -max(-plot_data$y_end)),
+        linewidth = 1
+      ) +
+      scale_y_continuous(breaks = NULL) +
+      scale_x_continuous(limits = c(-0.2, 1.2), breaks = NULL) +
+      coord_fixed(ratio = 0.3)
+  } else {
+    rung_beats <- 1:max(plot_data$x_end)
+    rung_data <- data.frame(x = rung_beats)
+
+    p <- p +
+      geom_segment(
+        data = rung_data,
+        aes(x = x, y = 0, xend = x, yend = 1),
+        linewidth = 0.3,
+        color = "grey80"
+      ) +
+      geom_segment(
+        aes(x = 1, y = 0, xend = max(plot_data$x_end), yend = 0),
+        linewidth = 1
+      ) +
+      geom_segment(
+        aes(x = 1, y = 1, xend = max(plot_data$x_end), yend = 1),
+        linewidth = 1
+      ) +
+      scale_x_continuous(breaks = NULL) +
+      scale_y_continuous(limits = c(-0.2, 1.2), breaks = NULL)
+  }
+
+  p <- p +
+    theme_minimal() +
+    theme(panel.grid = element_blank()) +
+    labs(
+      title = paste("Ladder Diagram: Siteswap", siteswap@sequence),
+      x = "",
+      y = ""
+    )
+
   p
 }
