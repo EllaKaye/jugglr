@@ -5,7 +5,7 @@
 \alias{animate_markdown}
 \title{Embed juggling animation in R Markdown or Quarto}
 \usage{
-animate(pattern, colors = NULL, ..., save = NULL)
+animate(pattern, colors = NULL, ..., path = NULL)
 
 animate_markdown(pattern, path, colors = NULL, ...)
 }
@@ -16,9 +16,7 @@ animate_markdown(pattern, path, colors = NULL, ...)
 
 \item{...}{Additional arguments to JugglingLab GIT server}
 
-\item{save}{path to save GIF. If \code{NULL} (default) view in viewer}
-
-\item{path}{Path where GIF should be saved}
+\item{path}{Path to save GIF. If \code{NULL} (default) view in viewer}
 }
 \value{
 knitr graphics object for embedding
