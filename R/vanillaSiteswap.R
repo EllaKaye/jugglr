@@ -350,54 +350,54 @@ method(ladder, vanillaSiteswap) <- function(
       )
   }
 
-  # Add rungs, rails, scales, and theme
-  if (direction == "vertical") {
-    rung_beats <- -seq(1, max(-plot_data$y_end), by = 1)
-    rung_data <- data.frame(y = rung_beats)
+  # Build rung and rail data based on direction
+  is_vertical <- direction == "vertical"
 
-    p <- p +
-      geom_segment(
-        data = rung_data,
-        aes(x = 0, y = y, xend = 1, yend = y),
-        linewidth = 0.3,
-        color = "grey80"
-      ) +
-      geom_segment(
-        aes(x = 0, y = -1, xend = 0, yend = -max(-plot_data$y_end)),
-        linewidth = 0.8
-      ) +
-      geom_segment(
-        aes(x = 1, y = -1, xend = 1, yend = -max(-plot_data$y_end)),
-        linewidth = 0.8
-      ) +
-      scale_y_continuous(breaks = NULL) +
-      scale_x_continuous(limits = c(-0.2, 1.2), breaks = NULL) +
-      coord_fixed(ratio = 0.3)
+  if (is_vertical) {
+    n_beats <- max(-plot_data$y_end)
+    beats <- -seq_len(n_beats)
+    rung_data <- data.frame(
+      x = 0, y = beats, xend = 1, yend = beats
+    )
+    rail_data <- data.frame(
+      x = c(0, 1), y = c(-1, -1), xend = c(0, 1), yend = c(-n_beats, -n_beats)
+    )
   } else {
-    rung_beats <- 1:max(plot_data$x_end)
-    rung_data <- data.frame(x = rung_beats)
-
-    p <- p +
-      geom_segment(
-        data = rung_data,
-        aes(x = x, y = 0, xend = x, yend = 1),
-        linewidth = 0.3,
-        color = "grey80"
-      ) +
-      geom_segment(
-        aes(x = 1, y = 0, xend = max(plot_data$x_end), yend = 0),
-        linewidth = 0.8
-      ) +
-      geom_segment(
-        aes(x = 1, y = 1, xend = max(plot_data$x_end), yend = 1),
-        linewidth = 0.8
-      ) +
-      scale_x_continuous(breaks = NULL) +
-      scale_y_continuous(limits = c(-0.2, 1.2), breaks = NULL) +
-      coord_fixed(ratio = 3)
+    n_beats <- max(plot_data$x_end)
+    beats <- seq_len(n_beats)
+    rung_data <- data.frame(
+      x = beats, y = 0, xend = beats, yend = 1
+    )
+    rail_data <- data.frame(
+      x = c(1, 1), y = c(0, 1), xend = c(n_beats, n_beats), yend = c(0, 1)
+    )
   }
 
+  # hand_axis gets limits; time_axis gets no limits
+  hand_limits <- c(-0.2, 1.2)
+  ratio <- ifelse(is_vertical, 0.3, 3)
+
   p <- p +
+    geom_segment(
+      data = rung_data,
+      aes(x = x, y = y, xend = xend, yend = yend),
+      linewidth = 0.3,
+      color = "grey80"
+    ) +
+    geom_segment(
+      data = rail_data,
+      aes(x = x, y = y, xend = xend, yend = yend),
+      linewidth = 0.8
+    ) +
+    scale_x_continuous(
+      limits = if (is_vertical) hand_limits,
+      breaks = NULL
+    ) +
+    scale_y_continuous(
+      limits = if (!is_vertical) hand_limits,
+      breaks = NULL
+    ) +
+    coord_fixed(ratio = ratio) +
     theme_minimal() +
     theme(panel.grid = element_blank()) +
     labs(
