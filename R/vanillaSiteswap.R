@@ -350,15 +350,6 @@ method(ladder, vanillaSiteswap) <- function(
       )
   }
 
-  # Color scale
-  n_props <- max(plot_data$prop, na.rm = TRUE)
-  prop_colors <- scales::hue_pal()(n_props)
-  p <- p +
-    scale_color_manual(
-      values = stats::setNames(prop_colors, seq_len(n_props)),
-      guide = "none"
-    )
-
   # Add rungs, rails, scales, and theme
   if (direction == "vertical") {
     rung_beats <- -seq(1, max(-plot_data$y_end), by = 1)
@@ -373,11 +364,11 @@ method(ladder, vanillaSiteswap) <- function(
       ) +
       geom_segment(
         aes(x = 0, y = -1, xend = 0, yend = -max(-plot_data$y_end)),
-        linewidth = 1
+        linewidth = 0.8
       ) +
       geom_segment(
         aes(x = 1, y = -1, xend = 1, yend = -max(-plot_data$y_end)),
-        linewidth = 1
+        linewidth = 0.8
       ) +
       scale_y_continuous(breaks = NULL) +
       scale_x_continuous(limits = c(-0.2, 1.2), breaks = NULL) +
@@ -395,14 +386,15 @@ method(ladder, vanillaSiteswap) <- function(
       ) +
       geom_segment(
         aes(x = 1, y = 0, xend = max(plot_data$x_end), yend = 0),
-        linewidth = 1
+        linewidth = 0.8
       ) +
       geom_segment(
         aes(x = 1, y = 1, xend = max(plot_data$x_end), yend = 1),
-        linewidth = 1
+        linewidth = 0.8
       ) +
       scale_x_continuous(breaks = NULL) +
-      scale_y_continuous(limits = c(-0.2, 1.2), breaks = NULL)
+      scale_y_continuous(limits = c(-0.2, 1.2), breaks = NULL) +
+      coord_fixed(ratio = 3)
   }
 
   p <- p +
