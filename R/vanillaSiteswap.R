@@ -294,11 +294,12 @@ method(ladder, vanillaSiteswap) <- function(
     data.frame(x = x, y = y, prop = prop_num)
   }
 
+  # `do` is superseded, so rewrite this.
   # Generate curve points for even throws
   if (nrow(even_throws) > 0) {
     curve_data <- even_throws |>
       dplyr::rowwise() |>
-      do({
+      dplyr::do({
         curve_pts <- create_curve_points(
           .$x_start,
           .$y_start,
