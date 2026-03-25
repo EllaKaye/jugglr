@@ -161,25 +161,70 @@ colors_string <- function(colors) {
   paste0("colors=", colors_fmt)
 }
 
+# for arg = bps, width, height, fps, slowdown
+fmt_string <- function(arg, value) {
+  if (length(value) != 1 || !is.numeric(value)) {
+    message <- c(
+      "{.var {arg}} must be a {.cls numeric} vector of length 1.",
+      "i" = "It was class {.cls {class(value)}} of length {length(value)} instead."
+    )
+
+    cli::cli_abort(
+      message,
+      call = rlang::caller_env(),
+      class = "jugglr_error_class_or_length"
+    )
+  }
+
+  paste0(arg, "=", value)
+}
+
+
 # TODO: for animate, for dealing with args passed to ...
 # Takes named list or vector, filters out NULL values
 # collapses for GIF server url
 
 # TODO: think about what args this needs, and how it wirks inside `animate`
 # TODO: keep adding args as I add them to `animate` (or vice versa)
-jugglinglab_url <- function(pattern, colors, ...) {
-  gif_url <- paste0(
-    "https://jugglinglab.org/anim?pattern=",
-    pattern
-  )
+jugglinglab_url <- function(
+  pattern,
+  colors = NULL,
+  bps = NULL,
+  width = NULL,
+  height = NULL,
+  fps = NULL,
+  slowdown = NULL,
+  ...
+) {
+  url_segments <- paste0("pattern=", pattern)
 
   if (!is.null(colors)) {
-    colors_str <- colors_string(colors)
-    gif_url <- paste0(gif_url, ";", colors_str)
+    url_segments <- c(url_segments, colors_string(colors))
   }
 
-  gif_url <- paste0(gif_url, ";redirect=true")
-  gif_url
+  # give list of non-null args and their values
+  numeric_params <- Filter(
+    Negate(is.null),
+    list(
+      bps = bps,
+      width = width,
+      height = height,
+      fps = fps,
+      slowdown = slowdown
+    )
+  )
+
+  url_segments <- c(
+    url_segments,
+    mapply(fmt_string, names(numeric_params), numeric_params)
+  )
+
+  # TODO: deal with ...
+
+  paste0(
+    "https://jugglinglab.org/anim?",
+    paste(c(url_segments, "redirect=true"), collapse = ";")
+  )
 }
 
 # TODO: test capturing args from ...
