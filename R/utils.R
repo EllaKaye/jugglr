@@ -180,12 +180,6 @@ fmt_string <- function(arg, value) {
 }
 
 
-# TODO: for animate, for dealing with args passed to ...
-# Takes named list or vector, filters out NULL values
-# collapses for GIF server url
-
-# TODO: think about what args this needs, and how it wirks inside `animate`
-# TODO: keep adding args as I add them to `animate` (or vice versa)
 jugglinglab_url <- function(
   pattern,
   colors = NULL,
@@ -203,7 +197,7 @@ jugglinglab_url <- function(
   }
 
   # give list of non-null args and their values
-  numeric_params <- Filter(
+  named_params <- Filter(
     Negate(is.null),
     list(
       bps = bps,
@@ -214,12 +208,21 @@ jugglinglab_url <- function(
     )
   )
 
+  # "key=value" pairs for named args
   url_segments <- c(
     url_segments,
-    mapply(fmt_string, names(numeric_params), numeric_params)
+    mapply(fmt_string, names(named_params), named_params)
   )
 
-  # TODO: deal with ...
+  # TODO: Check for `allowed_args` (from jugglinglab gif server docs)
+  # TODO: Error is any value to ... isn't a scalar
+  # TODO: (double-check the jugglinglab docs that only scalars are allowed)
+  dots <- rlang::dots_list(..., .named = TRUE)
+  if (length(dots) > 0) {
+    # "key=value" pairs for args to ...
+    pairs <- paste0(names(dots), "=", unlist(dots))
+    url_segments <- c(url_segments, pairs)
+  }
 
   paste0(
     "https://jugglinglab.org/anim?",

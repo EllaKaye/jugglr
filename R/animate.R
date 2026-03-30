@@ -14,14 +14,31 @@
 #' @param ... Additional arguments to JugglingLab GIT server
 #' @param path Path to save GIF. If `NULL` (default) view in viewer
 #' @export
-animate <- function(pattern, colors = NULL, ..., path = NULL) {
+animate <- function(
+  pattern,
+  colors = NULL,
+  bps = NULL,
+  width = NULL,
+  height = NULL,
+  fps = NULL,
+  slowdown = NULL,
+  ...,
+  path = NULL
+) {
   if (!is.null(path)) {
     validate_path(path, ext = "gif")
   }
 
-  # TODO: add more named args as I add them to animate and/or jugglinglab_url
-  # TODO: test ... is working properly
-  gif_url <- jugglinglab_url(pattern, colors, ...)
+  gif_url <- jugglinglab_url(
+    pattern,
+    colors,
+    bps,
+    width,
+    height,
+    fps,
+    slowdown,
+    ...
+  )
 
   # If path is provided, download the GIF
   if (!is.null(path)) {
