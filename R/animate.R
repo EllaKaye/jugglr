@@ -1,6 +1,5 @@
 # CHECK: difference between length(colors) and n_props
 # CHECK: What is `format_colors(4)` doing?!
-# TODO: all other args the the API takes
 # TODO: make sure this takes either Siteswap objects or strings
 # MAYBE: different arg name than "pattern"
 # TODO: document
