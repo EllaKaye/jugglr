@@ -69,7 +69,7 @@ asynchronousSiteswap <- vanillaSiteswap
 asyncSiteswap <- vanillaSiteswap
 
 # MAYBE: Any other information to print about the pattern?
-# MAYBE: Of not valid, say more about what the problem is,
+# MAYBE: If not valid, say more about what the problem is,
 # or suggest visualising with timeline (only vanilla?) or ladder
 # MAYBE: print orbits (if calculating them)
 # TODO: define print for Siteswap then use `super` and add an extra bullet
@@ -294,7 +294,7 @@ method(ladder, vanillaSiteswap) <- function(
     data.frame(x = x, y = y, prop = prop_num)
   }
 
-  # `do` is superseded, so rewrite this.
+  # TODO: `do` is superseded, so rewrite this, using `group_modify`
   # Generate curve points for even throws
   if (nrow(even_throws) > 0) {
     curve_data <- even_throws |>
@@ -357,19 +357,31 @@ method(ladder, vanillaSiteswap) <- function(
     n_beats <- max(-plot_data$y_end)
     beats <- -seq_len(n_beats)
     rung_data <- data.frame(
-      x = 0, y = beats, xend = 1, yend = beats
+      x = 0,
+      y = beats,
+      xend = 1,
+      yend = beats
     )
     rail_data <- data.frame(
-      x = c(0, 1), y = c(-1, -1), xend = c(0, 1), yend = c(-n_beats, -n_beats)
+      x = c(0, 1),
+      y = c(-1, -1),
+      xend = c(0, 1),
+      yend = c(-n_beats, -n_beats)
     )
   } else {
     n_beats <- max(plot_data$x_end)
     beats <- seq_len(n_beats)
     rung_data <- data.frame(
-      x = beats, y = 0, xend = beats, yend = 1
+      x = beats,
+      y = 0,
+      xend = beats,
+      yend = 1
     )
     rail_data <- data.frame(
-      x = c(1, 1), y = c(0, 1), xend = c(n_beats, n_beats), yend = c(0, 1)
+      x = c(1, 1),
+      y = c(0, 1),
+      xend = c(n_beats, n_beats),
+      yend = c(0, 1)
     )
   }
 
