@@ -1,3 +1,7 @@
+# ? Do I actually want to export this?
+# Could get confusing compared to desired behaviour of user calling `siteswap`,
+# which assigns subclass, and subclass gives `Siteswap` as parent
+# Are there any circumastances in which the user might want `Siteswap` directly?
 #' @export
 Siteswap <- new_class(
   "Siteswap",
@@ -11,17 +15,18 @@ Siteswap <- new_class(
           "must be length 1"
         }
       },
-    ),
-    n_props = new_property(
-      class = class_numeric,
-      getter = function(self) {
-        # TODO: do I want/need something different here?
-        # Default implementation (could also just error here)
-        # NOTE: shouldn't need this is sequence is validated as siteswap
-        # but good to keep as backstop
-        stop("n_props must be implemented by subclass", call. = FALSE)
-      }
-    )
+    ) #,
+    # ? Do I want `n_props` in Siteswap or just in the subclasses?
+    # n_props = new_property(
+    #   class = class_numeric,
+    #   getter = function(self) {
+    #     # TODO: do I want/need something different here?
+    #     # Default implementation (could also just error here)
+    #     # NOTE: shouldn't need this is sequence is validated as siteswap
+    #     # but good to keep as backstop
+    #     stop("n_props must be implemented by subclass", call. = FALSE)
+    #   }
+    # )
   ),
   package = "jugglr"
 )
@@ -36,7 +41,12 @@ Siteswap <- new_class(
 siteswap <- function(sequence) {
   if (str_detect(sequence, "^[a-zA-Z0-9]+$")) {
     vanillaSiteswap(sequence)
+    # MAYBE: I want to check that all even here, or in synchronousSiteswap itself?
+  } else if (str_detect(sequence, "^(\\([0-9a-z]x?,[0-9a-z]x?\\))+\\*?$")) {
+    synchronousSiteswap(sequence)
   } else {
-    Siteswap(sequence)
+    # Siteswap(sequence)
+    # TODO: better message, and give error a class for testing
+    cli::cli_abort("Not valid siteswap notation")
   }
 }
