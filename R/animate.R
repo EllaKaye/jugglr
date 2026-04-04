@@ -4,7 +4,6 @@
 # MAYBE: different arg name than "pattern"
 # TODO: document
 # TODO: in documentation, note that setting colors can lead to a delay in showing the animation.
-# TODO: Is it possible to show a message in the viewer while waiting for the animation to render?
 # Or do I want only Siteswap?
 #' @param pattern Siteswap pattern
 #' @param colors Optional vector of colors
@@ -46,27 +45,37 @@ animate <- function(
 
   # Otherwise, show in viewer
   html <- sprintf(
-    '
-    <!DOCTYPE html>
-    <html>
-    <head>
-      <style>
-        body { 
-          margin: 0; 
-          padding: 0; 
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          min-height: 100vh;
-        }
-        img { max-width: 100%%; height: auto; }
-      </style>
-    </head>
-    <body>
-      <img src="%s" alt="Juggling animation"/>
-    </body>
-    </html>
-  ',
+    '<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      margin: 0; padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: sans-serif;
+      color: #555;
+    }
+    #container { position: relative; text-align: center; }
+    #loader {
+      position: absolute;
+      top: 50%%; left: 50%%;
+      transform: translate(-50%%, -50%%);
+    }
+    #animation { max-width: 100%%; height: auto; }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <div id="loader">Rendering animation, please wait\u2026</div>
+    <img id="animation" src="%s" alt="Juggling animation"
+         onload="document.getElementById(\'loader\').style.display=\'none\';"
+         onerror="document.getElementById(\'loader\').textContent=\'Animation failed to load.\';" />
+  </div>
+</body>
+</html>',
     gif_url
   )
 

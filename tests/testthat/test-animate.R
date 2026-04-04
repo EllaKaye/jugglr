@@ -189,4 +189,7 @@ test_that("animate without path embeds the gif URL in the HTML", {
   html <- paste(readLines(temp_file), collapse = "\n")
   expect_true(grepl("jugglinglab.org", html))
   expect_true(grepl("pattern=3", html))
+  expect_true(grepl('id="loader"', html))
+  expect_true(grepl('id="animation"', html))
+  expect_true(grepl("onload", html))
 })
