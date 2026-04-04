@@ -73,6 +73,7 @@ extract_throws <- function(x) {
   stringr::str_extract_all(x, "\\w+")[[1]]
 }
 
+# MAYBE: Finish this, if using
 orbits <- function(siteswap) {
   p <- siteswap@period
   n_props <- siteswap@n_props
@@ -131,133 +132,6 @@ generate_parabola <- function(x1, x2, height, prop, beat, n_points = 100) {
   ys <- height * (1 - ((xs - vx) / (vx - x1))^2)
 
   data.frame(x = xs, y = ys, prop = prop, beat = beat)
-}
-
-# For use within the `animate` function
-format_color <- function(color) {
-  paste0("{", paste(color, collapse = ","), "}")
-}
-
-format_colors <- function(colors) {
-  colors |>
-    col2rgb() |>
-    apply(2, format_color) |>
-    paste(collapse = "")
-}
-
-# TODO: helper functions for checking each named arg to `animate`, e.g. colors_string,
-# that checks the input (e.g. with rlang::is_character) and returns a string "arg_name=checked_value"
-
-colors_string <- function(colors) {
-  if (identical(colors, "mixed")) {
-    return("colors=mixed")
-  }
-  if (identical(colors, "orbits")) {
-    return("colors=orbits")
-  }
-
-  colors_fmt = format_colors(colors)
-
-  paste0("colors=", colors_fmt)
-}
-
-# for arg = bps, width, height, fps, slowdown
-fmt_string <- function(arg, value) {
-  if (length(value) != 1 || !is.numeric(value)) {
-    message <- c(
-      "{.var {arg}} must be a {.cls numeric} vector of length 1.",
-      "i" = "It was class {.cls {class(value)}} of length {length(value)} instead."
-    )
-
-    cli::cli_abort(
-      message,
-      call = rlang::caller_env(),
-      class = "jugglr_error_class_or_length"
-    )
-  }
-
-  paste0(arg, "=", value)
-}
-
-
-jugglinglab_url <- function(
-  pattern,
-  colors = NULL,
-  bps = NULL,
-  width = NULL,
-  height = NULL,
-  fps = NULL,
-  slowdown = NULL,
-  ...
-) {
-  url_segments <- paste0("pattern=", pattern)
-
-  if (!is.null(colors)) {
-    url_segments <- c(url_segments, colors_string(colors))
-  }
-
-  # give list of non-null args and their values
-  named_params <- Filter(
-    Negate(is.null),
-    list(
-      bps = bps,
-      width = width,
-      height = height,
-      fps = fps,
-      slowdown = slowdown
-    )
-  )
-
-  # "key=value" pairs for named args
-  url_segments <- c(
-    url_segments,
-    mapply(fmt_string, names(named_params), named_params)
-  )
-
-  # TODO: Check for `allowed_args` (from jugglinglab gif server docs)
-  # TODO: Error is any value to ... isn't a scalar
-  # TODO: (double-check the jugglinglab docs that only scalars are allowed)
-  dots <- rlang::dots_list(..., .named = TRUE)
-  if (length(dots) > 0) {
-    # "key=value" pairs for args to ...
-    pairs <- paste0(names(dots), "=", unlist(dots))
-    url_segments <- c(url_segments, pairs)
-  }
-
-  paste0(
-    "https://jugglinglab.org/anim?",
-    paste(c(url_segments, "redirect=true"), collapse = ";")
-  )
-}
-
-# TODO: test capturing args from ...
-
-# Helper function to validate save path in `animate`
-validate_path <- function(save, ext = "gif") {
-  if (is.null(save)) {
-    return(invisible(NULL))
-  }
-
-  if (!rlang::is_character(save, n = 1)) {
-    cli::cli_abort(
-      "`save` must be a single character string specifying a file path"
-    )
-  }
-
-  if (tolower(tools::file_ext(save)) != tolower(ext)) {
-    cli::cli_abort("`save` must specify a path ending in '.{ext}'")
-  }
-
-  parent_dir <- dirname(save)
-  if (!dir.exists(parent_dir)) {
-    cli::cli_abort("Directory does not exist: {.path {parent_dir}}")
-  }
-
-  if (file.access(parent_dir, mode = 2) != 0) {
-    cli::cli_abort("Directory is not writable: {.path {parent_dir}}")
-  }
-
-  invisible(save)
 }
 
 # f2 <- function(arg1, ...) {
