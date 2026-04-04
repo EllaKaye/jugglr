@@ -133,20 +133,3 @@ generate_parabola <- function(x1, x2, height, prop, beat, n_points = 100) {
 
   data.frame(x = xs, y = ys, prop = prop, beat = beat)
 }
-
-# f2 <- function(arg1, ...) {
-#   # f2 can now receive whatever arguments were passed via ...
-#   dots <- list(...)
-#   cat("arg1:", arg1, "\n")
-#   cat("Received", length(dots), "additional arguments\n")
-#   print(names(dots))
-# }
-
-# f1 <- function(arg1, ...) {
-#   # Pass along whatever ... contains to f2
-#   f2(arg1, ...)
-# }
-
-# # Example calls with different subsets of arguments
-# f1("first", color = "red", size = 10)
-# f1("second", alpha = 0.5, shape = "circle", width = 5)
