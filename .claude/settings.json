@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Rscript --quiet --vanilla -e \"devtools::load_all\\(\\); jugglinglab_url\\(''3'', startpaused = 1\\)\")",
+      "Bash(air format:*)",
+      "Bash(Rscript --quiet --vanilla -e \"devtools::test\\(filter = ''animate'', reporter = ''check''\\)\")",
+      "Bash(Rscript --quiet --vanilla -e \"devtools::test\\(filter = ''jugglinglab'', reporter = ''check''\\)\")",
+      "Bash(Rscript --quiet --vanilla -e \"devtools::test\\(reporter = ''check''\\)\")",
+      "Bash(Rscript --quiet --vanilla -e \"devtools::test\\(filter = ''^animate'', reporter = ''check''\\)\")",
+      "Bash(Rscript --quiet --vanilla -e \"cat\\(readLines\\(''DESCRIPTION''\\), sep=''\\\\n''\\)\")"
+    ]
+  }
+}
