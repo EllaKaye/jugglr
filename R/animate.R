@@ -1,5 +1,3 @@
-# CHECK: difference between length(colors) and n_props
-# CHECK: What is `format_colors(4)` doing?!
 # TODO: make sure this takes either Siteswap objects or strings
 # MAYBE: different arg name than "pattern"
 # TODO: document
@@ -182,7 +180,6 @@ jugglinglab_url <- function(
     mapply(fmt_string, names(named_params), named_params)
   )
 
-  # TODO: Check for `allowed_args` (from jugglinglab gif server docs)  # From jugglinglab documentation, not including named args
   pattern_setting_args <- c(
     "dwell",
     "hands",
@@ -227,8 +224,7 @@ jugglinglab_url <- function(
       c(
         "{length(invalid_args)} invalid argument{?s} passed to {.fn jugglinglab_url}:",
         "x" = "Unknown: {.arg {invalid_args}}",
-        #"i" = "Allowed arguments: {.arg {allowed_args}}"
-        #TODO: note about referring to jugglinglab documentation
+        "i" = "See the {.href [jugglinglab gif server documentaion](https://jugglinglab.org/html/animinfo.html)} for allowed arguments."
       )
     )
   }
