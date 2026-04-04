@@ -235,7 +235,15 @@ jugglinglab_url <- function(
     ))
   }
 
-  # TODO: if user has passed any of the ignored_args to ..., signal a message
+  # signal a message if user passed any ignored_args to `...`
+  passed_ignored <- intersect(names(dots), ignored_args)
+  if (length(passed_ignored) > 0) {
+    cli::cli_inform(c(
+      "i" = "{length(passed_ignored)} argument{?s} {?is/are} not supported in this context and will be ignored:",
+      " " = "{.arg {passed_ignored}}"
+    ))
+    dots <- dots[setdiff(names(dots), ignored_args)]
+  }
 
   if (length(dots) > 0) {
     # "key=value" pairs for args to `...`
