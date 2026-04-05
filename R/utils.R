@@ -133,3 +133,7 @@ generate_parabola <- function(x1, x2, height, prop, beat, n_points = 100) {
 
   data.frame(x = xs, y = ys, prop = prop, beat = beat)
 }
+
+# TODO: `is_sync_notation`
+
+# TODO: `are_even_throws`
