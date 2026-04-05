@@ -36,17 +36,22 @@ Siteswap <- new_class(
 # or will this be an error in creating the object?
 
 # TODO: other flavours of siteswap
-# TODO: error if not a valid siteswap string
 #' @export
 siteswap <- function(sequence) {
   if (str_detect(sequence, "^[a-zA-Z0-9]+$")) {
     vanillaSiteswap(sequence)
     # MAYBE: I want to check that all even here, or in synchronousSiteswap itself?
-  } else if (str_detect(sequence, "^(\\([0-9a-z]x?,[0-9a-z]x?\\))+\\*?$")) {
+  } else if (is_sync_notation(sequence)) {
+    if (!only_even_throws(sequence)) {
+      cli::cli_abort(
+        "Synchronous siteswap must only contain even-value throws",
+        class = "sync_odd_throw"
+      )
+    }
     synchronousSiteswap(sequence)
   } else {
     # Siteswap(sequence)
-    # TODO: better message, and give error a class for testing
-    cli::cli_abort("Not valid siteswap notation")
+    # TODO: better message
+    cli::cli_abort("Not valid siteswap notation", class = "not_valid_siteswap")
   }
 }

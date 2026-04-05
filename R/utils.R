@@ -134,6 +134,20 @@ generate_parabola <- function(x1, x2, height, prop, beat, n_points = 100) {
   data.frame(x = xs, y = ys, prop = prop, beat = beat)
 }
 
-# TODO: `is_sync_notation`
+is_sync_notation <- function(sequence) {
+  str_detect(sequence, "^(\\([0-9a-z]x?,[0-9a-z]x?\\))+\\*?$")
+}
 
-# TODO: `are_even_throws`
+# expects a sequence that is valid sync siteswap notation
+# bar possibly having odd throws
+only_even_throws <- function(sequence) {
+  throws_chr <- str_extract_all(sequence, "[0-9a-z]x?")[[1]]
+
+  # Remove trailing 'x' only if preceded by something (it's a crossing marker)
+  # Keep standalone 'x' (it's a throw value of 33)
+  throws_chr_no_x <- str_remove(throws_chr, "(?<=.)x$")
+  throws_chr_no_x
+
+  throws <- match(tolower(throws_chr_no_x), c(0:9, letters)) - 1
+  all(is_even(throws))
+}
