@@ -2,6 +2,7 @@
 synchronousSiteswap <- new_class(
   "synchronousSiteswap",
   properties = list(
+    # MAYBE: don't need type if not using in any methods
     type = new_property(
       class = class_character,
       setter = function(self, value) {
@@ -12,24 +13,34 @@ synchronousSiteswap <- new_class(
         self
       }
     ),
-    #   throws = new_property(
-    #     class = class_integer,
-    #     getter = function(self) {
-    #       get_throws(self@sequence)
-    #     }
-    #   ),
-    #   period = new_property(
-    #     class = class_integer,
-    #     getter = function(self) {
-    #       length(self@throws)
-    #     }
-    #   ),
-    #   symmetry = new_property(
-    #     class = class_character,
-    #     getter = function(self) {
-    #       ifelse(is_even(self@period), "asymmetrical", "symmetrical")
-    #     }
-    #   ),
+    full_sequence = new_property(
+      class = class_character,
+      getter = function(self) {
+        expand_siteswap(self@sequence)
+      }
+    ),
+    pairs = new_property(
+      class = class_character,
+      getter = function(self) {
+        get_sync_pairs(self@full_sequence)
+      }
+    ),
+    period = new_property(
+      class = class_integer,
+      getter = function(self) {
+        length(self@pairs) * 2
+      }
+    ),
+    symmetry = new_property(
+      class = class_character,
+      getter = function(self) {
+        ifelse(
+          sync_symmetrical(self@full_sequence),
+          "symmetrical",
+          "asymmetrical"
+        )
+      }
+    ),
     # TODO: implement properly!
     n_props = new_property(
       class = class_numeric,

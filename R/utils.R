@@ -151,3 +151,29 @@ only_even_throws <- function(sequence) {
   throws <- match(tolower(throws_chr_no_x), c(0:9, letters)) - 1
   all(is_even(throws))
 }
+
+get_sync_pairs <- function(sequence) {
+  throw <- "[0-9a-z]x?"
+
+  str_extract_all(sequence, stringr::str_glue("\\({throw},{throw}\\)"))[[1]]
+}
+
+sync_symmetrical <- function(sequence) {
+  throw <- "[0-9a-z]x?"
+
+  throws <- str_extract_all(sequence, throw)[[1]]
+
+  left <- throws[c(TRUE, FALSE)]
+  right <- throws[c(FALSE, TRUE)]
+
+  n <- length(right)
+
+  if (n == 1) {
+    return(identical(right, left))
+  }
+
+  # Are any cyclic rotations of `right` identical to left?
+  any(sapply(seq_len(n), function(k) {
+    identical(left, c(right[(k + 1):n], right[seq_len(k)]))
+  }))
+}

@@ -52,6 +52,9 @@ siteswap <- function(sequence) {
   } else {
     # Siteswap(sequence)
     # TODO: better message
-    cli::cli_abort("Not valid siteswap notation", class = "not_valid_siteswap")
+    cli::cli_abort(
+      "Not valid vanilla or synchronous siteswap notation",
+      class = "not_valid_siteswap"
+    )
   }
 }
