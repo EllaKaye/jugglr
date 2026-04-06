@@ -11,9 +11,12 @@ RoxygenNote: 7.3.2.9000
 Imports: 
     cli,
     dplyr,
+    ggplot2,
+    knitr,
     rlang,
     S7,
     stringr
 Suggests: 
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    withr
 Config/testthat/edition: 3

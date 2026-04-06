@@ -5,7 +5,17 @@
 \alias{animate_markdown}
 \title{Embed juggling animation in R Markdown or Quarto}
 \usage{
-animate(pattern, colors = NULL, ..., path = NULL)
+animate(
+  pattern,
+  colors = NULL,
+  bps = NULL,
+  width = NULL,
+  height = NULL,
+  fps = NULL,
+  slowdown = NULL,
+  ...,
+  path = NULL
+)
 
 animate_markdown(pattern, path, colors = NULL, ...)
 }

@@ -36,7 +36,7 @@ animate <- function(
 
   # If path is provided, download the GIF
   if (!is.null(path)) {
-    download.file(gif_url, destfile = path, mode = "wb", quiet = TRUE)
+    utils::download.file(gif_url, destfile = path, mode = "wb", quiet = TRUE)
     cli::cli_alert_success("Animation saved to: {.path {path}}")
     return(invisible(path))
   }
@@ -110,7 +110,7 @@ format_color <- function(color) {
 
 format_colors <- function(colors) {
   colors |>
-    col2rgb() |>
+    grDevices::col2rgb() |>
     apply(2, format_color) |>
     paste(collapse = "")
 }

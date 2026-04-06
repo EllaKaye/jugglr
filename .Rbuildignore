@@ -4,3 +4,4 @@
 plot_experiments.R
 test_class.R
 ^README\.Rmd$
+.claude
