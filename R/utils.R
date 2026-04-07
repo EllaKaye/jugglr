@@ -1,6 +1,5 @@
 # TODO: sort this file.
-# Maybe split into separate util_ files for different types of functions (e.g. plotting),
-# or different classes.
+# Maybe split into separate util_ files for different types of functions and classes (e.g. utils-plotting, utils-sync, utils-methods)
 
 .onLoad <- function(...) {
   methods_register()
@@ -106,24 +105,33 @@ expand_siteswap <- function(pattern) {
   paste0(base_pattern, paste(mirror_throws, collapse = ""))
 }
 
+
+# throws is result of get_sync_throws(sequence)
+# TODO: test with valid (4,2x)(2x,4), (4,6x)(2x,4), (8x,4x)(4,4) 	 and not-valid (6,2)(4x,6x), (6,2)(4,6) sync patterns
 slide <- function(throws) {
   n <- length(throws)
-  throws_no_x <- stringr::str_remove(throws, "x$")
+  throws_no_x <- str_remove(throws, "(?<=.)x$")
   throws_num <- match(tolower(throws_no_x), c(1:9, letters))
-  new <- numeric(n)
+  slide1 <- numeric(n)
+  slide2 <- numeric(n)
 
   for (i in seq_len(n)) {
-    if (stringr::str_detect(throws[i], "x$")) {
+    is_crossing <- stringr::str_detect(throws[i], "(?<=.)x$")
+    if (is_crossing) {
       if (is_even(i)) {
-        new[i] <- throws_num[i] - 1
+        slide1[i] <- throws_num[i] - 1
+        slide2[i] <- throws_num[i - 1] - 1
       } else {
-        new[i] <- throws_num[i] + 1
+        slide1[i] <- throws_num[i] + 1
+        slide2[i] <- throws_num[i + 1] + 1
       }
     } else {
-      new[i] <- throws_num[i]
+      slide1[i] <- throws_num[i]
+      slide2[i] <- ifelse(is_even(i), throws_num[i - 1], throws_num[i + 1])
     }
   }
-  new
+
+  list(slide1 = slide1, slide2 = slide2)
 }
 
 generate_parabola <- function(x1, x2, height, prop, beat, n_points = 100) {
@@ -138,6 +146,18 @@ is_sync_notation <- function(sequence) {
   str_detect(sequence, "^(\\([0-9a-z]x?,[0-9a-z]x?\\))+\\*?$")
 }
 
+# sequence is (full) sync siteswap sequence
+get_sync_throws <- function(sequence) {
+  str_extract_all(sequence, "[0-9a-z]x?")[[1]]
+}
+
+get_sync_hands <- function(sequence) {
+  throws <- get_sync_throws(sequence)
+  list(hand_1 = throws[c(TRUE, FALSE)], hand_2 = throws[c(FALSE, TRUE)])
+}
+
+
+# TODO: update to use get_syn_throws
 # expects a sequence that is valid sync siteswap notation
 # bar possibly having odd throws
 only_even_throws <- function(sequence) {
@@ -152,12 +172,14 @@ only_even_throws <- function(sequence) {
   all(is_even(throws))
 }
 
+# MAYBE: might not need this
 get_sync_pairs <- function(sequence) {
   throw <- "[0-9a-z]x?"
 
   str_extract_all(sequence, stringr::str_glue("\\({throw},{throw}\\)"))[[1]]
 }
 
+# TODO: update to use get_syn_throws
 sync_symmetrical <- function(sequence) {
   throw <- "[0-9a-z]x?"
 

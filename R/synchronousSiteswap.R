@@ -19,16 +19,28 @@ synchronousSiteswap <- new_class(
         expand_siteswap(self@sequence)
       }
     ),
-    pairs = new_property(
+    # pairs = new_property(
+    #   class = class_character,
+    #   getter = function(self) {
+    #     get_sync_pairs(self@full_sequence)
+    #   }
+    # ),
+    throws = new_property(
       class = class_character,
       getter = function(self) {
-        get_sync_pairs(self@full_sequence)
+        get_sync_throws(self@full_sequence)
+      }
+    ),
+    throws_by_hand = new_property(
+      class = class_character,
+      getter = function(self) {
+        get_sync_hands(self@full_sequence)
       }
     ),
     period = new_property(
       class = class_integer,
       getter = function(self) {
-        length(self@pairs) * 2
+        length(self@throws["hand_1"]) * 2
       }
     ),
     symmetry = new_property(
@@ -39,6 +51,14 @@ synchronousSiteswap <- new_class(
           "symmetrical",
           "asymmetrical"
         )
+      }
+    ),
+    slide = new_property(
+      clas = class_numeric,
+      getter = function(self) {
+        self@full_sequence |>
+          get_sync_throws() |>
+          slide()
       }
     ),
     # TODO: implement properly!
