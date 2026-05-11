@@ -47,7 +47,7 @@ vanillaSiteswap <- new_class(
     satisfies_average_theorem = new_property(
       class = class_logical,
       getter = function(self) {
-        is_whole_number(mean(self@throws))
+        is_whole_number(self@n_throws)
       }
     ),
     valid = new_property(

@@ -61,32 +61,32 @@ synchronousSiteswap <- new_class(
           slide()
       }
     ),
-    # TODO: implement properly!
     n_props = new_property(
       class = class_numeric,
       getter = function(self) {
-        #mean(self@throws)
-        4
+        mean(self@slide[[1]])
+      }
+    ),
+    # sync siteswap is valid if vanilla siteswap is valid
+    # for corresponding slide sequence
+    can_throw = new_property(
+      class = class_logical,
+      getter = function(self) {
+        can_throw(self@slide[[1]])
+      }
+    ),
+    satisfies_average_theorem = new_property(
+      class = class_logical,
+      getter = function(self) {
+        is_whole_number(self@n_props)
+      }
+    ),
+    valid = new_property(
+      class = class_logical,
+      getter = function(self) {
+        self@satisfies_average_theorem && self@can_throw
       }
     )
-    #   can_throw = new_property(
-    #     class = class_logical,
-    #     getter = function(self) {
-    #       can_throw(self@throws)
-    #     }
-    #   ),
-    #   satisfies_average_theorem = new_property(
-    #     class = class_logical,
-    #     getter = function(self) {
-    #       is_whole_number(mean(self@throws))
-    #     }
-    #   ),
-    #   valid = new_property(
-    #     class = class_logical,
-    #     getter = function(self) {
-    #       self@satisfies_average_theorem && self@can_throw
-    #     }
-    #   )
   ),
   validator = function(self) {
     if (!(str_detect(self@sequence, "^(\\([0-9a-z]x?,[0-9a-z]x?\\))+\\*?$"))) {
