@@ -19,12 +19,6 @@ synchronousSiteswap <- new_class(
         expand_siteswap(self@sequence)
       }
     ),
-    # pairs = new_property(
-    #   class = class_character,
-    #   getter = function(self) {
-    #     get_sync_pairs(self@full_sequence)
-    #   }
-    # ),
     throws = new_property(
       class = class_character,
       getter = function(self) {
@@ -93,8 +87,7 @@ synchronousSiteswap <- new_class(
       return("@sequence is not valid synchronous siteswap notation")
     }
 
-    # TODO: proper checking for any odd numbers!
-    if (str_detect(self@sequence, "1")) {
+    if (!only_even_throws(self@sequence)) {
       return("@sequence must only contain even-value throws")
     }
   },
