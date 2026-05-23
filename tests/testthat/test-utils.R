@@ -20,9 +20,21 @@ test_that("is_whole_number works", {
   expect_false(is_whole_number(2.5))
 })
 
+test_that("chr_throws_to_num works", {
+  expect_equal(chr_throws_to_num(c("4", "2", "3")), c(4, 2, 3))
+  expect_equal(chr_throws_to_num(c("4", "2", "a")), c(4, 2, 10))
+  expect_equal(chr_throws_to_num(c("4", "2", "A")), c(4, 2, 10))
+  expect_equal(chr_throws_to_num(c("5", "5", "5", "5", "0")), c(5, 5, 5, 5, 0))
+})
+
 test_that("get_throws works", {
   expect_equal(get_throws("423"), c(4, 2, 3))
   expect_equal(get_throws("42a"), c(4, 2, 10))
   expect_equal(get_throws("42A"), c(4, 2, 10))
   expect_equal(get_throws("55550"), c(5, 5, 5, 5, 0))
+})
+
+test_that("can_throw works", {
+  expect_true(can_throw(c(4, 2, 3)))
+  expect_false(can_throw(c(4, 3, 2)))
 })

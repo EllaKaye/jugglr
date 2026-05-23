@@ -49,6 +49,12 @@ is_whole_number <- function(x) {
   x %% 1 == 0
 }
 
+chr_throws_to_num <- function(throws) {
+  match(tolower(throws), c(0:9, letters)) - 1
+}
+
+# TODO: helper function for `match` line
+# I'm using this trick several times, but slightly differently on each occassion
 get_throws <- function(sequence) {
   if (!(rlang::is_character(sequence, 1))) {
     cli::cli_abort("sequence must be a string")
@@ -56,7 +62,7 @@ get_throws <- function(sequence) {
   throws_chr <- strsplit(sequence, "") |>
     unlist()
 
-  match(tolower(throws_chr), c(0:9, letters)) - 1
+  chr_throws_to_num(throws_chr)
 }
 
 # MAYBE: go back to calling this has_collisions,
@@ -67,11 +73,6 @@ can_throw <- function(throws) {
   anyDuplicated(lands) == 0
 }
 
-# x is a synchronous siteswap
-extract_throws <- function(x) {
-  stringr::str_extract_all(x, "\\w+")[[1]]
-}
-
 # MAYBE: Finish this, if using
 orbits <- function(siteswap) {
   p <- siteswap@period
@@ -80,122 +81,10 @@ orbits <- function(siteswap) {
   max_len <- p * n_props
 }
 
-
-# To turn synchronous notation with `*` into its full version
-expand_siteswap <- function(pattern) {
-  if (!str_detect(pattern, "\\*$")) {
-    return(pattern)
-  }
-
-  base_pattern <- str_remove(pattern, "\\*$")
-  throws <- str_extract_all(base_pattern, "\\([^)]+\\)")[[1]] # sync pairs
-
-  if (length(throws) == 0) {
-    return(pattern)
-  }
-
-  # Create mirror version by reversing the sequence and swapping within each group
-  mirror_throws <- rev(sapply(throws, function(throw) {
-    content <- str_remove_all(throw, "[()]")
-    parts <- str_split(content, ",")[[1]]
-    paste0("(", paste(rev(parts), collapse = ","), ")")
-  }))
-
-  # Combine original and mirror
-  paste0(base_pattern, paste(mirror_throws, collapse = ""))
-}
-
-
-# throws is result of get_sync_throws(sequence)
-# TODO: test with valid (4,2x)(2x,4), (4,6x)(2x,4), (8x,4x)(4,4) 	 and not-valid (6,2)(4x,6x), (6,2)(4,6) sync patterns
-slide <- function(throws) {
-  n <- length(throws)
-  throws_no_x <- str_remove(throws, "(?<=.)x$")
-  throws_num <- match(tolower(throws_no_x), c(1:9, letters))
-  slide1 <- numeric(n)
-  slide2 <- numeric(n)
-
-  for (i in seq_len(n)) {
-    is_crossing <- stringr::str_detect(throws[i], "(?<=.)x$")
-    if (is_crossing) {
-      if (is_even(i)) {
-        slide1[i] <- throws_num[i] - 1
-        slide2[i] <- throws_num[i - 1] - 1
-      } else {
-        slide1[i] <- throws_num[i] + 1
-        slide2[i] <- throws_num[i + 1] + 1
-      }
-    } else {
-      slide1[i] <- throws_num[i]
-      slide2[i] <- ifelse(is_even(i), throws_num[i - 1], throws_num[i + 1])
-    }
-  }
-
-  list(slide1 = slide1, slide2 = slide2)
-}
-
 generate_parabola <- function(x1, x2, height, prop, beat, n_points = 100) {
   vx <- (x1 + x2) / 2 # vertex
   xs <- seq(x1, x2, length.out = n_points)
   ys <- height * (1 - ((xs - vx) / (vx - x1))^2)
 
   data.frame(x = xs, y = ys, prop = prop, beat = beat)
-}
-
-is_sync_notation <- function(sequence) {
-  str_detect(sequence, "^(\\([0-9a-z]x?,[0-9a-z]x?\\))+\\*?$")
-}
-
-# sequence is (full) sync siteswap sequence
-get_sync_throws <- function(sequence) {
-  str_extract_all(sequence, "[0-9a-z]x?")[[1]]
-}
-
-get_sync_hands <- function(sequence) {
-  throws <- get_sync_throws(sequence)
-  list(hand_1 = throws[c(TRUE, FALSE)], hand_2 = throws[c(FALSE, TRUE)])
-}
-
-
-# TODO: update to use get_syn_throws
-# expects a sequence that is valid sync siteswap notation
-# bar possibly having odd throws
-only_even_throws <- function(sequence) {
-  throws_chr <- str_extract_all(sequence, "[0-9a-z]x?")[[1]]
-
-  # Remove trailing 'x' only if preceded by something (it's a crossing marker)
-  # Keep standalone 'x' (it's a throw value of 33)
-  throws_chr_no_x <- str_remove(throws_chr, "(?<=.)x$")
-  throws_chr_no_x
-
-  throws <- match(tolower(throws_chr_no_x), c(0:9, letters)) - 1
-  all(is_even(throws))
-}
-
-# MAYBE: might not need this
-get_sync_pairs <- function(sequence) {
-  throw <- "[0-9a-z]x?"
-
-  str_extract_all(sequence, stringr::str_glue("\\({throw},{throw}\\)"))[[1]]
-}
-
-# TODO: update to use get_syn_throws
-sync_symmetrical <- function(sequence) {
-  throw <- "[0-9a-z]x?"
-
-  throws <- str_extract_all(sequence, throw)[[1]]
-
-  left <- throws[c(TRUE, FALSE)]
-  right <- throws[c(FALSE, TRUE)]
-
-  n <- length(right)
-
-  if (n == 1) {
-    return(identical(right, left))
-  }
-
-  # Are any cyclic rotations of `right` identical to left?
-  any(sapply(seq_len(n), function(k) {
-    identical(left, c(right[(k + 1):n], right[seq_len(k)]))
-  }))
 }
