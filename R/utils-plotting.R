@@ -1,0 +1,185 @@
+generate_parabola <- function(x1, x2, height, prop, beat, n_points = 100) {
+  vx <- (x1 + x2) / 2 # vertex
+  xs <- seq(x1, x2, length.out = n_points)
+  ys <- height * (1 - ((xs - vx) / (vx - x1))^2)
+
+  data.frame(x = xs, y = ys, prop = prop, beat = beat)
+}
+
+create_curve_points <- function(
+  x_start,
+  y_start,
+  x_end,
+  y_end,
+  direction,
+  prop_num,
+  n_points = 50
+) {
+  t <- seq(0, 1, length.out = n_points)
+
+  if (direction == "vertical") {
+    x_control <- 0.5 # Curve toward center
+    y_control <- mean(c(y_start, y_end))
+  } else {
+    x_control <- mean(c(x_start, x_end))
+    y_control <- 0.5 # Curve toward center
+  }
+
+  # Quadratic Bezier curve
+  x <- (1 - t)^2 * x_start + 2 * (1 - t) * t * x_control + t^2 * x_end
+  y <- (1 - t)^2 * y_start + 2 * (1 - t) * t * y_control + t^2 * y_end
+
+  data.frame(x = x, y = y, prop = prop_num)
+}
+
+build_ladder_plot <- function(plot_data, direction, title) {
+  is_vertical <- direction == "vertical"
+
+  if (is_vertical) {
+    # having -beat means 0 is at the "top" of the ladder,
+    # and we go down the negative y-axis as time increases
+    plot_data <- plot_data |>
+      mutate(
+        x_start = hand,
+        y_start = -beat,
+        x_end = catch_hand,
+        y_end = -catch_beat,
+      )
+  } else {
+    plot_data <- plot_data |>
+      mutate(
+        x_start = beat,
+        y_start = hand,
+        x_end = catch_beat,
+        y_end = catch_hand
+      )
+  }
+
+  # Separate straight (odd/crossing) and curved (even/same-hand) throws
+  odd_throws <- plot_data |>
+    dplyr::filter(!is_even)
+  even_throws <- plot_data |>
+    filter(is_even)
+
+  # TODO: `do` is superseded, so rewrite this, using `group_modify`
+  # Generate curve points for even throws
+  if (nrow(even_throws) > 0) {
+    curve_data <- even_throws |>
+      dplyr::rowwise() |>
+      dplyr::do({
+        curve_pts <- create_curve_points(
+          .$x_start,
+          .$y_start,
+          .$x_end,
+          .$y_end,
+          direction,
+          .$prop
+        )
+        curve_pts$group <- paste0("arc_", .$beat, "_", .$throw)
+        curve_pts
+      }) |>
+      dplyr::ungroup()
+  } else {
+    curve_data <- data.frame(
+      x = numeric(0),
+      y = numeric(0),
+      prop = numeric(0),
+      group = character(0)
+    )
+  }
+
+  p <- ggplot()
+
+  if (nrow(curve_data) > 0) {
+    p <- p +
+      geom_path(
+        data = curve_data,
+        aes(x = x, y = y, group = group, color = factor(prop)),
+        linewidth = 0.8,
+        show.legend = FALSE
+      )
+  }
+
+  if (nrow(odd_throws) > 0) {
+    p <- p +
+      geom_segment(
+        data = odd_throws,
+        aes(
+          x = x_start,
+          y = y_start,
+          xend = x_end,
+          yend = y_end,
+          color = factor(prop)
+        ),
+        linewidth = 0.8,
+        show.legend = FALSE
+      )
+  }
+
+  if (is_vertical) {
+    n_beats <- max(-plot_data$y_end)
+    beats <- -seq_len(n_beats)
+    rung_data <- data.frame(
+      x = 0,
+      y = beats,
+      xend = 1,
+      yend = beats
+    )
+    rail_data <- data.frame(
+      x = c(0, 1),
+      y = c(-1, -1),
+      xend = c(0, 1),
+      yend = c(-n_beats, -n_beats)
+    )
+  } else {
+    n_beats <- max(plot_data$x_end)
+    beats <- seq_len(n_beats)
+    rung_data <- data.frame(
+      x = beats,
+      y = 0,
+      xend = beats,
+      yend = 1
+    )
+    rail_data <- data.frame(
+      x = c(1, 1),
+      y = c(0, 1),
+      xend = c(n_beats, n_beats),
+      yend = c(0, 1)
+    )
+  }
+
+  # hand_axis gets limits; time_axis gets no limits
+  hand_limits <- c(-0.2, 1.2)
+  ratio <- ifelse(is_vertical, 0.3, 3)
+
+  p <- p +
+    geom_segment(
+      data = rung_data,
+      aes(x = x, y = y, xend = xend, yend = yend),
+      linewidth = 0.3,
+      color = "grey80"
+    ) +
+    geom_segment(
+      data = rail_data,
+      aes(x = x, y = y, xend = xend, yend = yend),
+      linewidth = 0.8
+    ) +
+    scale_x_continuous(
+      limits = if (is_vertical) hand_limits,
+      breaks = NULL
+    ) +
+    scale_y_continuous(
+      limits = if (!is_vertical) hand_limits,
+      breaks = NULL
+    ) +
+    coord_fixed(ratio = ratio) +
+    theme_minimal() +
+    theme(panel.grid = element_blank()) +
+    labs(
+      title = title,
+      x = "",
+      y = ""
+    )
+
+  p
+}

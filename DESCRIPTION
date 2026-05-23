@@ -20,3 +20,10 @@ Suggests:
     testthat (>= 3.0.0),
     withr
 Config/testthat/edition: 3
+Collate:
+    'siteswap.R'
+    'utils.R'
+    'utils-plotting.R'
+    'utils-sync.R'
+    'vanillaSiteswap.R'
+    'synchronousSiteswap.R'

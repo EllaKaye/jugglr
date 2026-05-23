@@ -94,3 +94,71 @@ synchronousSiteswap <- new_class(
   parent = Siteswap,
   package = "jugglr"
 )
+
+method(throw_data, synchronousSiteswap) <- function(siteswap, n_cycles = 3) {
+  hands <- siteswap@throws_by_hand
+  n_slots <- length(hands$hand_1)
+  n_total <- n_slots * n_cycles
+
+  hand_0_throws <- rep(hands$hand_1, times = n_cycles)
+  hand_1_throws <- rep(hands$hand_2, times = n_cycles)
+
+  beat <- rep(seq_len(n_total), each = 2)
+  hand <- rep(c(0L, 1L), times = n_total)
+  throw_raw <- character(n_total * 2)
+  throw_raw[c(TRUE, FALSE)] <- hand_0_throws
+  throw_raw[c(FALSE, TRUE)] <- hand_1_throws
+
+  is_crossing <- str_detect(throw_raw, "(?<=.)x$")
+  throw_val <- chr_throws_to_num(str_remove(throw_raw, "(?<=.)x$"))
+  catch_beat <- beat + as.integer(throw_val / 2)
+  catch_hand <- ifelse(is_crossing, 1L - hand, hand)
+
+  throws <- data.frame(
+    beat,
+    hand,
+    throw = throw_val,
+    is_crossing,
+    catch_beat,
+    catch_hand,
+    prop = NA_real_
+  )
+
+  # Prop tracking: uses (beat, hand) lookup because two rows share each slot.
+  next_prop <- 1L
+  for (i in seq_len(nrow(throws))) {
+    if (throws$throw[i] == 0) {
+      next
+    }
+    current_prop <- throws$prop[i]
+    if (is.na(current_prop)) {
+      throws$prop[i] <- next_prop
+      current_prop <- next_prop
+      next_prop <- next_prop + 1L
+    }
+    idx <- which(
+      throws$beat == throws$catch_beat[i] & throws$hand == throws$catch_hand[i]
+    )
+    if (length(idx) > 0) throws$prop[idx] <- current_prop
+  }
+
+  throws
+}
+
+method(ladder, synchronousSiteswap) <- function(
+  siteswap,
+  n_cycles = 3,
+  direction = c("horizontal", "vertical")
+) {
+  direction <- rlang::arg_match(direction)
+
+  plot_data <- throw_data(siteswap, n_cycles = n_cycles) |>
+    mutate(is_even = !is_crossing) |>
+    filter(throw > 0)
+
+  build_ladder_plot(
+    plot_data,
+    direction,
+    paste("Ladder Diagram: Siteswap", siteswap@sequence)
+  )
+}

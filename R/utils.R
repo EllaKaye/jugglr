@@ -80,11 +80,3 @@ orbits <- function(siteswap) {
 
   max_len <- p * n_props
 }
-
-generate_parabola <- function(x1, x2, height, prop, beat, n_points = 100) {
-  vx <- (x1 + x2) / 2 # vertex
-  xs <- seq(x1, x2, length.out = n_points)
-  ys <- height * (1 - ((xs - vx) / (vx - x1))^2)
-
-  data.frame(x = xs, y = ys, prop = prop, beat = beat)
-}
