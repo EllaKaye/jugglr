@@ -1,3 +1,8 @@
+#' @include siteswap.R
+#' @include utils.R
+#' @include utils-plotting.R
+NULL
+
 # MAYBE: add orbits
 #' @export
 vanillaSiteswap <- new_class(

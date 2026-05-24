@@ -20,10 +20,13 @@ Suggests:
     testthat (>= 3.0.0),
     withr
 Config/testthat/edition: 3
-Collate:
+Collate: 
+    'animate.R'
+    'jugglr-package.R'
+    'plot_experiments.R'
     'siteswap.R'
-    'utils.R'
-    'utils-plotting.R'
     'utils-sync.R'
-    'vanillaSiteswap.R'
+    'utils-plotting.R'
+    'utils.R'
     'synchronousSiteswap.R'
+    'vanillaSiteswap.R'

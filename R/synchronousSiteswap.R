@@ -1,3 +1,9 @@
+#' @include siteswap.R
+#' @include utils.R
+#' @include utils-plotting.R
+#' @include utils-sync.R
+NULL
+
 #' @export
 synchronousSiteswap <- new_class(
   "synchronousSiteswap",
