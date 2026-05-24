@@ -8,6 +8,11 @@ test_that("siteswap dispatches to synchronousSiteswap for sync input", {
   expect_s7_class(siteswap("(4,2x)*"), synchronousSiteswap)
 })
 
+test_that("siteswap dispatches to multiplexSiteswap for multiplex input", {
+  expect_s7_class(siteswap("[43]1"), multiplexSiteswap)
+  expect_s7_class(siteswap("[33]"), multiplexSiteswap)
+})
+
 test_that("siteswap errors for unrecognised notation", {
   expect_error(siteswap("not-valid"), class = "jugglr_error_not_valid_siteswap")
   expect_error(siteswap("5-3-1"), class = "jugglr_error_not_valid_siteswap")

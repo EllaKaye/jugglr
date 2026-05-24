@@ -10,15 +10,19 @@ siteswap(sequence)
 \item{sequence}{A single character string of siteswap notation.}
 }
 \value{
-A \link{vanillaSiteswap} or \link{synchronousSiteswap} S7 object.
+A \link{vanillaSiteswap}, \link{synchronousSiteswap}, or \link{multiplexSiteswap}
+S7 object.
 }
 \description{
 Creates a typed siteswap object by detecting the notation style of
 \code{sequence}. Vanilla siteswaps (alphanumeric strings such as \code{"531"}) produce
 a \link{vanillaSiteswap} object; synchronous siteswaps in \verb{(a,b)} notation such
-as \code{"(4,2x)*"} produce a \link{synchronousSiteswap} object.
+as \code{"(4,2x)*"} produce a \link{synchronousSiteswap} object; multiplex siteswaps
+with square-bracket groups such as \code{"[43]1"} produce a
+\link{multiplexSiteswap} object.
 }
 \examples{
 siteswap("531")
 siteswap("(4,2x)*")
+siteswap("[43]1")
 }
