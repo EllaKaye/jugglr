@@ -101,6 +101,26 @@ synchronousSiteswap <- new_class(
   package = "jugglr"
 )
 
+# MAYBE: print equivalent slides?
+#' @export
+method(print, synchronousSiteswap) <- function(x, ...) {
+  if (x@valid) {
+    cli::cli_bullets(
+      c(
+        "v" = "'{x@sequence}' is valid {x@type} siteswap",
+        "i" = "It uses {x@n_props} props",
+        "i" = "It is {x@symmetry} with period {x@period}"
+      )
+    )
+  } else {
+    cli::cli_bullets(
+      c(
+        "x" = "This siteswap is not a valid juggling pattern"
+      )
+    )
+  }
+}
+
 method(throw_data, synchronousSiteswap) <- function(siteswap, n_cycles = 3) {
   hands <- siteswap@throws_by_hand
   n_slots <- length(hands$hand_1)
