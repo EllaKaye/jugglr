@@ -63,6 +63,12 @@ General advice:
 - Use sentence case for all headings
 - Any user facing changes should be briefly described in a bullet point at the top of NEWS.md, following the tidyverse style guide (https://style.tidyverse.org/news.html).
 
+### Version control
+
+- When making edits automatically, make git commits at sensible points
+- When writing plans, make it clear where you are going to commit
+- Whenever you make a git commit, immediately follow it with the bash command `cca`, which is an alias that adds Claide Code as a co-author
+
 ### `NEWS.md`
 
 - Every user-facing change should be given a bullet in `NEWS.md`. Do not add bullets for small documentation changes or internal refactorings.
