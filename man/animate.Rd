@@ -3,7 +3,7 @@
 \name{animate}
 \alias{animate}
 \alias{animate_markdown}
-\title{Embed juggling animation in R Markdown or Quarto}
+\title{Animate a juggling pattern}
 \usage{
 animate(
   pattern,
@@ -20,17 +20,52 @@ animate(
 animate_markdown(pattern, path, colors = NULL, ...)
 }
 \arguments{
-\item{pattern}{Siteswap pattern}
+\item{pattern}{A siteswap pattern string (e.g. \code{"531"}) or a siteswap
+object.}
 
-\item{colors}{Optional vector of colors}
+\item{colors}{Optional. A vector of R colours (one per prop), or one of the
+special strings \code{"mixed"} or \code{"orbits"}. Passed to JugglingLab.}
 
-\item{...}{Additional arguments to JugglingLab GIT server}
+\item{bps}{Beats per second (numeric scalar). Controls the animation speed.}
 
-\item{path}{Path to save GIF. If \code{NULL} (default) view in viewer}
+\item{width, height}{Width and height of the animation in pixels (numeric
+scalars).}
+
+\item{fps}{Frames per second (numeric scalar).}
+
+\item{slowdown}{Slowdown factor (numeric scalar). Values greater than 1 slow
+the animation; values less than 1 speed it up.}
+
+\item{...}{Additional named arguments passed to the JugglingLab GIF server.
+Pattern-setting arguments include \code{dwell}, \code{hands}, \code{body}, \code{propdiam},
+\code{prop}, \code{gravity}, \code{bouncefrac}, \code{squeezebeats}, \code{hss}, \code{handspec},
+\code{dwellmax}, and \code{hold}. Animation arguments include \code{stereo}, \code{border},
+\code{camangle}, \code{showground}, and \code{hidejugglers}. All values must be scalars.}
+
+\item{path}{Path to save the GIF (must end in \code{.gif}). If \code{NULL} (default)
+the animation is displayed in the viewer.}
 }
 \value{
-knitr graphics object for embedding
+Invisibly returns the path to the temporary HTML file (when
+displaying) or the save path (when \code{path} is given).
+
+A knitr graphics object for inline embedding.
 }
 \description{
-Embed juggling animation in R Markdown or Quarto
+Generates an animated GIF of a juggling pattern via the
+\href{https://jugglinglab.org/html/animinfo.html}{JugglingLab GIF server} and
+displays it in the RStudio viewer (or default browser). If \code{path} is given
+the GIF is saved to disk instead.
 }
+\details{
+Note that setting \code{colors} can introduce a short delay while the server
+renders the animation.
+}
+\section{Functions}{
+\itemize{
+\item \code{animate_markdown()}: Save a GIF to \code{path} and embed it in an R Markdown or
+Quarto document via \code{\link[knitr:include_graphics]{knitr::include_graphics()}}. The \code{path} argument is
+required; set a persistent file path (not a \code{tempfile()}) so the rendered
+document can reference it.
+
+}}

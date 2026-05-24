@@ -6,7 +6,11 @@
 #' can be used directly for custom visualisations.
 #'
 #' @param siteswap A `vanillaSiteswap` or `synchronousSiteswap` object.
-#' @param ... Additional arguments passed to methods, including `n_cycles`.
+#' @param n_cycles Number of complete cycles to simulate (default 3). Increase
+#'   for patterns with many props to ensure all appear in the data. Setting
+#'   `n_cycles >= period * n_props * 2` guarantees each prop is thrown at least
+#'   twice.
+#' @param ... Additional arguments passed to methods.
 #'
 #' @returns A data frame with one row per throw and columns:
 #'   - `beat`: throw beat index
@@ -26,8 +30,12 @@ throw_data <- new_generic("throw_data", "siteswap")
 #' labels show the throw heights from the siteswap sequence.
 #'
 #' @param siteswap A `vanillaSiteswap` or `synchronousSiteswap` object.
-#' @param ... Additional arguments passed to methods, including `n_cycles`
-#'   and `title`.
+#' @param n_cycles Number of complete cycles to simulate (default 3). A warning
+#'   is issued if not all props appear within the simulated range.
+#' @param title Logical. If `TRUE` (default), adds a title and subtitle showing
+#'   the sequence and number of props. Set to `FALSE` to suppress; override
+#'   with [ggplot2::labs()] on the returned plot.
+#' @param ... Additional arguments passed to methods.
 #'
 #' @returns A ggplot2 object.
 #'
@@ -41,8 +49,10 @@ timeline <- new_generic("timeline", "siteswap")
 #' indicate cross-throws (opposite hand catches).
 #'
 #' @param siteswap A `vanillaSiteswap` or `synchronousSiteswap` object.
-#' @param ... Additional arguments passed to methods, including `n_cycles`
-#'   and `direction`.
+#' @param n_cycles Number of complete cycles to simulate (default 3).
+#' @param direction Orientation of the diagram: `"horizontal"` (default, time
+#'   runs left to right) or `"vertical"` (time runs top to bottom).
+#' @param ... Additional arguments passed to methods.
 #'
 #' @returns A ggplot2 object.
 #'

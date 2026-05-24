@@ -2,15 +2,27 @@
 % Please edit documentation in R/generics.R
 \name{timeline}
 \alias{timeline}
-\title{Timeline}
+\title{Plot a timeline diagram for a siteswap}
 \usage{
 timeline(siteswap, ...)
 }
 \arguments{
-\item{siteswap}{A siteswap object}
+\item{siteswap}{A \code{vanillaSiteswap} or \code{synchronousSiteswap} object.}
 
-\item{...}{Additional arguments passed to methods}
+\item{...}{Additional arguments passed to methods.}
+
+\item{n_cycles}{Number of complete cycles to simulate (default 3). A warning
+is issued if not all props appear within the simulated range.}
+
+\item{title}{Logical. If \code{TRUE} (default), adds a title and subtitle showing
+the sequence and number of props. Set to \code{FALSE} to suppress; override
+with \code{\link[ggplot2:labs]{ggplot2::labs()}} on the returned plot.}
+}
+\value{
+A ggplot2 object.
 }
 \description{
-Plot the timeline
+Produces a timeline (arc) diagram showing the trajectory of each prop
+across beats. Each arc represents a throw, coloured by prop. The x-axis
+labels show the throw heights from the siteswap sequence.
 }

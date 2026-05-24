@@ -6,7 +6,14 @@
 \alias{jugglr-package}
 \title{jugglr: Juggling Pattern Validation and Visualisation}
 \description{
-What the package does (one paragraph).
+Validate and visualise juggling patterns expressed in siteswap notation. Supports vanilla and synchronous siteswap, with tools to check pattern validity, produce timeline arc diagrams and ladder diagrams, retrieve raw throw data for custom visualisations, and animate patterns via the JugglingLab GIF server.
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://ellakaye.github.io/jugglr/}
+}
+
 }
 \author{
 \strong{Maintainer}: Ella Kaye \email{ella.kaye@gmail.com} [copyright holder]

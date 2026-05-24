@@ -159,8 +159,6 @@ method(print, synchronousSiteswap) <- function(x, ...) {
   }
 }
 
-#' @describeIn throw_data Method for [synchronousSiteswap] objects.
-#' @param n_cycles Number of complete cycles to simulate.
 method(throw_data, synchronousSiteswap) <- function(siteswap, n_cycles = 3) {
   hands <- siteswap@throws_by_hand
   n_slots <- length(hands$hand_1)
@@ -211,10 +209,6 @@ method(throw_data, synchronousSiteswap) <- function(siteswap, n_cycles = 3) {
   throws
 }
 
-#' @describeIn ladder Method for [synchronousSiteswap] objects.
-#' @param n_cycles Number of complete cycles to simulate.
-#' @param direction Orientation of the diagram: `"horizontal"` (default) or
-#'   `"vertical"`.
 method(ladder, synchronousSiteswap) <- function(
   siteswap,
   n_cycles = 3,
