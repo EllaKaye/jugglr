@@ -1,6 +1,3 @@
-# TODO: sort this file.
-# Maybe split into separate util_ files for different types of functions and classes (e.g. utils-plotting, utils-sync, utils-methods)
-
 .onLoad <- function(...) {
   methods_register()
 }
@@ -8,31 +5,6 @@
 # enable usage of <S7_object>@name in package code
 #' @rawNamespace if (getRversion() < "4.3.0") importFrom("S7", "@")
 NULL
-
-# TODO: add functions `is_vanilla_siteswap`, `is_sync_siteswap` etc
-# that I can use in combination `Siteswap` to validate sequence and `siteswap`
-# to determine the subclass
-
-# TODO: document
-throw_data <- new_generic("throw_data", "siteswap")
-
-# TODO: useful documentation
-# TODO: add `n_cycles` arg here
-# MAYBE: does this need to be a generic? Possibly only useful for vanilla,
-# in which case it could be a regular function
-# see https://rconsortium.github.io/S7/articles/generics-methods.html
-# see https://rconsortium.github.io/S7/articles/packages.html for more on documenting generics/methods
-#' Timeline
-#'
-#' Plot the timeline
-#' @param siteswap A siteswap object
-#' @param ... Additional arguments passed to methods
-#'
-#' @export
-timeline <- new_generic("timeline", "siteswap")
-
-#' @export
-ladder <- new_generic("ladder", "siteswap")
 
 is_even <- function(x) {
   x %% 2 == 0
@@ -71,12 +43,4 @@ can_throw <- function(throws) {
   n <- length(throws)
   lands <- ((seq_len(n) - 1) + throws) %% n
   anyDuplicated(lands) == 0
-}
-
-# MAYBE: Finish this, if using
-orbits <- function(siteswap) {
-  p <- siteswap@period
-  n_props <- siteswap@n_props
-
-  max_len <- p * n_props
 }

@@ -1,8 +1,3 @@
-# ? Do I actually want to export this?
-# Could get confusing compared to desired behaviour of user calling `siteswap`,
-# which assigns subclass, and subclass gives `Siteswap` as parent
-# Are there any circumastances in which the user might want `Siteswap` directly?
-#' @export
 Siteswap <- new_class(
   "Siteswap",
   properties = list(
@@ -40,14 +35,7 @@ Siteswap <- new_class(
 siteswap <- function(sequence) {
   if (str_detect(sequence, "^[a-zA-Z0-9]+$")) {
     vanillaSiteswap(sequence)
-    # MAYBE: I want to check that all even here, or in synchronousSiteswap itself?
   } else if (is_sync_notation(sequence)) {
-    if (!only_even_throws(sequence)) {
-      cli::cli_abort(
-        "Synchronous siteswap must only contain even-value throws",
-        class = "sync_odd_throw"
-      )
-    }
     synchronousSiteswap(sequence)
   } else {
     # Siteswap(sequence)

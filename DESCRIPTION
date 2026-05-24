@@ -20,10 +20,10 @@ Suggests:
     testthat (>= 3.0.0),
     withr
 Config/testthat/edition: 3
-Collate: 
+Collate:
     'animate.R'
+    'generics.R'
     'jugglr-package.R'
-    'plot_experiments.R'
     'siteswap.R'
     'utils-sync.R'
     'utils-plotting.R'

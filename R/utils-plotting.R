@@ -64,8 +64,25 @@ build_ladder_plot <- function(plot_data, direction, title) {
   # Generate curve points for even throws
   if (nrow(even_throws) > 0) {
     curve_data <- even_throws |>
-      purrr::pmap(\(x_start, y_start, x_end, y_end, beat, hand, throw, prop, ...) {
-        curve_pts <- create_curve_points(x_start, y_start, x_end, y_end, direction, prop)
+      purrr::pmap(\(
+        x_start,
+        y_start,
+        x_end,
+        y_end,
+        beat,
+        hand,
+        throw,
+        prop,
+        ...
+      ) {
+        curve_pts <- create_curve_points(
+          x_start,
+          y_start,
+          x_end,
+          y_end,
+          direction,
+          prop
+        )
         curve_pts$group <- paste0("arc_", beat, "_", hand, "_", throw)
         curve_pts
       }) |>

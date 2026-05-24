@@ -71,9 +71,6 @@ vanillaSiteswap <- new_class(
   package = "jugglr"
 )
 
-asynchronousSiteswap <- vanillaSiteswap
-asyncSiteswap <- vanillaSiteswap
-
 # MAYBE: Any other information to print about the pattern?
 # MAYBE: If not valid, say more about what the problem is,
 # or suggest visualising with timeline (only vanilla?) or ladder
