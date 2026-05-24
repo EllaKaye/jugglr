@@ -40,7 +40,7 @@ synchronousSiteswap <- new_class(
     period = new_property(
       class = class_integer,
       getter = function(self) {
-        length(self@throws["hand_1"]) * 2
+        length(self@throws_by_hand[["hand_1"]]) * 2
       }
     ),
     symmetry = new_property(
@@ -54,7 +54,7 @@ synchronousSiteswap <- new_class(
       }
     ),
     slide = new_property(
-      clas = class_numeric,
+      class = class_numeric,
       getter = function(self) {
         self@full_sequence |>
           get_sync_throws() |>
