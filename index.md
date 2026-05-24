@@ -1,10 +1,12 @@
 # jugglr
 
 **jugglr** is a work-in-progress package to validate and visualise
-juggling patterns. The `siteswap()` function takes a sequence written in
-[siteswap notation](https://en.wikipedia.org/wiki/Siteswap) and creates
-an S7 object with class `Siteswap` and a child class for the type of
-siteswap, e.g. vanillaSiteswap.
+juggling patterns. The
+[`siteswap()`](https://ellakaye.github.io/jugglr/reference/Siteswap.md)
+function takes a sequence written in [siteswap
+notation](https://en.wikipedia.org/wiki/Siteswap) and creates an S7
+object with class `Siteswap` and a child class for the type of siteswap,
+e.g. vanillaSiteswap.
 
 At present, only vanilla siteswap is implemented. I plan to support
 synchronous and multiplex siteswap in the near future, and passing

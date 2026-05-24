@@ -11,8 +11,8 @@
 <script src="deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Juggling Pattern Validation and Visualisation">
-<meta name="description" content="What the package does (one paragraph).">
-<meta property="og:description" content="What the package does (one paragraph).">
+<meta name="description" content="Validate and visualise juggling patterns expressed in siteswap notation. Supports vanilla and synchronous siteswap, with tools to check pattern validity, produce timeline arc diagrams and ladder diagrams, retrieve raw throw data for custom visualisations, and animate patterns via the JugglingLab GIF server.">
+<meta property="og:description" content="Validate and visualise juggling patterns expressed in siteswap notation. Supports vanilla and synchronous siteswap, with tools to check pattern validity, produce timeline arc diagrams and ladder diagrams, retrieve raw throw data for custom visualisations, and animate patterns via the JugglingLab GIF server.">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -32,6 +32,7 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
+<li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
@@ -49,7 +50,7 @@
 </h1></div>
 <!-- badges: start -->
 <!-- badges: end -->
-<p><strong>jugglr</strong> is a work-in-progress package to validate and visualise juggling patterns. The <code>siteswap()</code> function takes a sequence written in <a href="https://en.wikipedia.org/wiki/Siteswap" class="external-link">siteswap notation</a> and creates an S7 object with class <code>Siteswap</code> and a child class for the type of siteswap, e.g. vanillaSiteswap.</p>
+<p><strong>jugglr</strong> is a work-in-progress package to validate and visualise juggling patterns. The <code><a href="reference/Siteswap.html">siteswap()</a></code> function takes a sequence written in <a href="https://en.wikipedia.org/wiki/Siteswap" class="external-link">siteswap notation</a> and creates an S7 object with class <code>Siteswap</code> and a child class for the type of siteswap, e.g. vanillaSiteswap.</p>
 <p>At present, only vanilla siteswap is implemented. I plan to support synchronous and multiplex siteswap in the near future, and passing siteswap after that.</p>
 <p><strong>Note that not all functions are currently documented and test coverage is poor - both are works-in-progress.</strong></p>
 <div class="section level2">
@@ -67,14 +68,14 @@
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ellakaye.github.io/jugglr/">jugglr</a></span><span class="op">)</span></span>
 <span><span class="co"># A valid juggling pattern</span></span>
-<span><span class="va">ss423</span> <span class="op">&lt;-</span> <span class="fu">siteswap</span><span class="op">(</span><span class="st">"423"</span><span class="op">)</span></span>
+<span><span class="va">ss423</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/Siteswap.html">siteswap</a></span><span class="op">(</span><span class="st">"423"</span><span class="op">)</span></span>
 <span><span class="va">ss423</span></span>
 <span><span class="co">#&gt; ✔ '423' is valid vanilla siteswap</span></span>
 <span><span class="co">#&gt; ℹ It uses 3 props</span></span>
 <span><span class="co">#&gt; ℹ It is symmetrical with period 3</span></span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># A pattern that cannot be juggled</span></span>
-<span><span class="va">ss21</span> <span class="op">&lt;-</span> <span class="fu">siteswap</span><span class="op">(</span><span class="st">"21"</span><span class="op">)</span></span>
+<span><span class="va">ss21</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/Siteswap.html">siteswap</a></span><span class="op">(</span><span class="st">"21"</span><span class="op">)</span></span>
 <span><span class="va">ss21</span></span>
 <span><span class="co">#&gt; ✖ This siteswap is not a valid juggling pattern</span></span></code></pre></div>
 </div>
@@ -97,7 +98,7 @@
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_color_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="va">palette</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-3-1.png" alt="" width="100%"></p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">ladder</span><span class="op">(</span><span class="va">ss423</span><span class="op">)</span> <span class="op">+</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/ladder.html">ladder</a></span><span class="op">(</span><span class="va">ss423</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_color_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="va">palette</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-4-1.png" alt="" width="100%"></p>
 <p>These plots are also useful for understand why non-valid sequences are not jugglable. We can see, for example, where two props would need to be caught at the same time (which is not permissible in vanilla siteswap). Because each prop is shown in a different colour, we can see where balls are disappearing or needing suddenly to appear.</p>
@@ -105,7 +106,7 @@
 <code class="sourceCode R"><span><span class="fu"><a href="reference/timeline.html">timeline</a></span><span class="op">(</span><span class="va">ss21</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-5-1.png" alt="" width="100%"></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">ladder</span><span class="op">(</span><span class="va">ss21</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/ladder.html">ladder</a></span><span class="op">(</span><span class="va">ss21</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-6-1.png" alt="" width="100%"></p>
 </div>
 <div class="section level3">

@@ -1,10 +1,12 @@
 # jugglr
 
 **jugglr** is a work-in-progress package to validate and visualise
-juggling patterns. The `siteswap()` function takes a sequence written in
-[siteswap notation](https://en.wikipedia.org/wiki/Siteswap) and creates
-an S7 object with class `Siteswap` and a child class for the type of
-siteswap, e.g. vanillaSiteswap.
+juggling patterns. The
+[`siteswap()`](https://ellakaye.github.io/jugglr/reference/Siteswap.md)
+function takes a sequence written in [siteswap
+notation](https://en.wikipedia.org/wiki/Siteswap) and creates an S7
+object with class `Siteswap` and a child class for the type of siteswap,
+e.g. vanillaSiteswap.
 
 At present, only vanilla siteswap is implemented. I plan to support
 synchronous and multiplex siteswap in the near future, and passing
@@ -131,11 +133,33 @@ animate_markdown("423", "man/figures/423-animation.gif", colors = palette)
 
 # Package index
 
-## All functions
+## Creating siteswap objects
+
+- [`siteswap()`](https://ellakaye.github.io/jugglr/reference/Siteswap.md)
+  : Create a siteswap object
+- [`vanillaSiteswap()`](https://ellakaye.github.io/jugglr/reference/vanillaSiteswap.md)
+  : Vanilla siteswap
+- [`synchronousSiteswap()`](https://ellakaye.github.io/jugglr/reference/synchronousSiteswap.md)
+  : Synchronous siteswap
+
+## Visualisation
+
+- [`timeline()`](https://ellakaye.github.io/jugglr/reference/timeline.md)
+  : Plot a timeline diagram for a siteswap
+- [`ladder()`](https://ellakaye.github.io/jugglr/reference/ladder.md) :
+  Plot a ladder diagram for a siteswap
+- [`throw_data()`](https://ellakaye.github.io/jugglr/reference/throw_data.md)
+  : Get throw data for a siteswap
+
+## Animation
 
 - [`animate()`](https://ellakaye.github.io/jugglr/reference/animate.md)
   [`animate_markdown()`](https://ellakaye.github.io/jugglr/reference/animate.md)
-  : Embed juggling animation in R Markdown or Quarto
-- [`timeline()`](https://ellakaye.github.io/jugglr/reference/timeline.md)
-  : Timeline
+  : Animate a juggling pattern
+
+## Package
+
+- [`jugglr`](https://ellakaye.github.io/jugglr/reference/jugglr-package.md)
+  [`jugglr-package`](https://ellakaye.github.io/jugglr/reference/jugglr-package.md)
+  : jugglr: Juggling Pattern Validation and Visualisation
 
