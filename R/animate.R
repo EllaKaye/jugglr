@@ -1,12 +1,37 @@
 # TODO: make sure this takes either Siteswap objects or strings
 # MAYBE: different arg name than "pattern"
-# TODO: document
-# TODO: in documentation, note that setting colors can lead to a delay in showing the animation.
 # Or do I want only Siteswap?
-#' @param pattern Siteswap pattern
-#' @param colors Optional vector of colors
-#' @param ... Additional arguments to JugglingLab GIT server
-#' @param path Path to save GIF. If `NULL` (default) view in viewer
+#' Animate a juggling pattern
+#'
+#' Generates an animated GIF of a juggling pattern via the
+#' [JugglingLab GIF server](https://jugglinglab.org/html/animinfo.html) and
+#' displays it in the RStudio viewer (or default browser). If `path` is given
+#' the GIF is saved to disk instead.
+#'
+#' Note that setting `colors` can introduce a short delay while the server
+#' renders the animation.
+#'
+#' @param pattern A siteswap pattern string (e.g. `"531"`) or a siteswap
+#'   object.
+#' @param colors Optional. A vector of R colours (one per prop), or one of the
+#'   special strings `"mixed"` or `"orbits"`. Passed to JugglingLab.
+#' @param bps Beats per second (numeric scalar). Controls the animation speed.
+#' @param width,height Width and height of the animation in pixels (numeric
+#'   scalars).
+#' @param fps Frames per second (numeric scalar).
+#' @param slowdown Slowdown factor (numeric scalar). Values greater than 1 slow
+#'   the animation; values less than 1 speed it up.
+#' @param ... Additional named arguments passed to the JugglingLab GIF server.
+#'   Pattern-setting arguments include `dwell`, `hands`, `body`, `propdiam`,
+#'   `prop`, `gravity`, `bouncefrac`, `squeezebeats`, `hss`, `handspec`,
+#'   `dwellmax`, and `hold`. Animation arguments include `stereo`, `border`,
+#'   `camangle`, `showground`, and `hidejugglers`. All values must be scalars.
+#' @param path Path to save the GIF (must end in `.gif`). If `NULL` (default)
+#'   the animation is displayed in the viewer.
+#'
+#' @returns Invisibly returns the path to the temporary HTML file (when
+#'   displaying) or the save path (when `path` is given).
+#'
 #' @export
 animate <- function(
   pattern,
@@ -91,11 +116,12 @@ animate <- function(
   invisible(temp_file)
 }
 
-#' Embed juggling animation in R Markdown or Quarto
+#' @describeIn animate Save a GIF to `path` and embed it in an R Markdown or
+#'   Quarto document via [knitr::include_graphics()]. The `path` argument is
+#'   required; set a persistent file path (not a `tempfile()`) so the rendered
+#'   document can reference it.
 #'
-#' @rdname animate
-#' @return knitr graphics object for embedding
-#' @export
+#' @returns A knitr graphics object for inline embedding.
 animate_markdown <- function(pattern, path, colors = NULL, ...) {
   animate(pattern, colors = colors, path = path, ...)
   knitr::include_graphics(path)
