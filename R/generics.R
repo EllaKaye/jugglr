@@ -5,7 +5,7 @@
 #' and which prop is thrown. This underpins [timeline()] and [ladder()], and
 #' can be used directly for custom visualisations.
 #'
-#' @param siteswap A `vanillaSiteswap` or `synchronousSiteswap` object.
+#' @param siteswap A `vanillaSiteswap`, `synchronousSiteswap`, or `multiplexSiteswap` object.
 #' @param n_cycles Number of complete cycles to simulate (default 3). Increase
 #'   for patterns with many props to ensure all appear in the data. Setting
 #'   `n_cycles >= period * n_props * 2` guarantees each prop is thrown at least
@@ -33,7 +33,7 @@ throw_data <- new_generic(
 #' across beats. Each arc represents a throw, coloured by prop. The x-axis
 #' labels show the throw heights from the siteswap sequence.
 #'
-#' @param siteswap A `vanillaSiteswap` or `synchronousSiteswap` object.
+#' @param siteswap A `vanillaSiteswap`, `synchronousSiteswap`, or `multiplexSiteswap` object.
 #' @param n_cycles Number of complete cycles to simulate (default 3). A warning
 #'   is issued if not all props appear within the simulated range.
 #' @param title Logical. If `TRUE` (default), adds a title and subtitle showing
@@ -56,7 +56,7 @@ timeline <- new_generic(
 #' Straight lines indicate self-throws (same hand catches); crossing lines
 #' indicate cross-throws (opposite hand catches).
 #'
-#' @param siteswap A `vanillaSiteswap` or `synchronousSiteswap` object.
+#' @param siteswap A `vanillaSiteswap`, `synchronousSiteswap`, or `multiplexSiteswap` object.
 #' @param n_cycles Number of complete cycles to simulate (default 3).
 #' @param direction Orientation of the diagram: `"horizontal"` (default, time
 #'   runs left to right) or `"vertical"` (time runs top to bottom).

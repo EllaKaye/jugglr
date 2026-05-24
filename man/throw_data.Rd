@@ -7,7 +7,7 @@
 throw_data(siteswap, n_cycles = 3, ...)
 }
 \arguments{
-\item{siteswap}{A \code{vanillaSiteswap} or \code{synchronousSiteswap} object.}
+\item{siteswap}{A \code{vanillaSiteswap}, \code{synchronousSiteswap}, or \code{multiplexSiteswap} object.}
 
 \item{n_cycles}{Number of complete cycles to simulate (default 3). Increase
 for patterns with many props to ensure all appear in the data. Setting

@@ -8,6 +8,7 @@ reference:
       - siteswap
       - vanillaSiteswap
       - synchronousSiteswap
+      - multiplexSiteswap
   - title: "Visualisation"
     contents:
       - timeline
