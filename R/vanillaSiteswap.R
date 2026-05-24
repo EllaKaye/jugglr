@@ -4,7 +4,38 @@
 NULL
 
 # MAYBE: add orbits
+#' Vanilla siteswap
+#'
+#' Creates a vanilla siteswap object from an alphanumeric siteswap sequence
+#' such as `"531"` or `"97531"`. Vanilla siteswap describes solo juggling
+#' patterns where one prop is thrown per beat, alternating hands.
+#'
+#' @param sequence A single character string of vanilla siteswap notation
+#'   (digits and letters only, e.g. `"531"`).
+#'
+#' @returns A `vanillaSiteswap` S7 object.
+#'
+#' @prop type Always `"vanilla"` (read-only).
+#' @prop throws Integer vector of throw heights for one cycle.
+#' @prop period Number of throws per cycle (length of `throws`).
+#' @prop symmetry `"symmetrical"` when period is odd (pattern repeats with
+#'   swapped hands); `"asymmetrical"` when period is even.
+#' @prop n_props Mean throw height, equal to the number of props required.
+#' @prop can_throw `TRUE` if no two throws land on the same beat (no
+#'   collisions).
+#' @prop satisfies_average_theorem `TRUE` if `n_props` is a whole number.
+#' @prop valid `TRUE` if both `can_throw` and `satisfies_average_theorem` are
+#'   `TRUE`.
+#'
 #' @export
+#'
+#' @examples
+#' vanillaSiteswap("531")
+#' vanillaSiteswap("97531")
+#'
+#' s <- vanillaSiteswap("531")
+#' s@n_props
+#' s@valid
 vanillaSiteswap <- new_class(
   "vanillaSiteswap",
   properties = list(
@@ -76,7 +107,6 @@ vanillaSiteswap <- new_class(
 # or suggest visualising with timeline (only vanilla?) or ladder
 # MAYBE: print orbits (if calculating them)
 # TODO: define print for Siteswap then use `super` and add an extra bullet
-#' @export
 method(print, vanillaSiteswap) <- function(x, ...) {
   if (x@valid) {
     cli::cli_bullets(
@@ -95,6 +125,9 @@ method(print, vanillaSiteswap) <- function(x, ...) {
   }
 }
 
+#' @describeIn throw_data Method for [vanillaSiteswap] objects.
+#' @param n_cycles Number of complete cycles to simulate. Increase this for
+#'   patterns with many props where not all appear within 3 cycles.
 method(throw_data, vanillaSiteswap) <- function(siteswap, n_cycles = 3) {
   total_throws <- siteswap@period * n_cycles
 
@@ -145,14 +178,15 @@ method(throw_data, vanillaSiteswap) <- function(siteswap, n_cycles = 3) {
   throws
 }
 
-# TODO: Document that when n_props < x@period,
-# will need to increase n_cycles to get a sense of the pattern/see all props being thrown
-# Can say something like n_cycle likely to need increasing if period is short
-# and/or there are more than three props
-# Also document and give an example of modifying the plot with additional ggplot2 layers,
-# such as palette.
-# TODO: maybe no `title` arg, but document how to override it with `labs`
-# TODO: still figurng out where to document this
+#' @describeIn timeline Method for [vanillaSiteswap] objects.
+#' @param n_cycles Number of complete cycles to simulate. When `n_props` is
+#'   greater than `period`, increase `n_cycles` to ensure all props appear in
+#'   the diagram; setting `n_cycles >= period * n_props * 2` guarantees each
+#'   prop is thrown at least twice. A warning is issued if not all props are
+#'   shown.
+#' @param title Logical. If `TRUE` (default), adds a title and subtitle showing
+#'   the sequence and number of props. Set to `FALSE` to suppress, or override
+#'   with [ggplot2::labs()] on the returned object.
 method(timeline, vanillaSiteswap) <- function(
   siteswap,
   n_cycles = 3,
@@ -231,6 +265,10 @@ method(timeline, vanillaSiteswap) <- function(
   p
 }
 
+#' @describeIn ladder Method for [vanillaSiteswap] objects.
+#' @param n_cycles Number of complete cycles to simulate.
+#' @param direction Orientation of the diagram: `"horizontal"` (default, time
+#'   runs left to right) or `"vertical"` (time runs top to bottom).
 method(ladder, vanillaSiteswap) <- function(
   siteswap,
   n_cycles = 3,
