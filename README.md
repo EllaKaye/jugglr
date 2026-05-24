@@ -5,6 +5,9 @@
 
 <!-- badges: start -->
 
+[![Codecov test
+coverage](https://codecov.io/gh/EllaKaye/jugglr/graph/badge.svg)](https://app.codecov.io/gh/EllaKaye/jugglr)
+[![R-CMD-check](https://github.com/EllaKaye/jugglr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/EllaKaye/jugglr/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 **jugglr** is a work-in-progress package to validate and visualise
