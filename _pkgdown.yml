@@ -2,3 +2,20 @@ url: https://ellakaye.github.io/jugglr/
 template:
   bootstrap: 5
 
+reference:
+  - title: "Creating siteswap objects"
+    contents:
+      - siteswap
+      - vanillaSiteswap
+      - synchronousSiteswap
+  - title: "Visualisation"
+    contents:
+      - timeline
+      - ladder
+      - throw_data
+  - title: "Animation"
+    contents:
+      - animate
+  - title: "Package"
+    contents:
+      - jugglr-package
