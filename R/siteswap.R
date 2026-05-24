@@ -1,3 +1,12 @@
+#' Siteswap base class
+#'
+#' Abstract parent class for all siteswap types. Not intended to be
+#' instantiated directly; use [siteswap()], [vanillaSiteswap()], or
+#' [synchronousSiteswap()] instead.
+#'
+#' @param sequence A single character string of siteswap notation.
+#'
+#' @prop sequence The raw siteswap sequence string.
 Siteswap <- new_class(
   "Siteswap",
   properties = list(
@@ -31,7 +40,22 @@ Siteswap <- new_class(
 # or will this be an error in creating the object?
 
 # TODO: other flavours of siteswap
+#' Create a siteswap object
+#'
+#' Creates a typed siteswap object by detecting the notation style of
+#' `sequence`. Vanilla siteswaps (alphanumeric strings such as `"531"`) produce
+#' a [vanillaSiteswap] object; synchronous siteswaps in `(a,b)` notation such
+#' as `"(4,2x)*"` produce a [synchronousSiteswap] object.
+#'
+#' @param sequence A single character string of siteswap notation.
+#'
+#' @returns A [vanillaSiteswap] or [synchronousSiteswap] S7 object.
+#'
 #' @export
+#'
+#' @examples
+#' siteswap("531")
+#' siteswap("(4,2x)*")
 siteswap <- function(sequence) {
   if (str_detect(sequence, "^[a-zA-Z0-9]+$")) {
     vanillaSiteswap(sequence)
