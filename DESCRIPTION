@@ -3,7 +3,11 @@ Title: Juggling Pattern Validation and Visualisation
 Version: 0.0.0.9000
 Authors@R: 
     person("Ella", "Kaye", , "ella.kaye@gmail.com", role = c("aut", "cre", "cph"))
-Description: What the package does (one paragraph).
+Description: Validate and visualise juggling patterns expressed in siteswap
+    notation. Supports vanilla and synchronous siteswap, with tools to check
+    pattern validity, produce timeline arc diagrams and ladder diagrams, retrieve
+    raw throw data for custom visualisations, and animate patterns via the
+    JugglingLab GIF server.
 License: GPL (>= 3)
 Encoding: UTF-8
 Imports: 
