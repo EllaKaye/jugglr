@@ -4,17 +4,17 @@
 \alias{throw_data}
 \title{Get throw data for a siteswap}
 \usage{
-throw_data(siteswap, ...)
+throw_data(siteswap, n_cycles = 3, ...)
 }
 \arguments{
 \item{siteswap}{A \code{vanillaSiteswap} or \code{synchronousSiteswap} object.}
-
-\item{...}{Additional arguments passed to methods.}
 
 \item{n_cycles}{Number of complete cycles to simulate (default 3). Increase
 for patterns with many props to ensure all appear in the data. Setting
 \code{n_cycles >= period * n_props * 2} guarantees each prop is thrown at least
 twice.}
+
+\item{...}{Additional arguments passed to methods.}
 }
 \value{
 A data frame with one row per throw and columns:

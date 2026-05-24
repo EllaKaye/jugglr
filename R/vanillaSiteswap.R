@@ -39,17 +39,9 @@ NULL
 vanillaSiteswap <- new_class(
   "vanillaSiteswap",
   properties = list(
-    # MAYBE: don't need type if not using in any methods
-    type = new_property(
-      class = class_character,
-      setter = function(self, value) {
-        if (!is.null(self@type)) {
-          cli::cli_abort("@type is read-only")
-        }
-        self@type <- "vanilla"
-        self
-      }
-    ),
+    type = new_property(class = class_character, getter = function(self) {
+      "vanilla"
+    }),
     throws = new_property(
       class = class_integer,
       getter = function(self) {

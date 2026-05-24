@@ -4,7 +4,7 @@
 \alias{vanillaSiteswap}
 \title{Vanilla siteswap}
 \usage{
-vanillaSiteswap(sequence = character(0), type = character(0))
+vanillaSiteswap(sequence = character(0))
 }
 \arguments{
 \item{sequence}{A single character string of vanilla siteswap notation

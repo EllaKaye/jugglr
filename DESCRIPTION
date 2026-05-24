@@ -10,11 +10,14 @@ Description: Validate and visualise juggling patterns expressed in siteswap
     JugglingLab GIF server.
 License: GPL (>= 3)
 Encoding: UTF-8
-Imports: 
+Depends:
+    R (>= 4.1.0)
+Imports:
     cli,
     dplyr,
     ggplot2,
     knitr,
+    purrr,
     rlang,
     S7,
     stringr

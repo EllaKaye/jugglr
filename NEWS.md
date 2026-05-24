@@ -1,4 +1,4 @@
-# jugglr (development version)
+# jugglr 0.0.0.9000
 
 * `animate()` and `animate_markdown()` animate juggling patterns via the JugglingLab GIF server.
 * `ladder()` plots ladder diagrams for vanilla and synchronous siteswaps.

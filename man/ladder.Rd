@@ -4,17 +4,17 @@
 \alias{ladder}
 \title{Plot a ladder diagram for a siteswap}
 \usage{
-ladder(siteswap, ...)
+ladder(siteswap, n_cycles = 3, direction = c("horizontal", "vertical"), ...)
 }
 \arguments{
 \item{siteswap}{A \code{vanillaSiteswap} or \code{synchronousSiteswap} object.}
-
-\item{...}{Additional arguments passed to methods.}
 
 \item{n_cycles}{Number of complete cycles to simulate (default 3).}
 
 \item{direction}{Orientation of the diagram: \code{"horizontal"} (default, time
 runs left to right) or \code{"vertical"} (time runs top to bottom).}
+
+\item{...}{Additional arguments passed to methods.}
 }
 \value{
 A ggplot2 object.

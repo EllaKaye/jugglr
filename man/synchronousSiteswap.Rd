@@ -4,7 +4,7 @@
 \alias{synchronousSiteswap}
 \title{Synchronous siteswap}
 \usage{
-synchronousSiteswap(sequence = character(0), type = character(0))
+synchronousSiteswap(sequence = character(0))
 }
 \arguments{
 \item{sequence}{A single character string of synchronous siteswap notation,

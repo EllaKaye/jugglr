@@ -4,12 +4,10 @@
 \alias{timeline}
 \title{Plot a timeline diagram for a siteswap}
 \usage{
-timeline(siteswap, ...)
+timeline(siteswap, n_cycles = 3, title = TRUE, ...)
 }
 \arguments{
 \item{siteswap}{A \code{vanillaSiteswap} or \code{synchronousSiteswap} object.}
-
-\item{...}{Additional arguments passed to methods.}
 
 \item{n_cycles}{Number of complete cycles to simulate (default 3). A warning
 is issued if not all props appear within the simulated range.}
@@ -17,6 +15,8 @@ is issued if not all props appear within the simulated range.}
 \item{title}{Logical. If \code{TRUE} (default), adds a title and subtitle showing
 the sequence and number of props. Set to \code{FALSE} to suppress; override
 with \code{\link[ggplot2:labs]{ggplot2::labs()}} on the returned plot.}
+
+\item{...}{Additional arguments passed to methods.}
 }
 \value{
 A ggplot2 object.

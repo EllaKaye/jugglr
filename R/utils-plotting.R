@@ -40,18 +40,18 @@ build_ladder_plot <- function(plot_data, direction, title) {
     # and we go down the negative y-axis as time increases
     plot_data <- plot_data |>
       mutate(
-        x_start = hand,
-        y_start = -beat,
-        x_end = catch_hand,
-        y_end = -catch_beat,
+        x_start = .data$hand,
+        y_start = -.data$beat,
+        x_end = .data$catch_hand,
+        y_end = -.data$catch_beat,
       )
   } else {
     plot_data <- plot_data |>
       mutate(
-        x_start = beat,
-        y_start = hand,
-        x_end = catch_beat,
-        y_end = catch_hand
+        x_start = .data$beat,
+        y_start = .data$hand,
+        x_end = .data$catch_beat,
+        y_end = .data$catch_hand
       )
   }
 
@@ -102,7 +102,12 @@ build_ladder_plot <- function(plot_data, direction, title) {
     p <- p +
       geom_path(
         data = curve_data,
-        aes(x = x, y = y, group = group, color = factor(prop)),
+        aes(
+          x = .data$x,
+          y = .data$y,
+          group = .data$group,
+          color = factor(.data$prop)
+        ),
         linewidth = 0.8,
         show.legend = FALSE
       )
@@ -113,11 +118,11 @@ build_ladder_plot <- function(plot_data, direction, title) {
       geom_segment(
         data = odd_throws,
         aes(
-          x = x_start,
-          y = y_start,
-          xend = x_end,
-          yend = y_end,
-          color = factor(prop)
+          x = .data$x_start,
+          y = .data$y_start,
+          xend = .data$x_end,
+          yend = .data$y_end,
+          color = factor(.data$prop)
         ),
         linewidth = 0.8,
         show.legend = FALSE
@@ -163,13 +168,13 @@ build_ladder_plot <- function(plot_data, direction, title) {
   p <- p +
     geom_segment(
       data = rung_data,
-      aes(x = x, y = y, xend = xend, yend = yend),
+      aes(x = .data$x, y = .data$y, xend = .data$xend, yend = .data$yend),
       linewidth = 0.3,
       color = "grey80"
     ) +
     geom_segment(
       data = rail_data,
-      aes(x = x, y = y, xend = xend, yend = yend),
+      aes(x = .data$x, y = .data$y, xend = .data$xend, yend = .data$yend),
       linewidth = 0.8
     ) +
     scale_x_continuous(

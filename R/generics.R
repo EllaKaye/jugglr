@@ -21,7 +21,11 @@
 #'   - `prop`: prop identifier (integer)
 #'
 #' @export
-throw_data <- new_generic("throw_data", "siteswap")
+throw_data <- new_generic(
+  "throw_data",
+  "siteswap",
+  function(siteswap, n_cycles = 3, ...) S7_dispatch()
+)
 
 #' Plot a timeline diagram for a siteswap
 #'
@@ -40,7 +44,11 @@ throw_data <- new_generic("throw_data", "siteswap")
 #' @returns A ggplot2 object.
 #'
 #' @export
-timeline <- new_generic("timeline", "siteswap")
+timeline <- new_generic(
+  "timeline",
+  "siteswap",
+  function(siteswap, n_cycles = 3, title = TRUE, ...) S7_dispatch()
+)
 
 #' Plot a ladder diagram for a siteswap
 #'
@@ -57,4 +65,15 @@ timeline <- new_generic("timeline", "siteswap")
 #' @returns A ggplot2 object.
 #'
 #' @export
-ladder <- new_generic("ladder", "siteswap")
+ladder <- new_generic(
+  "ladder",
+  "siteswap",
+  function(
+    siteswap,
+    n_cycles = 3,
+    direction = c("horizontal", "vertical"),
+    ...
+  ) {
+    S7_dispatch()
+  }
+)

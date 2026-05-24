@@ -47,17 +47,9 @@ NULL
 synchronousSiteswap <- new_class(
   "synchronousSiteswap",
   properties = list(
-    # MAYBE: don't need type if not using in any methods
-    type = new_property(
-      class = class_character,
-      setter = function(self, value) {
-        if (!is.null(self@type)) {
-          cli::cli_abort("@type is read-only")
-        }
-        self@type <- "synchronous"
-        self
-      }
-    ),
+    type = new_property(class = class_character, getter = function(self) {
+      "synchronous"
+    }),
     full_sequence = new_property(
       class = class_character,
       getter = function(self) {
