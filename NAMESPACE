@@ -2,6 +2,7 @@
 
 export(animate)
 export(ladder)
+export(multiplexSiteswap)
 export(siteswap)
 export(synchronousSiteswap)
 export(throw_data)

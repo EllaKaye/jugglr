@@ -83,7 +83,16 @@ build_ladder_plot <- function(plot_data, direction, title) {
           direction,
           prop
         )
-        curve_pts$group <- paste0("arc_", beat, "_", hand, "_", throw)
+        curve_pts$group <- paste0(
+          "arc_",
+          beat,
+          "_",
+          hand,
+          "_",
+          throw,
+          "_",
+          prop
+        )
         curve_pts
       }) |>
       purrr::list_rbind()
