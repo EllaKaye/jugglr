@@ -11,5 +11,10 @@ What the package does (one paragraph).
 \author{
 \strong{Maintainer}: Ella Kaye \email{ella.kaye@gmail.com} [copyright holder]
 
+Authors:
+\itemize{
+  \item Ella Kaye \email{ella.kaye@gmail.com} [copyright holder]
+}
+
 }
 \keyword{internal}
