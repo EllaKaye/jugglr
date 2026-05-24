@@ -11,7 +11,9 @@ Validate and visualise juggling patterns expressed in siteswap notation. Support
 \seealso{
 Useful links:
 \itemize{
+  \item \url{https://github.com/EllaKaye/jugglr}
   \item \url{https://ellakaye.github.io/jugglr/}
+  \item Report bugs at \url{https://github.com/EllaKaye/jugglr/issues}
 }
 
 }

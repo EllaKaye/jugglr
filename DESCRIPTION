@@ -10,6 +10,10 @@ Description: Validate and visualise juggling patterns expressed in siteswap
     JugglingLab GIF server.
 License: GPL (>= 3)
 Encoding: UTF-8
+Config/roxygen2/version: 8.0.0
+Config/roxygen2/markdown: TRUE
+URL: https://github.com/EllaKaye/jugglr, https://ellakaye.github.io/jugglr/
+BugReports: https://github.com/EllaKaye/jugglr/issues
 Depends:
     R (>= 4.1.0)
 Imports:
@@ -37,6 +41,4 @@ Collate:
     'utils-sync.R'
     'synchronousSiteswap.R'
     'vanillaSiteswap.R'
-Config/roxygen2/version: 8.0.0
-Config/roxygen2/markdown: TRUE
-URL: https://ellakaye.github.io/jugglr/
+
