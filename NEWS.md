@@ -1,6 +1,9 @@
 # jugglr 0.0.0.9000
 
 * `animate()` and `animate_markdown()` animate juggling patterns via the JugglingLab GIF server.
+* `animate()` gains a `prop` argument for selecting the prop type (`"ball"`, `"ring"`, or `"image"`).
+* `animate()` and `animate_markdown()` now accept [vanillaSiteswap], [synchronousSiteswap], and [multiplexSiteswap] objects as `pattern`, in addition to plain strings.
+* `animate_markdown()` is now exported.
 * `ladder()` plots ladder diagrams for vanilla, synchronous, and multiplex siteswaps.
 * `multiplexSiteswap()` creates a multiplex siteswap S7 object for patterns with simultaneous throws from one hand, written using square-bracket notation such as `"[43]1"`.
 * `siteswap()` creates a vanilla, synchronous, or multiplex siteswap object from a notation string.

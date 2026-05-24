@@ -1,6 +1,3 @@
-# TODO: make sure this takes either Siteswap objects or strings
-# MAYBE: different arg name than "pattern"
-# Or do I want only Siteswap?
 #' Animate a juggling pattern
 #'
 #' Generates an animated GIF of a juggling pattern via the
@@ -11,19 +8,21 @@
 #' Note that setting `colors` can introduce a short delay while the server
 #' renders the animation.
 #'
-#' @param pattern A siteswap pattern string (e.g. `"531"`) or a siteswap
-#'   object.
+#' @param pattern A siteswap pattern string (e.g. `"531"`) or a
+#'   [vanillaSiteswap], [synchronousSiteswap], or [multiplexSiteswap] object.
 #' @param colors Optional. A vector of R colours (one per prop), or one of the
 #'   special strings `"mixed"` or `"orbits"`. Passed to JugglingLab.
+#' @param prop Prop type: `"ball"` (default), `"ring"`, or `"image"`.
 #' @param bps Beats per second (numeric scalar). Controls the animation speed.
 #' @param width,height Width and height of the animation in pixels (numeric
 #'   scalars).
 #' @param fps Frames per second (numeric scalar).
-#' @param slowdown Slowdown factor (numeric scalar). Values greater than 1 slow
-#'   the animation; values less than 1 speed it up.
+#' @param slowdown Slowdown factor (numeric scalar). The JugglingLab default is
+#'   `2.0`; values greater than this slow the animation further, values less
+#'   than `2.0` speed it up.
 #' @param ... Additional named arguments passed to the JugglingLab GIF server.
 #'   Pattern-setting arguments include `dwell`, `hands`, `body`, `propdiam`,
-#'   `prop`, `gravity`, `bouncefrac`, `squeezebeats`, `hss`, `handspec`,
+#'   `gravity`, `bouncefrac`, `squeezebeats`, `hss`, `handspec`,
 #'   `dwellmax`, and `hold`. Animation arguments include `stereo`, `border`,
 #'   `camangle`, `showground`, and `hidejugglers`. All values must be scalars.
 #' @param path Path to save the GIF (must end in `.gif`). If `NULL` (default)
@@ -36,6 +35,7 @@
 animate <- function(
   pattern,
   colors = NULL,
+  prop = NULL,
   bps = NULL,
   width = NULL,
   height = NULL,
@@ -51,6 +51,7 @@ animate <- function(
   gif_url <- jugglinglab_url(
     pattern,
     colors,
+    prop,
     bps,
     width,
     height,
@@ -119,11 +120,14 @@ animate <- function(
 #' @describeIn animate Save a GIF to `path` and embed it in an R Markdown or
 #'   Quarto document via [knitr::include_graphics()]. The `path` argument is
 #'   required; set a persistent file path (not a `tempfile()`) so the rendered
-#'   document can reference it.
+#'   document can reference it. All arguments accepted by [animate()] (such as
+#'   `prop`, `bps`, `slowdown`, `width`, `height`, and any `...` arguments) can
+#'   be passed through.
 #'
 #' @returns A knitr graphics object for inline embedding.
-animate_markdown <- function(pattern, path, colors = NULL, ...) {
-  animate(pattern, colors = colors, path = path, ...)
+#' @export
+animate_markdown <- function(pattern, path, colors = NULL, prop = NULL, ...) {
+  animate(pattern, colors = colors, prop = prop, path = path, ...)
   knitr::include_graphics(path)
 }
 
@@ -135,10 +139,22 @@ format_color <- function(color) {
 }
 
 format_colors <- function(colors) {
-  colors |>
-    grDevices::col2rgb() |>
-    apply(2, format_color) |>
-    paste(collapse = "")
+  tryCatch(
+    colors |>
+      grDevices::col2rgb() |>
+      apply(2, format_color) |>
+      paste(collapse = ""),
+    error = function(e) {
+      cli::cli_abort(
+        c(
+          "{.arg colors} contains invalid colour value(s).",
+          "i" = "Use R colour names, hex codes, or the special strings {.val mixed} or {.val orbits}."
+        ),
+        class = "jugglr_error_invalid_color",
+        parent = e
+      )
+    }
+  )
 }
 
 colors_string <- function(colors) {
@@ -149,7 +165,7 @@ colors_string <- function(colors) {
     return("colors=orbits")
   }
 
-  colors_fmt = format_colors(colors)
+  colors_fmt <- format_colors(colors)
 
   paste0("colors=", colors_fmt)
 }
@@ -175,6 +191,7 @@ fmt_string <- function(arg, value) {
 jugglinglab_url <- function(
   pattern,
   colors = NULL,
+  prop = NULL,
   bps = NULL,
   width = NULL,
   height = NULL,
@@ -182,10 +199,24 @@ jugglinglab_url <- function(
   slowdown = NULL,
   ...
 ) {
+  if (S7::S7_inherits(pattern, Siteswap)) {
+    pattern <- pattern@sequence
+  } else if (!rlang::is_string(pattern)) {
+    cli::cli_abort(
+      "{.arg pattern} must be a single character string or a {.cls Siteswap} object.",
+      class = "jugglr_error_invalid_pattern"
+    )
+  }
+
   url_segments <- paste0("pattern=", pattern)
 
   if (!is.null(colors)) {
     url_segments <- c(url_segments, colors_string(colors))
+  }
+
+  if (!is.null(prop)) {
+    prop <- rlang::arg_match(prop, c("ball", "ring", "image"))
+    url_segments <- c(url_segments, paste0("prop=", prop))
   }
 
   # give list of non-null args and their values
@@ -211,7 +242,6 @@ jugglinglab_url <- function(
     "hands",
     "body",
     "propdiam",
-    "prop",
     "gravity",
     "bouncefrac",
     "squeezebeats",
@@ -231,7 +261,7 @@ jugglinglab_url <- function(
 
   ignored_args <- c(
     "startpaused",
-    "mousepaused",
+    "mousepause",
     "catchsound",
     "bouncesound",
     "view"
@@ -250,7 +280,7 @@ jugglinglab_url <- function(
       c(
         "{length(invalid_args)} invalid argument{?s} passed to {.fn jugglinglab_url}:",
         "x" = "Unknown: {.arg {invalid_args}}",
-        "i" = "See the {.href [jugglinglab gif server documentaion](https://jugglinglab.org/html/animinfo.html)} for allowed arguments."
+        "i" = "See the {.href [jugglinglab gif server documentation](https://jugglinglab.org/html/animinfo.html)} for allowed arguments."
       ),
       class = "jugglr_error_invalid_args"
     )
@@ -292,26 +322,26 @@ jugglinglab_url <- function(
 }
 
 # Helper function to validate save path in `animate`
-validate_path <- function(save, ext = "gif") {
-  if (is.null(save)) {
+validate_path <- function(path, ext = "gif") {
+  if (is.null(path)) {
     return(invisible(NULL))
   }
 
-  if (!rlang::is_character(save, n = 1)) {
+  if (!rlang::is_character(path, n = 1)) {
     cli::cli_abort(
-      "`save` must be a single character string specifying a file path.",
+      "`path` must be a single character string specifying a file path.",
       class = "jugglr_error_not_string"
     )
   }
 
-  if (tolower(tools::file_ext(save)) != tolower(ext)) {
+  if (tolower(tools::file_ext(path)) != tolower(ext)) {
     cli::cli_abort(
-      "`save` must specify a path ending in '.{ext}'.",
+      "`path` must specify a path ending in '.{ext}'.",
       class = "jugglr_error_bad_extension"
     )
   }
 
-  parent_dir <- dirname(save)
+  parent_dir <- dirname(path)
   if (!dir.exists(parent_dir)) {
     cli::cli_abort(
       "Directory does not exist: {.path {parent_dir}}",
@@ -326,5 +356,5 @@ validate_path <- function(save, ext = "gif") {
     )
   }
 
-  invisible(save)
+  invisible(path)
 }

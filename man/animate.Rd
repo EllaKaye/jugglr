@@ -8,6 +8,7 @@
 animate(
   pattern,
   colors = NULL,
+  prop = NULL,
   bps = NULL,
   width = NULL,
   height = NULL,
@@ -17,14 +18,16 @@ animate(
   path = NULL
 )
 
-animate_markdown(pattern, path, colors = NULL, ...)
+animate_markdown(pattern, path, colors = NULL, prop = NULL, ...)
 }
 \arguments{
-\item{pattern}{A siteswap pattern string (e.g. \code{"531"}) or a siteswap
-object.}
+\item{pattern}{A siteswap pattern string (e.g. \code{"531"}) or a
+\link{vanillaSiteswap}, \link{synchronousSiteswap}, or \link{multiplexSiteswap} object.}
 
 \item{colors}{Optional. A vector of R colours (one per prop), or one of the
 special strings \code{"mixed"} or \code{"orbits"}. Passed to JugglingLab.}
+
+\item{prop}{Prop type: \code{"ball"} (default), \code{"ring"}, or \code{"image"}.}
 
 \item{bps}{Beats per second (numeric scalar). Controls the animation speed.}
 
@@ -33,12 +36,13 @@ scalars).}
 
 \item{fps}{Frames per second (numeric scalar).}
 
-\item{slowdown}{Slowdown factor (numeric scalar). Values greater than 1 slow
-the animation; values less than 1 speed it up.}
+\item{slowdown}{Slowdown factor (numeric scalar). The JugglingLab default is
+\code{2.0}; values greater than this slow the animation further, values less
+than \code{2.0} speed it up.}
 
 \item{...}{Additional named arguments passed to the JugglingLab GIF server.
 Pattern-setting arguments include \code{dwell}, \code{hands}, \code{body}, \code{propdiam},
-\code{prop}, \code{gravity}, \code{bouncefrac}, \code{squeezebeats}, \code{hss}, \code{handspec},
+\code{gravity}, \code{bouncefrac}, \code{squeezebeats}, \code{hss}, \code{handspec},
 \code{dwellmax}, and \code{hold}. Animation arguments include \code{stereo}, \code{border},
 \code{camangle}, \code{showground}, and \code{hidejugglers}. All values must be scalars.}
 
@@ -66,6 +70,8 @@ renders the animation.
 \item \code{animate_markdown()}: Save a GIF to \code{path} and embed it in an R Markdown or
 Quarto document via \code{\link[knitr:include_graphics]{knitr::include_graphics()}}. The \code{path} argument is
 required; set a persistent file path (not a \code{tempfile()}) so the rendered
-document can reference it.
+document can reference it. All arguments accepted by \code{\link[=animate]{animate()}} (such as
+\code{prop}, \code{bps}, \code{slowdown}, \code{width}, \code{height}, and any \code{...} arguments) can
+be passed through.
 
 }}

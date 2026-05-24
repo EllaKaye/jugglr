@@ -31,6 +31,13 @@ test_that("colors_string formats named colours as RGB", {
   expect_equal(colors_string(c("red", "blue")), "colors={255,0,0}{0,0,255}")
 })
 
+test_that("colors_string errors on invalid colour", {
+  expect_error(
+    colors_string("notacolour"),
+    class = "jugglr_error_invalid_color"
+  )
+})
+
 # fmt_string -----------------------------------------------------------------
 
 test_that("fmt_string returns 'arg=value' string", {
@@ -66,6 +73,26 @@ test_that("jugglinglab_url always ends with redirect=true", {
   expect_true(endsWith(url, "redirect=true"))
 })
 
+test_that("jugglinglab_url accepts Siteswap objects", {
+  expect_equal(jugglinglab_url(vanillaSiteswap("531")), jugglinglab_url("531"))
+  expect_equal(
+    jugglinglab_url(synchronousSiteswap("(4,2x)*")),
+    jugglinglab_url("(4,2x)*")
+  )
+  expect_equal(
+    jugglinglab_url(multiplexSiteswap("[43]1")),
+    jugglinglab_url("[43]1")
+  )
+})
+
+test_that("jugglinglab_url errors for invalid pattern type", {
+  expect_error(jugglinglab_url(123), class = "jugglr_error_invalid_pattern")
+  expect_error(
+    jugglinglab_url(c("531", "3")),
+    class = "jugglr_error_invalid_pattern"
+  )
+})
+
 test_that("jugglinglab_url includes colors=mixed and colors=orbits", {
   expect_true(grepl("colors=mixed", jugglinglab_url("3", colors = "mixed")))
   expect_true(grepl("colors=orbits", jugglinglab_url("3", colors = "orbits")))
@@ -90,6 +117,16 @@ test_that("jugglinglab_url includes valid dot args in URL", {
 
   url <- jugglinglab_url("3", border = 10)
   expect_true(grepl("border=10", url))
+})
+
+test_that("jugglinglab_url includes prop argument", {
+  expect_true(grepl("prop=ball", jugglinglab_url("3", prop = "ball")))
+  expect_true(grepl("prop=ring", jugglinglab_url("3", prop = "ring")))
+  expect_true(grepl("prop=image", jugglinglab_url("3", prop = "image")))
+})
+
+test_that("jugglinglab_url errors for invalid prop", {
+  expect_error(jugglinglab_url("3", prop = "cube"))
 })
 
 test_that("jugglinglab_url errors on invalid dot args", {
