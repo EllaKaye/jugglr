@@ -5,3 +5,7 @@ plot_experiments.R
 test_class.R
 ^README\.Rmd$
 .claude
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^\.github$
