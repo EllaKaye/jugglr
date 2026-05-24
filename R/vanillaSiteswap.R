@@ -13,7 +13,7 @@ vanillaSiteswap <- new_class(
       class = class_character,
       setter = function(self, value) {
         if (!is.null(self@type)) {
-          stop("@type is read-only", call. = FALSE)
+          cli::cli_abort("@type is read-only")
         }
         self@type <- "vanilla"
         self

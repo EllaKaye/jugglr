@@ -13,7 +13,7 @@ synchronousSiteswap <- new_class(
       class = class_character,
       setter = function(self, value) {
         if (!is.null(self@type)) {
-          stop("@type is read-only", call. = FALSE)
+          cli::cli_abort("@type is read-only")
         }
         self@type <- "synchronous"
         self
@@ -64,7 +64,7 @@ synchronousSiteswap <- new_class(
     n_props = new_property(
       class = class_numeric,
       getter = function(self) {
-        mean(self@slide[[1]])
+        mean(self@slide[["slide1"]])
       }
     ),
     # sync siteswap is valid if vanilla siteswap is valid

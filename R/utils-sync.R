@@ -1,7 +1,8 @@
 is_sync_notation <- function(sequence) {
   str_detect(sequence, "^(\\([0-9a-z]x?,[0-9a-z]x?\\))+\\*?$")
-} # To turn synchronous notation with `*` into its full version
+}
 
+# Turns synchronous notation with `*` into its full version
 expand_siteswap <- function(pattern) {
   if (!str_detect(pattern, "\\*$")) {
     return(pattern)

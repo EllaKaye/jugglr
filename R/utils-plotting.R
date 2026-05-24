@@ -57,28 +57,19 @@ build_ladder_plot <- function(plot_data, direction, title) {
 
   # Separate straight (odd/crossing) and curved (even/same-hand) throws
   odd_throws <- plot_data |>
-    dplyr::filter(!is_even)
+    filter(!is_even)
   even_throws <- plot_data |>
     filter(is_even)
 
-  # TODO: `do` is superseded, so rewrite this, using `group_modify`
   # Generate curve points for even throws
   if (nrow(even_throws) > 0) {
     curve_data <- even_throws |>
-      dplyr::rowwise() |>
-      dplyr::do({
-        curve_pts <- create_curve_points(
-          .$x_start,
-          .$y_start,
-          .$x_end,
-          .$y_end,
-          direction,
-          .$prop
-        )
-        curve_pts$group <- paste0("arc_", .$beat, "_", .$hand, "_", .$throw)
+      purrr::pmap(\(x_start, y_start, x_end, y_end, beat, hand, throw, prop, ...) {
+        curve_pts <- create_curve_points(x_start, y_start, x_end, y_end, direction, prop)
+        curve_pts$group <- paste0("arc_", beat, "_", hand, "_", throw)
         curve_pts
       }) |>
-      dplyr::ungroup()
+      purrr::list_rbind()
   } else {
     curve_data <- data.frame(
       x = numeric(0),
