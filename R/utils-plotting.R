@@ -75,7 +75,7 @@ build_ladder_plot <- function(plot_data, direction, title) {
           direction,
           .$prop
         )
-        curve_pts$group <- paste0("arc_", .$beat, "_", .$throw)
+        curve_pts$group <- paste0("arc_", .$beat, "_", .$hand, "_", .$throw)
         curve_pts
       }) |>
       dplyr::ungroup()

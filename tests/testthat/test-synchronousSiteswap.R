@@ -1,7 +1,9 @@
 ss <- synchronousSiteswap(sequence = "(4,2x)*")
+ss_44 <- synchronousSiteswap(sequence = "(4,4)")
 
 test_that("ladder returns a ggplot for synchronousSiteswap", {
   expect_s3_class(ladder(ss), "ggplot")
+  expect_s3_class(ladder(ss_44), "ggplot")
 })
 
 test_that("ladder works with vertical direction", {

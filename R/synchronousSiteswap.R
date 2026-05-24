@@ -159,6 +159,6 @@ method(ladder, synchronousSiteswap) <- function(
   build_ladder_plot(
     plot_data,
     direction,
-    paste("Ladder Diagram: Siteswap", siteswap@sequence)
+    paste("Ladder Diagram: Siteswap", siteswap@full_sequence)
   )
 }
