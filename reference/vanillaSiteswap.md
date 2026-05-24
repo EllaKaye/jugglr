@@ -7,7 +7,7 @@ patterns where one prop is thrown per beat, alternating hands.
 ## Usage
 
 ``` r
-vanillaSiteswap(sequence = character(0), type = character(0))
+vanillaSiteswap(sequence = character(0))
 ```
 
 ## Arguments

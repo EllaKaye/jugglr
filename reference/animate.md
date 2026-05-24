@@ -11,6 +11,7 @@ saved to disk instead.
 animate(
   pattern,
   colors = NULL,
+  prop = NULL,
   bps = NULL,
   width = NULL,
   height = NULL,
@@ -20,19 +21,28 @@ animate(
   path = NULL
 )
 
-animate_markdown(pattern, path, colors = NULL, ...)
+animate_markdown(pattern, path, colors = NULL, prop = NULL, ...)
 ```
 
 ## Arguments
 
 - pattern:
 
-  A siteswap pattern string (e.g. `"531"`) or a siteswap object.
+  A siteswap pattern string (e.g. `"531"`) or a
+  [vanillaSiteswap](https://ellakaye.github.io/jugglr/reference/vanillaSiteswap.md),
+  [synchronousSiteswap](https://ellakaye.github.io/jugglr/reference/synchronousSiteswap.md),
+  or
+  [multiplexSiteswap](https://ellakaye.github.io/jugglr/reference/multiplexSiteswap.md)
+  object.
 
 - colors:
 
   Optional. A vector of R colours (one per prop), or one of the special
   strings `"mixed"` or `"orbits"`. Passed to JugglingLab.
+
+- prop:
+
+  Prop type: `"ball"` (default), `"ring"`, or `"image"`.
 
 - bps:
 
@@ -48,14 +58,15 @@ animate_markdown(pattern, path, colors = NULL, ...)
 
 - slowdown:
 
-  Slowdown factor (numeric scalar). Values greater than 1 slow the
-  animation; values less than 1 speed it up.
+  Slowdown factor (numeric scalar). The JugglingLab default is `2.0`;
+  values greater than this slow the animation further, values less than
+  `2.0` speed it up.
 
 - ...:
 
   Additional named arguments passed to the JugglingLab GIF server.
   Pattern-setting arguments include `dwell`, `hands`, `body`,
-  `propdiam`, `prop`, `gravity`, `bouncefrac`, `squeezebeats`, `hss`,
+  `propdiam`, `gravity`, `bouncefrac`, `squeezebeats`, `hss`,
   `handspec`, `dwellmax`, and `hold`. Animation arguments include
   `stereo`, `border`, `camangle`, `showground`, and `hidejugglers`. All
   values must be scalars.
@@ -84,4 +95,6 @@ renders the animation.
   [`knitr::include_graphics()`](https://rdrr.io/pkg/knitr/man/include_graphics.html).
   The `path` argument is required; set a persistent file path (not a
   [`tempfile()`](https://rdrr.io/r/base/tempfile.html)) so the rendered
-  document can reference it.
+  document can reference it. All arguments accepted by `animate()` (such
+  as `prop`, `bps`, `slowdown`, `width`, `height`, and any `...`
+  arguments) can be passed through.

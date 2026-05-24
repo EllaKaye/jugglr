@@ -141,6 +141,8 @@ animate_markdown("423", "man/figures/423-animation.gif", colors = palette)
   : Vanilla siteswap
 - [`synchronousSiteswap()`](https://ellakaye.github.io/jugglr/reference/synchronousSiteswap.md)
   : Synchronous siteswap
+- [`multiplexSiteswap()`](https://ellakaye.github.io/jugglr/reference/multiplexSiteswap.md)
+  : Multiplex siteswap
 
 ## Visualisation
 

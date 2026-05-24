@@ -7,18 +7,15 @@ indicate cross-throws (opposite hand catches).
 ## Usage
 
 ``` r
-ladder(siteswap, ...)
+ladder(siteswap, n_cycles = 3, direction = c("horizontal", "vertical"), ...)
 ```
 
 ## Arguments
 
 - siteswap:
 
-  A `vanillaSiteswap` or `synchronousSiteswap` object.
-
-- ...:
-
-  Additional arguments passed to methods.
+  A `vanillaSiteswap`, `synchronousSiteswap`, or `multiplexSiteswap`
+  object.
 
 - n_cycles:
 
@@ -28,6 +25,10 @@ ladder(siteswap, ...)
 
   Orientation of the diagram: `"horizontal"` (default, time runs left to
   right) or `"vertical"` (time runs top to bottom).
+
+- ...:
+
+  Additional arguments passed to methods.
 
 ## Value
 

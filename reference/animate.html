@@ -50,6 +50,7 @@ the GIF is saved to disk instead.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">animate</span><span class="op">(</span></span>
 <span>  <span class="va">pattern</span>,</span>
 <span>  colors <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  prop <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  bps <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  width <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  height <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -59,7 +60,7 @@ the GIF is saved to disk instead.</p>
 <span>  path <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">animate_markdown</span><span class="op">(</span><span class="va">pattern</span>, <span class="va">path</span>, colors <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">animate_markdown</span><span class="op">(</span><span class="va">pattern</span>, <span class="va">path</span>, colors <span class="op">=</span> <span class="cn">NULL</span>, prop <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -67,13 +68,17 @@ the GIF is saved to disk instead.</p>
 
 
 <dl><dt id="arg-pattern">pattern<a class="anchor" aria-label="anchor" href="#arg-pattern"></a></dt>
-<dd><p>A siteswap pattern string (e.g. <code>"531"</code>) or a siteswap
-object.</p></dd>
+<dd><p>A siteswap pattern string (e.g. <code>"531"</code>) or a
+<a href="vanillaSiteswap.html">vanillaSiteswap</a>, <a href="synchronousSiteswap.html">synchronousSiteswap</a>, or <a href="multiplexSiteswap.html">multiplexSiteswap</a> object.</p></dd>
 
 
 <dt id="arg-colors">colors<a class="anchor" aria-label="anchor" href="#arg-colors"></a></dt>
 <dd><p>Optional. A vector of R colours (one per prop), or one of the
 special strings <code>"mixed"</code> or <code>"orbits"</code>. Passed to JugglingLab.</p></dd>
+
+
+<dt id="arg-prop">prop<a class="anchor" aria-label="anchor" href="#arg-prop"></a></dt>
+<dd><p>Prop type: <code>"ball"</code> (default), <code>"ring"</code>, or <code>"image"</code>.</p></dd>
 
 
 <dt id="arg-bps">bps<a class="anchor" aria-label="anchor" href="#arg-bps"></a></dt>
@@ -90,14 +95,15 @@ scalars).</p></dd>
 
 
 <dt id="arg-slowdown">slowdown<a class="anchor" aria-label="anchor" href="#arg-slowdown"></a></dt>
-<dd><p>Slowdown factor (numeric scalar). Values greater than 1 slow
-the animation; values less than 1 speed it up.</p></dd>
+<dd><p>Slowdown factor (numeric scalar). The JugglingLab default is
+<code>2.0</code>; values greater than this slow the animation further, values less
+than <code>2.0</code> speed it up.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Additional named arguments passed to the JugglingLab GIF server.
 Pattern-setting arguments include <code>dwell</code>, <code>hands</code>, <code>body</code>, <code>propdiam</code>,
-<code>prop</code>, <code>gravity</code>, <code>bouncefrac</code>, <code>squeezebeats</code>, <code>hss</code>, <code>handspec</code>,
+<code>gravity</code>, <code>bouncefrac</code>, <code>squeezebeats</code>, <code>hss</code>, <code>handspec</code>,
 <code>dwellmax</code>, and <code>hold</code>. Animation arguments include <code>stereo</code>, <code>border</code>,
 <code>camangle</code>, <code>showground</code>, and <code>hidejugglers</code>. All values must be scalars.</p></dd>
 
@@ -124,7 +130,9 @@ renders the animation.</p>
 <ul><li><p><code>animate_markdown()</code>: Save a GIF to <code>path</code> and embed it in an R Markdown or
 Quarto document via <code><a href="https://rdrr.io/pkg/knitr/man/include_graphics.html" class="external-link">knitr::include_graphics()</a></code>. The <code>path</code> argument is
 required; set a persistent file path (not a <code><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile()</a></code>) so the rendered
-document can reference it.</p></li>
+document can reference it. All arguments accepted by <code>animate()</code> (such as
+<code>prop</code>, <code>bps</code>, <code>slowdown</code>, <code>width</code>, <code>height</code>, and any <code>...</code> arguments) can
+be passed through.</p></li>
 </ul></div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

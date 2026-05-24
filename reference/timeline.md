@@ -7,18 +7,15 @@ labels show the throw heights from the siteswap sequence.
 ## Usage
 
 ``` r
-timeline(siteswap, ...)
+timeline(siteswap, n_cycles = 3, title = TRUE, ...)
 ```
 
 ## Arguments
 
 - siteswap:
 
-  A `vanillaSiteswap` or `synchronousSiteswap` object.
-
-- ...:
-
-  Additional arguments passed to methods.
+  A `vanillaSiteswap`, `synchronousSiteswap`, or `multiplexSiteswap`
+  object.
 
 - n_cycles:
 
@@ -32,6 +29,10 @@ timeline(siteswap, ...)
   with
   [`ggplot2::labs()`](https://ggplot2.tidyverse.org/reference/labs.html)
   on the returned plot.
+
+- ...:
+
+  Additional arguments passed to methods.
 
 ## Value
 

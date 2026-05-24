@@ -10,18 +10,15 @@ and can be used directly for custom visualisations.
 ## Usage
 
 ``` r
-throw_data(siteswap, ...)
+throw_data(siteswap, n_cycles = 3, ...)
 ```
 
 ## Arguments
 
 - siteswap:
 
-  A `vanillaSiteswap` or `synchronousSiteswap` object.
-
-- ...:
-
-  Additional arguments passed to methods.
+  A `vanillaSiteswap`, `synchronousSiteswap`, or `multiplexSiteswap`
+  object.
 
 - n_cycles:
 
@@ -29,6 +26,10 @@ throw_data(siteswap, ...)
   patterns with many props to ensure all appear in the data. Setting
   `n_cycles >= period * n_props * 2` guarantees each prop is thrown at
   least twice.
+
+- ...:
+
+  Additional arguments passed to methods.
 
 ## Value
 

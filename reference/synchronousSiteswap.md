@@ -10,7 +10,7 @@ between two mirrored versions.
 ## Usage
 
 ``` r
-synchronousSiteswap(sequence = character(0), type = character(0))
+synchronousSiteswap(sequence = character(0))
 ```
 
 ## Arguments

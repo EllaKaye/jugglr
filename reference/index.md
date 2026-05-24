@@ -8,6 +8,8 @@
   : Vanilla siteswap
 - [`synchronousSiteswap()`](https://ellakaye.github.io/jugglr/reference/synchronousSiteswap.md)
   : Synchronous siteswap
+- [`multiplexSiteswap()`](https://ellakaye.github.io/jugglr/reference/multiplexSiteswap.md)
+  : Multiplex siteswap
 
 ## Visualisation
 

@@ -7,6 +7,9 @@ produce a
 object; synchronous siteswaps in `(a,b)` notation such as `"(4,2x)*"`
 produce a
 [synchronousSiteswap](https://ellakaye.github.io/jugglr/reference/synchronousSiteswap.md)
+object; multiplex siteswaps with square-bracket groups such as `"[43]1"`
+produce a
+[multiplexSiteswap](https://ellakaye.github.io/jugglr/reference/multiplexSiteswap.md)
 object.
 
 ## Usage
@@ -24,9 +27,10 @@ siteswap(sequence)
 ## Value
 
 A
-[vanillaSiteswap](https://ellakaye.github.io/jugglr/reference/vanillaSiteswap.md)
+[vanillaSiteswap](https://ellakaye.github.io/jugglr/reference/vanillaSiteswap.md),
+[synchronousSiteswap](https://ellakaye.github.io/jugglr/reference/synchronousSiteswap.md),
 or
-[synchronousSiteswap](https://ellakaye.github.io/jugglr/reference/synchronousSiteswap.md)
+[multiplexSiteswap](https://ellakaye.github.io/jugglr/reference/multiplexSiteswap.md)
 S7 object.
 
 ## Examples
@@ -40,4 +44,8 @@ siteswap("(4,2x)*")
 #> ✔ '(4,2x)*' is valid synchronous siteswap
 #> ℹ It uses 3 props
 #> ℹ It is symmetrical with period 4
+siteswap("[43]1")
+#> ✔ '[43]1' is valid multiplex siteswap
+#> ℹ It uses 4 props
+#> ℹ It is asymmetrical with period 2
 ```

@@ -47,7 +47,7 @@ can be used directly for custom visualisations.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">throw_data</span><span class="op">(</span><span class="va">siteswap</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">throw_data</span><span class="op">(</span><span class="va">siteswap</span>, n_cycles <span class="op">=</span> <span class="fl">3</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -55,11 +55,7 @@ can be used directly for custom visualisations.</p>
 
 
 <dl><dt id="arg-siteswap">siteswap<a class="anchor" aria-label="anchor" href="#arg-siteswap"></a></dt>
-<dd><p>A <code>vanillaSiteswap</code> or <code>synchronousSiteswap</code> object.</p></dd>
-
-
-<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>Additional arguments passed to methods.</p></dd>
+<dd><p>A <code>vanillaSiteswap</code>, <code>synchronousSiteswap</code>, or <code>multiplexSiteswap</code> object.</p></dd>
 
 
 <dt id="arg-n-cycles">n_cycles<a class="anchor" aria-label="anchor" href="#arg-n-cycles"></a></dt>
@@ -67,6 +63,10 @@ can be used directly for custom visualisations.</p>
 for patterns with many props to ensure all appear in the data. Setting
 <code>n_cycles &gt;= period * n_props * 2</code> guarantees each prop is thrown at least
 twice.</p></dd>
+
+
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
+<dd><p>Additional arguments passed to methods.</p></dd>
 
 </dl></div>
     <div class="section level2">
