@@ -1,6 +1,95 @@
 ss <- synchronousSiteswap(sequence = "(4,2x)*")
 ss_44 <- synchronousSiteswap(sequence = "(4,4)")
 
+# Properties -----------------------------------------------------------------
+
+test_that("synchronousSiteswap has correct type", {
+  expect_equal(ss@type, "synchronous")
+})
+
+test_that("synchronousSiteswap stores the sequence", {
+  expect_equal(ss@sequence, "(4,2x)*")
+})
+
+test_that("synchronousSiteswap computes full_sequence", {
+  expect_equal(ss@full_sequence, "(4,2x)(2x,4)")
+  expect_equal(ss_44@full_sequence, "(4,4)")
+})
+
+test_that("synchronousSiteswap computes throws", {
+  expect_equal(ss@throws, c("4", "2x", "2x", "4"))
+})
+
+test_that("synchronousSiteswap computes throws_by_hand", {
+  expect_equal(
+    ss@throws_by_hand,
+    list(hand_1 = c("4", "2x"), hand_2 = c("2x", "4"))
+  )
+})
+
+test_that("synchronousSiteswap computes period", {
+  expect_equal(ss@period, 4L)
+  expect_equal(ss_44@period, 2L)
+})
+
+test_that("synchronousSiteswap computes symmetry", {
+  expect_equal(ss@symmetry, "symmetrical")
+  expect_equal(synchronousSiteswap("(6x,4)(4,2x)")@symmetry, "asymmetrical")
+})
+
+test_that("synchronousSiteswap computes n_props", {
+  expect_equal(ss@n_props, 3)
+  expect_equal(ss_44@n_props, 4)
+})
+
+test_that("synchronousSiteswap valid is TRUE for valid pattern", {
+  expect_true(ss@valid)
+  expect_true(ss_44@valid)
+})
+
+test_that("synchronousSiteswap valid is FALSE for invalid pattern", {
+  expect_false(synchronousSiteswap("(6,2)(4x,6x)")@valid)
+})
+
+# Validation -----------------------------------------------------------------
+
+test_that("synchronousSiteswap rejects non-sync notation", {
+  expect_error(synchronousSiteswap("531"))
+  expect_error(synchronousSiteswap("(4,4,4)"))
+})
+
+test_that("synchronousSiteswap rejects odd throws", {
+  expect_error(synchronousSiteswap("(4,3)"))
+  expect_error(synchronousSiteswap("(3,3)"))
+})
+
+# throw_data -----------------------------------------------------------------
+
+test_that("throw_data returns a data frame for synchronousSiteswap", {
+  expect_s3_class(throw_data(ss), "data.frame")
+})
+
+test_that("throw_data has expected columns for synchronousSiteswap", {
+  expect_named(
+    throw_data(ss),
+    c(
+      "beat",
+      "hand",
+      "throw",
+      "is_crossing",
+      "catch_beat",
+      "catch_hand",
+      "prop"
+    )
+  )
+})
+
+test_that("throw_data has 2 * n_slots * n_cycles rows", {
+  expect_equal(nrow(throw_data(ss, n_cycles = 2)), 8L)
+})
+
+# ladder ---------------------------------------------------------------------
+
 test_that("ladder returns a ggplot for synchronousSiteswap", {
   expect_s3_class(ladder(ss), "ggplot")
   expect_s3_class(ladder(ss_44), "ggplot")

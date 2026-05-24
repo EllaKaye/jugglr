@@ -65,8 +65,8 @@ siteswap <- function(sequence) {
     # Siteswap(sequence)
     # TODO: better message
     cli::cli_abort(
-      "Not valid vanilla or synchronous siteswap notation",
-      class = "not_valid_siteswap"
+      "Not valid vanilla or synchronous siteswap notation.",
+      class = "jugglr_error_not_valid_siteswap"
     )
   }
 }

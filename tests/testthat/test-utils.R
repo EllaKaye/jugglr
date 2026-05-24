@@ -20,6 +20,11 @@ test_that("is_whole_number works", {
   expect_false(is_whole_number(2.5))
 })
 
+test_that("is_whole_number errors for non-numeric", {
+  expect_error(is_whole_number("a"), class = "jugglr_error_not_numeric")
+  expect_error(is_whole_number(c(1, 2)), class = "jugglr_error_not_numeric")
+})
+
 test_that("chr_throws_to_num works", {
   expect_equal(chr_throws_to_num(c("4", "2", "3")), c(4, 2, 3))
   expect_equal(chr_throws_to_num(c("4", "2", "a")), c(4, 2, 10))
@@ -32,6 +37,11 @@ test_that("get_throws works", {
   expect_equal(get_throws("42a"), c(4, 2, 10))
   expect_equal(get_throws("42A"), c(4, 2, 10))
   expect_equal(get_throws("55550"), c(5, 5, 5, 5, 0))
+})
+
+test_that("get_throws errors for non-string input", {
+  expect_error(get_throws(423), class = "jugglr_error_not_string")
+  expect_error(get_throws(c("4", "2", "3")), class = "jugglr_error_not_string")
 })
 
 test_that("can_throw works", {

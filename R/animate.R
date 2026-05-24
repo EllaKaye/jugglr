@@ -251,18 +251,22 @@ jugglinglab_url <- function(
         "{length(invalid_args)} invalid argument{?s} passed to {.fn jugglinglab_url}:",
         "x" = "Unknown: {.arg {invalid_args}}",
         "i" = "See the {.href [jugglinglab gif server documentaion](https://jugglinglab.org/html/animinfo.html)} for allowed arguments."
-      )
+      ),
+      class = "jugglr_error_invalid_args"
     )
   }
 
   # throw error if any value passed to `...` isn't a scaler
   non_scalar <- names(Filter(\(v) length(v) != 1, dots))
   if (length(non_scalar) > 0) {
-    cli::cli_abort(c(
-      "All arguments passed to `...` must be scalar (length 1):",
-      "x" = "{.arg {non_scalar}} {?is/are} not scalar",
-      "i" = "Lengths: {.val {lengths(dots[non_scalar])}}"
-    ))
+    cli::cli_abort(
+      c(
+        "All arguments passed to `...` must be scalar (length 1):",
+        "x" = "{.arg {non_scalar}} {?is/are} not scalar",
+        "i" = "Lengths: {.val {lengths(dots[non_scalar])}}"
+      ),
+      class = "jugglr_error_not_scalar"
+    )
   }
 
   # signal a message if user passed any ignored_args to `...`
@@ -295,21 +299,31 @@ validate_path <- function(save, ext = "gif") {
 
   if (!rlang::is_character(save, n = 1)) {
     cli::cli_abort(
-      "`save` must be a single character string specifying a file path"
+      "`save` must be a single character string specifying a file path.",
+      class = "jugglr_error_not_string"
     )
   }
 
   if (tolower(tools::file_ext(save)) != tolower(ext)) {
-    cli::cli_abort("`save` must specify a path ending in '.{ext}'")
+    cli::cli_abort(
+      "`save` must specify a path ending in '.{ext}'.",
+      class = "jugglr_error_bad_extension"
+    )
   }
 
   parent_dir <- dirname(save)
   if (!dir.exists(parent_dir)) {
-    cli::cli_abort("Directory does not exist: {.path {parent_dir}}")
+    cli::cli_abort(
+      "Directory does not exist: {.path {parent_dir}}",
+      class = "jugglr_error_dir_not_found"
+    )
   }
 
   if (file.access(parent_dir, mode = 2) != 0) {
-    cli::cli_abort("Directory is not writable: {.path {parent_dir}}")
+    cli::cli_abort(
+      "Directory is not writable: {.path {parent_dir}}",
+      class = "jugglr_error_not_writable"
+    )
   }
 
   invisible(save)

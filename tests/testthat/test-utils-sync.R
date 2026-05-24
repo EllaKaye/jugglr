@@ -26,6 +26,58 @@ test_that("slide works with valid sequences", {
     slide(c("4", "2x", "2x", "4")),
     list(slide1 = c(4, 1, 3, 4), slide2 = c(2, 3, 5, 2))
   )
+  expect_equal(
+    slide(c("6x", "4", "4", "2x", "4", "6x", "2x", "4")),
+    list(
+      slide1 = c(7, 4, 4, 1, 4, 5, 3, 4),
+      slide2 = c(5, 6, 2, 3, 6, 3, 5, 2)
+    )
+  )
 })
 
-test_that("slide doesn't work with invalid sequences", {})
+# get_sync_throws ------------------------------------------------------------
+
+test_that("get_sync_throws extracts throws from a sequence", {
+  expect_equal(get_sync_throws("(4,2x)(2x,4)"), c("4", "2x", "2x", "4"))
+  expect_equal(get_sync_throws("(4,4)"), c("4", "4"))
+  expect_equal(get_sync_throws("(4x,4x)"), c("4x", "4x"))
+})
+
+# get_sync_hands -------------------------------------------------------------
+
+test_that("get_sync_hands splits throws by hand", {
+  expect_equal(
+    get_sync_hands("(4,2x)(2x,4)"),
+    list(hand_1 = c("4", "2x"), hand_2 = c("2x", "4"))
+  )
+  expect_equal(
+    get_sync_hands("(4,4)"),
+    list(hand_1 = "4", hand_2 = "4")
+  )
+})
+
+# only_even_throws ------------------------------------------------------------
+
+test_that("only_even_throws returns TRUE for even throws", {
+  expect_true(only_even_throws("(4,4)"))
+  expect_true(only_even_throws("(4,2x)(2x,4)"))
+  expect_true(only_even_throws("(6x,4x)"))
+})
+
+test_that("only_even_throws returns FALSE for odd throws", {
+  expect_false(only_even_throws("(4,1)"))
+  expect_false(only_even_throws("(3,4)"))
+})
+
+# sync_symmetrical ------------------------------------------------------------
+
+test_that("sync_symmetrical returns TRUE for symmetrical patterns", {
+  expect_true(sync_symmetrical("(4,4)"))
+  expect_true(sync_symmetrical("(4x,4x)"))
+  expect_true(sync_symmetrical("(4,2x)(2x,4)"))
+})
+
+test_that("sync_symmetrical returns FALSE for asymmetrical patterns", {
+  expect_false(sync_symmetrical("(6x,4)(4,2x)"))
+  expect_false(sync_symmetrical("(6x,4)"))
+})

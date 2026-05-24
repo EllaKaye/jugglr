@@ -93,12 +93,21 @@ test_that("jugglinglab_url includes valid dot args in URL", {
 })
 
 test_that("jugglinglab_url errors on invalid dot args", {
-  expect_error(jugglinglab_url("3", foo = 1))
-  expect_error(jugglinglab_url("3", foo = 1, bar = 2))
+  expect_error(
+    jugglinglab_url("3", foo = 1),
+    class = "jugglr_error_invalid_args"
+  )
+  expect_error(
+    jugglinglab_url("3", foo = 1, bar = 2),
+    class = "jugglr_error_invalid_args"
+  )
 })
 
 test_that("jugglinglab_url errors on non-scalar dot args", {
-  expect_error(jugglinglab_url("3", dwell = c(0.5, 1)))
+  expect_error(
+    jugglinglab_url("3", dwell = c(0.5, 1)),
+    class = "jugglr_error_not_scalar"
+  )
 })
 
 test_that("jugglinglab_url signals a message for ignored args", {
@@ -118,16 +127,25 @@ test_that("validate_path returns NULL invisibly for NULL input", {
 })
 
 test_that("validate_path errors if save is not a single string", {
-  expect_error(validate_path(123))
-  expect_error(validate_path(c("a.gif", "b.gif")))
+  expect_error(validate_path(123), class = "jugglr_error_not_string")
+  expect_error(
+    validate_path(c("a.gif", "b.gif")),
+    class = "jugglr_error_not_string"
+  )
 })
 
 test_that("validate_path errors for wrong file extension", {
-  expect_error(validate_path(file.path(tempdir(), "out.mp4"), ext = "gif"))
+  expect_error(
+    validate_path(file.path(tempdir(), "out.mp4"), ext = "gif"),
+    class = "jugglr_error_bad_extension"
+  )
 })
 
 test_that("validate_path errors if directory does not exist", {
-  expect_error(validate_path("/nonexistent/path/out.gif"))
+  expect_error(
+    validate_path("/nonexistent/path/out.gif"),
+    class = "jugglr_error_dir_not_found"
+  )
 })
 
 test_that("validate_path returns path invisibly for valid input", {
@@ -138,15 +156,21 @@ test_that("validate_path returns path invisibly for valid input", {
 # animate --------------------------------------------------------------------
 
 test_that("animate errors for wrong file extension", {
-  expect_error(animate("3", path = file.path(tempdir(), "out.mp4")))
+  expect_error(
+    animate("3", path = file.path(tempdir(), "out.mp4")),
+    class = "jugglr_error_bad_extension"
+  )
 })
 
 test_that("animate errors for nonexistent directory", {
-  expect_error(animate("3", path = "/nonexistent/path/out.gif"))
+  expect_error(
+    animate("3", path = "/nonexistent/path/out.gif"),
+    class = "jugglr_error_dir_not_found"
+  )
 })
 
 test_that("animate errors for invalid dot args", {
-  expect_error(animate("3", foo = 1))
+  expect_error(animate("3", foo = 1), class = "jugglr_error_invalid_args")
 })
 
 test_that("animate with path downloads and returns path invisibly", {

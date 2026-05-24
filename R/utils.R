@@ -16,7 +16,10 @@ is_odd <- function(x) {
 
 is_whole_number <- function(x) {
   if (!(rlang::is_double(x, 1) || rlang::is_integer(x, 1))) {
-    cli::cli_abort("x must be numeric, length 1.")
+    cli::cli_abort(
+      "x must be a numeric scalar.",
+      class = "jugglr_error_not_numeric"
+    )
   }
   x %% 1 == 0
 }
@@ -29,7 +32,10 @@ chr_throws_to_num <- function(throws) {
 # I'm using this trick several times, but slightly differently on each occassion
 get_throws <- function(sequence) {
   if (!(rlang::is_character(sequence, 1))) {
-    cli::cli_abort("sequence must be a string")
+    cli::cli_abort(
+      "{.arg sequence} must be a single character string.",
+      class = "jugglr_error_not_string"
+    )
   }
   throws_chr <- strsplit(sequence, "") |>
     unlist()
