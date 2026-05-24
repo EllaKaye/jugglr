@@ -4,7 +4,46 @@
 #' @include utils-sync.R
 NULL
 
+#' Synchronous siteswap
+#'
+#' Creates a synchronous siteswap object from a two-handed simultaneous-throw
+#' sequence. Synchronous notation describes patterns where both hands throw at
+#' the same time, written as pairs of throw heights in parentheses such as
+#' `"(4,4)"` or `"(4,2x)*"`. An `x` suffix marks a crossing throw; a trailing
+#' `*` indicates the pattern alternates between two mirrored versions.
+#'
+#' @param sequence A single character string of synchronous siteswap notation,
+#'   e.g. `"(4,4)"` or `"(4,2x)*"`.
+#'
+#' @returns A `synchronousSiteswap` S7 object.
+#'
+#' @prop type Always `"synchronous"` (read-only).
+#' @prop full_sequence The expanded sequence with the `*` shorthand resolved.
+#' @prop throws Character vector of all individual throw values across one
+#'   expanded cycle.
+#' @prop throws_by_hand Named list with elements `hand_1` and `hand_2`,
+#'   each a character vector of throws for that hand per slot.
+#' @prop period Number of throw slots per full cycle (counts both hands per
+#'   simultaneous beat, so always even).
+#' @prop symmetry `"symmetrical"` if the pattern is its own mirror image;
+#'   `"asymmetrical"` otherwise.
+#' @prop slide The slide transformation of the throw sequence, used for
+#'   validity checking.
+#' @prop n_props Mean of the slide sequence, equal to the number of props.
+#' @prop can_throw `TRUE` if no collisions occur in the slide sequence.
+#' @prop satisfies_average_theorem `TRUE` if `n_props` is a whole number.
+#' @prop valid `TRUE` if both `can_throw` and `satisfies_average_theorem` are
+#'   `TRUE`.
+#'
 #' @export
+#'
+#' @examples
+#' synchronousSiteswap("(4,4)")
+#' synchronousSiteswap("(4,2x)*")
+#'
+#' s <- synchronousSiteswap("(4,2x)*")
+#' s@n_props
+#' s@valid
 synchronousSiteswap <- new_class(
   "synchronousSiteswap",
   properties = list(
@@ -102,7 +141,6 @@ synchronousSiteswap <- new_class(
 )
 
 # MAYBE: print equivalent slides?
-#' @export
 method(print, synchronousSiteswap) <- function(x, ...) {
   if (x@valid) {
     cli::cli_bullets(
@@ -121,6 +159,8 @@ method(print, synchronousSiteswap) <- function(x, ...) {
   }
 }
 
+#' @describeIn throw_data Method for [synchronousSiteswap] objects.
+#' @param n_cycles Number of complete cycles to simulate.
 method(throw_data, synchronousSiteswap) <- function(siteswap, n_cycles = 3) {
   hands <- siteswap@throws_by_hand
   n_slots <- length(hands$hand_1)
@@ -171,6 +211,10 @@ method(throw_data, synchronousSiteswap) <- function(siteswap, n_cycles = 3) {
   throws
 }
 
+#' @describeIn ladder Method for [synchronousSiteswap] objects.
+#' @param n_cycles Number of complete cycles to simulate.
+#' @param direction Orientation of the diagram: `"horizontal"` (default) or
+#'   `"vertical"`.
 method(ladder, synchronousSiteswap) <- function(
   siteswap,
   n_cycles = 3,
