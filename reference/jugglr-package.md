@@ -10,7 +10,11 @@ JugglingLab GIF server.
 
 Useful links:
 
+- <https://github.com/EllaKaye/jugglr>
+
 - <https://ellakaye.github.io/jugglr/>
+
+- Report bugs at <https://github.com/EllaKaye/jugglr/issues>
 
 ## Author
 
