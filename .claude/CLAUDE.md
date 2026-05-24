@@ -62,6 +62,7 @@ General advice:
 - Run `pkgdown::check_pkgdown()` to check that all topics are included in the reference index.
 - Use sentence case for all headings
 - Any user facing changes should be briefly described in a bullet point at the top of NEWS.md, following the tidyverse style guide (https://style.tidyverse.org/news.html).
+- Use roxygen2 8.0.0. When you need it, its vignette on documenting S7 is at https://roxygen2.r-lib.org/articles/rd-S7.html
 
 ### Version control
 
