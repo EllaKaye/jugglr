@@ -176,7 +176,7 @@ method(throw_data, synchronousSiteswap) <- function(siteswap, n_cycles = 3) {
   throw_raw[c(FALSE, TRUE)] <- hand_1_throws
 
   is_crossing <- str_detect(throw_raw, "(?<=.)x$")
-  throw_val <- chr_throws_to_num(str_remove(throw_raw, "(?<=.)x$"))
+  throw_val <- chr_sync_throws_to_num(throw_raw)
   catch_beat <- beat + as.integer(throw_val / 2)
   catch_hand <- ifelse(is_crossing, 1L - hand, hand)
 

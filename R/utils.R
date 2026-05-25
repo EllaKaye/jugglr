@@ -28,6 +28,10 @@ chr_throws_to_num <- function(throws) {
   match(tolower(throws), c(0:9, letters)) - 1
 }
 
+chr_sync_throws_to_num <- function(throws) {
+  chr_throws_to_num(str_remove(throws, "(?<=.)x$"))
+}
+
 get_throws <- function(sequence) {
   if (!(rlang::is_character(sequence, 1))) {
     cli::cli_abort(

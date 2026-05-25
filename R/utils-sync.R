@@ -29,8 +29,7 @@ expand_siteswap <- function(pattern) {
 # throws is result of get_sync_throws(sequence)
 slide <- function(throws) {
   n <- length(throws)
-  throws_no_x <- str_remove(throws, "(?<=.)x$")
-  throws_num <- chr_throws_to_num(throws_no_x)
+  throws_num <- chr_sync_throws_to_num(throws)
   slide1 <- numeric(n)
   slide2 <- numeric(n)
 
@@ -65,12 +64,8 @@ get_sync_hands <- function(sequence) {
 
 only_even_throws <- function(sequence) {
   throws_chr <- get_sync_throws(sequence)
-
-  # Remove trailing 'x' only if preceded by something (it's a crossing marker)
-  # Keeps standalone 'x' (it's a throw value of 33)
-  throws_chr_no_x <- str_remove(throws_chr, "(?<=.)x$")
-
-  throws <- chr_throws_to_num(throws_chr_no_x)
+  # Keeps standalone 'x' (throw value of 33) via lookbehind in chr_sync_throws_to_num
+  throws <- chr_sync_throws_to_num(throws_chr)
   all(is_even(throws))
 }
 
