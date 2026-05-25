@@ -46,3 +46,12 @@ can_throw <- function(throws) {
   lands <- ((seq_len(n) - 1) + throws) %% n
   anyDuplicated(lands) == 0
 }
+
+check_n_cycles <- function(n_cycles) {
+  if (!rlang::is_integerish(n_cycles, n = 1) || n_cycles < 1) {
+    cli::cli_abort(
+      "{.arg n_cycles} must be a single positive integer.",
+      class = "jugglr_error_bad_n_cycles"
+    )
+  }
+}

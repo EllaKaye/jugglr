@@ -85,6 +85,17 @@ test_that("throw_data assigns a prop to every row", {
   expect_false(anyNA(throw_data(ms)$prop))
 })
 
+test_that("throw_data errors for invalid n_cycles", {
+  expect_error(
+    throw_data(ms, n_cycles = 1.3),
+    class = "jugglr_error_bad_n_cycles"
+  )
+  expect_error(
+    throw_data(ms, n_cycles = 0),
+    class = "jugglr_error_bad_n_cycles"
+  )
+})
+
 # timeline -------------------------------------------------------------------
 
 test_that("timeline returns a ggplot for multiplexSiteswap", {

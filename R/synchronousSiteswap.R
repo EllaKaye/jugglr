@@ -152,6 +152,7 @@ method(print, synchronousSiteswap) <- function(x, ...) {
 }
 
 method(throw_data, synchronousSiteswap) <- function(siteswap, n_cycles = 3) {
+  check_n_cycles(n_cycles)
   hands <- siteswap@throws_by_hand
   n_slots <- length(hands$hand_1)
   n_total <- n_slots * n_cycles

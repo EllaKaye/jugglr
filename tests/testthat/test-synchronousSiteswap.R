@@ -88,6 +88,17 @@ test_that("throw_data has 2 * n_slots * n_cycles rows", {
   expect_equal(nrow(throw_data(ss, n_cycles = 2)), 8L)
 })
 
+test_that("throw_data errors for invalid n_cycles", {
+  expect_error(
+    throw_data(ss, n_cycles = 1.3),
+    class = "jugglr_error_bad_n_cycles"
+  )
+  expect_error(
+    throw_data(ss, n_cycles = 0),
+    class = "jugglr_error_bad_n_cycles"
+  )
+})
+
 # ladder ---------------------------------------------------------------------
 
 test_that("ladder returns a ggplot for synchronousSiteswap", {

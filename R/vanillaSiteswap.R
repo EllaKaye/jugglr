@@ -118,6 +118,7 @@ method(print, vanillaSiteswap) <- function(x, ...) {
 }
 
 method(throw_data, vanillaSiteswap) <- function(siteswap, n_cycles = 3) {
+  check_n_cycles(n_cycles)
   total_throws <- siteswap@period * n_cycles
 
   throws <- data.frame(
@@ -173,9 +174,6 @@ method(timeline, vanillaSiteswap) <- function(
   title = TRUE
 ) {
   throw_data <- throw_data(siteswap, n_cycles = n_cycles)
-
-  # TODO: check n_cycles is a single integer (or coercible)
-  # What happens when n_cycles is a double, e.g. 1.3
 
   max_prop <- max(throw_data$prop, na.rm = TRUE)
 

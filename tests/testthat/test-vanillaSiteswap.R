@@ -71,6 +71,22 @@ test_that("throw_data has period * n_cycles rows", {
   expect_equal(nrow(throw_data(s, n_cycles = 3)), 9L)
 })
 
+test_that("throw_data errors for invalid n_cycles", {
+  expect_error(
+    throw_data(s, n_cycles = 1.3),
+    class = "jugglr_error_bad_n_cycles"
+  )
+  expect_error(throw_data(s, n_cycles = 0), class = "jugglr_error_bad_n_cycles")
+  expect_error(
+    throw_data(s, n_cycles = -1),
+    class = "jugglr_error_bad_n_cycles"
+  )
+  expect_error(
+    throw_data(s, n_cycles = c(2, 3)),
+    class = "jugglr_error_bad_n_cycles"
+  )
+})
+
 # timeline -------------------------------------------------------------------
 
 test_that("timeline returns a ggplot", {

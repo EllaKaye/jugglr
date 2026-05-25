@@ -125,6 +125,7 @@ method(print, multiplexSiteswap) <- function(x, ...) {
 }
 
 method(throw_data, multiplexSiteswap) <- function(siteswap, n_cycles = 3) {
+  check_n_cycles(n_cycles)
   period <- siteswap@period
   n_slots_total <- period * n_cycles
 
