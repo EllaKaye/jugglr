@@ -247,10 +247,9 @@ method(timeline, synchronousMultiplexSiteswap) <- function(
     }) |>
     purrr::list_rbind()
 
-  subtitle <- ifelse(
-    siteswap@valid,
-    paste("A valid juggling pattern with", siteswap@n_props, "props."),
-    "Not a valid juggling pattern"
+  subtitle <- plot_subtitle(
+    siteswap,
+    extra = "Solid and dashed lines represent different hands."
   )
 
   warn_if_props_hidden(siteswap, max_prop)
@@ -276,16 +275,9 @@ method(timeline, synchronousMultiplexSiteswap) <- function(
     theme_void() +
     theme(
       axis.text.x = element_text(face = "bold", size = rel(1.5)),
-      plot.margin = margin(10, 20, 20, 20),
-      plot.title = element_text(
-        size = rel(1.8),
-        margin = ggplot2::margin(12, 0, 8, 0)
-      ),
-      plot.subtitle = element_text(
-        size = rel(1.2),
-        margin = ggplot2::margin(0, 0, 8, 0)
-      )
-    )
+      plot.margin = margin(10, 20, 20, 20)
+    ) +
+    title_subtitle_theme()
 
   if (title) {
     p <- p +
@@ -301,7 +293,8 @@ method(timeline, synchronousMultiplexSiteswap) <- function(
 method(ladder, synchronousMultiplexSiteswap) <- function(
   siteswap,
   n_cycles = 3,
-  direction = c("horizontal", "vertical")
+  direction = c("horizontal", "vertical"),
+  subtitle = TRUE
 ) {
   direction <- rlang::arg_match(direction)
 
@@ -312,6 +305,7 @@ method(ladder, synchronousMultiplexSiteswap) <- function(
   build_ladder_plot(
     plot_data,
     direction,
-    paste("Ladder Diagram: Siteswap", siteswap@full_sequence)
+    paste0("Siteswap '", siteswap@full_sequence, "'"),
+    subtitle = if (subtitle) plot_subtitle(siteswap) else NULL
   )
 }

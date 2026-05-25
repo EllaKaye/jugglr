@@ -8,6 +8,63 @@ warn_if_props_hidden <- function(siteswap, max_prop) {
   }
 }
 
+# Style set for plot subtitles: "note" class renders secondary lines smaller and paler.
+plot_subtitle_style <- marquee::style_set(
+  base = marquee::base_style(),
+  note = marquee::style(size = 10, color = "#888888")
+)
+
+title_subtitle_theme <- function() {
+  theme(
+    plot.title = element_text(
+      size = rel(1.8),
+      margin = margin(12, 0, 8, 0)
+    ),
+    plot.subtitle = marquee::element_marquee(
+      style = plot_subtitle_style,
+      size = rel(1.2),
+      lineheight = 1.2,
+      margin = margin(0, 0, 8, 0),
+      width = unit(1, "npc")
+    )
+  )
+}
+
+plot_subtitle <- function(siteswap, extra = NULL) {
+  if (!siteswap@valid) {
+    return("Not a valid juggling pattern.")
+  }
+
+  n_props <- siteswap@n_props
+  prop_word <- if (n_props == 1L) "prop" else "props"
+  base <- paste0(
+    "A valid ",
+    siteswap@type,
+    " siteswap with ",
+    n_props,
+    " ",
+    prop_word
+  )
+
+  if (siteswap@type == "passing") {
+    base <- paste0(base, " across ", siteswap@n_jugglers, " jugglers")
+  }
+
+  notes <- c(
+    if (n_props > 1L) "Each colour represents a different prop.",
+    extra
+  )
+
+  if (length(notes) == 0L) {
+    paste0(base, ".")
+  } else {
+    # Hard line break (  \n) keeps everything in one paragraph so marquee
+    # span styling renders correctly in all plot types.
+    notes_text <- paste(notes, collapse = "  \n")
+    paste0(base, ".  \n{.note ", notes_text, "}")
+  }
+}
+
 generate_parabola <- function(x1, x2, height, prop, beat, n_points = 100) {
   vx <- (x1 + x2) / 2 # vertex
   xs <- seq(x1, x2, length.out = n_points)
@@ -42,7 +99,7 @@ create_curve_points <- function(
   data.frame(x = x, y = y, prop = prop_num)
 }
 
-build_ladder_plot <- function(plot_data, direction, title) {
+build_ladder_plot <- function(plot_data, direction, title, subtitle = NULL) {
   is_vertical <- direction == "vertical"
 
   if (is_vertical) {
@@ -207,8 +264,10 @@ build_ladder_plot <- function(plot_data, direction, title) {
     coord_fixed(ratio = ratio) +
     theme_minimal() +
     theme(panel.grid = element_blank()) +
+    title_subtitle_theme() +
     labs(
       title = title,
+      subtitle = subtitle,
       x = "",
       y = ""
     )
@@ -239,7 +298,8 @@ build_passing_ladder_plot <- function(
   direction,
   title,
   n_jugglers,
-  hand_gap = 2L
+  hand_gap = 2L,
+  subtitle = NULL
 ) {
   is_vertical <- direction == "vertical"
 
@@ -413,5 +473,6 @@ build_passing_ladder_plot <- function(
     coord_fixed(ratio = ratio) +
     theme_minimal() +
     theme(panel.grid = element_blank()) +
-    labs(title = title, x = "", y = "")
+    title_subtitle_theme() +
+    labs(title = title, subtitle = subtitle, x = "", y = "")
 }

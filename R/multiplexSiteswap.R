@@ -183,13 +183,7 @@ method(timeline, multiplexSiteswap) <- function(
     }) |>
     purrr::list_rbind()
 
-  # TODO: extract the generation of subtitle into a helper function
-  # TODO: add siteswap type (and in all other plotting methods with subtitles)
-  subtitle <- ifelse(
-    siteswap@valid,
-    paste("A valid juggling pattern with", siteswap@n_props, "props."),
-    "Not a valid juggling pattern"
-  )
+  subtitle <- plot_subtitle(siteswap)
 
   warn_if_props_hidden(siteswap, max_prop)
 
@@ -217,16 +211,9 @@ method(timeline, multiplexSiteswap) <- function(
     theme_void() +
     theme(
       axis.text.x = element_text(face = "bold", size = rel(1.5)),
-      plot.margin = margin(10, 20, 20, 20),
-      plot.title = element_text(
-        size = rel(1.8),
-        margin = ggplot2::margin(12, 0, 8, 0)
-      ),
-      plot.subtitle = element_text(
-        size = rel(1.2),
-        margin = ggplot2::margin(0, 0, 8, 0)
-      )
-    )
+      plot.margin = margin(10, 20, 20, 20)
+    ) +
+    title_subtitle_theme()
 
   if (title) {
     p <- p +
@@ -242,7 +229,8 @@ method(timeline, multiplexSiteswap) <- function(
 method(ladder, multiplexSiteswap) <- function(
   siteswap,
   n_cycles = 3,
-  direction = c("horizontal", "vertical")
+  direction = c("horizontal", "vertical"),
+  subtitle = TRUE
 ) {
   direction <- rlang::arg_match(direction)
 
@@ -253,6 +241,7 @@ method(ladder, multiplexSiteswap) <- function(
   build_ladder_plot(
     plot_data,
     direction,
-    paste("Ladder Diagram: Siteswap", siteswap@sequence)
+    paste0("Siteswap '", siteswap@sequence, "'"),
+    subtitle = if (subtitle) plot_subtitle(siteswap) else NULL
   )
 }
