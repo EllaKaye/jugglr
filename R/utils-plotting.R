@@ -1,3 +1,13 @@
+warn_if_props_hidden <- function(siteswap, max_prop) {
+  if (siteswap@valid && max_prop < siteswap@n_props) {
+    cli::cli_warn(c(
+      "!" = "There are {siteswap@n_props} props in siteswap '{siteswap@sequence}', but only {max_prop} {?is/are} shown.",
+      "i" = "Increase {.arg n_cycles} to see more throws.",
+      "i" = "Setting n_cycles >= {siteswap@period * siteswap@n_props * 2} will show each prop thrown at least twice."
+    ))
+  }
+}
+
 generate_parabola <- function(x1, x2, height, prop, beat, n_points = 100) {
   vx <- (x1 + x2) / 2 # vertex
   xs <- seq(x1, x2, length.out = n_points)

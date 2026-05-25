@@ -206,15 +206,7 @@ method(timeline, multiplexSiteswap) <- function(
     "Not a valid juggling pattern"
   )
 
-  if (siteswap@valid && max_prop < siteswap@n_props) {
-    cli::cli_warn(
-      c(
-        "!" = "There are {siteswap@n_props} props in siteswap '{siteswap@sequence}', but only {max_prop} {?is/are} shown.",
-        "i" = "Increase {.arg n_cycles} to see more throws.",
-        "i" = "Setting n_cycles >= {siteswap@period * siteswap@n_props * 2} will show each prop thrown at least twice."
-      )
-    )
-  }
+  warn_if_props_hidden(siteswap, max_prop)
 
   slot_labels <- vapply(
     siteswap@slots,
