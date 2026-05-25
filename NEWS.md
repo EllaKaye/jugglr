@@ -1,5 +1,7 @@
 # jugglr 0.0.0.9000
 
+* `timeline()` for `passingSiteswap` now shows only J1's throws as x-axis labels, with J2 (and further jugglers') throws displayed as in-plot text annotations below each juggler's lane.
+* `timeline()` for `synchronousSiteswap` and `synchronousMultiplexSiteswap` now displays L/R hand throws on separate lines in the axis labels, reducing horizontal crowding.
 * `animate()` and `animate_markdown()` animate juggling patterns via the JugglingLab GIF server.
 * `animate()` gains a `prop` argument for selecting the prop type (`"ball"`, `"ring"`, or `"image"`).
 * `animate()` and `animate_markdown()` now accept [vanillaSiteswap], [synchronousSiteswap], and [multiplexSiteswap] objects as `pattern`, in addition to plain strings.

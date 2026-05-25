@@ -338,18 +338,22 @@ method(timeline, passingSiteswap) <- function(
     mutate(prop = factor(prop))
 
   period <- siteswap@period
-  period_labels <- vapply(
-    seq_len(period),
-    function(b) {
-      tokens <- vapply(
-        seq_len(n_jugglers),
-        function(j) siteswap@sequences_by_juggler[[j]][b],
-        character(1L)
+
+  annot_data <- if (fractional) {
+    data.frame(
+      x = seq(1.5, period * n_cycles + 0.5, by = 1),
+      y = lane_gap,
+      label = rep(siteswap@sequences_by_juggler[[2L]], n_cycles)
+    )
+  } else if (n_jugglers > 1L) {
+    purrr::list_rbind(lapply(seq(2L, n_jugglers), function(j) {
+      data.frame(
+        x = seq_len(period * n_cycles),
+        y = (j - 1L) * lane_gap,
+        label = rep(siteswap@sequences_by_juggler[[j]], n_cycles)
       )
-      paste(tokens, collapse = "/")
-    },
-    character(1L)
-  )
+    }))
+  }
 
   subtitle <- ifelse(
     siteswap@valid,
@@ -379,21 +383,21 @@ method(timeline, passingSiteswap) <- function(
   ) +
     geom_path(linewidth = 2, show.legend = FALSE) +
     {
-      if (fractional) {
-        frac_breaks <- seq(1, period * n_cycles + 0.5, by = 0.5)
-        j1_labels <- rep(siteswap@sequences_by_juggler[[1L]], n_cycles)
-        j2_labels <- rep(siteswap@sequences_by_juggler[[2L]], n_cycles)
-        scale_x_continuous(
-          breaks = frac_breaks,
-          labels = c(rbind(j1_labels, j2_labels))
-        )
-      } else {
-        scale_x_continuous(
-          breaks = seq_len(period * n_cycles),
-          labels = rep(period_labels, n_cycles)
+      if (!is.null(annot_data)) {
+        geom_text(
+          data = annot_data,
+          aes(x = x, y = y, label = label),
+          inherit.aes = FALSE,
+          vjust = 1.5,
+          fontface = "bold",
+          size = 6
         )
       }
     } +
+    scale_x_continuous(
+      breaks = seq_len(period * n_cycles),
+      labels = rep(siteswap@sequences_by_juggler[[1L]], n_cycles)
+    ) +
     scale_y_continuous(
       breaks = juggler_breaks,
       labels = juggler_labels_vec

@@ -183,6 +183,8 @@ method(timeline, multiplexSiteswap) <- function(
     }) |>
     purrr::list_rbind()
 
+  # TODO: extract the generation of subtitle into a helper function
+  # TODO: add siteswap type (and in all other plotting methods with subtitles)
   subtitle <- ifelse(
     siteswap@valid,
     paste("A valid juggling pattern with", siteswap@n_props, "props."),

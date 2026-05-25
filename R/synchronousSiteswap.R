@@ -242,7 +242,8 @@ method(timeline, synchronousSiteswap) <- function(
 
   warn_if_props_hidden(siteswap, max_prop)
 
-  slot_labels <- str_extract_all(siteswap@full_sequence, "\\([^)]+\\)")[[1]]
+  slot_labels <- str_extract_all(siteswap@full_sequence, "\\([^)]+\\)")[[1]] |>
+    sub("^\\((.+),(.+)\\)$", "\\1\n\\2", x = _)
 
   p <- ggplot(
     parabolas,
