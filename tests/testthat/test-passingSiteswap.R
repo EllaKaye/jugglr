@@ -189,3 +189,7 @@ test_that("ladder works with vertical direction", {
 test_that("ladder works with n_cycles argument", {
   expect_s3_class(ladder(s7, n_cycles = 2), "ggplot")
 })
+
+test_that("ladder works with hand_gap argument", {
+  expect_s3_class(ladder(s7, hand_gap = 3L), "ggplot")
+})

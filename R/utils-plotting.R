@@ -234,8 +234,13 @@ generate_pass_arc <- function(
   data.frame(x = xs, y = y_linear + y_arc, prop = prop, beat = beat)
 }
 
-build_passing_ladder_plot <- function(plot_data, direction, title, n_jugglers) {
-  hand_gap <- 3L
+build_passing_ladder_plot <- function(
+  plot_data,
+  direction,
+  title,
+  n_jugglers,
+  hand_gap = 2L
+) {
   is_vertical <- direction == "vertical"
 
   plot_data <- plot_data |>
@@ -362,7 +367,7 @@ build_passing_ladder_plot <- function(plot_data, direction, title, n_jugglers) {
     })
     rail_data <- do.call(rbind, rail_list)
     hand_limits <- c(-0.2, hand_max + 0.2)
-    ratio <- 0.3
+    ratio <- 1 / hand_gap
   } else {
     x_range <- range(c(plot_data$x_start, plot_data$x_end))
     rung_list <- lapply(seq_len(n_jugglers), function(j) {
@@ -382,7 +387,7 @@ build_passing_ladder_plot <- function(plot_data, direction, title, n_jugglers) {
     })
     rail_data <- do.call(rbind, rail_list)
     hand_limits <- c(-0.2, hand_max + 0.2)
-    ratio <- 3
+    ratio <- hand_gap
   }
 
   p +

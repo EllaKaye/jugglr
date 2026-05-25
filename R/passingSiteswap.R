@@ -432,7 +432,8 @@ method(timeline, passingSiteswap) <- function(
 method(ladder, passingSiteswap) <- function(
   siteswap,
   n_cycles = 3,
-  direction = c("horizontal", "vertical")
+  direction = c("horizontal", "vertical"),
+  hand_gap = 2L
 ) {
   direction <- rlang::arg_match(direction)
 
@@ -444,6 +445,7 @@ method(ladder, passingSiteswap) <- function(
     plot_data,
     direction,
     paste("Ladder Diagram: Siteswap", siteswap@sequence),
-    siteswap@n_jugglers
+    siteswap@n_jugglers,
+    hand_gap = hand_gap
   )
 }
