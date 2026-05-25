@@ -13,8 +13,6 @@ NULL
 Siteswap <- new_class(
   "Siteswap",
   properties = list(
-    # TODO: probably need to validate here that sequence is valid siteswap
-    # Use combo of different helpers, is_vanilla_siteswap, is_sync_siteswap etc
     sequence = new_property(
       class = class_character,
       validator = function(value) {
@@ -22,18 +20,7 @@ Siteswap <- new_class(
           "must be length 1"
         }
       },
-    ) #,
-    # ? Do I want `n_props` in Siteswap or just in the subclasses?
-    # n_props = new_property(
-    #   class = class_numeric,
-    #   getter = function(self) {
-    #     # TODO: do I want/need something different here?
-    #     # Default implementation (could also just error here)
-    #     # NOTE: shouldn't need this is sequence is validated as siteswap
-    #     # but good to keep as backstop
-    #     stop("n_props must be implemented by subclass", call. = FALSE)
-    #   }
-    # )
+    )
   ),
   package = "jugglr"
 )

@@ -66,9 +66,6 @@ get_sync_hands <- function(sequence) {
   list(hand_1 = throws[c(TRUE, FALSE)], hand_2 = throws[c(FALSE, TRUE)])
 }
 
-# TODO: update to use get_sync_throws
-# expects a sequence that is valid sync siteswap notation
-# bar possibly having odd throws
 only_even_throws <- function(sequence) {
   throws_chr <- get_sync_throws(sequence)
 
