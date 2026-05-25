@@ -212,7 +212,78 @@ method(throw_data, synchronousSiteswap) <- function(siteswap, n_cycles = 3) {
   throws
 }
 
-# TODO: add timeline() method for synchronousSiteswap
+method(timeline, synchronousSiteswap) <- function(
+  siteswap,
+  n_cycles = 3,
+  title = TRUE
+) {
+  throw_data <- throw_data(siteswap, n_cycles = n_cycles)
+
+  max_prop <- max(throw_data$prop, na.rm = TRUE)
+
+  throw_data <- throw_data |>
+    mutate(prop = factor(prop))
+
+  parabolas <- throw_data |>
+    filter(throw > 0) |>
+    select(beat, catch_beat, throw, prop, hand) |>
+    purrr::pmap(\(beat, catch_beat, throw, prop, hand) {
+      df <- generate_parabola(beat, catch_beat, throw, prop, beat)
+      df$hand <- hand
+      df
+    }) |>
+    purrr::list_rbind()
+
+  subtitle <- ifelse(
+    siteswap@valid,
+    paste("A valid juggling pattern with", siteswap@n_props, "props."),
+    "Not a valid juggling pattern"
+  )
+
+  warn_if_props_hidden(siteswap, max_prop)
+
+  slot_labels <- str_extract_all(siteswap@full_sequence, "\\([^)]+\\)")[[1]]
+
+  p <- ggplot(
+    parabolas,
+    aes(
+      x = x,
+      y = y,
+      group = interaction(beat, prop),
+      color = prop,
+      linetype = factor(hand)
+    )
+  ) +
+    geom_path(linewidth = 2, show.legend = FALSE) +
+    scale_x_continuous(
+      breaks = seq_len(siteswap@period / 2L * n_cycles),
+      labels = rep(slot_labels, n_cycles)
+    ) +
+    theme_void() +
+    theme(
+      axis.text.x = element_text(face = "bold", size = rel(1.5)),
+      plot.margin = margin(10, 20, 20, 20),
+      plot.title = element_text(
+        size = rel(1.8),
+        margin = ggplot2::margin(12, 0, 8, 0)
+      ),
+      plot.subtitle = element_text(
+        size = rel(1.2),
+        margin = ggplot2::margin(0, 0, 8, 0)
+      )
+    )
+
+  if (title) {
+    p <- p +
+      labs(
+        title = paste0("Siteswap '", siteswap@sequence, "'"),
+        subtitle = subtitle
+      )
+  }
+
+  p
+}
+
 method(ladder, synchronousSiteswap) <- function(
   siteswap,
   n_cycles = 3,

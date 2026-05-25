@@ -33,7 +33,8 @@ throw_data <- new_generic(
 #' across beats. Each arc represents a throw, coloured by prop. The x-axis
 #' labels show the throw heights from the siteswap sequence.
 #'
-#' @param siteswap A `vanillaSiteswap`, `synchronousSiteswap`, or `multiplexSiteswap` object.
+#' @param siteswap A `vanillaSiteswap`, `multiplexSiteswap`, `synchronousSiteswap`,
+#'   or `synchronousMultiplexSiteswap` object.
 #' @param n_cycles Number of complete cycles to simulate (default 3). A warning
 #'   is issued if not all props appear within the simulated range.
 #' @param title Logical. If `TRUE` (default), adds a title and subtitle showing

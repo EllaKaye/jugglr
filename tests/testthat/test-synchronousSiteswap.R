@@ -128,3 +128,16 @@ test_that("ladder works with vertical direction", {
 test_that("ladder works with n_cycles argument", {
   expect_s3_class(ladder(ss, n_cycles = 2), "ggplot")
 })
+
+# timeline -------------------------------------------------------------------
+
+test_that("timeline returns a ggplot for synchronousSiteswap", {
+  expect_s3_class(timeline(ss), "ggplot")
+  expect_s3_class(timeline(ss_44), "ggplot")
+})
+
+test_that("timeline respects title = FALSE", {
+  p <- timeline(ss, title = FALSE)
+  expect_s3_class(p, "ggplot")
+  expect_null(p$labels$title)
+})

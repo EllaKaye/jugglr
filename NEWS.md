@@ -10,5 +10,6 @@
 * `synchronousMultiplexSiteswap()` creates a synchronous multiplex siteswap S7 object for patterns combining simultaneous two-handed throws with multiplex groups, such as `"(2,4)([4x4],2x)"`.
 * `synchronousSiteswap()` creates a synchronous siteswap S7 object.
 * `throw_data()` returns the raw throw data frame underlying the visualisation functions, for use in custom visualisations.
+* `timeline()` now works for `synchronousSiteswap` objects.
 * `timeline()` plots arc/timeline diagrams for vanilla and multiplex siteswaps.
 * `vanillaSiteswap()` creates a vanilla siteswap S7 object.
