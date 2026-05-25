@@ -10,6 +10,8 @@
   : Synchronous siteswap
 - [`multiplexSiteswap()`](https://ellakaye.github.io/jugglr/reference/multiplexSiteswap.md)
   : Multiplex siteswap
+- [`passingSiteswap()`](https://ellakaye.github.io/jugglr/reference/passingSiteswap.md)
+  : Passing siteswap
 - [`synchronousMultiplexSiteswap()`](https://ellakaye.github.io/jugglr/reference/synchronousMultiplexSiteswap.md)
   : Synchronous multiplex siteswap
 

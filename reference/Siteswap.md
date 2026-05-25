@@ -10,6 +10,9 @@ produce a
 object; multiplex siteswaps with square-bracket groups such as `"[43]1"`
 produce a
 [multiplexSiteswap](https://ellakaye.github.io/jugglr/reference/multiplexSiteswap.md)
+object; passing siteswaps in `<A|B>` notation such as
+`"<3p 3 3 3 3 3 | 3p 3 3 3 3 3>"` produce a
+[passingSiteswap](https://ellakaye.github.io/jugglr/reference/passingSiteswap.md)
 object.
 
 ## Usage
@@ -30,8 +33,9 @@ A
 [vanillaSiteswap](https://ellakaye.github.io/jugglr/reference/vanillaSiteswap.md),
 [synchronousSiteswap](https://ellakaye.github.io/jugglr/reference/synchronousSiteswap.md),
 [multiplexSiteswap](https://ellakaye.github.io/jugglr/reference/multiplexSiteswap.md),
+[synchronousMultiplexSiteswap](https://ellakaye.github.io/jugglr/reference/synchronousMultiplexSiteswap.md),
 or
-[synchronousMultiplexSiteswap](https://ellakaye.github.io/jugglr/reference/synchronousMultiplexSiteswap.md)
+[passingSiteswap](https://ellakaye.github.io/jugglr/reference/passingSiteswap.md)
 S7 object.
 
 ## Examples
@@ -54,4 +58,8 @@ siteswap("(2,4)([4x4],2x)")
 #> ✔ '(2,4)([4x4],2x)' is valid synchronous multiplex siteswap
 #> ℹ It uses 4 props
 #> ℹ It is asymmetrical with period 4
+siteswap("<3p 3 3 3 3 3 | 3p 3 3 3 3 3>")
+#> ✔ '<3p 3 3 3 3 3 | 3p 3 3 3 3 3>' is valid passing siteswap
+#> ℹ It uses 6 props across 2 jugglers
+#> ℹ It is asymmetrical with period 6
 ```

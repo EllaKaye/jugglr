@@ -43,9 +43,15 @@
 <li>
 <code><a href="../reference/animate.html">animate_markdown()</a></code> is now exported.</li>
 <li>
+<code><a href="../reference/ladder.html">ladder()</a></code> now works for <code>passingSiteswap</code> objects, drawing a multi-row diagram with passes shown as diagonal segments between juggler rows.</li>
+<li>
 <code><a href="../reference/ladder.html">ladder()</a></code> plots ladder diagrams for vanilla, synchronous, and multiplex siteswaps.</li>
 <li>
 <code><a href="../reference/multiplexSiteswap.html">multiplexSiteswap()</a></code> creates a multiplex siteswap S7 object for patterns with simultaneous throws from one hand, written using square-bracket notation such as <code>"[43]1"</code>.</li>
+<li>
+<code><a href="../reference/passingSiteswap.html">passingSiteswap()</a></code> creates a passing siteswap S7 object for multi-juggler patterns in <code>&lt;A|B&gt;</code> notation. Supports both p-notation (e.g. <code>"&lt;4p 3 | 3 4p&gt;"</code>) and fractional notation (e.g. <code>"&lt;4.5 3 3 | 3 4 3.5&gt;"</code>). Includes <code><a href="../reference/throw_data.html">throw_data()</a></code>, <code><a href="../reference/timeline.html">timeline()</a></code>, and <code><a href="../reference/ladder.html">ladder()</a></code> methods.</li>
+<li>
+<code><a href="../reference/Siteswap.html">siteswap()</a></code> now also dispatches to <code><a href="../reference/passingSiteswap.html">passingSiteswap()</a></code> for <code>&lt;…|…&gt;</code> notation.</li>
 <li>
 <code><a href="../reference/Siteswap.html">siteswap()</a></code> creates a vanilla, synchronous, multiplex, or synchronous multiplex siteswap object from a notation string.</li>
 <li>
@@ -54,6 +60,8 @@
 <code><a href="../reference/synchronousSiteswap.html">synchronousSiteswap()</a></code> creates a synchronous siteswap S7 object.</li>
 <li>
 <code><a href="../reference/throw_data.html">throw_data()</a></code> returns the raw throw data frame underlying the visualisation functions, for use in custom visualisations.</li>
+<li>
+<code><a href="../reference/timeline.html">timeline()</a></code> now works for <code>passingSiteswap</code> objects, drawing a multi-lane arc diagram with passes shown as arcs connecting juggler lanes.</li>
 <li>
 <code><a href="../reference/timeline.html">timeline()</a></code> now works for <code>synchronousSiteswap</code> objects.</li>
 <li>

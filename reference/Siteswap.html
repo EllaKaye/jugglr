@@ -4,12 +4,14 @@ sequence. Vanilla siteswaps (alphanumeric strings such as "531") produce
 a vanillaSiteswap object; synchronous siteswaps in (a,b) notation such
 as "(4,2x)*" produce a synchronousSiteswap object; multiplex siteswaps
 with square-bracket groups such as "[43]1" produce a
-multiplexSiteswap object.'><meta property="og:description" content='Creates a typed siteswap object by detecting the notation style of
+multiplexSiteswap object; passing siteswaps in &amp;lt;A|B&amp;gt; notation such as
+"&amp;lt;3p 3 3 3 3 3 | 3p 3 3 3 3 3&amp;gt;" produce a passingSiteswap object.'><meta property="og:description" content='Creates a typed siteswap object by detecting the notation style of
 sequence. Vanilla siteswaps (alphanumeric strings such as "531") produce
 a vanillaSiteswap object; synchronous siteswaps in (a,b) notation such
 as "(4,2x)*" produce a synchronousSiteswap object; multiplex siteswaps
 with square-bracket groups such as "[43]1" produce a
-multiplexSiteswap object.'></head><body>
+multiplexSiteswap object; passing siteswaps in &amp;lt;A|B&amp;gt; notation such as
+"&amp;lt;3p 3 3 3 3 3 | 3p 3 3 3 3 3&amp;gt;" produce a passingSiteswap object.'></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -49,7 +51,8 @@ multiplexSiteswap object.'></head><body>
 a <a href="vanillaSiteswap.html">vanillaSiteswap</a> object; synchronous siteswaps in <code>(a,b)</code> notation such
 as <code>"(4,2x)*"</code> produce a <a href="synchronousSiteswap.html">synchronousSiteswap</a> object; multiplex siteswaps
 with square-bracket groups such as <code>"[43]1"</code> produce a
-<a href="multiplexSiteswap.html">multiplexSiteswap</a> object.</p>
+<a href="multiplexSiteswap.html">multiplexSiteswap</a> object; passing siteswaps in <code>&lt;A|B&gt;</code> notation such as
+<code>"&lt;3p 3 3 3 3 3 | 3p 3 3 3 3 3&gt;"</code> produce a <a href="passingSiteswap.html">passingSiteswap</a> object.</p>
     </div>
 
     <div class="section level2">
@@ -67,8 +70,8 @@ with square-bracket groups such as <code>"[43]1"</code> produce a
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A <a href="vanillaSiteswap.html">vanillaSiteswap</a>, <a href="synchronousSiteswap.html">synchronousSiteswap</a>, <a href="multiplexSiteswap.html">multiplexSiteswap</a>, or
-<a href="synchronousMultiplexSiteswap.html">synchronousMultiplexSiteswap</a> S7 object.</p>
+    <p>A <a href="vanillaSiteswap.html">vanillaSiteswap</a>, <a href="synchronousSiteswap.html">synchronousSiteswap</a>, <a href="multiplexSiteswap.html">multiplexSiteswap</a>,
+<a href="synchronousMultiplexSiteswap.html">synchronousMultiplexSiteswap</a>, or <a href="passingSiteswap.html">passingSiteswap</a> S7 object.</p>
     </div>
 
     <div class="section level2">
@@ -90,6 +93,10 @@ with square-bracket groups such as <code>"[43]1"</code> produce a
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> '(2,4)([4x4],2x)' is valid synchronous multiplex siteswap</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> It uses 4 props</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> It is asymmetrical with period 4</span>
+<span class="r-in"><span><span class="fu">siteswap</span><span class="op">(</span><span class="st">"&lt;3p 3 3 3 3 3 | 3p 3 3 3 3 3&gt;"</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> '&lt;3p 3 3 3 3 3 | 3p 3 3 3 3 3&gt;' is valid passing siteswap</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> It uses 6 props across 2 jugglers</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> It is asymmetrical with period 6</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
