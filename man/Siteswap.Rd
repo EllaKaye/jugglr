@@ -10,8 +10,8 @@ siteswap(sequence)
 \item{sequence}{A single character string of siteswap notation.}
 }
 \value{
-A \link{vanillaSiteswap}, \link{synchronousSiteswap}, \link{multiplexSiteswap}, or
-\link{synchronousMultiplexSiteswap} S7 object.
+A \link{vanillaSiteswap}, \link{synchronousSiteswap}, \link{multiplexSiteswap},
+\link{synchronousMultiplexSiteswap}, or \link{passingSiteswap} S7 object.
 }
 \description{
 Creates a typed siteswap object by detecting the notation style of
@@ -19,11 +19,13 @@ Creates a typed siteswap object by detecting the notation style of
 a \link{vanillaSiteswap} object; synchronous siteswaps in \verb{(a,b)} notation such
 as \code{"(4,2x)*"} produce a \link{synchronousSiteswap} object; multiplex siteswaps
 with square-bracket groups such as \code{"[43]1"} produce a
-\link{multiplexSiteswap} object.
+\link{multiplexSiteswap} object; passing siteswaps in \verb{<A|B>} notation such as
+\code{"<3p 3 3 3 3 3 | 3p 3 3 3 3 3>"} produce a \link{passingSiteswap} object.
 }
 \examples{
 siteswap("531")
 siteswap("(4,2x)*")
 siteswap("[43]1")
 siteswap("(2,4)([4x4],2x)")
+siteswap("<3p 3 3 3 3 3 | 3p 3 3 3 3 3>")
 }

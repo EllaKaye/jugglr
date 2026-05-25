@@ -215,3 +215,198 @@ build_ladder_plot <- function(plot_data, direction, title) {
 
   p
 }
+
+generate_pass_arc <- function(
+  x_start,
+  y_start,
+  x_end,
+  y_end,
+  throw_height,
+  prop,
+  beat,
+  n_points = 100
+) {
+  xs <- seq(x_start, x_end, length.out = n_points)
+  t <- (xs - x_start) / (x_end - x_start)
+  y_linear <- y_start * (1 - t) + y_end * t
+  vx <- (x_start + x_end) / 2
+  y_arc <- throw_height * (1 - ((xs - vx) / (vx - x_start))^2)
+  data.frame(x = xs, y = y_linear + y_arc, prop = prop, beat = beat)
+}
+
+build_passing_ladder_plot <- function(plot_data, direction, title, n_jugglers) {
+  hand_gap <- 3L
+  is_vertical <- direction == "vertical"
+
+  plot_data <- plot_data |>
+    mutate(
+      y_throw = (juggler - 1L) * hand_gap + hand,
+      y_catch = (catch_juggler - 1L) * hand_gap + catch_hand
+    )
+
+  if (is_vertical) {
+    plot_data <- plot_data |>
+      mutate(
+        x_start = .data$y_throw,
+        y_start = -.data$beat,
+        x_end = .data$y_catch,
+        y_end = -.data$catch_beat
+      )
+  } else {
+    plot_data <- plot_data |>
+      mutate(
+        x_start = .data$beat,
+        y_start = .data$y_throw,
+        x_end = .data$catch_beat,
+        y_end = .data$y_catch
+      )
+  }
+
+  # Self even throws: Bezier arcs; everything else: straight segments
+  self_even <- plot_data |> filter(!is_pass, is_even)
+  straight <- plot_data |> filter(is_pass | !is_even)
+
+  if (nrow(self_even) > 0) {
+    curve_data <- self_even |>
+      purrr::pmap(\(
+        x_start,
+        y_start,
+        x_end,
+        y_end,
+        beat,
+        hand,
+        throw,
+        prop,
+        juggler,
+        ...
+      ) {
+        y_center <- (juggler - 1L) * hand_gap + 0.5
+        t <- seq(0, 1, length.out = 50)
+        if (is_vertical) {
+          x_ctrl <- y_center
+          y_ctrl <- mean(c(y_start, y_end))
+        } else {
+          x_ctrl <- mean(c(x_start, x_end))
+          y_ctrl <- y_center
+        }
+        x_pts <- (1 - t)^2 * x_start + 2 * (1 - t) * t * x_ctrl + t^2 * x_end
+        y_pts <- (1 - t)^2 * y_start + 2 * (1 - t) * t * y_ctrl + t^2 * y_end
+        data.frame(
+          x = x_pts,
+          y = y_pts,
+          prop = prop,
+          group = paste0("arc_", beat, "_", hand, "_", throw, "_", prop)
+        )
+      }) |>
+      purrr::list_rbind()
+  } else {
+    curve_data <- data.frame(
+      x = numeric(0),
+      y = numeric(0),
+      prop = numeric(0),
+      group = character(0)
+    )
+  }
+
+  p <- ggplot()
+
+  if (nrow(curve_data) > 0) {
+    p <- p +
+      geom_path(
+        data = curve_data,
+        aes(
+          x = .data$x,
+          y = .data$y,
+          group = .data$group,
+          color = factor(.data$prop)
+        ),
+        linewidth = 0.8,
+        show.legend = FALSE
+      )
+  }
+
+  if (nrow(straight) > 0) {
+    p <- p +
+      geom_segment(
+        data = straight,
+        aes(
+          x = .data$x_start,
+          y = .data$y_start,
+          xend = .data$x_end,
+          yend = .data$y_end,
+          color = factor(.data$prop)
+        ),
+        linewidth = 0.8,
+        show.legend = FALSE
+      )
+  }
+
+  hand_max <- (n_jugglers - 1L) * hand_gap + 1L
+
+  if (is_vertical) {
+    n_beats <- max(-plot_data$y_end)
+    beats <- -seq_len(n_beats)
+    rung_list <- lapply(seq_len(n_jugglers), function(j) {
+      x0 <- (j - 1L) * hand_gap
+      data.frame(x = x0, y = beats, xend = x0 + 1L, yend = beats)
+    })
+    rung_data <- do.call(rbind, rung_list)
+    rail_list <- lapply(seq_len(n_jugglers), function(j) {
+      x0 <- (j - 1L) * hand_gap
+      data.frame(
+        x = c(x0, x0 + 1L),
+        y = c(-1, -1),
+        xend = c(x0, x0 + 1L),
+        yend = c(-n_beats, -n_beats)
+      )
+    })
+    rail_data <- do.call(rbind, rail_list)
+    hand_limits <- c(-0.2, hand_max + 0.2)
+    ratio <- 0.3
+  } else {
+    n_beats <- max(plot_data$x_end)
+    beats <- seq_len(n_beats)
+    rung_list <- lapply(seq_len(n_jugglers), function(j) {
+      y0 <- (j - 1L) * hand_gap
+      data.frame(x = beats, y = y0, xend = beats, yend = y0 + 1L)
+    })
+    rung_data <- do.call(rbind, rung_list)
+    rail_list <- lapply(seq_len(n_jugglers), function(j) {
+      y0 <- (j - 1L) * hand_gap
+      data.frame(
+        x = c(1L, 1L),
+        y = c(y0, y0 + 1L),
+        xend = c(n_beats, n_beats),
+        yend = c(y0, y0 + 1L)
+      )
+    })
+    rail_data <- do.call(rbind, rail_list)
+    hand_limits <- c(-0.2, hand_max + 0.2)
+    ratio <- 3
+  }
+
+  p +
+    geom_segment(
+      data = rung_data,
+      aes(x = .data$x, y = .data$y, xend = .data$xend, yend = .data$yend),
+      linewidth = 0.3,
+      color = "grey80"
+    ) +
+    geom_segment(
+      data = rail_data,
+      aes(x = .data$x, y = .data$y, xend = .data$xend, yend = .data$yend),
+      linewidth = 0.8
+    ) +
+    scale_x_continuous(
+      limits = if (is_vertical) hand_limits,
+      breaks = NULL
+    ) +
+    scale_y_continuous(
+      limits = if (!is_vertical) hand_limits,
+      breaks = NULL
+    ) +
+    coord_fixed(ratio = ratio) +
+    theme_minimal() +
+    theme(panel.grid = element_blank()) +
+    labs(title = title, x = "", y = "")
+}

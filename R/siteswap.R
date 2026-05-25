@@ -1,5 +1,6 @@
 #' @include utils-multiplex.R
 #' @include utils-sync-multiplex.R
+#' @include utils-passing.R
 NULL
 
 #' Siteswap base class
@@ -56,12 +57,13 @@ method(print, Siteswap) <- function(x, ...) {
 #' a [vanillaSiteswap] object; synchronous siteswaps in `(a,b)` notation such
 #' as `"(4,2x)*"` produce a [synchronousSiteswap] object; multiplex siteswaps
 #' with square-bracket groups such as `"[43]1"` produce a
-#' [multiplexSiteswap] object.
+#' [multiplexSiteswap] object; passing siteswaps in `<A|B>` notation such as
+#' `"<3p 3 3 3 3 3 | 3p 3 3 3 3 3>"` produce a [passingSiteswap] object.
 #'
 #' @param sequence A single character string of siteswap notation.
 #'
-#' @returns A [vanillaSiteswap], [synchronousSiteswap], [multiplexSiteswap], or
-#'   [synchronousMultiplexSiteswap] S7 object.
+#' @returns A [vanillaSiteswap], [synchronousSiteswap], [multiplexSiteswap],
+#'   [synchronousMultiplexSiteswap], or [passingSiteswap] S7 object.
 #'
 #' @export
 #'
@@ -70,6 +72,7 @@ method(print, Siteswap) <- function(x, ...) {
 #' siteswap("(4,2x)*")
 #' siteswap("[43]1")
 #' siteswap("(2,4)([4x4],2x)")
+#' siteswap("<3p 3 3 3 3 3 | 3p 3 3 3 3 3>")
 siteswap <- function(sequence) {
   if (str_detect(sequence, "^[a-zA-Z0-9]+$")) {
     vanillaSiteswap(sequence)
@@ -79,9 +82,11 @@ siteswap <- function(sequence) {
     synchronousSiteswap(sequence)
   } else if (is_multiplex_notation(sequence)) {
     multiplexSiteswap(sequence)
+  } else if (is_passing_notation(sequence)) {
+    passingSiteswap(sequence)
   } else {
     cli::cli_abort(
-      "Not valid vanilla, synchronous, multiplex, or synchronous multiplex siteswap notation.",
+      "Not valid vanilla, synchronous, multiplex, synchronous multiplex, or passing siteswap notation.",
       class = "jugglr_error_not_valid_siteswap"
     )
   }
