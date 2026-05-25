@@ -344,39 +344,39 @@ build_passing_ladder_plot <- function(plot_data, direction, title, n_jugglers) {
   hand_max <- (n_jugglers - 1L) * hand_gap + 1L
 
   if (is_vertical) {
-    n_beats <- max(-plot_data$y_end)
-    beats <- -seq_len(n_beats)
+    y_range <- range(c(plot_data$y_start, plot_data$y_end))
     rung_list <- lapply(seq_len(n_jugglers), function(j) {
+      j_y_vals <- sort(unique(plot_data$y_start[plot_data$juggler == j]))
       x0 <- (j - 1L) * hand_gap
-      data.frame(x = x0, y = beats, xend = x0 + 1L, yend = beats)
+      data.frame(x = x0, y = j_y_vals, xend = x0 + 1L, yend = j_y_vals)
     })
     rung_data <- do.call(rbind, rung_list)
     rail_list <- lapply(seq_len(n_jugglers), function(j) {
       x0 <- (j - 1L) * hand_gap
       data.frame(
         x = c(x0, x0 + 1L),
-        y = c(-1, -1),
+        y = c(y_range[2L], y_range[2L]),
         xend = c(x0, x0 + 1L),
-        yend = c(-n_beats, -n_beats)
+        yend = c(y_range[1L], y_range[1L])
       )
     })
     rail_data <- do.call(rbind, rail_list)
     hand_limits <- c(-0.2, hand_max + 0.2)
     ratio <- 0.3
   } else {
-    n_beats <- max(plot_data$x_end)
-    beats <- seq_len(n_beats)
+    x_range <- range(c(plot_data$x_start, plot_data$x_end))
     rung_list <- lapply(seq_len(n_jugglers), function(j) {
+      j_beats <- sort(unique(plot_data$x_start[plot_data$juggler == j]))
       y0 <- (j - 1L) * hand_gap
-      data.frame(x = beats, y = y0, xend = beats, yend = y0 + 1L)
+      data.frame(x = j_beats, y = y0, xend = j_beats, yend = y0 + 1L)
     })
     rung_data <- do.call(rbind, rung_list)
     rail_list <- lapply(seq_len(n_jugglers), function(j) {
       y0 <- (j - 1L) * hand_gap
       data.frame(
-        x = c(1L, 1L),
+        x = c(x_range[1L], x_range[1L]),
         y = c(y0, y0 + 1L),
-        xend = c(n_beats, n_beats),
+        xend = c(x_range[2L], x_range[2L]),
         yend = c(y0, y0 + 1L)
       )
     })

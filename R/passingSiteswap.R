@@ -205,15 +205,12 @@ method(throw_data, passingSiteswap) <- function(siteswap, n_cycles = 3) {
           throw_combined <- (j - 1L) * 0.5 + (extended_beat - 1L)
           catch_combined <- round(throw_combined + h, 10L)
           frac_part <- catch_combined %% 1
-          if (abs(frac_part) < 1e-9) {
-            catch_juggler <- 1L
-            catch_beat <- as.integer(catch_combined) + 1L
-          } else {
-            catch_juggler <- 2L
-            catch_beat <- as.integer(catch_combined + 0.5)
-          }
-          catch_hand <- (catch_beat - 1L) %% 2L
+          catch_juggler <- if (abs(frac_part) < 1e-9) 1L else 2L
+          beat_out <- throw_combined + 1
+          catch_beat <- catch_combined + 1
+          catch_hand <- as.integer(floor(catch_combined) %% 2L)
         } else {
+          beat_out <- extended_beat
           catch_beat <- extended_beat + as.integer(h)
           catch_juggler <- if (is_p) (j %% n_jugglers) + 1L else j
           catch_hand <- (extended_beat + h - 1L) %% 2L
@@ -221,7 +218,7 @@ method(throw_data, passingSiteswap) <- function(siteswap, n_cycles = 3) {
 
         k <- k + 1L
         rows[[k]] <- data.frame(
-          beat = extended_beat,
+          beat = beat_out,
           juggler = j,
           hand = hand,
           throw = h,
@@ -270,6 +267,7 @@ method(timeline, passingSiteswap) <- function(
 ) {
   td <- throw_data(siteswap, n_cycles = n_cycles)
 
+  fractional <- siteswap@is_fractional
   max_throw <- max(td$throw, na.rm = TRUE)
   lane_gap <- max_throw + 2
   n_jugglers <- siteswap@n_jugglers
@@ -380,10 +378,22 @@ method(timeline, passingSiteswap) <- function(
     )
   ) +
     geom_path(linewidth = 2, show.legend = FALSE) +
-    scale_x_continuous(
-      breaks = seq_len(period * n_cycles),
-      labels = rep(period_labels, n_cycles)
-    ) +
+    {
+      if (fractional) {
+        frac_breaks <- seq(1, period * n_cycles + 0.5, by = 0.5)
+        j1_labels <- rep(siteswap@sequences_by_juggler[[1L]], n_cycles)
+        j2_labels <- rep(siteswap@sequences_by_juggler[[2L]], n_cycles)
+        scale_x_continuous(
+          breaks = frac_breaks,
+          labels = c(rbind(j1_labels, j2_labels))
+        )
+      } else {
+        scale_x_continuous(
+          breaks = seq_len(period * n_cycles),
+          labels = rep(period_labels, n_cycles)
+        )
+      }
+    } +
     scale_y_continuous(
       breaks = juggler_breaks,
       labels = juggler_labels_vec
