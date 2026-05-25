@@ -84,6 +84,7 @@ synchronousSiteswap("(4,4)")
 #> ℹ It is symmetrical with period 2
 synchronousSiteswap("(4,2x)*")
 #> ✔ '(4,2x)*' is valid synchronous siteswap
+#> ℹ Full sequence: (4,2x)(2x,4)
 #> ℹ It uses 3 props
 #> ℹ It is symmetrical with period 4
 

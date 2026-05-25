@@ -29,8 +29,9 @@ siteswap(sequence)
 A
 [vanillaSiteswap](https://ellakaye.github.io/jugglr/reference/vanillaSiteswap.md),
 [synchronousSiteswap](https://ellakaye.github.io/jugglr/reference/synchronousSiteswap.md),
+[multiplexSiteswap](https://ellakaye.github.io/jugglr/reference/multiplexSiteswap.md),
 or
-[multiplexSiteswap](https://ellakaye.github.io/jugglr/reference/multiplexSiteswap.md)
+[synchronousMultiplexSiteswap](https://ellakaye.github.io/jugglr/reference/synchronousMultiplexSiteswap.md)
 S7 object.
 
 ## Examples
@@ -42,10 +43,15 @@ siteswap("531")
 #> ℹ It is symmetrical with period 3
 siteswap("(4,2x)*")
 #> ✔ '(4,2x)*' is valid synchronous siteswap
+#> ℹ Full sequence: (4,2x)(2x,4)
 #> ℹ It uses 3 props
 #> ℹ It is symmetrical with period 4
 siteswap("[43]1")
 #> ✔ '[43]1' is valid multiplex siteswap
 #> ℹ It uses 4 props
 #> ℹ It is asymmetrical with period 2
+siteswap("(2,4)([4x4],2x)")
+#> ✔ '(2,4)([4x4],2x)' is valid synchronous multiplex siteswap
+#> ℹ It uses 4 props
+#> ℹ It is asymmetrical with period 4
 ```
