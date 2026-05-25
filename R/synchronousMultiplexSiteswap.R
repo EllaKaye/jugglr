@@ -239,9 +239,11 @@ method(timeline, synchronousMultiplexSiteswap) <- function(
 
   parabolas <- throw_data |>
     filter(throw > 0) |>
-    select(beat, catch_beat, throw, prop) |>
-    purrr::pmap(\(beat, catch_beat, throw, prop) {
-      generate_parabola(beat, catch_beat, throw, prop, beat)
+    select(beat, catch_beat, throw, prop, hand) |>
+    purrr::pmap(\(beat, catch_beat, throw, prop, hand) {
+      df <- generate_parabola(beat, catch_beat, throw, prop, beat)
+      df$hand <- hand
+      df
     }) |>
     purrr::list_rbind()
 
@@ -257,7 +259,13 @@ method(timeline, synchronousMultiplexSiteswap) <- function(
 
   p <- ggplot(
     parabolas,
-    aes(x = x, y = y, group = interaction(beat, prop), color = prop)
+    aes(
+      x = x,
+      y = y,
+      group = interaction(beat, prop),
+      color = prop,
+      linetype = factor(hand)
+    )
   ) +
     geom_path(linewidth = 2, show.legend = FALSE) +
     scale_x_continuous(
