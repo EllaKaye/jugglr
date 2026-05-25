@@ -10,8 +10,8 @@ siteswap(sequence)
 \item{sequence}{A single character string of siteswap notation.}
 }
 \value{
-A \link{vanillaSiteswap}, \link{synchronousSiteswap}, or \link{multiplexSiteswap}
-S7 object.
+A \link{vanillaSiteswap}, \link{synchronousSiteswap}, \link{multiplexSiteswap}, or
+\link{synchronousMultiplexSiteswap} S7 object.
 }
 \description{
 Creates a typed siteswap object by detecting the notation style of
@@ -25,4 +25,5 @@ with square-bracket groups such as \code{"[43]1"} produce a
 siteswap("531")
 siteswap("(4,2x)*")
 siteswap("[43]1")
+siteswap("(2,4)([4x4],2x)")
 }

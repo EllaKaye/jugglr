@@ -36,9 +36,10 @@ Collate:
     'utils-multiplex.R'
     'utils-plotting.R'
     'utils.R'
+    'utils-sync-multiplex.R'
     'siteswap.R'
     'multiplexSiteswap.R'
     'utils-sync.R'
+    'synchronousMultiplexSiteswap.R'
     'synchronousSiteswap.R'
     'vanillaSiteswap.R'
-

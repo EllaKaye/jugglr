@@ -6,7 +6,8 @@
 * `animate_markdown()` is now exported.
 * `ladder()` plots ladder diagrams for vanilla, synchronous, and multiplex siteswaps.
 * `multiplexSiteswap()` creates a multiplex siteswap S7 object for patterns with simultaneous throws from one hand, written using square-bracket notation such as `"[43]1"`.
-* `siteswap()` creates a vanilla, synchronous, or multiplex siteswap object from a notation string.
+* `siteswap()` creates a vanilla, synchronous, multiplex, or synchronous multiplex siteswap object from a notation string.
+* `synchronousMultiplexSiteswap()` creates a synchronous multiplex siteswap S7 object for patterns combining simultaneous two-handed throws with multiplex groups, such as `"(2,4)([4x4],2x)"`.
 * `synchronousSiteswap()` creates a synchronous siteswap S7 object.
 * `throw_data()` returns the raw throw data frame underlying the visualisation functions, for use in custom visualisations.
 * `timeline()` plots arc/timeline diagrams for vanilla and multiplex siteswaps.

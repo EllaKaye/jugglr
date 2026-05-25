@@ -1,4 +1,5 @@
 #' @include utils-multiplex.R
+#' @include utils-sync-multiplex.R
 NULL
 
 #' Siteswap base class
@@ -59,8 +60,8 @@ method(print, Siteswap) <- function(x, ...) {
 #'
 #' @param sequence A single character string of siteswap notation.
 #'
-#' @returns A [vanillaSiteswap], [synchronousSiteswap], or [multiplexSiteswap]
-#'   S7 object.
+#' @returns A [vanillaSiteswap], [synchronousSiteswap], [multiplexSiteswap], or
+#'   [synchronousMultiplexSiteswap] S7 object.
 #'
 #' @export
 #'
@@ -68,16 +69,19 @@ method(print, Siteswap) <- function(x, ...) {
 #' siteswap("531")
 #' siteswap("(4,2x)*")
 #' siteswap("[43]1")
+#' siteswap("(2,4)([4x4],2x)")
 siteswap <- function(sequence) {
   if (str_detect(sequence, "^[a-zA-Z0-9]+$")) {
     vanillaSiteswap(sequence)
+  } else if (is_sync_multiplex_notation(sequence)) {
+    synchronousMultiplexSiteswap(sequence)
   } else if (is_sync_notation(sequence)) {
     synchronousSiteswap(sequence)
   } else if (is_multiplex_notation(sequence)) {
     multiplexSiteswap(sequence)
   } else {
     cli::cli_abort(
-      "Not valid vanilla, synchronous, or multiplex siteswap notation.",
+      "Not valid vanilla, synchronous, multiplex, or synchronous multiplex siteswap notation.",
       class = "jugglr_error_not_valid_siteswap"
     )
   }
