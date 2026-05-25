@@ -14,8 +14,8 @@ timeline(siteswap, n_cycles = 3, title = TRUE, ...)
 
 - siteswap:
 
-  A `vanillaSiteswap`, `synchronousSiteswap`, or `multiplexSiteswap`
-  object.
+  A `vanillaSiteswap`, `multiplexSiteswap`, `synchronousSiteswap`, or
+  `synchronousMultiplexSiteswap` object.
 
 - n_cycles:
 

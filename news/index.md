@@ -37,6 +37,8 @@
   returns the raw throw data frame underlying the visualisation
   functions, for use in custom visualisations.
 - [`timeline()`](https://ellakaye.github.io/jugglr/reference/timeline.md)
+  now works for `synchronousSiteswap` objects.
+- [`timeline()`](https://ellakaye.github.io/jugglr/reference/timeline.md)
   plots arc/timeline diagrams for vanilla and multiplex siteswaps.
 - [`vanillaSiteswap()`](https://ellakaye.github.io/jugglr/reference/vanillaSiteswap.md)
   creates a vanilla siteswap S7 object.
