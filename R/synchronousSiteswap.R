@@ -84,6 +84,7 @@ synchronousSiteswap <- new_class(
         )
       }
     ),
+    # MAYBE: make slide an internal property, not user-facing
     slide = new_property(
       class = class_numeric,
       getter = function(self) {
@@ -211,6 +212,7 @@ method(throw_data, synchronousSiteswap) <- function(siteswap, n_cycles = 3) {
   throws
 }
 
+# TODO: add timeline() method for synchronousSiteswap
 method(ladder, synchronousSiteswap) <- function(
   siteswap,
   n_cycles = 3,
