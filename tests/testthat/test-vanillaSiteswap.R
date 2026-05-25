@@ -53,6 +53,28 @@ test_that("vanillaSiteswap rejects non-alphanumeric sequences", {
   expect_error(vanillaSiteswap("5-3-1"))
 })
 
+# print ----------------------------------------------------------------------
+
+test_that("print shows valid message for valid pattern", {
+  expect_message(print(s), "valid vanilla siteswap")
+})
+
+test_that("print shows invalid message for collision", {
+  expect_message(print(vanillaSiteswap("432")), "not a valid juggling pattern")
+  expect_message(print(vanillaSiteswap("432")), "same beat")
+})
+
+test_that("print shows invalid message for average theorem failure", {
+  expect_message(print(vanillaSiteswap("43")), "not a valid juggling pattern")
+  expect_message(print(vanillaSiteswap("43")), "whole number")
+})
+
+test_that("print shows both reasons when both conditions fail", {
+  msgs <- capture.output(print(vanillaSiteswap("221")), type = "message")
+  expect_true(any(grepl("whole number", msgs)))
+  expect_true(any(grepl("same beat", msgs)))
+})
+
 # throw_data -----------------------------------------------------------------
 
 test_that("throw_data returns a data frame", {

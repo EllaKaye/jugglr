@@ -63,6 +63,21 @@ test_that("synchronousSiteswap rejects odd throws", {
   expect_error(synchronousSiteswap("(3,3)"))
 })
 
+# print ----------------------------------------------------------------------
+
+test_that("print shows valid message for synchronousSiteswap", {
+  expect_message(print(ss), "valid synchronous siteswap")
+})
+
+test_that("print shows full_sequence when * notation is used", {
+  expect_message(print(ss), "Full sequence")
+})
+
+test_that("print omits full_sequence when no * notation", {
+  msgs <- capture.output(print(ss_44), type = "message")
+  expect_false(any(grepl("Full sequence", msgs)))
+})
+
 # throw_data -----------------------------------------------------------------
 
 test_that("throw_data returns a data frame for synchronousSiteswap", {

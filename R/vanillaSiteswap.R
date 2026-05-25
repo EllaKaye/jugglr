@@ -94,28 +94,7 @@ vanillaSiteswap <- new_class(
   package = "jugglr"
 )
 
-# MAYBE: Any other information to print about the pattern?
-# MAYBE: If not valid, say more about what the problem is,
-# or suggest visualising with timeline (only vanilla?) or ladder
-# MAYBE: print orbits (if calculating them)
-# TODO: define print for Siteswap then use `super` and add an extra bullet
-method(print, vanillaSiteswap) <- function(x, ...) {
-  if (x@valid) {
-    cli::cli_bullets(
-      c(
-        "v" = "'{x@sequence}' is valid {x@type} siteswap",
-        "i" = "It uses {x@n_props} props",
-        "i" = "It is {x@symmetry} with period {x@period}"
-      )
-    )
-  } else {
-    cli::cli_bullets(
-      c(
-        "x" = "This siteswap is not a valid juggling pattern"
-      )
-    )
-  }
-}
+# MAYBE: add orbits to print output (depends on orbits feature)
 
 method(throw_data, vanillaSiteswap) <- function(siteswap, n_cycles = 3) {
   check_n_cycles(n_cycles)

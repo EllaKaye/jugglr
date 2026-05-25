@@ -106,23 +106,6 @@ multiplexSiteswap <- new_class(
   package = "jugglr"
 )
 
-method(print, multiplexSiteswap) <- function(x, ...) {
-  if (x@valid) {
-    cli::cli_bullets(
-      c(
-        "v" = "'{x@sequence}' is valid {x@type} siteswap",
-        "i" = "It uses {x@n_props} props",
-        "i" = "It is {x@symmetry} with period {x@period}"
-      )
-    )
-  } else {
-    cli::cli_bullets(
-      c(
-        "x" = "This siteswap is not a valid juggling pattern"
-      )
-    )
-  }
-}
 
 method(throw_data, multiplexSiteswap) <- function(siteswap, n_cycles = 3) {
   check_n_cycles(n_cycles)

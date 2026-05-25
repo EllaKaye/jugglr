@@ -25,9 +25,28 @@ Siteswap <- new_class(
   package = "jugglr"
 )
 
-# TODO: print method for Siteswap (same info for vanilla, sync and multiplex)
-# To catch cases where not a recognised type
-# or will this be an error in creating the object?
+method(print, Siteswap) <- function(x, ...) {
+  if (x@valid) {
+    cli::cli_bullets(c(
+      "v" = "'{x@sequence}' is valid {x@type} siteswap",
+      "i" = "It uses {x@n_props} props",
+      "i" = "It is {x@symmetry} with period {x@period}"
+    ))
+  } else {
+    reasons <- c(
+      if (!x@satisfies_average_theorem) {
+        c("i" = "The throws don't average to a whole number")
+      },
+      if (!x@can_throw) {
+        c("i" = "Two or more throws land on the same beat (collision)")
+      }
+    )
+    cli::cli_bullets(c(
+      "x" = "'{x@sequence}' is not a valid juggling pattern",
+      reasons
+    ))
+  }
+}
 
 #' Create a siteswap object
 #'
