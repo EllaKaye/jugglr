@@ -9,6 +9,7 @@ reference:
       - vanillaSiteswap
       - synchronousSiteswap
       - multiplexSiteswap
+      - passingSiteswap
       - synchronousMultiplexSiteswap
   - title: "Visualisation"
     contents:
