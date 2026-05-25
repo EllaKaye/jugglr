@@ -27,9 +27,6 @@ expand_siteswap <- function(pattern) {
 }
 
 # throws is result of get_sync_throws(sequence)
-# TODO: test with valid (4,2x)(2x,4), (4,6x)(2x,4), (8x,4x)(4,4)
-# TODO: and not-valid (6,2)(4x,6x), (6,2)(4,6) sync patterns
-# TODO: and test with letter throws
 slide <- function(throws) {
   n <- length(throws)
   throws_no_x <- str_remove(throws, "(?<=.)x$")

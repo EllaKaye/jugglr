@@ -33,6 +33,26 @@ test_that("slide works with valid sequences", {
       slide2 = c(5, 6, 2, 3, 6, 3, 5, 2)
     )
   )
+  expect_equal(
+    slide(c("4", "6x", "2x", "4")),
+    list(slide1 = c(4, 5, 3, 4), slide2 = c(6, 3, 5, 2))
+  )
+  expect_equal(
+    slide(c("8x", "4x", "4", "4")),
+    list(slide1 = c(9, 3, 4, 4), slide2 = c(5, 7, 4, 4))
+  )
+})
+
+test_that("slide produces collisions for invalid sequences", {
+  expect_false(can_throw(slide(c("6", "2", "4x", "6x"))$slide1))
+  expect_false(can_throw(slide(c("6", "2", "4", "6"))$slide1))
+})
+
+test_that("slide works with letter throws", {
+  expect_equal(
+    slide(c("ax", "a")),
+    list(slide1 = c(11, 10), slide2 = c(11, 10))
+  )
 })
 
 # get_sync_throws ------------------------------------------------------------
