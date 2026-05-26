@@ -204,6 +204,7 @@ method(timeline, multiplexSiteswap) <- function(
     aes(x = x, y = y, group = interaction(beat, prop), color = prop)
   ) +
     geom_path(linewidth = 2, show.legend = FALSE) +
+    prop_color_scale(max_prop) +
     scale_x_continuous(
       breaks = seq_len(siteswap@period * n_cycles),
       labels = rep(slot_labels, n_cycles)

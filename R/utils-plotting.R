@@ -8,6 +8,26 @@ warn_if_props_hidden <- function(siteswap, max_prop) {
   }
 }
 
+okabe_ito <- c(
+  "#E69F00",
+  "#56B4E9",
+  "#009E73",
+  "#F0E442",
+  "#0072B2",
+  "#D55E00",
+  "#CC79A7"
+)
+
+# Uses Okabe-Ito for up to 7 props; falls back to ggplot2 default for more
+# (rare for valid patterns but possible for invalid ones, e.g. "21").
+prop_color_scale <- function(n_props) {
+  if (n_props <= 7L) {
+    scale_color_manual(values = okabe_ito[seq_len(n_props)], guide = "none")
+  } else {
+    scale_color_discrete(guide = "none")
+  }
+}
+
 # Style set for plot subtitles: "note" class renders secondary lines smaller and paler.
 plot_subtitle_style <- marquee::style_set(
   base = marquee::base_style(),
@@ -104,6 +124,7 @@ create_curve_points <- function(
 
 build_ladder_plot <- function(plot_data, direction, title, subtitle = NULL) {
   is_vertical <- direction == "vertical"
+  max_prop <- max(plot_data$prop, na.rm = TRUE)
 
   if (is_vertical) {
     # having -beat means 0 is at the "top" of the ladder,
@@ -272,6 +293,7 @@ build_ladder_plot <- function(plot_data, direction, title, subtitle = NULL) {
       aes(x = .data$x, y = .data$y, xend = .data$xend, yend = .data$yend),
       linewidth = 0.8
     ) +
+    prop_color_scale(max_prop) +
     scale_x_continuous(
       limits = if (is_vertical) hand_limits,
       breaks = NULL
@@ -321,6 +343,7 @@ build_passing_ladder_plot <- function(
   subtitle = NULL
 ) {
   is_vertical <- direction == "vertical"
+  max_prop <- max(plot_data$prop, na.rm = TRUE)
 
   plot_data <- plot_data |>
     mutate(
@@ -499,6 +522,7 @@ build_passing_ladder_plot <- function(
       aes(x = .data$x, y = .data$y, xend = .data$xend, yend = .data$yend),
       linewidth = 0.8
     ) +
+    prop_color_scale(max_prop) +
     scale_x_continuous(
       limits = if (is_vertical) hand_limits,
       breaks = NULL

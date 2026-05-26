@@ -268,6 +268,7 @@ method(timeline, synchronousMultiplexSiteswap) <- function(
     )
   ) +
     geom_path(linewidth = 2, show.legend = FALSE) +
+    prop_color_scale(max_prop) +
     scale_x_continuous(
       breaks = seq_len(siteswap@period / 2L * n_cycles),
       labels = rep(slot_labels, n_cycles)

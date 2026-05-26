@@ -176,6 +176,7 @@ method(timeline, vanillaSiteswap) <- function(
     aes(x = x, y = y, group = beat, color = prop)
   ) +
     geom_path(linewidth = 2, show.legend = FALSE) +
+    prop_color_scale(max_prop) +
     scale_x_continuous(
       breaks = 1:(siteswap@period * n_cycles),
       labels = rep(siteswap@throws, n_cycles)

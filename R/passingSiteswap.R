@@ -384,6 +384,7 @@ method(timeline, passingSiteswap) <- function(
         )
       }
     } +
+    prop_color_scale(max_prop) +
     scale_x_continuous(
       breaks = seq_len(period * n_cycles),
       labels = rep(siteswap@sequences_by_juggler[[1L]], n_cycles)
