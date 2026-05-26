@@ -37,8 +37,11 @@ throw_data <- new_generic(
 #'   or `synchronousMultiplexSiteswap` object.
 #' @param n_cycles Number of complete cycles to simulate (default 3). A warning
 #'   is issued if not all props appear within the simulated range.
-#' @param title Logical. If `TRUE` (default), adds a title and subtitle showing
-#'   the sequence and number of props. Set to `FALSE` to suppress; override
+#' @param title Logical. If `TRUE` (default), adds a title showing the siteswap
+#'   sequence. Set to `FALSE` to suppress; override with [ggplot2::labs()] on
+#'   the returned plot.
+#' @param subtitle Logical. If `TRUE` (default), adds a subtitle showing the
+#'   siteswap type and number of props. Set to `FALSE` to suppress; override
 #'   with [ggplot2::labs()] on the returned plot.
 #' @param ... Additional arguments passed to methods.
 #'
@@ -48,7 +51,9 @@ throw_data <- new_generic(
 timeline <- new_generic(
   "timeline",
   "siteswap",
-  function(siteswap, n_cycles = 3, title = TRUE, ...) S7_dispatch()
+  function(siteswap, n_cycles = 3, title = TRUE, subtitle = TRUE, ...) {
+    S7_dispatch()
+  }
 )
 
 #' Plot a ladder diagram for a siteswap
@@ -61,6 +66,9 @@ timeline <- new_generic(
 #' @param n_cycles Number of complete cycles to simulate (default 3).
 #' @param direction Orientation of the diagram: `"horizontal"` (default, time
 #'   runs left to right) or `"vertical"` (time runs top to bottom).
+#' @param title Logical. If `TRUE` (default), adds a title showing the siteswap
+#'   sequence. Set to `FALSE` to suppress; override with [ggplot2::labs()] on
+#'   the returned plot.
 #' @param subtitle Logical. If `TRUE` (default), adds a subtitle showing the
 #'   siteswap type and number of props. Set to `FALSE` to suppress; override
 #'   with [ggplot2::labs()] on the returned plot.
@@ -76,6 +84,7 @@ ladder <- new_generic(
     siteswap,
     n_cycles = 3,
     direction = c("horizontal", "vertical"),
+    title = TRUE,
     subtitle = TRUE,
     ...
   ) {

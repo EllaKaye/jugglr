@@ -215,7 +215,8 @@ method(throw_data, synchronousSiteswap) <- function(siteswap, n_cycles = 3) {
 method(timeline, synchronousSiteswap) <- function(
   siteswap,
   n_cycles = 3,
-  title = TRUE
+  title = TRUE,
+  subtitle = TRUE
 ) {
   throw_data <- throw_data(siteswap, n_cycles = n_cycles)
 
@@ -233,11 +234,6 @@ method(timeline, synchronousSiteswap) <- function(
       df
     }) |>
     purrr::list_rbind()
-
-  subtitle <- plot_subtitle(
-    siteswap,
-    extra = "Solid and dashed lines represent different hands."
-  )
 
   warn_if_props_hidden(siteswap, max_prop)
 
@@ -265,15 +261,18 @@ method(timeline, synchronousSiteswap) <- function(
       axis.text.x = element_text(face = "bold", size = rel(1.5)),
       plot.margin = margin(10, 20, 20, 20)
     ) +
-    title_subtitle_theme()
-
-  if (title) {
-    p <- p +
-      labs(
-        title = paste0("Siteswap '", siteswap@sequence, "'"),
-        subtitle = subtitle
-      )
-  }
+    title_subtitle_theme() +
+    labs(
+      title = if (title) paste0("Siteswap '", siteswap@sequence, "'") else NULL,
+      subtitle = if (subtitle) {
+        plot_subtitle(
+          siteswap,
+          extra = "Solid and dashed lines represent different hands."
+        )
+      } else {
+        NULL
+      }
+    )
 
   p
 }
@@ -282,6 +281,7 @@ method(ladder, synchronousSiteswap) <- function(
   siteswap,
   n_cycles = 3,
   direction = c("horizontal", "vertical"),
+  title = TRUE,
   subtitle = TRUE
 ) {
   direction <- rlang::arg_match(direction)
@@ -293,7 +293,11 @@ method(ladder, synchronousSiteswap) <- function(
   build_ladder_plot(
     plot_data,
     direction,
-    paste0("Siteswap '", siteswap@full_sequence, "'"),
+    title = if (title) {
+      paste0("Siteswap '", siteswap@full_sequence, "'")
+    } else {
+      NULL
+    },
     subtitle = if (subtitle) plot_subtitle(siteswap) else NULL
   )
 }

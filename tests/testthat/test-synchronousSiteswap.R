@@ -129,6 +129,18 @@ test_that("ladder works with n_cycles argument", {
   expect_s3_class(ladder(ss, n_cycles = 2), "ggplot")
 })
 
+test_that("ladder respects title = FALSE", {
+  p <- ladder(ss, title = FALSE)
+  expect_s3_class(p, "ggplot")
+  expect_null(p$labels$title)
+})
+
+test_that("ladder respects subtitle = FALSE", {
+  p <- ladder(ss, subtitle = FALSE)
+  expect_s3_class(p, "ggplot")
+  expect_null(p$labels$subtitle)
+})
+
 # timeline -------------------------------------------------------------------
 
 test_that("timeline returns a ggplot for synchronousSiteswap", {
@@ -140,4 +152,10 @@ test_that("timeline respects title = FALSE", {
   p <- timeline(ss, title = FALSE)
   expect_s3_class(p, "ggplot")
   expect_null(p$labels$title)
+})
+
+test_that("timeline respects subtitle = FALSE", {
+  p <- timeline(ss, subtitle = FALSE)
+  expect_s3_class(p, "ggplot")
+  expect_null(p$labels$subtitle)
 })

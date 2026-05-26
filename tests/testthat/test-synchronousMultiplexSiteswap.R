@@ -140,6 +140,18 @@ test_that("ladder works with vertical direction", {
   expect_s3_class(ladder(smp, direction = "vertical"), "ggplot")
 })
 
+test_that("ladder respects title = FALSE", {
+  p <- ladder(smp, title = FALSE)
+  expect_s3_class(p, "ggplot")
+  expect_null(p$labels$title)
+})
+
+test_that("ladder respects subtitle = FALSE", {
+  p <- ladder(smp, subtitle = FALSE)
+  expect_s3_class(p, "ggplot")
+  expect_null(p$labels$subtitle)
+})
+
 # timeline -------------------------------------------------------------------
 
 test_that("timeline returns a ggplot for synchronousMultiplexSiteswap", {
@@ -151,4 +163,10 @@ test_that("timeline respects title = FALSE", {
   p <- timeline(smp, title = FALSE)
   expect_s3_class(p, "ggplot")
   expect_null(p$labels$title)
+})
+
+test_that("timeline respects subtitle = FALSE", {
+  p <- timeline(smp, subtitle = FALSE)
+  expect_s3_class(p, "ggplot")
+  expect_null(p$labels$subtitle)
 })

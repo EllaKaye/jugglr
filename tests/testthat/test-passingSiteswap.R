@@ -168,7 +168,15 @@ test_that("timeline returns a ggplot for passingSiteswap", {
 })
 
 test_that("timeline works with title = FALSE", {
-  expect_s3_class(timeline(s7, title = FALSE), "ggplot")
+  p <- timeline(s7, title = FALSE)
+  expect_s3_class(p, "ggplot")
+  expect_null(p$labels$title)
+})
+
+test_that("timeline works with subtitle = FALSE", {
+  p <- timeline(s7, subtitle = FALSE)
+  expect_s3_class(p, "ggplot")
+  expect_null(p$labels$subtitle)
 })
 
 test_that("timeline works with n_cycles argument", {
@@ -192,4 +200,16 @@ test_that("ladder works with n_cycles argument", {
 
 test_that("ladder works with hand_gap argument", {
   expect_s3_class(ladder(s7, hand_gap = 3L), "ggplot")
+})
+
+test_that("ladder respects title = FALSE", {
+  p <- ladder(s7, title = FALSE)
+  expect_s3_class(p, "ggplot")
+  expect_null(p$labels$title)
+})
+
+test_that("ladder respects subtitle = FALSE", {
+  p <- ladder(s7, subtitle = FALSE)
+  expect_s3_class(p, "ggplot")
+  expect_null(p$labels$subtitle)
 })

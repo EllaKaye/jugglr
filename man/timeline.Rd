@@ -4,7 +4,7 @@
 \alias{timeline}
 \title{Plot a timeline diagram for a siteswap}
 \usage{
-timeline(siteswap, n_cycles = 3, title = TRUE, ...)
+timeline(siteswap, n_cycles = 3, title = TRUE, subtitle = TRUE, ...)
 }
 \arguments{
 \item{siteswap}{A \code{vanillaSiteswap}, \code{multiplexSiteswap}, \code{synchronousSiteswap},
@@ -13,8 +13,12 @@ or \code{synchronousMultiplexSiteswap} object.}
 \item{n_cycles}{Number of complete cycles to simulate (default 3). A warning
 is issued if not all props appear within the simulated range.}
 
-\item{title}{Logical. If \code{TRUE} (default), adds a title and subtitle showing
-the sequence and number of props. Set to \code{FALSE} to suppress; override
+\item{title}{Logical. If \code{TRUE} (default), adds a title showing the siteswap
+sequence. Set to \code{FALSE} to suppress; override with \code{\link[ggplot2:labs]{ggplot2::labs()}} on
+the returned plot.}
+
+\item{subtitle}{Logical. If \code{TRUE} (default), adds a subtitle showing the
+siteswap type and number of props. Set to \code{FALSE} to suppress; override
 with \code{\link[ggplot2:labs]{ggplot2::labs()}} on the returned plot.}
 
 \item{...}{Additional arguments passed to methods.}

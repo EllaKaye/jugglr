@@ -8,6 +8,7 @@ ladder(
   siteswap,
   n_cycles = 3,
   direction = c("horizontal", "vertical"),
+  title = TRUE,
   subtitle = TRUE,
   ...
 )
@@ -19,6 +20,10 @@ ladder(
 
 \item{direction}{Orientation of the diagram: \code{"horizontal"} (default, time
 runs left to right) or \code{"vertical"} (time runs top to bottom).}
+
+\item{title}{Logical. If \code{TRUE} (default), adds a title showing the siteswap
+sequence. Set to \code{FALSE} to suppress; override with \code{\link[ggplot2:labs]{ggplot2::labs()}} on
+the returned plot.}
 
 \item{subtitle}{Logical. If \code{TRUE} (default), adds a subtitle showing the
 siteswap type and number of props. Set to \code{FALSE} to suppress; override

@@ -104,7 +104,15 @@ test_that("timeline returns a ggplot for multiplexSiteswap", {
 })
 
 test_that("timeline works with title = FALSE", {
-  expect_s3_class(timeline(ms, title = FALSE), "ggplot")
+  p <- timeline(ms, title = FALSE)
+  expect_s3_class(p, "ggplot")
+  expect_null(p$labels$title)
+})
+
+test_that("timeline works with subtitle = FALSE", {
+  p <- timeline(ms, subtitle = FALSE)
+  expect_s3_class(p, "ggplot")
+  expect_null(p$labels$subtitle)
 })
 
 test_that("timeline works with n_cycles argument", {
@@ -124,4 +132,16 @@ test_that("ladder works with vertical direction", {
 
 test_that("ladder works with n_cycles argument", {
   expect_s3_class(ladder(ms, n_cycles = 2), "ggplot")
+})
+
+test_that("ladder respects title = FALSE", {
+  p <- ladder(ms, title = FALSE)
+  expect_s3_class(p, "ggplot")
+  expect_null(p$labels$title)
+})
+
+test_that("ladder respects subtitle = FALSE", {
+  p <- ladder(ms, subtitle = FALSE)
+  expect_s3_class(p, "ggplot")
+  expect_null(p$labels$subtitle)
 })

@@ -263,7 +263,8 @@ method(throw_data, passingSiteswap) <- function(siteswap, n_cycles = 3) {
 method(timeline, passingSiteswap) <- function(
   siteswap,
   n_cycles = 3,
-  title = TRUE
+  title = TRUE,
+  subtitle = TRUE
 ) {
   td <- throw_data(siteswap, n_cycles = n_cycles)
 
@@ -355,8 +356,6 @@ method(timeline, passingSiteswap) <- function(
     }))
   }
 
-  subtitle <- plot_subtitle(siteswap)
-
   warn_if_props_hidden(siteswap, max_prop)
 
   juggler_breaks <- (seq_len(n_jugglers) - 1) * lane_gap
@@ -404,15 +403,11 @@ method(timeline, passingSiteswap) <- function(
       ),
       plot.margin = margin(10, 20, 20, 20)
     ) +
-    title_subtitle_theme()
-
-  if (title) {
-    p <- p +
-      labs(
-        title = paste0("Siteswap '", siteswap@sequence, "'"),
-        subtitle = subtitle
-      )
-  }
+    title_subtitle_theme() +
+    labs(
+      title = if (title) paste0("Siteswap '", siteswap@sequence, "'") else NULL,
+      subtitle = if (subtitle) plot_subtitle(siteswap) else NULL
+    )
 
   p
 }
@@ -421,6 +416,7 @@ method(ladder, passingSiteswap) <- function(
   siteswap,
   n_cycles = 3,
   direction = c("horizontal", "vertical"),
+  title = TRUE,
   subtitle = TRUE,
   hand_gap = 2L
 ) {
@@ -433,7 +429,7 @@ method(ladder, passingSiteswap) <- function(
   build_passing_ladder_plot(
     plot_data,
     direction,
-    paste0("Siteswap '", siteswap@sequence, "'"),
+    title = if (title) paste0("Siteswap '", siteswap@sequence, "'") else NULL,
     siteswap@n_jugglers,
     hand_gap = hand_gap,
     subtitle = if (subtitle) plot_subtitle(siteswap) else NULL

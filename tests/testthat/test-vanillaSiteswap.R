@@ -116,7 +116,15 @@ test_that("timeline returns a ggplot", {
 })
 
 test_that("timeline works without title", {
-  expect_s3_class(timeline(s, title = FALSE), "ggplot")
+  p <- timeline(s, title = FALSE)
+  expect_s3_class(p, "ggplot")
+  expect_null(p$labels$title)
+})
+
+test_that("timeline works with subtitle = FALSE", {
+  p <- timeline(s, subtitle = FALSE)
+  expect_s3_class(p, "ggplot")
+  expect_null(p$labels$subtitle)
 })
 
 test_that("timeline works with n_cycles", {
@@ -135,4 +143,16 @@ test_that("ladder works with vertical direction", {
 
 test_that("ladder works with n_cycles", {
   expect_s3_class(ladder(s, n_cycles = 2), "ggplot")
+})
+
+test_that("ladder respects title = FALSE", {
+  p <- ladder(s, title = FALSE)
+  expect_s3_class(p, "ggplot")
+  expect_null(p$labels$title)
+})
+
+test_that("ladder respects subtitle = FALSE", {
+  p <- ladder(s, subtitle = FALSE)
+  expect_s3_class(p, "ggplot")
+  expect_null(p$labels$subtitle)
 })

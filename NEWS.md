@@ -1,5 +1,7 @@
 # jugglr 0.0.0.9000
 
+* `ladder()` gains a `title` argument (default `TRUE`) to control whether the plot title is shown, matching the existing `subtitle` argument.
+* `timeline()` gains a `subtitle` argument (default `TRUE`) to control whether the plot subtitle is shown independently of the `title` argument.
 * `timeline()` for `passingSiteswap` now shows only J1's throws as x-axis labels, with J2 (and further jugglers') throws displayed as in-plot text annotations below each juggler's lane.
 * `timeline()` for `synchronousSiteswap` and `synchronousMultiplexSiteswap` now displays L/R hand throws on separate lines in the axis labels, reducing horizontal crowding.
 * `animate()` and `animate_markdown()` animate juggling patterns via the JugglingLab GIF server.
