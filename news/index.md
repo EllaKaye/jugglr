@@ -2,6 +2,19 @@
 
 ## jugglr 0.0.0.9000
 
+- [`ladder()`](https://ellakaye.github.io/jugglr/reference/ladder.md)
+  subtitle-to-plot spacing is now direction-aware: horizontal and
+  vertical ladder diagrams use different margins to reduce excess
+  whitespace and prevent subtitle overlap.
+- [`ladder()`](https://ellakaye.github.io/jugglr/reference/ladder.md)
+  `direction` argument now also accepts `"h"` and `"v"` as shorthands
+  for `"horizontal"` and `"vertical"`.
+- [`ladder()`](https://ellakaye.github.io/jugglr/reference/ladder.md)
+  gains a `title` argument (default `TRUE`) to control whether the plot
+  title is shown, matching the existing `subtitle` argument.
+- [`timeline()`](https://ellakaye.github.io/jugglr/reference/timeline.md)
+  gains a `subtitle` argument (default `TRUE`) to control whether the
+  plot subtitle is shown independently of the `title` argument.
 - [`timeline()`](https://ellakaye.github.io/jugglr/reference/timeline.md)
   for `passingSiteswap` now shows only J1’s throws as x-axis labels,
   with J2 (and further jugglers’) throws displayed as in-plot text

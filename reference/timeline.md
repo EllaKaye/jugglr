@@ -7,7 +7,7 @@ labels show the throw heights from the siteswap sequence.
 ## Usage
 
 ``` r
-timeline(siteswap, n_cycles = 3, title = TRUE, ...)
+timeline(siteswap, n_cycles = 3, title = TRUE, subtitle = TRUE, ...)
 ```
 
 ## Arguments
@@ -24,9 +24,15 @@ timeline(siteswap, n_cycles = 3, title = TRUE, ...)
 
 - title:
 
-  Logical. If `TRUE` (default), adds a title and subtitle showing the
-  sequence and number of props. Set to `FALSE` to suppress; override
-  with
+  Logical. If `TRUE` (default), adds a title showing the siteswap
+  sequence. Set to `FALSE` to suppress; override with
+  [`ggplot2::labs()`](https://ggplot2.tidyverse.org/reference/labs.html)
+  on the returned plot.
+
+- subtitle:
+
+  Logical. If `TRUE` (default), adds a subtitle showing the siteswap
+  type and number of props. Set to `FALSE` to suppress; override with
   [`ggplot2::labs()`](https://ggplot2.tidyverse.org/reference/labs.html)
   on the returned plot.
 
