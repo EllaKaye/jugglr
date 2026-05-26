@@ -195,7 +195,7 @@ method(timeline, multiplexSiteswap) <- function(
     ) +
     title_subtitle_theme() +
     labs(
-      title = if (title) paste0("Siteswap '", siteswap@sequence, "'") else NULL,
+      title = if (title) siteswap@sequence else NULL,
       subtitle = if (subtitle) plot_subtitle(siteswap) else NULL
     )
 

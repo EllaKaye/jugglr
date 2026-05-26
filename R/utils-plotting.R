@@ -340,7 +340,7 @@ build_simple_ladder <- function(
   build_ladder_plot(
     plot_data,
     direction,
-    title = if (title) paste0("Siteswap '", title_seq, "'") else NULL,
+    title = if (title) title_seq else NULL,
     subtitle = if (subtitle) plot_subtitle(siteswap) else NULL
   )
 }
@@ -384,7 +384,7 @@ build_sync_timeline_plot <- function(siteswap, n_cycles, title, subtitle) {
     ) +
     title_subtitle_theme() +
     labs(
-      title = if (title) paste0("Siteswap '", siteswap@sequence, "'") else NULL,
+      title = if (title) siteswap@full_sequence else NULL,
       subtitle = if (subtitle) {
         plot_subtitle(
           siteswap,
