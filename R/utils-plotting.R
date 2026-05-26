@@ -327,7 +327,7 @@ build_simple_ladder <- function(
 ) {
   plot_data <- throw_data(siteswap, n_cycles = n_cycles) |>
     mutate(is_even = {{ is_even_col }}) |>
-    filter(throw > 0)
+    filter(.data$throw > 0)
   build_ladder_plot(
     plot_data,
     direction,
@@ -342,9 +342,8 @@ build_sync_timeline_plot <- function(siteswap, n_cycles, title, subtitle) {
   throw_data <- throw_data |>
     mutate(prop = factor(prop))
   parabolas <- throw_data |>
-    filter(throw > 0) |>
-    select(beat, catch_beat, throw, prop, hand) |>
-    purrr::pmap(\(beat, catch_beat, throw, prop, hand) {
+    filter(.data$throw > 0) |>
+    purrr::pmap(\(beat, catch_beat, throw, prop, hand, ...) {
       df <- generate_parabola(beat, catch_beat, throw, prop, beat)
       df$hand <- hand
       df
@@ -356,11 +355,11 @@ build_sync_timeline_plot <- function(siteswap, n_cycles, title, subtitle) {
   ggplot(
     parabolas,
     aes(
-      x = x,
-      y = y,
-      group = interaction(beat, prop),
-      color = prop,
-      linetype = factor(hand)
+      x = .data$x,
+      y = .data$y,
+      group = interaction(.data$beat, .data$prop),
+      color = .data$prop,
+      linetype = factor(.data$hand)
     )
   ) +
     geom_path(linewidth = 2, show.legend = FALSE) +
