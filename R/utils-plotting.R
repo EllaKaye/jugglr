@@ -34,10 +34,19 @@ plot_subtitle_style <- marquee::style_set(
   note = marquee::style(size = 10, color = "#888888")
 )
 
-title_subtitle_theme <- function() {
-  # TODO: subtitle-to-plot spacing needs work — too large for horizontal ladder,
-  # overlaps the plot for vertical ladder. Likely needs direction-aware margins
-  # or a different approach for ladder vs timeline.
+# direction: NULL (timelines), "horizontal"/"h", or "vertical"/"v"
+title_subtitle_theme <- function(direction = NULL) {
+  is_horizontal <- !is.null(direction) &&
+    direction %in% c("horizontal", "h")
+  is_vertical <- !is.null(direction) &&
+    direction %in% c("vertical", "v")
+  sub_margin <- if (is_horizontal) {
+    margin(0, 0, 2, 0)
+  } else if (is_vertical) {
+    margin(0, 0, 20, 0)
+  } else {
+    margin(0, 0, 8, 0)
+  }
   theme(
     plot.title = element_text(
       size = rel(1.8),
@@ -47,7 +56,7 @@ title_subtitle_theme <- function() {
       style = plot_subtitle_style,
       size = rel(1.2),
       lineheight = 1.2,
-      margin = margin(0, 0, 8, 0),
+      margin = sub_margin,
       width = unit(1, "npc")
     )
   )
@@ -305,7 +314,7 @@ build_ladder_plot <- function(plot_data, direction, title, subtitle = NULL) {
     coord_fixed(ratio = ratio) +
     theme_minimal() +
     theme(panel.grid = element_blank()) +
-    title_subtitle_theme() +
+    title_subtitle_theme(direction) +
     labs(
       title = title,
       subtitle = subtitle,
@@ -605,6 +614,6 @@ build_passing_ladder_plot <- function(
     coord_fixed(ratio = ratio) +
     theme_minimal() +
     theme(panel.grid = element_blank()) +
-    title_subtitle_theme() +
+    title_subtitle_theme(direction) +
     labs(title = title, subtitle = subtitle, x = "", y = "")
 }

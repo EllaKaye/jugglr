@@ -415,12 +415,17 @@ method(timeline, passingSiteswap) <- function(
 method(ladder, passingSiteswap) <- function(
   siteswap,
   n_cycles = 3,
-  direction = c("horizontal", "vertical"),
+  direction = c("horizontal", "vertical", "h", "v"),
   title = TRUE,
   subtitle = TRUE,
   hand_gap = 2L
 ) {
   direction <- rlang::arg_match(direction)
+  direction <- if (direction %in% c("h", "horizontal")) {
+    "horizontal"
+  } else {
+    "vertical"
+  }
 
   plot_data <- throw_data(siteswap, n_cycles = n_cycles) |>
     mutate(is_even = is_even(throw)) |>

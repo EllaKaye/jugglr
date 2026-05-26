@@ -1,5 +1,7 @@
 # jugglr 0.0.0.9000
 
+* `ladder()` subtitle-to-plot spacing is now direction-aware: horizontal and vertical ladder diagrams use different margins to reduce excess whitespace and prevent subtitle overlap.
+* `ladder()` `direction` argument now also accepts `"h"` and `"v"` as shorthands for `"horizontal"` and `"vertical"`.
 * `ladder()` gains a `title` argument (default `TRUE`) to control whether the plot title is shown, matching the existing `subtitle` argument.
 * `timeline()` gains a `subtitle` argument (default `TRUE`) to control whether the plot subtitle is shown independently of the `title` argument.
 * `timeline()` for `passingSiteswap` now shows only J1's throws as x-axis labels, with J2 (and further jugglers') throws displayed as in-plot text annotations below each juggler's lane.

@@ -224,11 +224,16 @@ method(timeline, synchronousSiteswap) <- function(
 method(ladder, synchronousSiteswap) <- function(
   siteswap,
   n_cycles = 3,
-  direction = c("horizontal", "vertical"),
+  direction = c("horizontal", "vertical", "h", "v"),
   title = TRUE,
   subtitle = TRUE
 ) {
   direction <- rlang::arg_match(direction)
+  direction <- if (direction %in% c("h", "horizontal")) {
+    "horizontal"
+  } else {
+    "vertical"
+  }
   build_simple_ladder(
     siteswap,
     n_cycles,

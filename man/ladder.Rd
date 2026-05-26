@@ -7,7 +7,7 @@
 ladder(
   siteswap,
   n_cycles = 3,
-  direction = c("horizontal", "vertical"),
+  direction = c("horizontal", "vertical", "h", "v"),
   title = TRUE,
   subtitle = TRUE,
   ...
@@ -19,7 +19,8 @@ ladder(
 \item{n_cycles}{Number of complete cycles to simulate (default 3).}
 
 \item{direction}{Orientation of the diagram: \code{"horizontal"} (default, time
-runs left to right) or \code{"vertical"} (time runs top to bottom).}
+runs left to right) or \code{"vertical"} (time runs top to bottom). Shorthands
+\code{"h"} and \code{"v"} are also accepted.}
 
 \item{title}{Logical. If \code{TRUE} (default), adds a title showing the siteswap
 sequence. Set to \code{FALSE} to suppress; override with \code{\link[ggplot2:labs]{ggplot2::labs()}} on
