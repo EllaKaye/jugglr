@@ -15,6 +15,9 @@ plot_subtitle_style <- marquee::style_set(
 )
 
 title_subtitle_theme <- function() {
+  # TODO: subtitle-to-plot spacing needs work — too large for horizontal ladder,
+  # overlaps the plot for vertical ladder. Likely needs direction-aware margins
+  # or a different approach for ladder vs timeline.
   theme(
     plot.title = element_text(
       size = rel(1.8),
@@ -241,7 +244,23 @@ build_ladder_plot <- function(plot_data, direction, title, subtitle = NULL) {
   hand_limits <- c(-0.2, 1.2)
   ratio <- ifelse(is_vertical, 0.3, 3)
 
+  # Beat number labels positioned just outside the bottom/left rail in data coords
+  beat_label_data <- if (!is_vertical) {
+    data.frame(x = seq_len(n_beats), y = -0.12, label = seq_len(n_beats))
+  } else {
+    data.frame(x = -0.12, y = -seq_len(n_beats), label = seq_len(n_beats))
+  }
+
   p <- p +
+    geom_text(
+      data = beat_label_data,
+      aes(x = .data$x, y = .data$y, label = .data$label),
+      inherit.aes = FALSE,
+      size = 3,
+      colour = "grey60",
+      hjust = if (!is_vertical) 0.5 else 1,
+      vjust = if (!is_vertical) 1 else 0.5
+    ) +
     geom_segment(
       data = rung_data,
       aes(x = .data$x, y = .data$y, xend = .data$xend, yend = .data$yend),
@@ -450,7 +469,25 @@ build_passing_ladder_plot <- function(
     ratio <- hand_gap
   }
 
+  n_beats <- if (is_vertical) max(-plot_data$y_end) else max(plot_data$x_end)
+
+  # Beat number labels positioned just outside the bottom/left rail in data coords
+  beat_label_data <- if (!is_vertical) {
+    data.frame(x = seq_len(n_beats), y = -0.12, label = seq_len(n_beats))
+  } else {
+    data.frame(x = -0.12, y = -seq_len(n_beats), label = seq_len(n_beats))
+  }
+
   p +
+    geom_text(
+      data = beat_label_data,
+      aes(x = .data$x, y = .data$y, label = .data$label),
+      inherit.aes = FALSE,
+      size = 3,
+      colour = "grey60",
+      hjust = if (!is_vertical) 0.5 else 1,
+      vjust = if (!is_vertical) 1 else 0.5
+    ) +
     geom_segment(
       data = rung_data,
       aes(x = .data$x, y = .data$y, xend = .data$xend, yend = .data$yend),
