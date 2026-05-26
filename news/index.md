@@ -2,6 +2,14 @@
 
 ## jugglr 0.0.0.9000
 
+- [`timeline()`](https://ellakaye.github.io/jugglr/reference/timeline.md)
+  for `passingSiteswap` now shows only J1’s throws as x-axis labels,
+  with J2 (and further jugglers’) throws displayed as in-plot text
+  annotations below each juggler’s lane.
+- [`timeline()`](https://ellakaye.github.io/jugglr/reference/timeline.md)
+  for `synchronousSiteswap` and `synchronousMultiplexSiteswap` now
+  displays L/R hand throws on separate lines in the axis labels,
+  reducing horizontal crowding.
 - [`animate()`](https://ellakaye.github.io/jugglr/reference/animate.md)
   and
   [`animate_markdown()`](https://ellakaye.github.io/jugglr/reference/animate.md)
