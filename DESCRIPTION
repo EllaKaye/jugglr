@@ -34,6 +34,7 @@ Collate:
     'animate.R'
     'generics.R'
     'jugglr-package.R'
+    'utils-siteswap.R'
     'utils-multiplex.R'
     'utils-plotting.R'
     'utils.R'

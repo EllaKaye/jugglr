@@ -2,6 +2,7 @@
 #' @include utils.R
 #' @include utils-plotting.R
 #' @include utils-multiplex.R
+#' @include utils-siteswap.R
 NULL
 
 #' Multiplex siteswap
@@ -139,28 +140,7 @@ method(throw_data, multiplexSiteswap) <- function(siteswap, n_cycles = 3) {
   throws <- do.call(rbind, rows[seq_len(row_idx)])
 
   # Prop tracking: multiple props may share (beat, hand), so use first-NA lookup
-  throws$prop[1L] <- 1L
-  next_prop <- 2L
-
-  for (i in seq_len(nrow(throws))) {
-    if (throws$throw[i] == 0L) {
-      next
-    }
-    current_prop <- throws$prop[i]
-    if (is.na(current_prop)) {
-      throws$prop[i] <- next_prop
-      current_prop <- next_prop
-      next_prop <- next_prop + 1L
-    }
-    idx <- which(
-      throws$beat == throws$catch_beat[i] &
-        throws$hand == throws$catch_hand[i] &
-        is.na(throws$prop)
-    )
-    if (length(idx) > 0L) throws$prop[idx[1L]] <- current_prop
-  }
-
-  throws
+  assign_props_first_na(throws)
 }
 
 method(timeline, multiplexSiteswap) <- function(
@@ -230,15 +210,13 @@ method(ladder, multiplexSiteswap) <- function(
   subtitle = TRUE
 ) {
   direction <- rlang::arg_match(direction)
-
-  plot_data <- throw_data(siteswap, n_cycles = n_cycles) |>
-    mutate(is_even = is_even(throw)) |>
-    filter(throw > 0)
-
-  build_ladder_plot(
-    plot_data,
+  build_simple_ladder(
+    siteswap,
+    n_cycles,
     direction,
-    title = if (title) paste0("Siteswap '", siteswap@sequence, "'") else NULL,
-    subtitle = if (subtitle) plot_subtitle(siteswap) else NULL
+    title,
+    subtitle,
+    is_even(throw),
+    siteswap@sequence
   )
 }

@@ -202,15 +202,13 @@ method(ladder, vanillaSiteswap) <- function(
   subtitle = TRUE
 ) {
   direction <- rlang::arg_match(direction)
-
-  plot_data <- throw_data(siteswap, n_cycles = n_cycles) |>
-    mutate(is_even = is_even(throw)) |>
-    filter(throw > 0)
-
-  build_ladder_plot(
-    plot_data,
+  build_simple_ladder(
+    siteswap,
+    n_cycles,
     direction,
-    title = if (title) paste0("Siteswap '", siteswap@sequence, "'") else NULL,
-    subtitle = if (subtitle) plot_subtitle(siteswap) else NULL
+    title,
+    subtitle,
+    is_even(throw),
+    siteswap@sequence
   )
 }

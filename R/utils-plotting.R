@@ -316,6 +316,78 @@ build_ladder_plot <- function(plot_data, direction, title, subtitle = NULL) {
   p
 }
 
+build_simple_ladder <- function(
+  siteswap,
+  n_cycles,
+  direction,
+  title,
+  subtitle,
+  is_even_col,
+  title_seq
+) {
+  plot_data <- throw_data(siteswap, n_cycles = n_cycles) |>
+    mutate(is_even = {{ is_even_col }}) |>
+    filter(throw > 0)
+  build_ladder_plot(
+    plot_data,
+    direction,
+    title = if (title) paste0("Siteswap '", title_seq, "'") else NULL,
+    subtitle = if (subtitle) plot_subtitle(siteswap) else NULL
+  )
+}
+
+build_sync_timeline_plot <- function(siteswap, n_cycles, title, subtitle) {
+  throw_data <- throw_data(siteswap, n_cycles = n_cycles)
+  max_prop <- max(throw_data$prop, na.rm = TRUE)
+  throw_data <- throw_data |>
+    mutate(prop = factor(prop))
+  parabolas <- throw_data |>
+    filter(throw > 0) |>
+    select(beat, catch_beat, throw, prop, hand) |>
+    purrr::pmap(\(beat, catch_beat, throw, prop, hand) {
+      df <- generate_parabola(beat, catch_beat, throw, prop, beat)
+      df$hand <- hand
+      df
+    }) |>
+    purrr::list_rbind()
+  warn_if_props_hidden(siteswap, max_prop)
+  slot_labels <- str_extract_all(siteswap@full_sequence, "\\([^)]+\\)")[[1]] |>
+    sub("^\\((.+),(.+)\\)$", "\\1\n\\2", x = _)
+  ggplot(
+    parabolas,
+    aes(
+      x = x,
+      y = y,
+      group = interaction(beat, prop),
+      color = prop,
+      linetype = factor(hand)
+    )
+  ) +
+    geom_path(linewidth = 2, show.legend = FALSE) +
+    prop_color_scale(max_prop) +
+    scale_x_continuous(
+      breaks = seq_len(siteswap@period / 2L * n_cycles),
+      labels = rep(slot_labels, n_cycles)
+    ) +
+    theme_void() +
+    theme(
+      axis.text.x = element_text(face = "bold", size = rel(1.5)),
+      plot.margin = margin(10, 20, 20, 20)
+    ) +
+    title_subtitle_theme() +
+    labs(
+      title = if (title) paste0("Siteswap '", siteswap@sequence, "'") else NULL,
+      subtitle = if (subtitle) {
+        plot_subtitle(
+          siteswap,
+          extra = "Solid and dashed lines represent different hands."
+        )
+      } else {
+        NULL
+      }
+    )
+}
+
 generate_pass_arc <- function(
   x_start,
   y_start,

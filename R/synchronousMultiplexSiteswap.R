@@ -3,6 +3,7 @@
 #' @include utils-plotting.R
 #' @include utils-sync.R
 #' @include utils-sync-multiplex.R
+#' @include utils-siteswap.R
 NULL
 
 #' Synchronous multiplex siteswap
@@ -201,28 +202,7 @@ method(throw_data, synchronousMultiplexSiteswap) <- function(
   throws <- do.call(rbind, rows[seq_len(row_idx)])
 
   # Prop tracking: multiple props may share (beat, hand), so use first-NA lookup
-  throws$prop[1L] <- 1L
-  next_prop <- 2L
-
-  for (i in seq_len(nrow(throws))) {
-    if (throws$throw[i] == 0L) {
-      next
-    }
-    current_prop <- throws$prop[i]
-    if (is.na(current_prop)) {
-      throws$prop[i] <- next_prop
-      current_prop <- next_prop
-      next_prop <- next_prop + 1L
-    }
-    idx <- which(
-      throws$beat == throws$catch_beat[i] &
-        throws$hand == throws$catch_hand[i] &
-        is.na(throws$prop)
-    )
-    if (length(idx) > 0L) throws$prop[idx[1L]] <- current_prop
-  }
-
-  throws
+  assign_props_first_na(throws)
 }
 
 method(timeline, synchronousMultiplexSiteswap) <- function(
@@ -231,63 +211,7 @@ method(timeline, synchronousMultiplexSiteswap) <- function(
   title = TRUE,
   subtitle = TRUE
 ) {
-  throw_data <- throw_data(siteswap, n_cycles = n_cycles)
-
-  max_prop <- max(throw_data$prop, na.rm = TRUE)
-
-  throw_data <- throw_data |>
-    mutate(prop = factor(prop))
-
-  parabolas <- throw_data |>
-    filter(throw > 0) |>
-    select(beat, catch_beat, throw, prop, hand) |>
-    purrr::pmap(\(beat, catch_beat, throw, prop, hand) {
-      df <- generate_parabola(beat, catch_beat, throw, prop, beat)
-      df$hand <- hand
-      df
-    }) |>
-    purrr::list_rbind()
-
-  warn_if_props_hidden(siteswap, max_prop)
-
-  slot_labels <- str_extract_all(siteswap@full_sequence, "\\([^)]+\\)")[[1]] |>
-    sub("^\\((.+),(.+)\\)$", "\\1\n\\2", x = _)
-
-  p <- ggplot(
-    parabolas,
-    aes(
-      x = x,
-      y = y,
-      group = interaction(beat, prop),
-      color = prop,
-      linetype = factor(hand)
-    )
-  ) +
-    geom_path(linewidth = 2, show.legend = FALSE) +
-    prop_color_scale(max_prop) +
-    scale_x_continuous(
-      breaks = seq_len(siteswap@period / 2L * n_cycles),
-      labels = rep(slot_labels, n_cycles)
-    ) +
-    theme_void() +
-    theme(
-      axis.text.x = element_text(face = "bold", size = rel(1.5)),
-      plot.margin = margin(10, 20, 20, 20)
-    ) +
-    title_subtitle_theme() +
-    labs(
-      title = if (title) paste0("Siteswap '", siteswap@sequence, "'") else NULL,
-      subtitle = if (subtitle) {
-        plot_subtitle(
-          siteswap,
-          extra = "Solid and dashed lines represent different hands."
-        )
-      } else {
-        NULL
-      }
-    )
-
-  p
+  build_sync_timeline_plot(siteswap, n_cycles, title, subtitle)
 }
 
 method(ladder, synchronousMultiplexSiteswap) <- function(
@@ -298,19 +222,13 @@ method(ladder, synchronousMultiplexSiteswap) <- function(
   subtitle = TRUE
 ) {
   direction <- rlang::arg_match(direction)
-
-  plot_data <- throw_data(siteswap, n_cycles = n_cycles) |>
-    mutate(is_even = !is_crossing) |>
-    filter(throw > 0)
-
-  build_ladder_plot(
-    plot_data,
+  build_simple_ladder(
+    siteswap,
+    n_cycles,
     direction,
-    title = if (title) {
-      paste0("Siteswap '", siteswap@full_sequence, "'")
-    } else {
-      NULL
-    },
-    subtitle = if (subtitle) plot_subtitle(siteswap) else NULL
+    title,
+    subtitle,
+    !is_crossing,
+    siteswap@full_sequence
   )
 }
