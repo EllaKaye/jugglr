@@ -4,7 +4,13 @@
 \alias{ladder}
 \title{Plot a ladder diagram for a siteswap}
 \usage{
-ladder(siteswap, n_cycles = 3, direction = c("horizontal", "vertical"), ...)
+ladder(
+  siteswap,
+  n_cycles = 3,
+  direction = c("horizontal", "vertical"),
+  subtitle = TRUE,
+  ...
+)
 }
 \arguments{
 \item{siteswap}{A \code{vanillaSiteswap}, \code{synchronousSiteswap}, or \code{multiplexSiteswap} object.}
@@ -13,6 +19,10 @@ ladder(siteswap, n_cycles = 3, direction = c("horizontal", "vertical"), ...)
 
 \item{direction}{Orientation of the diagram: \code{"horizontal"} (default, time
 runs left to right) or \code{"vertical"} (time runs top to bottom).}
+
+\item{subtitle}{Logical. If \code{TRUE} (default), adds a subtitle showing the
+siteswap type and number of props. Set to \code{FALSE} to suppress; override
+with \code{\link[ggplot2:labs]{ggplot2::labs()}} on the returned plot.}
 
 \item{...}{Additional arguments passed to methods.}
 }

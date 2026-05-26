@@ -324,8 +324,8 @@ build_passing_ladder_plot <- function(
 
   plot_data <- plot_data |>
     mutate(
-      y_throw = (juggler - 1L) * hand_gap + hand,
-      y_catch = (catch_juggler - 1L) * hand_gap + catch_hand
+      y_throw = (.data$juggler - 1L) * hand_gap + .data$hand,
+      y_catch = (.data$catch_juggler - 1L) * hand_gap + .data$catch_hand
     )
 
   if (is_vertical) {
@@ -347,8 +347,8 @@ build_passing_ladder_plot <- function(
   }
 
   # Self even throws: Bezier arcs; everything else: straight segments
-  self_even <- plot_data |> filter(!is_pass, is_even)
-  straight <- plot_data |> filter(is_pass | !is_even)
+  self_even <- plot_data |> filter(!.data$is_pass, .data$is_even)
+  straight <- plot_data |> filter(.data$is_pass | !.data$is_even)
 
   if (nrow(self_even) > 0) {
     curve_data <- self_even |>
