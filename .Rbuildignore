@@ -9,3 +9,4 @@ test_class.R
 ^docs$
 ^pkgdown$
 ^\.github$
+^tests/testthat/_problems$
