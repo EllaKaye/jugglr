@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# jugglr
+# jugglr <a href="https://ellakaye.github.io/jugglr/"><img src="man/figures/logo.png" align="right" height="138" alt="jugglr website" /></a>
 
 <!-- badges: start -->
 
