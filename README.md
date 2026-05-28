@@ -10,18 +10,12 @@ coverage](https://codecov.io/gh/EllaKaye/jugglr/graph/badge.svg)](https://app.co
 [![R-CMD-check](https://github.com/EllaKaye/jugglr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/EllaKaye/jugglr/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-**jugglr** is a work-in-progress package to validate and visualise
-juggling patterns. The `siteswap()` function takes a sequence written in
-[siteswap notation](https://en.wikipedia.org/wiki/Siteswap) and creates
-an S7 object with class `Siteswap` and a child class for the type of
-siteswap, e.g. vanillaSiteswap.
-
-At present, only vanilla siteswap is implemented. I plan to support
-synchronous and multiplex siteswap in the near future, and passing
-siteswap after that.
-
-**Note that not all functions are currently documented and test coverage
-is poor - both are works-in-progress.**
+**jugglr** is an R package for validating and visualising juggling
+patterns expressed in [siteswap
+notation](https://en.wikipedia.org/wiki/Siteswap). The `siteswap()`
+function takes a siteswap sequence and creates an S7 object, with child
+classes for vanilla, synchronous, multiplex, synchronous multiplex, and
+passing siteswap.
 
 ## Installation
 
@@ -53,7 +47,9 @@ ss423
 # A pattern that cannot be juggled
 ss21 <- siteswap("21")
 ss21
-#> ✖ This siteswap is not a valid juggling pattern
+#> ✖ '21' is not a valid juggling pattern
+#> ℹ The throws don't average to a whole number
+#> ℹ Two or more throws land on the same beat (collision)
 ```
 
 ## Visualising the patterns
@@ -66,14 +62,15 @@ There are three ways of visualising the siteswap patterns:
 
 ### Plots
 
-These functions take `Siteswap` objects as their argument (currently
-only `vanillaSiteswap`). They return ggplot2 plots, so can be further
-customised.
+These functions take `Siteswap` objects as their argument and return
+ggplot2 plots, so can be further customised.
 
 ``` r
 palette <- c("#D4006A", "#00D46A", "#006AD4")
 timeline(ss423) +
   ggplot2::scale_color_manual(values = palette)
+#> Scale for colour is already present.
+#> Adding another scale for colour, which will replace the existing scale.
 ```
 
 <img src="man/figures/README-unnamed-chunk-3-1.png" alt="" width="100%" />
@@ -81,6 +78,8 @@ timeline(ss423) +
 ``` r
 ladder(ss423) +
   ggplot2::scale_color_manual(values = palette)
+#> Scale for colour is already present.
+#> Adding another scale for colour, which will replace the existing scale.
 ```
 
 <img src="man/figures/README-unnamed-chunk-4-1.png" alt="" width="100%" />
