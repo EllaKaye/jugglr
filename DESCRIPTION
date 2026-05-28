@@ -21,12 +21,12 @@ Imports:
     dplyr,
     ggplot2,
     marquee,
-    knitr,
     purrr,
     rlang,
     S7,
     stringr
-Suggests: 
+Suggests:
+    knitr,
     testthat (>= 3.0.0),
     withr
 Config/testthat/edition: 3

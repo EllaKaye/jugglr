@@ -141,6 +141,7 @@ animate <- function(
 #'
 #' @export
 animate_markdown <- function(pattern, path, colors = NULL, prop = NULL, ...) {
+  rlang::check_installed("knitr", reason = "to use `animate_markdown()`")
   animate(pattern, colors = colors, prop = prop, path = path, ...)
   knitr::include_graphics(path)
 }

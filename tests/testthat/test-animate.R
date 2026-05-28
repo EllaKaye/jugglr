@@ -254,3 +254,22 @@ test_that("animate without path embeds the gif URL in the HTML", {
   expect_true(grepl('id="animation"', html))
   expect_true(grepl("onload", html))
 })
+
+# animate_markdown -------------------------------------------------------------
+
+test_that("animate_markdown saves the GIF and returns a knitr_kable or AsIs object", {
+  path <- file.path(tempdir(), "test_md.gif")
+  local_mocked_bindings(
+    download.file = function(...) invisible(0L),
+    .package = "utils"
+  )
+  local_mocked_bindings(
+    include_graphics = function(path, ...) {
+      structure(path, class = "knit_image_paths")
+    },
+    .package = "knitr"
+  )
+  result <- animate_markdown("3", path = path)
+  expect_s3_class(result, "knit_image_paths")
+  expect_equal(as.character(result), path)
+})
