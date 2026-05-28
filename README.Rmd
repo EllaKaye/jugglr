@@ -26,7 +26,7 @@ The `siteswap()` function takes a siteswap sequence and creates an S7 object, wi
 
 ## Installation
 
-You can install the development version of jugglr from [GitHub](https://github.com/) with:
+You can install the development version of jugglr from [GitHub](https://github.com/EllaKaye/jugglr) with:
 
 ``` r
 # install.packages("pak")
@@ -65,14 +65,11 @@ There are three ways of visualising the siteswap patterns:
 These functions take `Siteswap` objects as their argument and return ggplot2 plots, so can be further customised.
 
 ```{r}
-palette <- c("#D4006A", "#00D46A", "#006AD4")
-timeline(ss423) +
-  ggplot2::scale_color_manual(values = palette)
+timeline(ss423)
 ```
 
 ```{r}
-ladder(ss423) +
-  ggplot2::scale_color_manual(values = palette)
+ladder(ss423)
 ```
 
 These plots are also useful for understand why non-valid sequences are not jugglable.
@@ -100,6 +97,10 @@ Note that it can take several seconds for the animation to render.
 For embedding in RMarkdown or quarto documents, there is a wrapper, `animate_markdown()`, which calls `knitr::include_graphics()`, and display options can be set as chunk arguments (e.g. for the output below, `out.width="40%")`:
 
 ```{r, out.width="40%"}
-animate_markdown("423", "man/figures/423-animation.gif", colors = palette)
+animate_markdown(
+  "423", 
+  path = "man/figures/423-animation.gif", 
+  colors = c("#E69F00", "#56B4E9", "#009E73")
+  )
 ```
 
