@@ -27,8 +27,6 @@ NULL
 #'   simultaneous beat, so always even).
 #' @prop symmetry `"symmetrical"` if the pattern is its own mirror image;
 #'   `"asymmetrical"` otherwise.
-#' @prop slide The slide transformation of the throw sequence, used for
-#'   validity checking.
 #' @prop n_props Mean of the slide sequence, equal to the number of props.
 #' @prop can_throw `TRUE` if no collisions occur in the slide sequence.
 #' @prop satisfies_average_theorem `TRUE` if `n_props` is a whole number.
@@ -84,7 +82,6 @@ synchronousSiteswap <- new_class(
         )
       }
     ),
-    # MAYBE: make slide an internal property, not user-facing
     slide = new_property(
       class = class_numeric,
       getter = function(self) {
@@ -133,7 +130,6 @@ synchronousSiteswap <- new_class(
   package = "jugglr"
 )
 
-# MAYBE: print equivalent slides?
 method(print, synchronousSiteswap) <- function(x, ...) {
   if (x@valid) {
     extra <- if (x@sequence != x@full_sequence) {

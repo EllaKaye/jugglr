@@ -47,9 +47,6 @@ simultaneous beat, so always even).}
 \item{\code{@symmetry}}{\code{"symmetrical"} if the pattern is its own mirror image;
 \code{"asymmetrical"} otherwise.}
 
-\item{\code{@slide}}{The slide transformation of the throw sequence, used for
-validity checking.}
-
 \item{\code{@n_props}}{Mean of the slide sequence, equal to the number of props.}
 
 \item{\code{@can_throw}}{\code{TRUE} if no collisions occur in the slide sequence.}

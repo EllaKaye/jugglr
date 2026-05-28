@@ -3,7 +3,6 @@
 #' @include utils-plotting.R
 NULL
 
-# MAYBE: add orbits
 #' Vanilla siteswap
 #'
 #' Creates a vanilla siteswap object from an alphanumeric siteswap sequence
@@ -93,8 +92,6 @@ vanillaSiteswap <- new_class(
   parent = Siteswap,
   package = "jugglr"
 )
-
-# MAYBE: add orbits to print output (depends on orbits feature)
 
 method(throw_data, vanillaSiteswap) <- function(siteswap, n_cycles = 3) {
   check_n_cycles(n_cycles)
