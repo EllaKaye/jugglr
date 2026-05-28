@@ -43,3 +43,11 @@ timeline(siteswap, n_cycles = 3, title = TRUE, subtitle = TRUE, ...)
 ## Value
 
 A ggplot2 object.
+
+## Examples
+
+``` r
+s <- vanillaSiteswap("531")
+timeline(s)
+
+```

@@ -5,7 +5,7 @@ displays it in the RStudio viewer (or default browser). If path is given
 the GIF is saved to disk instead."><meta property="og:description" content="Generates an animated GIF of a juggling pattern via the
 JugglingLab GIF server and
 displays it in the RStudio viewer (or default browser). If path is given
-the GIF is saved to disk instead."></head><body>
+the GIF is saved to disk instead."><meta property="og:image" content="https://ellakaye.github.io/jugglr/logo.png"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -33,8 +33,7 @@ the GIF is saved to disk instead."></head><body>
 </nav><div class="container template-reference-topic">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-
-      <h1>Animate a juggling pattern</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>Animate a juggling pattern</h1>
       <small class="dont-index">Source: <a href="https://github.com/EllaKaye/jugglr/blob/main/R/animate.R" class="external-link"><code>R/animate.R</code></a></small>
       <div class="d-none name"><code>animate.Rd</code></div>
     </div>
@@ -136,6 +135,21 @@ document can reference it. All arguments accepted by <code>animate()</code> (suc
 be passed through.</p></li>
 </ul></div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="fu">animate</span><span class="op">(</span><span class="st">"531"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">animate</span><span class="op">(</span><span class="fu"><a href="vanillaSiteswap.html">vanillaSiteswap</a></span><span class="op">(</span><span class="st">"531"</span><span class="op">)</span>, prop <span class="op">=</span> <span class="st">"ring"</span>, bps <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">animate</span><span class="op">(</span><span class="st">"531"</span>, path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".gif"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="co"># In an R Markdown or Quarto document:</span></span></span>
+<span class="r-in"><span><span class="fu">animate_markdown</span><span class="op">(</span><span class="st">"531"</span>, path <span class="op">=</span> <span class="st">"531.gif"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

@@ -55,3 +55,11 @@ ladder(
 ## Value
 
 A ggplot2 object.
+
+## Examples
+
+``` r
+s <- vanillaSiteswap("531")
+ladder(s)
+
+```

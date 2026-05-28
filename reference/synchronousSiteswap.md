@@ -54,11 +54,6 @@ A `synchronousSiteswap` S7 object.
   `"symmetrical"` if the pattern is its own mirror image;
   `"asymmetrical"` otherwise.
 
-- `@slide`:
-
-  The slide transformation of the throw sequence, used for validity
-  checking.
-
 - `@n_props`:
 
   Mean of the slide sequence, equal to the number of props.

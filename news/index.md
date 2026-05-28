@@ -3,6 +3,16 @@
 ## jugglr 0.0.0.9000
 
 - [`ladder()`](https://ellakaye.github.io/jugglr/reference/ladder.md)
+  and
+  [`timeline()`](https://ellakaye.github.io/jugglr/reference/timeline.md)
+  titles now show the siteswap sequence directly (e.g. `531`) rather
+  than prefixing with `"Siteswap '"`. For `synchronousSiteswap` and
+  `synchronousMultiplexSiteswap`,
+  [`timeline()`](https://ellakaye.github.io/jugglr/reference/timeline.md)
+  now uses `full_sequence` (e.g. `(4,2x)(4,2x)`) to match the existing
+  [`ladder()`](https://ellakaye.github.io/jugglr/reference/ladder.md)
+  behaviour.
+- [`ladder()`](https://ellakaye.github.io/jugglr/reference/ladder.md)
   subtitle-to-plot spacing is now direction-aware: horizontal and
   vertical ladder diagrams use different margins to reduce excess
   whitespace and prevent subtitle overlap.

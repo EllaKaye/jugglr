@@ -46,3 +46,20 @@ A data frame with one row per throw and columns:
 - `catch_hand`: hand that catches (0 or 1)
 
 - `prop`: prop identifier (integer)
+
+## Examples
+
+``` r
+s <- vanillaSiteswap("531")
+throw_data(s)
+#>   beat hand throw catch_beat catch_hand prop
+#> 1    1    0     5          6          1    1
+#> 2    2    1     3          5          0    2
+#> 3    3    0     1          4          1    3
+#> 4    4    1     5          9          0    3
+#> 5    5    0     3          8          1    2
+#> 6    6    1     1          7          0    1
+#> 7    7    0     5         12          1    1
+#> 8    8    1     3         11          0    2
+#> 9    9    0     1         10          1    3
+```

@@ -1,10 +1,10 @@
 # jugglr: Juggling Pattern Validation and Visualisation
 
 Validate and visualise juggling patterns expressed in siteswap notation.
-Supports vanilla and synchronous siteswap, with tools to check pattern
-validity, produce timeline arc diagrams and ladder diagrams, retrieve
-raw throw data for custom visualisations, and animate patterns via the
-JugglingLab GIF server.
+Supports vanilla, synchronous, multiplex, synchronous multiplex, and
+passing siteswap, with tools to check pattern validity, produce timeline
+arc diagrams and ladder diagrams, retrieve raw throw data for custom
+visualisations, and animate patterns via the JugglingLab GIF server.
 
 ## See also
 

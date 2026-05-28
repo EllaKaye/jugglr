@@ -98,3 +98,18 @@ renders the animation.
   document can reference it. All arguments accepted by `animate()` (such
   as `prop`, `bps`, `slowdown`, `width`, `height`, and any `...`
   arguments) can be passed through.
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+animate("531")
+animate(vanillaSiteswap("531"), prop = "ring", bps = 5)
+animate("531", path = tempfile(fileext = ".gif"))
+} # }
+
+if (FALSE) { # \dontrun{
+# In an R Markdown or Quarto document:
+animate_markdown("531", path = "531.gif")
+} # }
+```
