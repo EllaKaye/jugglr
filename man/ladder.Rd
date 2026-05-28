@@ -40,3 +40,8 @@ Produces a ladder diagram showing prop paths between hands across beats.
 Straight lines indicate self-throws (same hand catches); crossing lines
 indicate cross-throws (opposite hand catches).
 }
+\examples{
+s <- vanillaSiteswap("531")
+ladder(s)
+
+}

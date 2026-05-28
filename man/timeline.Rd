@@ -31,3 +31,8 @@ Produces a timeline (arc) diagram showing the trajectory of each prop
 across beats. Each arc represents a throw, coloured by prop. The x-axis
 labels show the throw heights from the siteswap sequence.
 }
+\examples{
+s <- vanillaSiteswap("531")
+timeline(s)
+
+}

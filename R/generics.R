@@ -20,6 +20,10 @@
 #'   - `catch_hand`: hand that catches (0 or 1)
 #'   - `prop`: prop identifier (integer)
 #'
+#' @examples
+#' s <- vanillaSiteswap("531")
+#' throw_data(s)
+#'
 #' @export
 throw_data <- new_generic(
   "throw_data",
@@ -46,6 +50,10 @@ throw_data <- new_generic(
 #' @param ... Additional arguments passed to methods.
 #'
 #' @returns A ggplot2 object.
+#'
+#' @examples
+#' s <- vanillaSiteswap("531")
+#' timeline(s)
 #'
 #' @export
 timeline <- new_generic(
@@ -76,6 +84,10 @@ timeline <- new_generic(
 #' @param ... Additional arguments passed to methods.
 #'
 #' @returns A ggplot2 object.
+#'
+#' @examples
+#' s <- vanillaSiteswap("531")
+#' ladder(s)
 #'
 #' @export
 ladder <- new_generic(

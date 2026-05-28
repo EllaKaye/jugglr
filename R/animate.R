@@ -31,6 +31,13 @@
 #' @returns Invisibly returns the path to the temporary HTML file (when
 #'   displaying) or the save path (when `path` is given).
 #'
+#' @examples
+#' \dontrun{
+#' animate("531")
+#' animate(vanillaSiteswap("531"), prop = "ring", bps = 5)
+#' animate("531", path = tempfile(fileext = ".gif"))
+#' }
+#'
 #' @export
 animate <- function(
   pattern,
@@ -125,6 +132,13 @@ animate <- function(
 #'   be passed through.
 #'
 #' @returns A knitr graphics object for inline embedding.
+#'
+#' @examples
+#' \dontrun{
+#' # In an R Markdown or Quarto document:
+#' animate_markdown("531", path = "531.gif")
+#' }
+#'
 #' @export
 animate_markdown <- function(pattern, path, colors = NULL, prop = NULL, ...) {
   animate(pattern, colors = colors, prop = prop, path = path, ...)

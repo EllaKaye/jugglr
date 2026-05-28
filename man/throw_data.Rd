@@ -33,3 +33,8 @@ including which beat and hand each throw originates from, where it lands,
 and which prop is thrown. This underpins \code{\link[=timeline]{timeline()}} and \code{\link[=ladder]{ladder()}}, and
 can be used directly for custom visualisations.
 }
+\examples{
+s <- vanillaSiteswap("531")
+throw_data(s)
+
+}
