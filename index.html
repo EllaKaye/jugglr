@@ -59,7 +59,7 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install the development version of jugglr from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
+<p>You can install the development version of jugglr from <a href="https://github.com/EllaKaye/jugglr" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("pak")</span></span>
 <span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"EllaKaye/jugglr"</span><span class="op">)</span></span></code></pre></div>
@@ -98,17 +98,10 @@
 </h3>
 <p>These functions take <code>Siteswap</code> objects as their argument and return ggplot2 plots, so can be further customised.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">palette</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#D4006A"</span>, <span class="st">"#00D46A"</span>, <span class="st">"#006AD4"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="reference/timeline.html">timeline</a></span><span class="op">(</span><span class="va">ss423</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_color_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="va">palette</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Scale for colour is already present.</span></span>
-<span><span class="co">#&gt; Adding another scale for colour, which will replace the existing scale.</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/timeline.html">timeline</a></span><span class="op">(</span><span class="va">ss423</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-3-1.png" alt="" width="100%"></p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/ladder.html">ladder</a></span><span class="op">(</span><span class="va">ss423</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_color_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="va">palette</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Scale for colour is already present.</span></span>
-<span><span class="co">#&gt; Adding another scale for colour, which will replace the existing scale.</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/ladder.html">ladder</a></span><span class="op">(</span><span class="va">ss423</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-4-1.png" alt="" width="100%"></p>
 <p>These plots are also useful for understand why non-valid sequences are not jugglable. We can see, for example, where two props would need to be caught at the same time (which is not permissible in vanilla siteswap). Because each prop is shown in a different colour, we can see where balls are disappearing or needing suddenly to appear.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -125,8 +118,12 @@
 <p>If called in Positron or RStudio, <code><a href="reference/animate.html">animate()</a></code> will show the animation in the Viewer pane, otherwise in the browser. If a <code>path</code> argument is supplied, the animation will be saved to that location instead. Note that it can take several seconds for the animation to render.</p>
 <p>For embedding in RMarkdown or quarto documents, there is a wrapper, <code><a href="reference/animate.html">animate_markdown()</a></code>, which calls <code><a href="https://rdrr.io/pkg/knitr/man/include_graphics.html" class="external-link">knitr::include_graphics()</a></code>, and display options can be set as chunk arguments (e.g. for the output below, <code>out.width="40%")</code>:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/animate.html">animate_markdown</a></span><span class="op">(</span><span class="st">"423"</span>, <span class="st">"man/figures/423-animation.gif"</span>, colors <span class="op">=</span> <span class="va">palette</span><span class="op">)</span></span>
-<span><span class="co">#&gt; ✔ Animation saved to: 'man/figures/423-animation.gif'</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/animate.html">animate_markdown</a></span><span class="op">(</span></span>
+<span>  <span class="st">"423"</span>, </span>
+<span>  path <span class="op">=</span> <span class="st">"man/figures/423-animation.gif"</span>, </span>
+<span>  colors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#E69F00"</span>, <span class="st">"#56B4E9"</span>, <span class="st">"#009E73"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="co">#&gt; ✔ Animation saved to: '</span></span></code></pre></div>
 <p><img src="reference/figures/423-animation.gif" alt="" width="40%"></p>
 </div>
 </div>

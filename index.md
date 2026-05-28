@@ -11,7 +11,7 @@ passing siteswap.
 ## Installation
 
 You can install the development version of jugglr from
-[GitHub](https://github.com/) with:
+[GitHub](https://github.com/EllaKaye/jugglr) with:
 
 ``` r
 
@@ -61,21 +61,14 @@ ggplot2 plots, so can be further customised.
 
 ``` r
 
-palette <- c("#D4006A", "#00D46A", "#006AD4")
-timeline(ss423) +
-  ggplot2::scale_color_manual(values = palette)
-#> Scale for colour is already present.
-#> Adding another scale for colour, which will replace the existing scale.
+timeline(ss423)
 ```
 
 ![](reference/figures/README-unnamed-chunk-3-1.png)
 
 ``` r
 
-ladder(ss423) +
-  ggplot2::scale_color_manual(values = palette)
-#> Scale for colour is already present.
-#> Adding another scale for colour, which will replace the existing scale.
+ladder(ss423)
 ```
 
 ![](reference/figures/README-unnamed-chunk-4-1.png)
@@ -123,8 +116,12 @@ below, `out.width="40%")`:
 
 ``` r
 
-animate_markdown("423", "man/figures/423-animation.gif", colors = palette)
-#> ✔ Animation saved to: 'man/figures/423-animation.gif'
+animate_markdown(
+  "423", 
+  path = "man/figures/423-animation.gif", 
+  colors = c("#E69F00", "#56B4E9", "#009E73")
+  )
+#> ✔ Animation saved to: '
 ```
 
 ![](reference/figures/423-animation.gif)
