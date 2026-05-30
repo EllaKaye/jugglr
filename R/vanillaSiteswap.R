@@ -107,15 +107,12 @@ method(throw_data, vanillaSiteswap) <- function(siteswap, n_cycles = 3) {
     mutate(
       catch_beat = beat + throw,
       catch_hand = ifelse(is_even(throw), hand, 1 - hand),
-      prop = NA
+      prop = NA_real_
     )
 
-  # track which ball is thrown at each beat
-  # initialise
   throws$prop[1] <- 1
   next_prop <- 2
 
-  # simulate the pattern to track balls
   for (i in seq_len(nrow(throws))) {
     throw <- throws$throw[i]
 
@@ -174,7 +171,7 @@ method(timeline, vanillaSiteswap) <- function(
     geom_path(linewidth = 2, show.legend = FALSE) +
     prop_color_scale(max_prop) +
     scale_x_continuous(
-      breaks = 1:(siteswap@period * n_cycles),
+      breaks = seq_len(siteswap@period * n_cycles),
       labels = rep(siteswap@throws, n_cycles)
     ) +
     theme_void() +

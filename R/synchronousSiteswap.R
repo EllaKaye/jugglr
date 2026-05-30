@@ -61,7 +61,7 @@ synchronousSiteswap <- new_class(
       }
     ),
     throws_by_hand = new_property(
-      class = class_character,
+      class = class_list,
       getter = function(self) {
         get_sync_hands(self@full_sequence)
       }
