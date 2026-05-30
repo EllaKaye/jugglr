@@ -149,6 +149,9 @@ passingSiteswap <- new_class(
     frac <- is_fractional_notation(self@sequence)
     seqs <- parse_passing_sequence(self@sequence, frac)
     lens <- lengths(seqs)
+    if (frac && length(seqs) > 2L) {
+      return("fractional notation only supports 2 jugglers")
+    }
     if (length(unique(lens)) > 1L) {
       return("all jugglers must have the same number of throws")
     }
@@ -434,7 +437,7 @@ method(ladder, passingSiteswap) <- function(
   build_passing_ladder_plot(
     plot_data,
     direction,
-    title = if (title) paste0("Siteswap '", siteswap@sequence, "'") else NULL,
+    title = if (title) siteswap@sequence else NULL,
     siteswap@n_jugglers,
     hand_gap = hand_gap,
     subtitle = if (subtitle) plot_subtitle(siteswap) else NULL

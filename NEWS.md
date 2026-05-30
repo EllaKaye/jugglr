@@ -1,5 +1,7 @@
 # jugglr 0.0.0.9000
 
+* `ladder()` for `passingSiteswap` now uses the sequence as the plot title directly, consistent with all other siteswap types.
+
 * `ladder()` and `timeline()` titles now show the siteswap sequence directly (e.g. `531`) rather than prefixing with `"Siteswap '"`. For `synchronousSiteswap` and `synchronousMultiplexSiteswap`, `timeline()` now uses `full_sequence` (e.g. `(4,2x)(4,2x)`) to match the existing `ladder()` behaviour.
 * `ladder()` subtitle-to-plot spacing is now direction-aware: horizontal and vertical ladder diagrams use different margins to reduce excess whitespace and prevent subtitle overlap.
 * `ladder()` `direction` argument now also accepts `"h"` and `"v"` as shorthands for `"horizontal"` and `"vertical"`.
