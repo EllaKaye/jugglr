@@ -21,8 +21,10 @@ animate(
 animate_markdown(pattern, path, colors = NULL, prop = NULL, ...)
 }
 \arguments{
-\item{pattern}{A siteswap pattern string (e.g. \code{"531"}) or a
-\link{vanillaSiteswap}, \link{synchronousSiteswap}, or \link{multiplexSiteswap} object.}
+\item{pattern}{A siteswap pattern string (e.g. \code{"531"}) or any siteswap
+object: \link{vanillaSiteswap}, \link{synchronousSiteswap}, \link{multiplexSiteswap}, or
+\link{synchronousMultiplexSiteswap}. \link{passingSiteswap} objects are also accepted
+but their sequence format (\verb{<A|B>}) is not valid JugglingLab notation.}
 
 \item{colors}{Optional. A vector of R colours (one per prop), or one of the
 special strings \code{"mixed"} or \code{"orbits"}. Passed to JugglingLab.}

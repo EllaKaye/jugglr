@@ -8,8 +8,10 @@
 #' Note that setting `colors` can introduce a short delay while the server
 #' renders the animation.
 #'
-#' @param pattern A siteswap pattern string (e.g. `"531"`) or a
-#'   [vanillaSiteswap], [synchronousSiteswap], or [multiplexSiteswap] object.
+#' @param pattern A siteswap pattern string (e.g. `"531"`) or any siteswap
+#'   object: [vanillaSiteswap], [synchronousSiteswap], [multiplexSiteswap], or
+#'   [synchronousMultiplexSiteswap]. [passingSiteswap] objects are also accepted
+#'   but their sequence format (`<A|B>`) is not valid JugglingLab notation.
 #' @param colors Optional. A vector of R colours (one per prop), or one of the
 #'   special strings `"mixed"` or `"orbits"`. Passed to JugglingLab.
 #' @param prop Prop type: `"ball"` (default), `"ring"`, or `"image"`.

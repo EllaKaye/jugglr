@@ -12,6 +12,7 @@
 * `timeline()` for `synchronousSiteswap` and `synchronousMultiplexSiteswap` now displays L/R hand throws on separate lines in the axis labels, reducing horizontal crowding.
 * `animate()` and `animate_markdown()` animate juggling patterns via the JugglingLab GIF server.
 * `animate()` gains a `prop` argument for selecting the prop type (`"ball"`, `"ring"`, or `"image"`).
+* `animate()` `@param pattern` documentation updated to list all five siteswap types, noting that `passingSiteswap` sequences are not valid JugglingLab notation.
 * `animate()` and `animate_markdown()` now accept [vanillaSiteswap], [synchronousSiteswap], and [multiplexSiteswap] objects as `pattern`, in addition to plain strings.
 * `animate_markdown()` is now exported.
 * `ladder()` now works for `passingSiteswap` objects, drawing a multi-row diagram with passes shown as diagonal segments between juggler rows.
