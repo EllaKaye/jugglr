@@ -33,54 +33,33 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.0.0.9000" id="jugglr-0009000">jugglr 0.0.0.9000<a class="anchor" aria-label="anchor" href="#jugglr-0009000"></a></h2>
-<ul><li>
-<code><a href="../reference/ladder.html">ladder()</a></code> and <code><a href="../reference/timeline.html">timeline()</a></code> titles now show the siteswap sequence directly (e.g. <code>531</code>) rather than prefixing with <code>"Siteswap '"</code>. For <code>synchronousSiteswap</code> and <code>synchronousMultiplexSiteswap</code>, <code><a href="../reference/timeline.html">timeline()</a></code> now uses <code>full_sequence</code> (e.g. <code>(4,2x)(4,2x)</code>) to match the existing <code><a href="../reference/ladder.html">ladder()</a></code> behaviour.</li>
-<li>
-<code><a href="../reference/ladder.html">ladder()</a></code> subtitle-to-plot spacing is now direction-aware: horizontal and vertical ladder diagrams use different margins to reduce excess whitespace and prevent subtitle overlap.</li>
-<li>
-<code><a href="../reference/ladder.html">ladder()</a></code> <code>direction</code> argument now also accepts <code>"h"</code> and <code>"v"</code> as shorthands for <code>"horizontal"</code> and <code>"vertical"</code>.</li>
-<li>
-<code><a href="../reference/ladder.html">ladder()</a></code> gains a <code>title</code> argument (default <code>TRUE</code>) to control whether the plot title is shown, matching the existing <code>subtitle</code> argument.</li>
-<li>
-<code><a href="../reference/timeline.html">timeline()</a></code> gains a <code>subtitle</code> argument (default <code>TRUE</code>) to control whether the plot subtitle is shown independently of the <code>title</code> argument.</li>
-<li>
-<code><a href="../reference/timeline.html">timeline()</a></code> for <code>passingSiteswap</code> now shows only J1’s throws as x-axis labels, with J2 (and further jugglers’) throws displayed as in-plot text annotations below each juggler’s lane.</li>
-<li>
-<code><a href="../reference/timeline.html">timeline()</a></code> for <code>synchronousSiteswap</code> and <code>synchronousMultiplexSiteswap</code> now displays L/R hand throws on separate lines in the axis labels, reducing horizontal crowding.</li>
-<li>
-<code><a href="../reference/animate.html">animate()</a></code> and <code><a href="../reference/animate.html">animate_markdown()</a></code> animate juggling patterns via the JugglingLab GIF server.</li>
-<li>
-<code><a href="../reference/animate.html">animate()</a></code> gains a <code>prop</code> argument for selecting the prop type (<code>"ball"</code>, <code>"ring"</code>, or <code>"image"</code>).</li>
-<li>
-<code><a href="../reference/animate.html">animate()</a></code> and <code><a href="../reference/animate.html">animate_markdown()</a></code> now accept [vanillaSiteswap], [synchronousSiteswap], and [multiplexSiteswap] objects as <code>pattern</code>, in addition to plain strings.</li>
-<li>
-<code><a href="../reference/animate.html">animate_markdown()</a></code> is now exported.</li>
-<li>
-<code><a href="../reference/ladder.html">ladder()</a></code> now works for <code>passingSiteswap</code> objects, drawing a multi-row diagram with passes shown as diagonal segments between juggler rows.</li>
-<li>
-<code><a href="../reference/ladder.html">ladder()</a></code> plots ladder diagrams for vanilla, synchronous, and multiplex siteswaps.</li>
-<li>
-<code><a href="../reference/multiplexSiteswap.html">multiplexSiteswap()</a></code> creates a multiplex siteswap S7 object for patterns with simultaneous throws from one hand, written using square-bracket notation such as <code>"[43]1"</code>.</li>
-<li>
-<code><a href="../reference/passingSiteswap.html">passingSiteswap()</a></code> creates a passing siteswap S7 object for multi-juggler patterns in <code>&lt;A|B&gt;</code> notation. Supports both p-notation (e.g. <code>"&lt;4p 3 | 3 4p&gt;"</code>) and fractional notation (e.g. <code>"&lt;4.5 3 3 | 3 4 3.5&gt;"</code>). Includes <code><a href="../reference/throw_data.html">throw_data()</a></code>, <code><a href="../reference/timeline.html">timeline()</a></code>, and <code><a href="../reference/ladder.html">ladder()</a></code> methods.</li>
-<li>
-<code><a href="../reference/Siteswap.html">siteswap()</a></code> now also dispatches to <code><a href="../reference/passingSiteswap.html">passingSiteswap()</a></code> for <code>&lt;…|…&gt;</code> notation.</li>
-<li>
-<code><a href="../reference/Siteswap.html">siteswap()</a></code> creates a vanilla, synchronous, multiplex, or synchronous multiplex siteswap object from a notation string.</li>
-<li>
-<code><a href="../reference/synchronousMultiplexSiteswap.html">synchronousMultiplexSiteswap()</a></code> creates a synchronous multiplex siteswap S7 object for patterns combining simultaneous two-handed throws with multiplex groups, such as <code>"(2,4)([4x4],2x)"</code>.</li>
-<li>
-<code><a href="../reference/synchronousSiteswap.html">synchronousSiteswap()</a></code> creates a synchronous siteswap S7 object.</li>
-<li>
-<code><a href="../reference/throw_data.html">throw_data()</a></code> returns the raw throw data frame underlying the visualisation functions, for use in custom visualisations.</li>
-<li>
-<code><a href="../reference/timeline.html">timeline()</a></code> now works for <code>passingSiteswap</code> objects, drawing a multi-lane arc diagram with passes shown as arcs connecting juggler lanes.</li>
-<li>
-<code><a href="../reference/timeline.html">timeline()</a></code> now works for <code>synchronousSiteswap</code> objects.</li>
-<li>
-<code><a href="../reference/timeline.html">timeline()</a></code> plots arc/timeline diagrams for vanilla and multiplex siteswaps.</li>
-<li>
-<code><a href="../reference/vanillaSiteswap.html">vanillaSiteswap()</a></code> creates a vanilla siteswap S7 object.</li>
+<ul><li><p><code><a href="../reference/ladder.html">ladder()</a></code> for <code>passingSiteswap</code> now uses the sequence as the plot title directly, consistent with all other siteswap types.</p></li>
+<li><p><code>synchronousSiteswap</code> <code>throws_by_hand</code> property declaration corrected from <code>class_character</code> to <code>class_list</code> to match the list returned by <code>get_sync_hands()</code>.</p></li>
+<li><p><code><a href="../reference/ladder.html">ladder()</a></code> and <code><a href="../reference/timeline.html">timeline()</a></code> titles now show the siteswap sequence directly (e.g. <code>531</code>) rather than prefixing with <code>"Siteswap '"</code>. For <code>synchronousSiteswap</code> and <code>synchronousMultiplexSiteswap</code>, <code><a href="../reference/timeline.html">timeline()</a></code> now uses <code>full_sequence</code> (e.g. <code>(4,2x)(4,2x)</code>) to match the existing <code><a href="../reference/ladder.html">ladder()</a></code> behaviour.</p></li>
+<li><p><code><a href="../reference/ladder.html">ladder()</a></code> subtitle-to-plot spacing is now direction-aware: horizontal and vertical ladder diagrams use different margins to reduce excess whitespace and prevent subtitle overlap.</p></li>
+<li><p><code><a href="../reference/ladder.html">ladder()</a></code> <code>direction</code> argument now also accepts <code>"h"</code> and <code>"v"</code> as shorthands for <code>"horizontal"</code> and <code>"vertical"</code>.</p></li>
+<li><p><code><a href="../reference/ladder.html">ladder()</a></code> gains a <code>title</code> argument (default <code>TRUE</code>) to control whether the plot title is shown, matching the existing <code>subtitle</code> argument.</p></li>
+<li><p><code><a href="../reference/timeline.html">timeline()</a></code> gains a <code>subtitle</code> argument (default <code>TRUE</code>) to control whether the plot subtitle is shown independently of the <code>title</code> argument.</p></li>
+<li><p><code><a href="../reference/timeline.html">timeline()</a></code> for <code>passingSiteswap</code> now shows only J1’s throws as x-axis labels, with J2 (and further jugglers’) throws displayed as in-plot text annotations below each juggler’s lane.</p></li>
+<li><p><code><a href="../reference/timeline.html">timeline()</a></code> for <code>synchronousSiteswap</code> and <code>synchronousMultiplexSiteswap</code> now displays L/R hand throws on separate lines in the axis labels, reducing horizontal crowding.</p></li>
+<li><p><code><a href="../reference/animate.html">animate()</a></code> and <code><a href="../reference/animate.html">animate_markdown()</a></code> animate juggling patterns via the JugglingLab GIF server.</p></li>
+<li><p><code><a href="../reference/animate.html">animate()</a></code> gains a <code>prop</code> argument for selecting the prop type (<code>"ball"</code>, <code>"ring"</code>, or <code>"image"</code>).</p></li>
+<li><p><code><a href="../reference/animate.html">animate()</a></code> <code>@param pattern</code> documentation updated to list all five siteswap types, noting that <code>passingSiteswap</code> sequences are not valid JugglingLab notation.</p></li>
+<li><p><code><a href="../reference/animate.html">animate()</a></code> and <code><a href="../reference/animate.html">animate_markdown()</a></code> now accept [vanillaSiteswap], [synchronousSiteswap], and [multiplexSiteswap] objects as <code>pattern</code>, in addition to plain strings.</p></li>
+<li><p><code><a href="../reference/animate.html">animate_markdown()</a></code> is now exported.</p></li>
+<li><p><code><a href="../reference/ladder.html">ladder()</a></code> now works for <code>passingSiteswap</code> objects, drawing a multi-row diagram with passes shown as diagonal segments between juggler rows.</p></li>
+<li><p><code><a href="../reference/ladder.html">ladder()</a></code> plots ladder diagrams for vanilla, synchronous, and multiplex siteswaps.</p></li>
+<li><p><code><a href="../reference/multiplexSiteswap.html">multiplexSiteswap()</a></code> creates a multiplex siteswap S7 object for patterns with simultaneous throws from one hand, written using square-bracket notation such as <code>"[43]1"</code>.</p></li>
+<li><p><code><a href="../reference/passingSiteswap.html">passingSiteswap()</a></code> creates a passing siteswap S7 object for multi-juggler patterns in <code>&lt;A|B&gt;</code> notation. Supports both p-notation (e.g. <code>"&lt;4p 3 | 3 4p&gt;"</code>) and fractional notation (e.g. <code>"&lt;4.5 3 3 | 3 4 3.5&gt;"</code>). Includes <code><a href="../reference/throw_data.html">throw_data()</a></code>, <code><a href="../reference/timeline.html">timeline()</a></code>, and <code><a href="../reference/ladder.html">ladder()</a></code> methods.</p></li>
+<li><p><code><a href="../reference/Siteswap.html">siteswap()</a></code> now also dispatches to <code><a href="../reference/passingSiteswap.html">passingSiteswap()</a></code> for <code>&lt;…|…&gt;</code> notation.</p></li>
+<li><p><code><a href="../reference/Siteswap.html">siteswap()</a></code> creates a vanilla, synchronous, multiplex, or synchronous multiplex siteswap object from a notation string.</p></li>
+<li><p><code><a href="../reference/synchronousMultiplexSiteswap.html">synchronousMultiplexSiteswap()</a></code> creates a synchronous multiplex siteswap S7 object for patterns combining simultaneous two-handed throws with multiplex groups, such as <code>"(2,4)([4x4],2x)"</code>.</p></li>
+<li><p><code><a href="../reference/synchronousSiteswap.html">synchronousSiteswap()</a></code> creates a synchronous siteswap S7 object.</p></li>
+<li><p><code><a href="../reference/throw_data.html">throw_data()</a></code> returns the raw throw data frame underlying the visualisation functions, for use in custom visualisations.</p></li>
+<li><p><code><a href="../reference/timeline.html">timeline()</a></code> now works for <code>passingSiteswap</code> objects, drawing a multi-lane arc diagram with passes shown as arcs connecting juggler lanes.</p></li>
+<li><p><code><a href="../reference/timeline.html">timeline()</a></code> now works for <code>synchronousSiteswap</code> objects.</p></li>
+<li><p><code><a href="../reference/timeline.html">timeline()</a></code> plots arc/timeline diagrams for vanilla and multiplex siteswaps.</p></li>
+<li><p><code><a href="../reference/vanillaSiteswap.html">vanillaSiteswap()</a></code> creates a vanilla siteswap S7 object.</p></li>
 </ul></div>
   </main></div>
 

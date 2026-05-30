@@ -28,12 +28,15 @@ animate_markdown(pattern, path, colors = NULL, prop = NULL, ...)
 
 - pattern:
 
-  A siteswap pattern string (e.g. `"531"`) or a
+  A siteswap pattern string (e.g. `"531"`) or any siteswap object:
   [vanillaSiteswap](https://ellakaye.github.io/jugglr/reference/vanillaSiteswap.md),
   [synchronousSiteswap](https://ellakaye.github.io/jugglr/reference/synchronousSiteswap.md),
+  [multiplexSiteswap](https://ellakaye.github.io/jugglr/reference/multiplexSiteswap.md),
   or
-  [multiplexSiteswap](https://ellakaye.github.io/jugglr/reference/multiplexSiteswap.md)
-  object.
+  [synchronousMultiplexSiteswap](https://ellakaye.github.io/jugglr/reference/synchronousMultiplexSiteswap.md).
+  [passingSiteswap](https://ellakaye.github.io/jugglr/reference/passingSiteswap.md)
+  objects are also accepted but their sequence format (`<A|B>`) is not
+  valid JugglingLab notation.
 
 - colors:
 
