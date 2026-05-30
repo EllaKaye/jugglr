@@ -118,10 +118,16 @@ synchronousMultiplexSiteswap <- new_class(
   ),
   validator = function(self) {
     if (!is_sync_multiplex_notation(self@sequence)) {
-      return("@sequence is not valid synchronous multiplex siteswap notation")
+      cli::cli_abort(
+        "@sequence is not valid synchronous multiplex siteswap notation.",
+        class = "jugglr_error_invalid_sequence"
+      )
     }
     if (!only_even_throws_sync_multiplex(self@sequence)) {
-      return("@sequence must only contain even-value throws")
+      cli::cli_abort(
+        "@sequence must only contain even-value throws.",
+        class = "jugglr_error_invalid_sequence"
+      )
     }
   },
   parent = Siteswap,

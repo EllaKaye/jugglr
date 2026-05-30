@@ -100,7 +100,10 @@ multiplexSiteswap <- new_class(
   ),
   validator = function(self) {
     if (!is_multiplex_notation(self@sequence)) {
-      "@sequence is not valid multiplex siteswap notation"
+      cli::cli_abort(
+        "@sequence is not valid multiplex siteswap notation.",
+        class = "jugglr_error_invalid_sequence"
+      )
     }
   },
   parent = Siteswap,

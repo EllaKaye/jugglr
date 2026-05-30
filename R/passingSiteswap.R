@@ -144,19 +144,31 @@ passingSiteswap <- new_class(
   ),
   validator = function(self) {
     if (!is_passing_notation(self@sequence)) {
-      return("@sequence is not valid passing siteswap notation")
+      cli::cli_abort(
+        "@sequence is not valid passing siteswap notation.",
+        class = "jugglr_error_invalid_sequence"
+      )
     }
     frac <- is_fractional_notation(self@sequence)
     seqs <- parse_passing_sequence(self@sequence, frac)
     lens <- lengths(seqs)
     if (frac && length(seqs) > 2L) {
-      return("fractional notation only supports 2 jugglers")
+      cli::cli_abort(
+        "Fractional notation only supports 2 jugglers.",
+        class = "jugglr_error_invalid_sequence"
+      )
     }
     if (length(unique(lens)) > 1L) {
-      return("all jugglers must have the same number of throws")
+      cli::cli_abort(
+        "All jugglers must have the same number of throws.",
+        class = "jugglr_error_invalid_sequence"
+      )
     }
     if (any(lens == 0L)) {
-      return("each juggler must have at least one throw")
+      cli::cli_abort(
+        "Each juggler must have at least one throw.",
+        class = "jugglr_error_invalid_sequence"
+      )
     }
   },
   parent = Siteswap,

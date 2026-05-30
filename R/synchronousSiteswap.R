@@ -118,12 +118,17 @@ synchronousSiteswap <- new_class(
     )
   ),
   validator = function(self) {
-    if (!(str_detect(self@sequence, "^(\\([0-9a-z]x?,[0-9a-z]x?\\))+\\*?$"))) {
-      return("@sequence is not valid synchronous siteswap notation")
+    if (!str_detect(self@sequence, "^(\\([0-9a-z]x?,[0-9a-z]x?\\))+\\*?$")) {
+      cli::cli_abort(
+        "@sequence is not valid synchronous siteswap notation.",
+        class = "jugglr_error_invalid_sequence"
+      )
     }
-
     if (!only_even_throws(self@sequence)) {
-      return("@sequence must only contain even-value throws")
+      cli::cli_abort(
+        "@sequence must only contain even-value throws.",
+        class = "jugglr_error_invalid_sequence"
+      )
     }
   },
   parent = Siteswap,
