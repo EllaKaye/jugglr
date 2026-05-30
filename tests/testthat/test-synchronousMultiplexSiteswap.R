@@ -55,14 +55,29 @@ test_that("synchronousMultiplexSiteswap valid is FALSE for invalid pattern", {
 # Validation -----------------------------------------------------------------
 
 test_that("synchronousMultiplexSiteswap rejects non-sync-multiplex notation", {
-  expect_error(synchronousMultiplexSiteswap("531"), class = "jugglr_error_invalid_sequence")
-  expect_error(synchronousMultiplexSiteswap("(4,2x)"), class = "jugglr_error_invalid_sequence")
-  expect_error(synchronousMultiplexSiteswap("[43]1"), class = "jugglr_error_invalid_sequence")
+  expect_error(
+    synchronousMultiplexSiteswap("531"),
+    class = "jugglr_error_invalid_sequence"
+  )
+  expect_error(
+    synchronousMultiplexSiteswap("(4,2x)"),
+    class = "jugglr_error_invalid_sequence"
+  )
+  expect_error(
+    synchronousMultiplexSiteswap("[43]1"),
+    class = "jugglr_error_invalid_sequence"
+  )
 })
 
 test_that("synchronousMultiplexSiteswap rejects odd throws", {
-  expect_error(synchronousMultiplexSiteswap("(2,4)([3x4],2)"), class = "jugglr_error_invalid_sequence")
-  expect_error(synchronousMultiplexSiteswap("(2,4)([4x4],3)"), class = "jugglr_error_invalid_sequence")
+  expect_error(
+    synchronousMultiplexSiteswap("(2,4)([3x4],2)"),
+    class = "jugglr_error_invalid_sequence"
+  )
+  expect_error(
+    synchronousMultiplexSiteswap("(2,4)([4x4],3)"),
+    class = "jugglr_error_invalid_sequence"
+  )
 })
 
 # Dispatcher -----------------------------------------------------------------

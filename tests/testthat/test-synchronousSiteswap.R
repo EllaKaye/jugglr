@@ -55,13 +55,25 @@ test_that("synchronousSiteswap valid is FALSE for invalid pattern", {
 # Validation -----------------------------------------------------------------
 
 test_that("synchronousSiteswap rejects non-sync notation", {
-  expect_error(synchronousSiteswap("531"), class = "jugglr_error_invalid_sequence")
-  expect_error(synchronousSiteswap("(4,4,4)"), class = "jugglr_error_invalid_sequence")
+  expect_error(
+    synchronousSiteswap("531"),
+    class = "jugglr_error_invalid_sequence"
+  )
+  expect_error(
+    synchronousSiteswap("(4,4,4)"),
+    class = "jugglr_error_invalid_sequence"
+  )
 })
 
 test_that("synchronousSiteswap rejects odd throws", {
-  expect_error(synchronousSiteswap("(4,3)"), class = "jugglr_error_invalid_sequence")
-  expect_error(synchronousSiteswap("(3,3)"), class = "jugglr_error_invalid_sequence")
+  expect_error(
+    synchronousSiteswap("(4,3)"),
+    class = "jugglr_error_invalid_sequence"
+  )
+  expect_error(
+    synchronousSiteswap("(3,3)"),
+    class = "jugglr_error_invalid_sequence"
+  )
 })
 
 # print ----------------------------------------------------------------------

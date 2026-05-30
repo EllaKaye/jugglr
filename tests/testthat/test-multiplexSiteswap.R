@@ -54,9 +54,18 @@ test_that("multiplexSiteswap valid is FALSE for invalid patterns", {
 # Validation -----------------------------------------------------------------
 
 test_that("multiplexSiteswap rejects non-multiplex notation", {
-  expect_error(multiplexSiteswap("531"), class = "jugglr_error_invalid_sequence")
-  expect_error(multiplexSiteswap("(4,2x)*"), class = "jugglr_error_invalid_sequence")
-  expect_error(multiplexSiteswap("[43"), class = "jugglr_error_invalid_sequence")
+  expect_error(
+    multiplexSiteswap("531"),
+    class = "jugglr_error_invalid_sequence"
+  )
+  expect_error(
+    multiplexSiteswap("(4,2x)*"),
+    class = "jugglr_error_invalid_sequence"
+  )
+  expect_error(
+    multiplexSiteswap("[43"),
+    class = "jugglr_error_invalid_sequence"
+  )
   expect_error(multiplexSiteswap("[]"), class = "jugglr_error_invalid_sequence")
 })
 

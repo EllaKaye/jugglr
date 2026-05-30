@@ -49,8 +49,14 @@ test_that("vanillaSiteswap valid is FALSE for invalid pattern", {
 # Validation -----------------------------------------------------------------
 
 test_that("vanillaSiteswap rejects non-alphanumeric sequences", {
-  expect_error(vanillaSiteswap("(4,4)"), class = "jugglr_error_invalid_sequence")
-  expect_error(vanillaSiteswap("5-3-1"), class = "jugglr_error_invalid_sequence")
+  expect_error(
+    vanillaSiteswap("(4,4)"),
+    class = "jugglr_error_invalid_sequence"
+  )
+  expect_error(
+    vanillaSiteswap("5-3-1"),
+    class = "jugglr_error_invalid_sequence"
+  )
 })
 
 # print ----------------------------------------------------------------------

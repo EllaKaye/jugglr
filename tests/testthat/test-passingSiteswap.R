@@ -87,12 +87,18 @@ test_that("compact and spaced p-notation are equivalent", {
 
 test_that("passingSiteswap rejects invalid notation", {
   expect_error(passingSiteswap("531"), class = "jugglr_error_invalid_sequence")
-  expect_error(passingSiteswap("<3p 3 3>"), class = "jugglr_error_invalid_sequence")
+  expect_error(
+    passingSiteswap("<3p 3 3>"),
+    class = "jugglr_error_invalid_sequence"
+  )
   expect_error(passingSiteswap("<>"), class = "jugglr_error_invalid_sequence")
 })
 
 test_that("passingSiteswap rejects unequal juggler lengths", {
-  expect_error(passingSiteswap("<3p 3 | 3p 3 3>"), class = "jugglr_error_invalid_sequence")
+  expect_error(
+    passingSiteswap("<3p 3 | 3p 3 3>"),
+    class = "jugglr_error_invalid_sequence"
+  )
 })
 
 test_that("passingSiteswap rejects fractional notation with 3+ jugglers", {

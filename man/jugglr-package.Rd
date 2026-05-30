@@ -6,6 +6,8 @@
 \alias{jugglr-package}
 \title{jugglr: Juggling Pattern Validation and Visualisation}
 \description{
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+
 Validate and visualise juggling patterns expressed in siteswap notation. Supports vanilla, synchronous, multiplex, synchronous multiplex, and passing siteswap, with tools to check pattern validity, produce timeline arc diagrams and ladder diagrams, retrieve raw throw data for custom visualisations, and animate patterns via the JugglingLab GIF server.
 }
 \seealso{
