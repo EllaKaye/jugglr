@@ -25,6 +25,7 @@ test_that("synchronousSiteswap computes throws_by_hand", {
     ss@throws_by_hand,
     list(hand_1 = c("4", "2x"), hand_2 = c("2x", "4"))
   )
+  expect_type(ss@throws_by_hand, "list")
 })
 
 test_that("synchronousSiteswap computes period", {
@@ -54,13 +55,13 @@ test_that("synchronousSiteswap valid is FALSE for invalid pattern", {
 # Validation -----------------------------------------------------------------
 
 test_that("synchronousSiteswap rejects non-sync notation", {
-  expect_error(synchronousSiteswap("531"))
-  expect_error(synchronousSiteswap("(4,4,4)"))
+  expect_error(synchronousSiteswap("531"), class = "jugglr_error_invalid_sequence")
+  expect_error(synchronousSiteswap("(4,4,4)"), class = "jugglr_error_invalid_sequence")
 })
 
 test_that("synchronousSiteswap rejects odd throws", {
-  expect_error(synchronousSiteswap("(4,3)"))
-  expect_error(synchronousSiteswap("(3,3)"))
+  expect_error(synchronousSiteswap("(4,3)"), class = "jugglr_error_invalid_sequence")
+  expect_error(synchronousSiteswap("(3,3)"), class = "jugglr_error_invalid_sequence")
 })
 
 # print ----------------------------------------------------------------------

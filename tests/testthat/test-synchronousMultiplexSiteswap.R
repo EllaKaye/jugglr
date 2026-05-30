@@ -55,14 +55,14 @@ test_that("synchronousMultiplexSiteswap valid is FALSE for invalid pattern", {
 # Validation -----------------------------------------------------------------
 
 test_that("synchronousMultiplexSiteswap rejects non-sync-multiplex notation", {
-  expect_error(synchronousMultiplexSiteswap("531"))
-  expect_error(synchronousMultiplexSiteswap("(4,2x)"))
-  expect_error(synchronousMultiplexSiteswap("[43]1"))
+  expect_error(synchronousMultiplexSiteswap("531"), class = "jugglr_error_invalid_sequence")
+  expect_error(synchronousMultiplexSiteswap("(4,2x)"), class = "jugglr_error_invalid_sequence")
+  expect_error(synchronousMultiplexSiteswap("[43]1"), class = "jugglr_error_invalid_sequence")
 })
 
 test_that("synchronousMultiplexSiteswap rejects odd throws", {
-  expect_error(synchronousMultiplexSiteswap("(2,4)([3x4],2)"))
-  expect_error(synchronousMultiplexSiteswap("(2,4)([4x4],3)"))
+  expect_error(synchronousMultiplexSiteswap("(2,4)([3x4],2)"), class = "jugglr_error_invalid_sequence")
+  expect_error(synchronousMultiplexSiteswap("(2,4)([4x4],3)"), class = "jugglr_error_invalid_sequence")
 })
 
 # Dispatcher -----------------------------------------------------------------
@@ -169,4 +169,9 @@ test_that("timeline respects subtitle = FALSE", {
   p <- timeline(smp, subtitle = FALSE)
   expect_s3_class(p, "ggplot")
   expect_null(p$labels$subtitle)
+})
+
+test_that("timeline uses linetype aesthetic to distinguish hands", {
+  p <- timeline(smp)
+  expect_true("linetype" %in% names(p$mapping))
 })

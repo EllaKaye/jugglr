@@ -83,6 +83,10 @@ test_that("jugglinglab_url accepts Siteswap objects", {
     jugglinglab_url(multiplexSiteswap("[43]1")),
     jugglinglab_url("[43]1")
   )
+  expect_equal(
+    jugglinglab_url(synchronousMultiplexSiteswap("(2,4)([4x4],2x)")),
+    jugglinglab_url("(2,4)([4x4],2x)")
+  )
 })
 
 test_that("jugglinglab_url errors for invalid pattern type", {

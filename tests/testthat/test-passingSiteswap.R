@@ -2,6 +2,7 @@ s6 <- passingSiteswap("<3p 3 3 3 3 3 | 3p 3 3 3 3 3>") # 6-count, 6 props
 s7 <- passingSiteswap("<4p 3 | 3 4p>") # 7-club 2-count, valid
 s_invalid <- passingSiteswap("<4p 3 | 4p 3>") # collision
 sf <- passingSiteswap("<4.5 3 3 | 3 4 3.5>") # fractional, 7 props
+s3 <- passingSiteswap("<3p 3 3 | 3p 3 3 | 3p 3 3>") # 3-juggler p-notation
 
 # Properties -----------------------------------------------------------------
 
@@ -85,19 +86,45 @@ test_that("compact and spaced p-notation are equivalent", {
 # Validation -----------------------------------------------------------------
 
 test_that("passingSiteswap rejects invalid notation", {
-  expect_error(passingSiteswap("531"))
-  expect_error(passingSiteswap("<3p 3 3>")) # missing second juggler
-  expect_error(passingSiteswap("<>"))
+  expect_error(passingSiteswap("531"), class = "jugglr_error_invalid_sequence")
+  expect_error(passingSiteswap("<3p 3 3>"), class = "jugglr_error_invalid_sequence")
+  expect_error(passingSiteswap("<>"), class = "jugglr_error_invalid_sequence")
 })
 
 test_that("passingSiteswap rejects unequal juggler lengths", {
-  expect_error(passingSiteswap("<3p 3 | 3p 3 3>"))
+  expect_error(passingSiteswap("<3p 3 | 3p 3 3>"), class = "jugglr_error_invalid_sequence")
+})
+
+test_that("passingSiteswap rejects fractional notation with 3+ jugglers", {
+  expect_error(
+    passingSiteswap("<4.5 3 | 3 4 | 3 3>"),
+    class = "jugglr_error_invalid_sequence"
+  )
 })
 
 # siteswap() dispatcher ------------------------------------------------------
 
 test_that("siteswap() dispatches to passingSiteswap", {
   expect_s7_class(siteswap("<4p 3 | 3 4p>"), passingSiteswap)
+})
+
+# 3-juggler pattern ----------------------------------------------------------
+
+test_that("3-juggler passingSiteswap has correct n_jugglers", {
+  expect_equal(s3@n_jugglers, 3L)
+})
+
+test_that("3-juggler passingSiteswap is valid", {
+  expect_true(s3@valid)
+})
+
+test_that("print works for 3-juggler passingSiteswap", {
+  expect_message(print(s3), "valid passing siteswap")
+  expect_message(print(s3), "3 jugglers")
+})
+
+test_that("throw_data returns correct row count for 3-juggler pattern", {
+  expect_equal(nrow(throw_data(s3, n_cycles = 2)), 3L * 3L * 2L)
 })
 
 # throw_data -----------------------------------------------------------------
@@ -124,8 +151,8 @@ test_that("throw_data has expected columns for passingSiteswap", {
 })
 
 test_that("throw_data has n_jugglers * period * n_cycles rows", {
-  expect_equal(nrow(throw_data(s7, n_cycles = 3)), 2L * 2L * 3L)
-  expect_equal(nrow(throw_data(s6, n_cycles = 1)), 2L * 6L * 1L)
+  expect_equal(nrow(throw_data(s7, n_cycles = 3)), 12L)
+  expect_equal(nrow(throw_data(s6, n_cycles = 1)), 12L)
 })
 
 test_that("throw_data assigns a prop to every row", {

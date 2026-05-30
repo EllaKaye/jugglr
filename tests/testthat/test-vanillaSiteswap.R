@@ -49,8 +49,8 @@ test_that("vanillaSiteswap valid is FALSE for invalid pattern", {
 # Validation -----------------------------------------------------------------
 
 test_that("vanillaSiteswap rejects non-alphanumeric sequences", {
-  expect_error(vanillaSiteswap("(4,4)"))
-  expect_error(vanillaSiteswap("5-3-1"))
+  expect_error(vanillaSiteswap("(4,4)"), class = "jugglr_error_invalid_sequence")
+  expect_error(vanillaSiteswap("5-3-1"), class = "jugglr_error_invalid_sequence")
 })
 
 # print ----------------------------------------------------------------------
@@ -79,6 +79,14 @@ test_that("print shows both reasons when both conditions fail", {
 
 test_that("throw_data returns a data frame", {
   expect_s3_class(throw_data(s), "data.frame")
+})
+
+test_that("throw_data prop tracking is correct for 531 over 1 cycle", {
+  expect_equal(throw_data(s, n_cycles = 1)$prop, c(1, 2, 3))
+})
+
+test_that("throw_data has period * n_cycles rows for n_cycles = 1", {
+  expect_equal(nrow(throw_data(s, n_cycles = 1)), 3L)
 })
 
 test_that("throw_data has expected columns", {
@@ -113,6 +121,12 @@ test_that("throw_data errors for invalid n_cycles", {
 
 test_that("timeline returns a ggplot", {
   expect_s3_class(timeline(s), "ggplot")
+})
+
+test_that("timeline has layers and x aesthetic", {
+  p <- timeline(s)
+  expect_true(length(p$layers) > 0)
+  expect_true("x" %in% names(p$mapping))
 })
 
 test_that("timeline works without title", {
