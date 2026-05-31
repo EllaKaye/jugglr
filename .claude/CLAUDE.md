@@ -55,6 +55,10 @@ General advice:
 - All new code should have an accompanying test.
 - If there are existing tests, place new tests next to similar existing tests.
 - Strive to keep your tests minimal with few comments
+- Add a new ## Testing section to CLAUDE.md, or append under an existing testing/workflow section.\n\n## Testing
+- Always commit test files along with the code changes they cover; do not leave tests uncommitted.
+- After completing code review improvements or refactors, run the full test suite and confirm all tests pass before committing.
+- Use `expect_message()` (not `expect_output()`) for testing `cli::cli_bullets()` and other cli output that writes to the message stream.
 
 ### Documentation
 
@@ -72,6 +76,7 @@ General advice:
 - When making edits automatically, make git commits at sensible points
 - When writing plans, make it clear where you are going to commit
 - Whenever you make a git commit, immediately follow it with the bash command `cca`, which is an alias that adds Claide Code as a co-author
+
 
 ### `NEWS.md`
 
@@ -96,12 +101,21 @@ Fix spelling, grammar, and other minor problems without asking the user. Label a
 
 Only report what you have changed.
 
+## Verification Before Claims
+- Before claiming something is 'undocumented' or 'novel', check the full article/vignette suite (not just the package vignette) and search documentation comprehensively.
+- Validate example inputs against the actual parser before using them in tests (e.g., confirm a siteswap pattern is invalid before asserting it should fail).
+
 ### Code style
 
 - Use newspaper style/high-level first function organisation. Main logic at the top and helper functions should come below.
 - Don't define functions inside of functions unless they are very brief.
 - Error messages should use `cli::cli_abort()` and follow the tidyverse style guide (https://style.tidyverse.org/errors.html).
 - All error messages should have a class that can be checked for when testing.
+
+## R package conventions
+- Use `.data$` pronouns in tidy-eval contexts to avoid R CMD check NOTEs about undefined globals.
+- Prefer putting allowed values in the function's default argument signature over `rlang::arg_match()` or `match.arg()` when the simpler approach works.
+- For collation ordering, use `@include` roxygen tags rather than manually editing the Collate field
 
 ## S7
 
