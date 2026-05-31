@@ -107,21 +107,16 @@ a `path` argument is supplied, the animation will be saved to that
 location instead. Note that it can take several seconds for the
 animation to render.
 
-For embedding in RMarkdown or quarto documents, there is a wrapper,
-[`animate_markdown()`](https://ellakaye.github.io/jugglr/reference/animate.md),
-which calls
-[`knitr::include_graphics()`](https://rdrr.io/pkg/knitr/man/include_graphics.html),
-and display options can be set as chunk arguments (e.g. for the output
-below, `out.width="40%")`:
+To save a GIF for embedding in an R Markdown or Quarto document, pass a
+`path` argument to
+[`animate()`](https://ellakaye.github.io/jugglr/reference/animate.md),
+then reference the saved file with
+[`knitr::include_graphics()`](https://rdrr.io/pkg/knitr/man/include_graphics.html).
+Display options can be set as chunk arguments:
 
 ``` r
 
-animate_markdown(
-  "423", 
-  path = "man/figures/423-animation.gif", 
-  colors = c("#E69F00", "#56B4E9", "#009E73")
-  )
-#> ✔ Animation saved to: 'man/figures/423-animation.gif'
+animate("423", path = "man/figures/423-animation.gif", colors = c("#E69F00", "#56B4E9", "#009E73"))
 ```
 
 ![](reference/figures/423-animation.gif)
@@ -155,7 +150,6 @@ animate_markdown(
 ## Animation
 
 - [`animate()`](https://ellakaye.github.io/jugglr/reference/animate.md)
-  [`animate_markdown()`](https://ellakaye.github.io/jugglr/reference/animate.md)
   : Animate a juggling pattern
 
 ## Package

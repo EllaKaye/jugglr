@@ -27,7 +27,6 @@
 ## Animation
 
 - [`animate()`](https://ellakaye.github.io/jugglr/reference/animate.md)
-  [`animate_markdown()`](https://ellakaye.github.io/jugglr/reference/animate.md)
   : Animate a juggling pattern
 
 ## Package

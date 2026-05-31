@@ -20,8 +20,6 @@ animate(
   ...,
   path = NULL
 )
-
-animate_markdown(pattern, path, colors = NULL, prop = NULL, ...)
 ```
 
 ## Arguments
@@ -84,23 +82,10 @@ animate_markdown(pattern, path, colors = NULL, prop = NULL, ...)
 Invisibly returns the path to the temporary HTML file (when displaying)
 or the save path (when `path` is given).
 
-A knitr graphics object for inline embedding.
-
 ## Details
 
 Note that setting `colors` can introduce a short delay while the server
 renders the animation.
-
-## Functions
-
-- `animate_markdown()`: Save a GIF to `path` and embed it in an R
-  Markdown or Quarto document via
-  [`knitr::include_graphics()`](https://rdrr.io/pkg/knitr/man/include_graphics.html).
-  The `path` argument is required; set a persistent file path (not a
-  [`tempfile()`](https://rdrr.io/r/base/tempfile.html)) so the rendered
-  document can reference it. All arguments accepted by `animate()` (such
-  as `prop`, `bps`, `slowdown`, `width`, `height`, and any `...`
-  arguments) can be passed through.
 
 ## Examples
 
@@ -109,10 +94,5 @@ if (FALSE) { # \dontrun{
 animate("531")
 animate(vanillaSiteswap("531"), prop = "ring", bps = 5)
 animate("531", path = tempfile(fileext = ".gif"))
-} # }
-
-if (FALSE) { # \dontrun{
-# In an R Markdown or Quarto document:
-animate_markdown("531", path = "531.gif")
 } # }
 ```

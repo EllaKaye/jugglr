@@ -49,9 +49,7 @@
   reducing horizontal crowding.
 
 - [`animate()`](https://ellakaye.github.io/jugglr/reference/animate.md)
-  and
-  [`animate_markdown()`](https://ellakaye.github.io/jugglr/reference/animate.md)
-  animate juggling patterns via the JugglingLab GIF server.
+  animates juggling patterns via the JugglingLab GIF server.
 
 - [`animate()`](https://ellakaye.github.io/jugglr/reference/animate.md)
   gains a `prop` argument for selecting the prop type (`"ball"`,
@@ -63,14 +61,9 @@
   JugglingLab notation.
 
 - [`animate()`](https://ellakaye.github.io/jugglr/reference/animate.md)
-  and
-  [`animate_markdown()`](https://ellakaye.github.io/jugglr/reference/animate.md)
-  now accept \[vanillaSiteswap\], \[synchronousSiteswap\], and
+  now accepts \[vanillaSiteswap\], \[synchronousSiteswap\], and
   \[multiplexSiteswap\] objects as `pattern`, in addition to plain
   strings.
-
-- [`animate_markdown()`](https://ellakaye.github.io/jugglr/reference/animate.md)
-  is now exported.
 
 - [`ladder()`](https://ellakaye.github.io/jugglr/reference/ladder.md)
   now works for `passingSiteswap` objects, drawing a multi-row diagram

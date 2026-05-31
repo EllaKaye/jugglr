@@ -116,14 +116,9 @@
 </h3>
 <p><strong>jugglr</strong> provides a wrapper to the <a href="https://jugglinglab.org/html/animinfo.html" class="external-link">JugglingLab GIF server</a>. Unlike the plotting functions, the main argument is any <em>valid</em> siteswap sequence as a string.</p>
 <p>If called in Positron or RStudio, <code><a href="reference/animate.html">animate()</a></code> will show the animation in the Viewer pane, otherwise in the browser. If a <code>path</code> argument is supplied, the animation will be saved to that location instead. Note that it can take several seconds for the animation to render.</p>
-<p>For embedding in RMarkdown or quarto documents, there is a wrapper, <code><a href="reference/animate.html">animate_markdown()</a></code>, which calls <code><a href="https://rdrr.io/pkg/knitr/man/include_graphics.html" class="external-link">knitr::include_graphics()</a></code>, and display options can be set as chunk arguments (e.g. for the output below, <code>out.width="40%")</code>:</p>
+<p>To save a GIF for embedding in an R Markdown or Quarto document, pass a <code>path</code> argument to <code><a href="reference/animate.html">animate()</a></code>, then reference the saved file with <code><a href="https://rdrr.io/pkg/knitr/man/include_graphics.html" class="external-link">knitr::include_graphics()</a></code>. Display options can be set as chunk arguments:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/animate.html">animate_markdown</a></span><span class="op">(</span></span>
-<span>  <span class="st">"423"</span>, </span>
-<span>  path <span class="op">=</span> <span class="st">"man/figures/423-animation.gif"</span>, </span>
-<span>  colors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#E69F00"</span>, <span class="st">"#56B4E9"</span>, <span class="st">"#009E73"</span><span class="op">)</span></span>
-<span>  <span class="op">)</span></span>
-<span><span class="co">#&gt; ✔ Animation saved to: 'man/figures/423-animation.gif'</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/animate.html">animate</a></span><span class="op">(</span><span class="st">"423"</span>, path <span class="op">=</span> <span class="st">"man/figures/423-animation.gif"</span>, colors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#E69F00"</span>, <span class="st">"#56B4E9"</span>, <span class="st">"#009E73"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/423-animation.gif" alt="" width="40%"></p>
 </div>
 </div>
