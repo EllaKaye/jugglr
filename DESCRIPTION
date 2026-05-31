@@ -48,3 +48,4 @@ Collate:
     'synchronousMultiplexSiteswap.R'
     'synchronousSiteswap.R'
     'vanillaSiteswap.R'
+VignetteBuilder: knitr

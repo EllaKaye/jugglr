@@ -5,3 +5,4 @@
 **/*.quarto_ipynb
 docs
 tests/testthat/_problems/
+inst/doc
