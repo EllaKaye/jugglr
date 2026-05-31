@@ -25,6 +25,11 @@ You can install the development version of jugglr from
 pak::pak("EllaKaye/jugglr")
 ```
 
+For a full introduction to the package, see
+[`vignette("jugglr")`](https://ellakaye.github.io/jugglr/articles/jugglr.md).
+For the full range of animation options, see
+[`vignette("animate")`](https://ellakaye.github.io/jugglr/articles/animate.md).
+
 ## Siteswap
 
 The
@@ -200,3 +205,11 @@ animate("423", path = "man/figures/423-animation.gif", colors = c("#E69F00", "#5
   [`jugglr-package`](https://ellakaye.github.io/jugglr/reference/jugglr-package.md)
   : jugglr: Juggling Pattern Validation and Visualisation
 
+# Articles
+
+### All vignettes
+
+- [Animating juggling
+  patterns](https://ellakaye.github.io/jugglr/articles/animate.md):
+- [Get started with
+  jugglr](https://ellakaye.github.io/jugglr/articles/jugglr.md):

@@ -2,6 +2,14 @@
 
 ## jugglr 0.0.0.9000
 
+- Two vignettes are now available:
+  [`vignette("jugglr")`](https://ellakaye.github.io/jugglr/articles/jugglr.md)
+  covers all siteswap notation types, validation, and diagrams;
+  [`vignette("animate")`](https://ellakaye.github.io/jugglr/articles/animate.md)
+  covers all options for the
+  [`animate()`](https://ellakaye.github.io/jugglr/reference/animate.md)
+  function.
+
 - [`ladder()`](https://ellakaye.github.io/jugglr/reference/ladder.md)
   for `passingSiteswap` now uses the sequence as the plot title
   directly, consistent with all other siteswap types.
