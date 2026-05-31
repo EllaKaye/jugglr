@@ -29,7 +29,7 @@ pak::pak("EllaKaye/jugglr")
 
 ## Siteswap
 
-Once a Siteswap object is created, it’s print method will display
+Once a Siteswap object is created, its print method will display
 information about the sequence, such as whether it is a valid juggling
 pattern and, if so, how many props it uses.
 
@@ -77,11 +77,11 @@ ladder(ss423)
 
 <img src="man/figures/README-unnamed-chunk-4-1.png" alt="" width="100%" />
 
-These plots are also useful for understand why non-valid sequences are
-not jugglable. We can see, for example, where two props would need to be
-caught at the same time (which is not permissible in vanilla siteswap).
-Because each prop is shown in a different colour, we can see where balls
-are disappearing or needing suddenly to appear.
+These plots are also useful for understanding why non-valid sequences
+are not jugglable. We can see, for example, where two props would need
+to be caught at the same time (which is not permissible in vanilla
+siteswap). Because each prop is shown in a different colour, we can see
+where balls are disappearing or needing suddenly to appear.
 
 ``` r
 timeline(ss21)
@@ -118,7 +118,7 @@ animate_markdown(
   path = "man/figures/423-animation.gif", 
   colors = c("#E69F00", "#56B4E9", "#009E73")
   )
-#> ✔ Animation saved to: ']8;;file:///Users/ellakaye/Projects/mine/packages/jugglr/man/figures/423-animation.gifman/figures/423-animation.gif]8;;'
+#> ✔ Animation saved to: 'man/figures/423-animation.gif'
 ```
 
 <img src="man/figures/423-animation.gif" alt="" width="40%" />
