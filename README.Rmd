@@ -94,13 +94,13 @@ If called in Positron or RStudio, `animate()` will show the animation in the Vie
 otherwise in the browser. If a `path` argument is supplied, the animation will be saved to that location instead.
 Note that it can take several seconds for the animation to render.
 
-For embedding in RMarkdown or quarto documents, there is a wrapper, `animate_markdown()`, which calls `knitr::include_graphics()`, and display options can be set as chunk arguments (e.g. for the output below, `out.width="40%")`:
+To save a GIF for embedding in an R Markdown or Quarto document, pass a `path` argument to `animate()`, then reference the saved file with `knitr::include_graphics()`. Display options can be set as chunk arguments:
 
-```{r, out.width="40%"}
-animate_markdown(
-  "423", 
-  path = "man/figures/423-animation.gif", 
-  colors = c("#E69F00", "#56B4E9", "#009E73")
-  )
+```{r, eval=FALSE}
+animate("423", path = "man/figures/423-animation.gif", colors = c("#E69F00", "#56B4E9", "#009E73"))
+```
+
+```{r, out.width="40%", echo=FALSE}
+knitr::include_graphics("man/figures/423-animation.gif")
 ```
 

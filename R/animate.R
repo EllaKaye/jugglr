@@ -126,28 +126,6 @@ animate <- function(
   invisible(temp_file)
 }
 
-#' @describeIn animate Save a GIF to `path` and embed it in an R Markdown or
-#'   Quarto document via [knitr::include_graphics()]. The `path` argument is
-#'   required; set a persistent file path (not a `tempfile()`) so the rendered
-#'   document can reference it. All arguments accepted by [animate()] (such as
-#'   `prop`, `bps`, `slowdown`, `width`, `height`, and any `...` arguments) can
-#'   be passed through.
-#'
-#' @returns A knitr graphics object for inline embedding.
-#'
-#' @examples
-#' \dontrun{
-#' # In an R Markdown or Quarto document:
-#' animate_markdown("531", path = "531.gif")
-#' }
-#'
-#' @export
-animate_markdown <- function(pattern, path, colors = NULL, prop = NULL, ...) {
-  rlang::check_installed("knitr", reason = "to use `animate_markdown()`")
-  animate(pattern, colors = colors, prop = prop, path = path, ...)
-  knitr::include_graphics(path)
-}
-
 
 # Non-exported helpers ---------------------------------------------------
 

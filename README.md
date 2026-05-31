@@ -107,18 +107,13 @@ the Viewer pane, otherwise in the browser. If a `path` argument is
 supplied, the animation will be saved to that location instead. Note
 that it can take several seconds for the animation to render.
 
-For embedding in RMarkdown or quarto documents, there is a wrapper,
-`animate_markdown()`, which calls `knitr::include_graphics()`, and
-display options can be set as chunk arguments (e.g. for the output
-below, `out.width="40%")`:
+To save a GIF for embedding in an R Markdown or Quarto document, pass a
+`path` argument to `animate()`, then reference the saved file with
+`knitr::include_graphics()`. Display options can be set as chunk
+arguments:
 
 ``` r
-animate_markdown(
-  "423", 
-  path = "man/figures/423-animation.gif", 
-  colors = c("#E69F00", "#56B4E9", "#009E73")
-  )
-#> ✔ Animation saved to: 'man/figures/423-animation.gif'
+animate("423", path = "man/figures/423-animation.gif", colors = c("#E69F00", "#56B4E9", "#009E73"))
 ```
 
 <img src="man/figures/423-animation.gif" alt="" width="40%" />

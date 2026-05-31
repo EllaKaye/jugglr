@@ -10,11 +10,10 @@
 * `timeline()` gains a `subtitle` argument (default `TRUE`) to control whether the plot subtitle is shown independently of the `title` argument.
 * `timeline()` for `passingSiteswap` now shows only J1's throws as x-axis labels, with J2 (and further jugglers') throws displayed as in-plot text annotations below each juggler's lane.
 * `timeline()` for `synchronousSiteswap` and `synchronousMultiplexSiteswap` now displays L/R hand throws on separate lines in the axis labels, reducing horizontal crowding.
-* `animate()` and `animate_markdown()` animate juggling patterns via the JugglingLab GIF server.
+* `animate()` animates juggling patterns via the JugglingLab GIF server.
 * `animate()` gains a `prop` argument for selecting the prop type (`"ball"`, `"ring"`, or `"image"`).
 * `animate()` `@param pattern` documentation updated to list all five siteswap types, noting that `passingSiteswap` sequences are not valid JugglingLab notation.
-* `animate()` and `animate_markdown()` now accept [vanillaSiteswap], [synchronousSiteswap], and [multiplexSiteswap] objects as `pattern`, in addition to plain strings.
-* `animate_markdown()` is now exported.
+* `animate()` now accepts [vanillaSiteswap], [synchronousSiteswap], and [multiplexSiteswap] objects as `pattern`, in addition to plain strings.
 * `ladder()` now works for `passingSiteswap` objects, drawing a multi-row diagram with passes shown as diagonal segments between juggler rows.
 * `ladder()` plots ladder diagrams for vanilla, synchronous, and multiplex siteswaps.
 * `multiplexSiteswap()` creates a multiplex siteswap S7 object for patterns with simultaneous throws from one hand, written using square-bracket notation such as `"[43]1"`.

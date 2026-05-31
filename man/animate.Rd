@@ -2,7 +2,6 @@
 % Please edit documentation in R/animate.R
 \name{animate}
 \alias{animate}
-\alias{animate_markdown}
 \title{Animate a juggling pattern}
 \usage{
 animate(
@@ -17,8 +16,6 @@ animate(
   ...,
   path = NULL
 )
-
-animate_markdown(pattern, path, colors = NULL, prop = NULL, ...)
 }
 \arguments{
 \item{pattern}{A siteswap pattern string (e.g. \code{"531"}) or any siteswap
@@ -54,8 +51,6 @@ the animation is displayed in the viewer.}
 \value{
 Invisibly returns the path to the temporary HTML file (when
 displaying) or the save path (when \code{path} is given).
-
-A knitr graphics object for inline embedding.
 }
 \description{
 Generates an animated GIF of a juggling pattern via the
@@ -67,26 +62,11 @@ the GIF is saved to disk instead.
 Note that setting \code{colors} can introduce a short delay while the server
 renders the animation.
 }
-\section{Functions}{
-\itemize{
-\item \code{animate_markdown()}: Save a GIF to \code{path} and embed it in an R Markdown or
-Quarto document via \code{\link[knitr:include_graphics]{knitr::include_graphics()}}. The \code{path} argument is
-required; set a persistent file path (not a \code{tempfile()}) so the rendered
-document can reference it. All arguments accepted by \code{\link[=animate]{animate()}} (such as
-\code{prop}, \code{bps}, \code{slowdown}, \code{width}, \code{height}, and any \code{...} arguments) can
-be passed through.
-
-}}
 \examples{
 \dontrun{
 animate("531")
 animate(vanillaSiteswap("531"), prop = "ring", bps = 5)
 animate("531", path = tempfile(fileext = ".gif"))
-}
-
-\dontrun{
-# In an R Markdown or Quarto document:
-animate_markdown("531", path = "531.gif")
 }
 
 }
