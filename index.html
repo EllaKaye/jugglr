@@ -55,7 +55,7 @@
 </div>
 <!-- badges: start -->
 
-<p><strong>jugglr</strong> is an R package for validating and visualising juggling patterns expressed in <a href="https://en.wikipedia.org/wiki/Siteswap" class="external-link">siteswap notation</a>. The <code><a href="reference/Siteswap.html">siteswap()</a></code> function takes a siteswap sequence and creates an S7 object, with child classes for vanilla, synchronous, multiplex, synchronous multiplex, and passing siteswap.</p>
+<p><strong>jugglr</strong> is an R package for validating and visualising juggling patterns expressed in <a href="https://en.wikipedia.org/wiki/Siteswap" class="external-link">siteswap notation</a>. The <code><a href="reference/Siteswap.html">siteswap()</a></code> function is a factory that auto-detects the notation type and returns an S7 object of the appropriate subclass: <code>vanillaSiteswap</code>, <code>synchronousSiteswap</code>, <code>multiplexSiteswap</code>, <code>synchronousMultiplexSiteswap</code>, or <code>passingSiteswap</code>, all of which inherit from an abstract <code>Siteswap</code> parent class. Functions such as <code><a href="reference/timeline.html">timeline()</a></code>, <code><a href="reference/ladder.html">ladder()</a></code>, and <code><a href="reference/throw_data.html">throw_data()</a></code> work across all these types via dedicated methods for each subclass.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -67,57 +67,80 @@
 <div class="section level2">
 <h2 id="siteswap">Siteswap<a class="anchor" aria-label="anchor" href="#siteswap"></a>
 </h2>
-<p>Once a Siteswap object is created, its print method will display information about the sequence, such as whether it is a valid juggling pattern and, if so, how many props it uses.</p>
+<p>The <code><a href="reference/Siteswap.html">siteswap()</a></code> function auto-detects the notation type and returns the appropriate subclass. Each object’s print method reports whether the pattern is valid, how many props it requires, and its period and symmetry.</p>
+<div class="section level3">
+<h3 id="vanilla">Vanilla<a class="anchor" aria-label="anchor" href="#vanilla"></a>
+</h3>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/EllaKaye/jugglr" class="external-link">jugglr</a></span><span class="op">)</span></span>
-<span><span class="co"># A valid juggling pattern</span></span>
 <span><span class="va">ss423</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/Siteswap.html">siteswap</a></span><span class="op">(</span><span class="st">"423"</span><span class="op">)</span></span>
 <span><span class="va">ss423</span></span>
 <span><span class="co">#&gt; ✔ '423' is valid vanilla siteswap</span></span>
 <span><span class="co">#&gt; ℹ It uses 3 props</span></span>
 <span><span class="co">#&gt; ℹ It is symmetrical with period 3</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="synchronous">Synchronous<a class="anchor" aria-label="anchor" href="#synchronous"></a>
+</h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># A pattern that cannot be juggled</span></span>
-<span><span class="va">ss21</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/Siteswap.html">siteswap</a></span><span class="op">(</span><span class="st">"21"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">ss44</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/Siteswap.html">siteswap</a></span><span class="op">(</span><span class="st">"(4,4)"</span><span class="op">)</span></span>
+<span><span class="va">ss44</span></span>
+<span><span class="co">#&gt; ✔ '(4,4)' is valid synchronous siteswap</span></span>
+<span><span class="co">#&gt; ℹ It uses 4 props</span></span>
+<span><span class="co">#&gt; ℹ It is symmetrical with period 2</span></span></code></pre></div>
+<p>Alternation notation is also supported: <code>siteswap("(4,2x)*")</code> expands <code>*</code> into a full two-beat cycle.</p>
+</div>
+<div class="section level3">
+<h3 id="passing">Passing<a class="anchor" aria-label="anchor" href="#passing"></a>
+</h3>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ss_pass</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/Siteswap.html">siteswap</a></span><span class="op">(</span><span class="st">"&lt;3p 3|3p 3&gt;"</span><span class="op">)</span></span>
+<span><span class="va">ss_pass</span></span>
+<span><span class="co">#&gt; ✔ '&lt;3p 3|3p 3&gt;' is valid passing siteswap</span></span>
+<span><span class="co">#&gt; ℹ It uses 6 props across 2 jugglers</span></span>
+<span><span class="co">#&gt; ℹ It is asymmetrical with period 2</span></span></code></pre></div>
+<p>Fractional notation (e.g. <code>"&lt;4.5 3 3 | 3 4 3.5&gt;"</code>) is also supported for passing patterns. Multiplex (<code>"[43]1"</code>) and synchronous multiplex (<code>"(4,[42x])*"</code>) patterns are supported too.</p>
+</div>
+<div class="section level3">
+<h3 id="invalid-patterns">Invalid patterns<a class="anchor" aria-label="anchor" href="#invalid-patterns"></a>
+</h3>
+<p>Patterns that cannot be juggled are caught at construction time:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ss21</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/Siteswap.html">siteswap</a></span><span class="op">(</span><span class="st">"21"</span><span class="op">)</span></span>
 <span><span class="va">ss21</span></span>
 <span><span class="co">#&gt; ✖ '21' is not a valid juggling pattern</span></span>
 <span><span class="co">#&gt; ℹ The throws don't average to a whole number</span></span>
 <span><span class="co">#&gt; ℹ Two or more throws land on the same beat (collision)</span></span></code></pre></div>
 </div>
+</div>
 <div class="section level2">
 <h2 id="visualising-the-patterns">Visualising the patterns<a class="anchor" aria-label="anchor" href="#visualising-the-patterns"></a>
 </h2>
-<p>There are three ways of visualising the siteswap patterns:</p>
-<ul>
-<li>A timeline plot, which shows the throws by beat</li>
-<li>A ladder diagram, which shows the throws by beat and hand</li>
-<li>An animation (only if the pattern is valid)</li>
-</ul>
+<p><code><a href="reference/timeline.html">timeline()</a></code> and <code><a href="reference/ladder.html">ladder()</a></code> work across all siteswap types, returning ggplot2 objects that can be further customised. <code><a href="reference/throw_data.html">throw_data()</a></code> returns the underlying data frame for use in custom visualisations.</p>
 <div class="section level3">
 <h3 id="plots">Plots<a class="anchor" aria-label="anchor" href="#plots"></a>
 </h3>
-<p>These functions take <code>Siteswap</code> objects as their argument and return ggplot2 plots, so can be further customised.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/timeline.html">timeline</a></span><span class="op">(</span><span class="va">ss423</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-3-1.png" alt="" width="100%"></p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/ladder.html">ladder</a></span><span class="op">(</span><span class="va">ss423</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-4-1.png" alt="" width="100%"></p>
-<p>These plots are also useful for understanding why non-valid sequences are not jugglable. We can see, for example, where two props would need to be caught at the same time (which is not permissible in vanilla siteswap). Because each prop is shown in a different colour, we can see where balls are disappearing or needing suddenly to appear.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/timeline.html">timeline</a></span><span class="op">(</span><span class="va">ss21</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-5-1.png" alt="" width="100%"></p>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/timeline.html">timeline</a></span><span class="op">(</span><span class="va">ss423</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-timeline-valid-1.png" alt="" width="100%"></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/ladder.html">ladder</a></span><span class="op">(</span><span class="va">ss423</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-ladder-valid-1.png" alt="" width="100%"></p>
+<p>These plots are also useful for understanding why non-valid sequences are not jugglable. We can see, for example, where two props would need to be caught at the same time (which is not permissible in vanilla siteswap). Because each prop is shown in a different colour, we can see where balls are disappearing or needing suddenly to appear.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/timeline.html">timeline</a></span><span class="op">(</span><span class="va">ss21</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-timeline-invalid-1.png" alt="" width="100%"></p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/ladder.html">ladder</a></span><span class="op">(</span><span class="va">ss21</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-6-1.png" alt="" width="100%"></p>
+<p><img src="reference/figures/README-ladder-invalid-1.png" alt="" width="100%"></p>
 </div>
 <div class="section level3">
 <h3 id="animation">Animation<a class="anchor" aria-label="anchor" href="#animation"></a>
 </h3>
-<p><strong>jugglr</strong> provides a wrapper to the <a href="https://jugglinglab.org/html/animinfo.html" class="external-link">JugglingLab GIF server</a>. Unlike the plotting functions, the main argument is any <em>valid</em> siteswap sequence as a string.</p>
+<p><strong>jugglr</strong> provides a wrapper to the <a href="https://jugglinglab.org/html/animinfo.html" class="external-link">JugglingLab GIF server</a>. The <code><a href="reference/animate.html">animate()</a></code> function accepts valid siteswap sequences as plain strings or as any <code>Siteswap</code> object. Note that the JugglingLab GIF server does not recognise fractional notation, so <code>passingSiteswap</code> objects using fractional notation cannot be animated.</p>
 <p>If called in Positron or RStudio, <code><a href="reference/animate.html">animate()</a></code> will show the animation in the Viewer pane, otherwise in the browser. If a <code>path</code> argument is supplied, the animation will be saved to that location instead. Note that it can take several seconds for the animation to render.</p>
 <p>To save a GIF for embedding in an R Markdown or Quarto document, pass a <code>path</code> argument to <code><a href="reference/animate.html">animate()</a></code>, then reference the saved file with <code><a href="https://rdrr.io/pkg/knitr/man/include_graphics.html" class="external-link">knitr::include_graphics()</a></code>. Display options can be set as chunk arguments:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/animate.html">animate</a></span><span class="op">(</span><span class="st">"423"</span>, path <span class="op">=</span> <span class="st">"man/figures/423-animation.gif"</span>, colors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#E69F00"</span>, <span class="st">"#56B4E9"</span>, <span class="st">"#009E73"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/423-animation.gif" alt="" width="40%"></p>
 </div>

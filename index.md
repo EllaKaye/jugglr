@@ -4,9 +4,15 @@
 patterns expressed in [siteswap
 notation](https://en.wikipedia.org/wiki/Siteswap). The
 [`siteswap()`](https://ellakaye.github.io/jugglr/reference/Siteswap.md)
-function takes a siteswap sequence and creates an S7 object, with child
-classes for vanilla, synchronous, multiplex, synchronous multiplex, and
-passing siteswap.
+function is a factory that auto-detects the notation type and returns an
+S7 object of the appropriate subclass: `vanillaSiteswap`,
+`synchronousSiteswap`, `multiplexSiteswap`,
+`synchronousMultiplexSiteswap`, or `passingSiteswap`, all of which
+inherit from an abstract `Siteswap` parent class. Functions such as
+[`timeline()`](https://ellakaye.github.io/jugglr/reference/timeline.md),
+[`ladder()`](https://ellakaye.github.io/jugglr/reference/ladder.md), and
+[`throw_data()`](https://ellakaye.github.io/jugglr/reference/throw_data.md)
+work across all these types via dedicated methods for each subclass.
 
 ## Installation
 
@@ -21,14 +27,17 @@ pak::pak("EllaKaye/jugglr")
 
 ## Siteswap
 
-Once a Siteswap object is created, its print method will display
-information about the sequence, such as whether it is a valid juggling
-pattern and, if so, how many props it uses.
+The
+[`siteswap()`](https://ellakaye.github.io/jugglr/reference/Siteswap.md)
+function auto-detects the notation type and returns the appropriate
+subclass. Each object’s print method reports whether the pattern is
+valid, how many props it requires, and its period and symmetry.
+
+### Vanilla
 
 ``` r
 
 library(jugglr)
-# A valid juggling pattern
 ss423 <- siteswap("423")
 ss423
 #> ✔ '423' is valid vanilla siteswap
@@ -36,9 +45,41 @@ ss423
 #> ℹ It is symmetrical with period 3
 ```
 
+### Synchronous
+
 ``` r
 
-# A pattern that cannot be juggled
+ss44 <- siteswap("(4,4)")
+ss44
+#> ✔ '(4,4)' is valid synchronous siteswap
+#> ℹ It uses 4 props
+#> ℹ It is symmetrical with period 2
+```
+
+Alternation notation is also supported: `siteswap("(4,2x)*")` expands
+`*` into a full two-beat cycle.
+
+### Passing
+
+``` r
+
+ss_pass <- siteswap("<3p 3|3p 3>")
+ss_pass
+#> ✔ '<3p 3|3p 3>' is valid passing siteswap
+#> ℹ It uses 6 props across 2 jugglers
+#> ℹ It is asymmetrical with period 2
+```
+
+Fractional notation (e.g. `"<4.5 3 3 | 3 4 3.5>"`) is also supported for
+passing patterns. Multiplex (`"[43]1"`) and synchronous multiplex
+(`"(4,[42x])*"`) patterns are supported too.
+
+### Invalid patterns
+
+Patterns that cannot be juggled are caught at construction time:
+
+``` r
+
 ss21 <- siteswap("21")
 ss21
 #> ✖ '21' is not a valid juggling pattern
@@ -48,30 +89,28 @@ ss21
 
 ## Visualising the patterns
 
-There are three ways of visualising the siteswap patterns:
-
-- A timeline plot, which shows the throws by beat
-- A ladder diagram, which shows the throws by beat and hand
-- An animation (only if the pattern is valid)
+[`timeline()`](https://ellakaye.github.io/jugglr/reference/timeline.md)
+and [`ladder()`](https://ellakaye.github.io/jugglr/reference/ladder.md)
+work across all siteswap types, returning ggplot2 objects that can be
+further customised.
+[`throw_data()`](https://ellakaye.github.io/jugglr/reference/throw_data.md)
+returns the underlying data frame for use in custom visualisations.
 
 ### Plots
-
-These functions take `Siteswap` objects as their argument and return
-ggplot2 plots, so can be further customised.
 
 ``` r
 
 timeline(ss423)
 ```
 
-![](reference/figures/README-unnamed-chunk-3-1.png)
+![](reference/figures/README-timeline-valid-1.png)
 
 ``` r
 
 ladder(ss423)
 ```
 
-![](reference/figures/README-unnamed-chunk-4-1.png)
+![](reference/figures/README-ladder-valid-1.png)
 
 These plots are also useful for understanding why non-valid sequences
 are not jugglable. We can see, for example, where two props would need
@@ -84,21 +123,24 @@ where balls are disappearing or needing suddenly to appear.
 timeline(ss21)
 ```
 
-![](reference/figures/README-unnamed-chunk-5-1.png)
+![](reference/figures/README-timeline-invalid-1.png)
 
 ``` r
 
 ladder(ss21)
 ```
 
-![](reference/figures/README-unnamed-chunk-6-1.png)
+![](reference/figures/README-ladder-invalid-1.png)
 
 ### Animation
 
 **jugglr** provides a wrapper to the [JugglingLab GIF
-server](https://jugglinglab.org/html/animinfo.html). Unlike the plotting
-functions, the main argument is any *valid* siteswap sequence as a
-string.
+server](https://jugglinglab.org/html/animinfo.html). The
+[`animate()`](https://ellakaye.github.io/jugglr/reference/animate.md)
+function accepts valid siteswap sequences as plain strings or as any
+`Siteswap` object. Note that the JugglingLab GIF server does not
+recognise fractional notation, so `passingSiteswap` objects using
+fractional notation cannot be animated.
 
 If called in Positron or RStudio,
 [`animate()`](https://ellakaye.github.io/jugglr/reference/animate.md)
