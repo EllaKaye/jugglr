@@ -22,7 +22,8 @@ knitr::opts_chunk$set(
 <!-- badges: end -->
 
 **jugglr** is an R package for validating and visualising juggling patterns expressed in [siteswap notation](https://en.wikipedia.org/wiki/Siteswap).
-The `siteswap()` function takes a siteswap sequence and creates an S7 object, with child classes for vanilla, synchronous, multiplex, synchronous multiplex, and passing siteswap.
+The `siteswap()` function is a factory that auto-detects the notation type and returns an S7 object of the appropriate subclass: `vanillaSiteswap`, `synchronousSiteswap`, `multiplexSiteswap`, `synchronousMultiplexSiteswap`, or `passingSiteswap`, all of which inherit from an abstract `Siteswap` parent class.
+Functions such as `timeline()`, `ladder()`, and `throw_data()` work across all these types via dedicated methods for each subclass.
 
 ## Installation
 
@@ -35,72 +36,89 @@ pak::pak("EllaKaye/jugglr")
 
 ## Siteswap
 
-Once a Siteswap object is created, its print method will display information about the sequence,
-such as whether it is a valid juggling pattern and, if so, how many props it uses.
+The `siteswap()` function auto-detects the notation type and returns the appropriate subclass.
+Each object's print method reports whether the pattern is valid, how many props it requires, and its period and symmetry.
 
-```{r example}
+### Vanilla
+
+```{r vanilla}
 library(jugglr)
-# A valid juggling pattern
 ss423 <- siteswap("423")
 ss423
 ```
 
+### Synchronous
 
-```{r}
-# A pattern that cannot be juggled
+```{r sync}
+ss44 <- siteswap("(4,4)")
+ss44
+```
+
+Alternation notation is also supported: `siteswap("(4,2x)*")` expands `*` into a full two-beat cycle.
+
+### Passing
+
+```{r passing}
+ss_pass <- siteswap("<3p 3|3p 3>")
+ss_pass
+```
+
+Fractional notation (e.g. `"<4.5 3 3 | 3 4 3.5>"`) is also supported for passing patterns.
+Multiplex (`"[43]1"`) and synchronous multiplex (`"(4,[42x])*"`) patterns are supported too.
+
+### Invalid patterns
+
+Patterns that cannot be juggled are caught at construction time:
+
+```{r invalid}
 ss21 <- siteswap("21")
 ss21
 ```
 
 ## Visualising the patterns
 
-There are three ways of visualising the siteswap patterns:
-
-- A timeline plot, which shows the throws by beat
-- A ladder diagram, which shows the throws by beat and hand
-- An animation (only if the pattern is valid)
+`timeline()` and `ladder()` work across all siteswap types, returning ggplot2 objects that can be further customised.
+`throw_data()` returns the underlying data frame for use in custom visualisations.
 
 ### Plots
 
-These functions take `Siteswap` objects as their argument and return ggplot2 plots, so can be further customised.
-
-```{r}
+```{r timeline-valid}
 timeline(ss423)
 ```
 
-```{r}
+```{r ladder-valid}
 ladder(ss423)
 ```
 
 These plots are also useful for understanding why non-valid sequences are not jugglable.
-We can see, for example, where two props would need to be caught at the same time 
+We can see, for example, where two props would need to be caught at the same time
 (which is not permissible in vanilla siteswap).
 Because each prop is shown in a different colour, we can see where balls are disappearing or needing suddenly to appear.
 
-```{r}
+```{r timeline-invalid}
 timeline(ss21)
 ```
 
-```{r}
+```{r ladder-invalid}
 ladder(ss21)
 ```
 
 ### Animation
 
 **jugglr** provides a wrapper to the [JugglingLab GIF server](https://jugglinglab.org/html/animinfo.html).
-Unlike the plotting functions, the main argument is any *valid* siteswap sequence as a string.
+The `animate()` function accepts valid siteswap sequences as plain strings or as any `Siteswap` object.
+Note that the JugglingLab GIF server does not recognise fractional notation, so `passingSiteswap` objects using fractional notation cannot be animated.
 
-If called in Positron or RStudio, `animate()` will show the animation in the Viewer pane, 
+If called in Positron or RStudio, `animate()` will show the animation in the Viewer pane,
 otherwise in the browser. If a `path` argument is supplied, the animation will be saved to that location instead.
 Note that it can take several seconds for the animation to render.
 
 To save a GIF for embedding in an R Markdown or Quarto document, pass a `path` argument to `animate()`, then reference the saved file with `knitr::include_graphics()`. Display options can be set as chunk arguments:
 
-```{r, eval=FALSE}
+```{r animate, eval=FALSE}
 animate("423", path = "man/figures/423-animation.gif", colors = c("#E69F00", "#56B4E9", "#009E73"))
 ```
 
-```{r, out.width="40%", echo=FALSE}
+```{r animate-display, out.width="40%", echo=FALSE}
 knitr::include_graphics("man/figures/423-animation.gif")
 ```
-
