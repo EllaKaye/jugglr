@@ -31,6 +31,9 @@ You can install the development version of jugglr from
 pak::pak("EllaKaye/jugglr")
 ```
 
+For a full introduction to the package, see `vignette("jugglr")`. For
+the full range of animation options, see `vignette("animate")`.
+
 ## Siteswap
 
 The `siteswap()` function auto-detects the notation type and returns the

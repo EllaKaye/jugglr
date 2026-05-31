@@ -1,5 +1,6 @@
 # jugglr 0.0.0.9000
 
+* Two vignettes are now available: `vignette("jugglr")` covers all siteswap notation types, validation, and diagrams; `vignette("animate")` covers all options for the `animate()` function.
 * `ladder()` for `passingSiteswap` now uses the sequence as the plot title directly, consistent with all other siteswap types.
 * `synchronousSiteswap` `throws_by_hand` property declaration corrected from `class_character` to `class_list` to match the list returned by `get_sync_hands()`.
 
