@@ -10,3 +10,5 @@ test_class.R
 ^pkgdown$
 ^\.github$
 ^tests/testthat/_problems$
+^doc$
+^Meta$
