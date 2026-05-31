@@ -25,6 +25,12 @@ test_that("is_whole_number errors for non-numeric", {
   expect_error(is_whole_number(c(1, 2)), class = "jugglr_error_not_numeric")
 })
 
+test_that("chr_sync_throws_to_num strips x suffix before converting", {
+  expect_equal(chr_sync_throws_to_num(c("4x", "2x", "4")), c(4, 2, 4))
+  expect_equal(chr_sync_throws_to_num(c("4", "2")), c(4, 2))
+  expect_equal(chr_sync_throws_to_num(c("ax")), c(10))
+})
+
 test_that("chr_throws_to_num works", {
   expect_equal(chr_throws_to_num(c("4", "2", "3")), c(4, 2, 3))
   expect_equal(chr_throws_to_num(c("4", "2", "a")), c(4, 2, 10))

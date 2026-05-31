@@ -124,6 +124,11 @@ test_that("3-juggler passingSiteswap is valid", {
   expect_true(s3@valid)
 })
 
+test_that("print shows collision reason for invalid passingSiteswap", {
+  expect_message(print(s_invalid), "not a valid juggling pattern")
+  expect_message(print(s_invalid), "collision")
+})
+
 test_that("print works for 3-juggler passingSiteswap", {
   expect_message(print(s3), "valid passing siteswap")
   expect_message(print(s3), "3 jugglers")

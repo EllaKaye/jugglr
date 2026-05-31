@@ -130,7 +130,7 @@ test_that("jugglinglab_url includes prop argument", {
 })
 
 test_that("jugglinglab_url errors for invalid prop", {
-  expect_error(jugglinglab_url("3", prop = "cube"))
+  expect_error(jugglinglab_url("3", prop = "cube"), class = "rlang_error")
 })
 
 test_that("jugglinglab_url errors on invalid dot args", {
@@ -246,6 +246,17 @@ test_that("animate without path writes HTML and returns temp file invisibly", {
   expect_false(result$visible)
   expect_true(endsWith(result$value, "juggling_animation.html"))
   expect_true(file.exists(result$value))
+})
+
+test_that("animate falls back to browseURL when viewer option is NULL", {
+  withr::local_options(viewer = NULL)
+  local_mocked_bindings(
+    browseURL = function(url) invisible(NULL),
+    .package = "utils"
+  )
+  result <- withVisible(animate("3"))
+  expect_false(result$visible)
+  expect_true(endsWith(result$value, "juggling_animation.html"))
 })
 
 test_that("animate without path embeds the gif URL in the HTML", {

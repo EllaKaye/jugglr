@@ -19,5 +19,5 @@ test_that("siteswap errors for unrecognised notation", {
 })
 
 test_that("siteswap errors for sync notation with odd throws", {
-  expect_error(siteswap("(4,1)"))
+  expect_error(siteswap("(4,1)"), class = "jugglr_error_invalid_sequence")
 })

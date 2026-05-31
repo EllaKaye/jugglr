@@ -36,6 +36,23 @@ test_that("plot_subtitle appends extra note", {
   expect_true(grepl("Test note", sub))
 })
 
+# warn_if_props_hidden -------------------------------------------------------
+
+test_that("warn_if_props_hidden warns when props are hidden in timeline", {
+  s <- vanillaSiteswap("3") # 3 props, period 1; n_cycles=1 shows only 1 prop
+  expect_warning(timeline(s, n_cycles = 1))
+})
+
+test_that("warn_if_props_hidden is silent for invalid siteswap", {
+  s_bad <- vanillaSiteswap("432")
+  expect_no_warning(timeline(s_bad, n_cycles = 1))
+})
+
+test_that("warn_if_props_hidden is silent when all props are shown", {
+  s <- vanillaSiteswap("3") # n_cycles=3 shows all 3 props
+  expect_no_warning(timeline(s, n_cycles = 3))
+})
+
 # title_subtitle_theme -------------------------------------------------------
 
 test_that("title_subtitle_theme returns a theme object for NULL direction", {

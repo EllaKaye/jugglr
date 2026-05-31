@@ -113,7 +113,9 @@ test_that("throw_data has expected columns for synchronousSiteswap", {
 })
 
 test_that("throw_data has 2 * n_slots * n_cycles rows", {
+  expect_equal(nrow(throw_data(ss, n_cycles = 1)), 4L)
   expect_equal(nrow(throw_data(ss, n_cycles = 2)), 8L)
+  expect_equal(nrow(throw_data(ss, n_cycles = 3)), 12L)
 })
 
 test_that("throw_data errors for invalid n_cycles", {
@@ -171,4 +173,13 @@ test_that("timeline respects subtitle = FALSE", {
   p <- timeline(ss, subtitle = FALSE)
   expect_s3_class(p, "ggplot")
   expect_null(p$labels$subtitle)
+})
+
+test_that("timeline works with n_cycles argument for synchronousSiteswap", {
+  expect_s3_class(timeline(ss, n_cycles = 2), "ggplot")
+})
+
+test_that("timeline uses linetype aesthetic to distinguish hands", {
+  p <- timeline(ss)
+  expect_true("linetype" %in% names(p$mapping))
 })
