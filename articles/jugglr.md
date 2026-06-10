@@ -5,12 +5,52 @@
 library(jugglr)
 ```
 
-Jugglers have a notation for their patterns. A 3-ball cascade — the
-first pattern most jugglers learn — is written as `3`. Five balls is
-`5`. That trick where one ball sails high while the other two move
-beneath it is `423`. The notation is called siteswap, and each number
-encodes how many beats until that prop needs to come back down. jugglr
-lets you create, validate, and visualise siteswap patterns in R.
+Juggling sequences can be written in a notation called siteswap. A
+3-ball cascade — the first sequence most jugglers learn — is written as
+“3”, where each ball is thrown the same height and caught in the
+opposite hand three beats later. “531”, “423” and “441” are also valid
+3-ball juggling patterns, though with balls thrown to different heights,
+or caught in the same hand that throws them. Each number in a siteswap
+sequence encodes how many beats until that prop needs to be thrown
+again. However, not everything that can be written in siteswap is a
+valid/juggleable pattern. For the example, in the sequence “432”, the
+first two props thrown would need to be caught in the same hand at the
+same time.
+
+**jugglr** lets you create, validate, and visualise siteswap patterns in
+R.
+
+There are several different types of siteswap, which can be distinguised
+through the notations: vanilla, sychronous, multiplex, synchronous
+multiplex, and passing, each explained in the [types of
+siteswap](https://ellakaye.github.io/jugglr/articles/LINK) section
+below.
+
+In **jugglr**, we define a sequence with the function
+[`siteswap()`](https://ellakaye.github.io/jugglr/reference/Siteswap.md),
+which creates an [S7](https://ellakaye.github.io/jugglr/articles/URL)
+object with class `Siteswap` as well as a child class corresponding to
+its type, i.e. `vanillaSiteswap`, `synchronousSiteswap`,
+`multiplexSiteswap`, `synchronousMultiplexSiteswap`, or
+`passingSiteswap`.
+
+For each child class, there is a `print` method defined, showing the
+sequence and [whether it is
+valid](https://ellakaye.github.io/jugglr/articles/URL). For valid
+sequences, we also see the number of props it requires, its period (how
+many beats before it repeats), and whether it is symmetrical
+(i.e. whether both hands do the same this, just offset in time). For
+patterns that aren’t valid, we see why not (either because it does not
+satisfy the average theorem, or because it has collisions).
+
+There are also two visualisation methods that work for each class:
+[`timeline()`](https://ellakaye.github.io/jugglr/reference/timeline.md)
+which shows the beats on which each prop is thrown and caught, and
+[`ladder()`](https://ellakaye.github.io/jugglr/reference/ladder.md)
+which converys that information, as well as which hands the props are
+thrown from and caught it. These visualisations are useful both for
+seeing how valid sequences fit together, as well as for diagnosing why
+invalid sequences do not work.
 
 ## Vanilla siteswap
 
