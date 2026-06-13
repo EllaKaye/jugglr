@@ -21,3 +21,13 @@ test_that("siteswap errors for unrecognised notation", {
 test_that("siteswap errors for sync notation with odd throws", {
   expect_error(siteswap("(4,1)"), class = "jugglr_error_invalid_sequence")
 })
+
+test_that("siteswap errors for non-string input", {
+  expect_error(siteswap(531), class = "jugglr_error_not_string")
+  expect_error(siteswap(c("531", "441")), class = "jugglr_error_not_string")
+  expect_error(siteswap(character(0)), class = "jugglr_error_not_string")
+})
+
+test_that("Siteswap base class cannot be instantiated", {
+  expect_error(Siteswap("531"), "abstract class")
+})

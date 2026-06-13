@@ -24,6 +24,7 @@ Siteswap <- new_class(
       },
     )
   ),
+  abstract = TRUE,
   package = "jugglr"
 )
 
@@ -74,6 +75,12 @@ method(print, Siteswap) <- function(x, ...) {
 #' siteswap("(2,4)([4x4],2x)")
 #' siteswap("<3p 3 3 3 3 3 | 3p 3 3 3 3 3>")
 siteswap <- function(sequence) {
+  if (!rlang::is_string(sequence)) {
+    cli::cli_abort(
+      "{.arg sequence} must be a single character string.",
+      class = "jugglr_error_not_string"
+    )
+  }
   if (str_detect(sequence, "^[a-zA-Z0-9]+$")) {
     vanillaSiteswap(sequence)
   } else if (is_sync_multiplex_notation(sequence)) {
