@@ -30,11 +30,13 @@ animate(
   [vanillaSiteswap](https://ellakaye.github.io/jugglr/reference/vanillaSiteswap.md),
   [synchronousSiteswap](https://ellakaye.github.io/jugglr/reference/synchronousSiteswap.md),
   [multiplexSiteswap](https://ellakaye.github.io/jugglr/reference/multiplexSiteswap.md),
+  [synchronousMultiplexSiteswap](https://ellakaye.github.io/jugglr/reference/synchronousMultiplexSiteswap.md),
   or
-  [synchronousMultiplexSiteswap](https://ellakaye.github.io/jugglr/reference/synchronousMultiplexSiteswap.md).
-  [passingSiteswap](https://ellakaye.github.io/jugglr/reference/passingSiteswap.md)
-  objects are also accepted but their sequence format (`<A|B>`) is not
-  valid JugglingLab notation.
+  [passingSiteswap](https://ellakaye.github.io/jugglr/reference/passingSiteswap.md).
+  Passing patterns in p-notation (e.g. `"<3p 3|3p 3>"`) animate
+  correctly; passing patterns in fractional notation (e.g.
+  `"<4.5 3 3 | 3 4 3.5>"`) are not recognised by JugglingLab and cannot
+  be animated.
 
 - colors:
 
@@ -43,7 +45,8 @@ animate(
 
 - prop:
 
-  Prop type: `"ball"` (default), `"ring"`, or `"image"`.
+  Prop type: `"ball"`, `"ring"`, or `"image"`. If `NULL` (default) the
+  JugglingLab default (a ball) is used.
 
 - bps:
 

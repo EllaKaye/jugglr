@@ -17,8 +17,9 @@ throw_data(siteswap, n_cycles = 3, ...)
 
 - siteswap:
 
-  A `vanillaSiteswap`, `synchronousSiteswap`, or `multiplexSiteswap`
-  object.
+  Any siteswap object: a `vanillaSiteswap`, `synchronousSiteswap`,
+  `multiplexSiteswap`, `synchronousMultiplexSiteswap`, or
+  `passingSiteswap`.
 
 - n_cycles:
 
@@ -46,6 +47,10 @@ A data frame with one row per throw and columns:
 - `catch_hand`: hand that catches (0 or 1)
 
 - `prop`: prop identifier (integer)
+
+Synchronous types add an `is_crossing` column. Passing types instead
+include `juggler`, `is_pass`, and `catch_juggler` columns identifying
+which juggler throws and catches each prop.
 
 ## Examples
 

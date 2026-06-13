@@ -21,8 +21,9 @@ ladder(
 
 - siteswap:
 
-  A `vanillaSiteswap`, `synchronousSiteswap`, or `multiplexSiteswap`
-  object.
+  Any siteswap object: a `vanillaSiteswap`, `synchronousSiteswap`,
+  `multiplexSiteswap`, `synchronousMultiplexSiteswap`, or
+  `passingSiteswap`.
 
 - n_cycles:
 
@@ -50,7 +51,9 @@ ladder(
 
 - ...:
 
-  Additional arguments passed to methods.
+  Additional arguments passed to methods. For `passingSiteswap` objects,
+  `hand_gap` (default `2`) sets the vertical spacing between each
+  juggler's two hands in the diagram.
 
 ## Value
 

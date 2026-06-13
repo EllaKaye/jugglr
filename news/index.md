@@ -1,131 +1,32 @@
 # Changelog
 
-## jugglr 0.0.0.9000
+## jugglr (development version)
 
-- Two vignettes are now available:
-  [`vignette("jugglr")`](https://ellakaye.github.io/jugglr/articles/jugglr.md)
-  covers all siteswap notation types, validation, and diagrams;
-  [`vignette("animate")`](https://ellakaye.github.io/jugglr/articles/animate.md)
-  covers all options for the
-  [`animate()`](https://ellakaye.github.io/jugglr/reference/animate.md)
-  function.
-
-- [`ladder()`](https://ellakaye.github.io/jugglr/reference/ladder.md)
-  for `passingSiteswap` now uses the sequence as the plot title
-  directly, consistent with all other siteswap types.
-
-- `synchronousSiteswap` `throws_by_hand` property declaration corrected
-  from `class_character` to `class_list` to match the list returned by
-  `get_sync_hands()`.
-
-- [`ladder()`](https://ellakaye.github.io/jugglr/reference/ladder.md)
-  and
-  [`timeline()`](https://ellakaye.github.io/jugglr/reference/timeline.md)
-  titles now show the siteswap sequence directly (e.g. `531`) rather
-  than prefixing with `"Siteswap '"`. For `synchronousSiteswap` and
-  `synchronousMultiplexSiteswap`,
-  [`timeline()`](https://ellakaye.github.io/jugglr/reference/timeline.md)
-  now uses `full_sequence` (e.g. `(4,2x)(4,2x)`) to match the existing
-  [`ladder()`](https://ellakaye.github.io/jugglr/reference/ladder.md)
-  behaviour.
-
-- [`ladder()`](https://ellakaye.github.io/jugglr/reference/ladder.md)
-  subtitle-to-plot spacing is now direction-aware: horizontal and
-  vertical ladder diagrams use different margins to reduce excess
-  whitespace and prevent subtitle overlap.
-
-- [`ladder()`](https://ellakaye.github.io/jugglr/reference/ladder.md)
-  `direction` argument now also accepts `"h"` and `"v"` as shorthands
-  for `"horizontal"` and `"vertical"`.
-
-- [`ladder()`](https://ellakaye.github.io/jugglr/reference/ladder.md)
-  gains a `title` argument (default `TRUE`) to control whether the plot
-  title is shown, matching the existing `subtitle` argument.
-
-- [`timeline()`](https://ellakaye.github.io/jugglr/reference/timeline.md)
-  gains a `subtitle` argument (default `TRUE`) to control whether the
-  plot subtitle is shown independently of the `title` argument.
-
-- [`timeline()`](https://ellakaye.github.io/jugglr/reference/timeline.md)
-  for `passingSiteswap` now shows only J1’s throws as x-axis labels,
-  with J2 (and further jugglers’) throws displayed as in-plot text
-  annotations below each juggler’s lane.
-
-- [`timeline()`](https://ellakaye.github.io/jugglr/reference/timeline.md)
-  for `synchronousSiteswap` and `synchronousMultiplexSiteswap` now
-  displays L/R hand throws on separate lines in the axis labels,
-  reducing horizontal crowding.
-
-- [`animate()`](https://ellakaye.github.io/jugglr/reference/animate.md)
-  animates juggling patterns via the JugglingLab GIF server.
-
-- [`animate()`](https://ellakaye.github.io/jugglr/reference/animate.md)
-  gains a `prop` argument for selecting the prop type (`"ball"`,
-  `"ring"`, or `"image"`).
-
-- [`animate()`](https://ellakaye.github.io/jugglr/reference/animate.md)
-  `@param pattern` documentation updated to list all five siteswap
-  types, noting that `passingSiteswap` sequences are not valid
-  JugglingLab notation.
-
-- [`animate()`](https://ellakaye.github.io/jugglr/reference/animate.md)
-  now accepts \[vanillaSiteswap\], \[synchronousSiteswap\], and
-  \[multiplexSiteswap\] objects as `pattern`, in addition to plain
-  strings.
-
-- [`ladder()`](https://ellakaye.github.io/jugglr/reference/ladder.md)
-  now works for `passingSiteswap` objects, drawing a multi-row diagram
-  with passes shown as diagonal segments between juggler rows.
-
-- [`ladder()`](https://ellakaye.github.io/jugglr/reference/ladder.md)
-  plots ladder diagrams for vanilla, synchronous, and multiplex
-  siteswaps.
-
-- [`multiplexSiteswap()`](https://ellakaye.github.io/jugglr/reference/multiplexSiteswap.md)
-  creates a multiplex siteswap S7 object for patterns with simultaneous
-  throws from one hand, written using square-bracket notation such as
-  `"[43]1"`.
-
-- [`passingSiteswap()`](https://ellakaye.github.io/jugglr/reference/passingSiteswap.md)
-  creates a passing siteswap S7 object for multi-juggler patterns in
-  `<A|B>` notation. Supports both p-notation (e.g. `"<4p 3 | 3 4p>"`)
-  and fractional notation (e.g. `"<4.5 3 3 | 3 4 3.5>"`). Includes
-  [`throw_data()`](https://ellakaye.github.io/jugglr/reference/throw_data.md),
-  [`timeline()`](https://ellakaye.github.io/jugglr/reference/timeline.md),
-  and
-  [`ladder()`](https://ellakaye.github.io/jugglr/reference/ladder.md)
-  methods.
+First release. jugglr validates and visualises juggling patterns written
+in siteswap notation.
 
 - [`siteswap()`](https://ellakaye.github.io/jugglr/reference/Siteswap.md)
-  now also dispatches to
-  [`passingSiteswap()`](https://ellakaye.github.io/jugglr/reference/passingSiteswap.md)
-  for `<…|…>` notation.
-
-- [`siteswap()`](https://ellakaye.github.io/jugglr/reference/Siteswap.md)
-  creates a vanilla, synchronous, multiplex, or synchronous multiplex
-  siteswap object from a notation string.
-
-- [`synchronousMultiplexSiteswap()`](https://ellakaye.github.io/jugglr/reference/synchronousMultiplexSiteswap.md)
-  creates a synchronous multiplex siteswap S7 object for patterns
-  combining simultaneous two-handed throws with multiplex groups, such
-  as `"(2,4)([4x4],2x)"`.
-
-- [`synchronousSiteswap()`](https://ellakaye.github.io/jugglr/reference/synchronousSiteswap.md)
-  creates a synchronous siteswap S7 object.
-
+  detects the notation style of a sequence and returns a typed S7
+  object:
+  [`vanillaSiteswap()`](https://ellakaye.github.io/jugglr/reference/vanillaSiteswap.md),
+  [`synchronousSiteswap()`](https://ellakaye.github.io/jugglr/reference/synchronousSiteswap.md),
+  [`multiplexSiteswap()`](https://ellakaye.github.io/jugglr/reference/multiplexSiteswap.md),
+  [`synchronousMultiplexSiteswap()`](https://ellakaye.github.io/jugglr/reference/synchronousMultiplexSiteswap.md),
+  or
+  [`passingSiteswap()`](https://ellakaye.github.io/jugglr/reference/passingSiteswap.md).
+  Each constructor is also exported for direct use. Passing siteswap
+  supports both p-notation and fractional notation.
+- Printing a siteswap object reports whether the pattern is valid, and,
+  for valid patterns, the number of props, period, and symmetry. Invalid
+  patterns report why (average theorem or collisions).
+- [`timeline()`](https://ellakaye.github.io/jugglr/reference/timeline.md)
+  draws an arc diagram and
+  [`ladder()`](https://ellakaye.github.io/jugglr/reference/ladder.md)
+  draws a ladder diagram, both for every siteswap type and both
+  returning ggplot2 objects.
 - [`throw_data()`](https://ellakaye.github.io/jugglr/reference/throw_data.md)
-  returns the raw throw data frame underlying the visualisation
-  functions, for use in custom visualisations.
-
-- [`timeline()`](https://ellakaye.github.io/jugglr/reference/timeline.md)
-  now works for `passingSiteswap` objects, drawing a multi-lane arc
-  diagram with passes shown as arcs connecting juggler lanes.
-
-- [`timeline()`](https://ellakaye.github.io/jugglr/reference/timeline.md)
-  now works for `synchronousSiteswap` objects.
-
-- [`timeline()`](https://ellakaye.github.io/jugglr/reference/timeline.md)
-  plots arc/timeline diagrams for vanilla and multiplex siteswaps.
-
-- [`vanillaSiteswap()`](https://ellakaye.github.io/jugglr/reference/vanillaSiteswap.md)
-  creates a vanilla siteswap S7 object.
+  returns the underlying throw-by-throw data frame for custom
+  visualisations.
+- [`animate()`](https://ellakaye.github.io/jugglr/reference/animate.md)
+  produces an animated GIF of a pattern via the JugglingLab animation
+  server, with options for colours, prop type, and speed.
