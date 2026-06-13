@@ -19,14 +19,17 @@ animate(
 }
 \arguments{
 \item{pattern}{A siteswap pattern string (e.g. \code{"531"}) or any siteswap
-object: \link{vanillaSiteswap}, \link{synchronousSiteswap}, \link{multiplexSiteswap}, or
-\link{synchronousMultiplexSiteswap}. \link{passingSiteswap} objects are also accepted
-but their sequence format (\verb{<A|B>}) is not valid JugglingLab notation.}
+object: \link{vanillaSiteswap}, \link{synchronousSiteswap}, \link{multiplexSiteswap},
+\link{synchronousMultiplexSiteswap}, or \link{passingSiteswap}. Passing patterns in
+p-notation (e.g. \code{"<3p 3|3p 3>"}) animate correctly; passing patterns in
+fractional notation (e.g. \code{"<4.5 3 3 | 3 4 3.5>"}) are not recognised by
+JugglingLab and cannot be animated.}
 
 \item{colors}{Optional. A vector of R colours (one per prop), or one of the
 special strings \code{"mixed"} or \code{"orbits"}. Passed to JugglingLab.}
 
-\item{prop}{Prop type: \code{"ball"} (default), \code{"ring"}, or \code{"image"}.}
+\item{prop}{Prop type: \code{"ball"}, \code{"ring"}, or \code{"image"}. If \code{NULL} (default)
+the JugglingLab default (a ball) is used.}
 
 \item{bps}{Beats per second (numeric scalar). Controls the animation speed.}
 

@@ -102,9 +102,23 @@ test_that("jugglinglab_url includes colors=mixed and colors=orbits", {
   expect_true(grepl("colors=orbits", jugglinglab_url("3", colors = "orbits")))
 })
 
-test_that("jugglinglab_url includes RGB colours", {
+test_that("jugglinglab_url includes RGB colours (percent-encoded)", {
   url <- jugglinglab_url("3", colors = "red")
-  expect_true(grepl("colors=\\{255,0,0\\}", url))
+  expect_true(grepl("colors=%7B255%2C0%2C0%7D", url))
+})
+
+test_that("jugglinglab_url percent-encodes the pattern value", {
+  # Passing notation contains spaces and < | > which must be encoded
+  url <- jugglinglab_url("<3p 3|3p 3>")
+  expect_false(grepl("[ <>|]", url))
+  expect_true(grepl("pattern=%3C3p%203%7C3p%203%3E", url))
+
+  # Synchronous notation: parentheses and comma encoded
+  expect_true(grepl("pattern=%284%2C4%29", jugglinglab_url("(4,4)")))
+
+  # The ";" segment separators and "=" remain structural
+  url2 <- jugglinglab_url("<3p 3|3p 3>", bps = 3)
+  expect_true(grepl(";bps=3;redirect=true$", url2))
 })
 
 test_that("jugglinglab_url includes named numeric params", {

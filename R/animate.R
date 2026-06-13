@@ -9,12 +9,15 @@
 #' renders the animation.
 #'
 #' @param pattern A siteswap pattern string (e.g. `"531"`) or any siteswap
-#'   object: [vanillaSiteswap], [synchronousSiteswap], [multiplexSiteswap], or
-#'   [synchronousMultiplexSiteswap]. [passingSiteswap] objects are also accepted
-#'   but their sequence format (`<A|B>`) is not valid JugglingLab notation.
+#'   object: [vanillaSiteswap], [synchronousSiteswap], [multiplexSiteswap],
+#'   [synchronousMultiplexSiteswap], or [passingSiteswap]. Passing patterns in
+#'   p-notation (e.g. `"<3p 3|3p 3>"`) animate correctly; passing patterns in
+#'   fractional notation (e.g. `"<4.5 3 3 | 3 4 3.5>"`) are not recognised by
+#'   JugglingLab and cannot be animated.
 #' @param colors Optional. A vector of R colours (one per prop), or one of the
 #'   special strings `"mixed"` or `"orbits"`. Passed to JugglingLab.
-#' @param prop Prop type: `"ball"` (default), `"ring"`, or `"image"`.
+#' @param prop Prop type: `"ball"`, `"ring"`, or `"image"`. If `NULL` (default)
+#'   the JugglingLab default (a ball) is used.
 #' @param bps Beats per second (numeric scalar). Controls the animation speed.
 #' @param width,height Width and height of the animation in pixels (numeric
 #'   scalars).
@@ -273,10 +276,11 @@ jugglinglab_url <- function(
   if (length(invalid_args) > 0) {
     cli::cli_abort(
       c(
-        "{length(invalid_args)} invalid argument{?s} passed to {.fn jugglinglab_url}:",
+        "{length(invalid_args)} invalid argument{?s} passed to {.arg ...}:",
         "x" = "Unknown: {.arg {invalid_args}}",
-        "i" = "See the {.href [jugglinglab gif server documentation](https://jugglinglab.org/html/animinfo.html)} for allowed arguments."
+        "i" = "See the {.href [JugglingLab GIF server documentation](https://jugglinglab.org/html/animinfo.html)} for allowed arguments."
       ),
+      call = rlang::caller_env(),
       class = "jugglr_error_invalid_args"
     )
   }
@@ -310,10 +314,23 @@ jugglinglab_url <- function(
     url_segments <- c(url_segments, pairs)
   }
 
+  # Percent-encode the value of each "key=value" segment so characters such as
+  # spaces and < | > (used in passing notation) and (), [] (sync/multiplex) are
+  # legal in the URL. The "=" and ";" separators are kept structural.
+  url_segments <- vapply(url_segments, encode_segment_value, character(1))
+
   paste0(
     "https://jugglinglab.org/anim?",
     paste(c(url_segments, "redirect=true"), collapse = ";")
   )
+}
+
+# Encode the value half of a "key=value" segment, leaving "key=" intact.
+encode_segment_value <- function(segment) {
+  parts <- strsplit(segment, "=", fixed = TRUE)[[1]]
+  key <- parts[1]
+  value <- paste(parts[-1], collapse = "=")
+  paste0(key, "=", utils::URLencode(value, reserved = TRUE))
 }
 
 # Helper function to validate save path in `animate`
