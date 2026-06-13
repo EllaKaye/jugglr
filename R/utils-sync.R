@@ -71,18 +71,7 @@ only_even_throws <- function(sequence) {
 
 sync_symmetrical <- function(sequence) {
   throws <- get_sync_throws(sequence)
-
   left <- throws[c(TRUE, FALSE)]
   right <- throws[c(FALSE, TRUE)]
-
-  n <- length(right)
-
-  if (n == 1) {
-    return(identical(right, left))
-  }
-
-  # Are any cyclic rotations of `right` identical to left?
-  any(sapply(seq_len(n), function(k) {
-    identical(left, c(right[(k + 1):n], right[seq_len(k)]))
-  }))
+  rotations_match(left, right)
 }

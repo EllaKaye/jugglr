@@ -84,12 +84,5 @@ sync_multiplex_symmetrical <- function(sequence) {
   throws <- get_sync_multiplex_throws(sequence)
   left <- throws[c(TRUE, FALSE)]
   right <- throws[c(FALSE, TRUE)]
-  n <- length(right)
-  if (n == 1L) {
-    return(identical(right, left))
-  }
-  any(sapply(seq_len(n), function(k) {
-    rotated <- right[((seq_len(n) - 1L + k) %% n) + 1L]
-    identical(left, rotated)
-  }))
+  rotations_match(left, right)
 }

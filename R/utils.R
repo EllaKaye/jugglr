@@ -10,6 +10,21 @@ is_even <- function(x) {
   x %% 2 == 0
 }
 
+# TRUE if any cyclic rotation of `right` equals `left`.
+# `left` and `right` must be vectors of equal length. The k = n rotation is the
+# identity, so this also tests `left` against an un-rotated `right`.
+rotations_match <- function(left, right) {
+  n <- length(right)
+  any(vapply(
+    seq_len(n),
+    function(k) {
+      rotated <- right[((seq_len(n) - 1L + k) %% n) + 1L]
+      identical(left, rotated)
+    },
+    logical(1)
+  ))
+}
+
 is_odd <- function(x) {
   x %% 2 == 1
 }

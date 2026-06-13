@@ -36,6 +36,7 @@ test_that("synchronousSiteswap computes period", {
 test_that("synchronousSiteswap computes symmetry", {
   expect_equal(ss@symmetry, "symmetrical")
   expect_equal(synchronousSiteswap("(6x,4)(4,2x)")@symmetry, "asymmetrical")
+  expect_equal(synchronousSiteswap("(4,4)(2,2)")@symmetry, "symmetrical")
 })
 
 test_that("synchronousSiteswap computes n_props", {

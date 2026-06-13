@@ -97,6 +97,12 @@ test_that("sync_symmetrical returns TRUE for symmetrical patterns", {
   expect_true(sync_symmetrical("(4,2x)(2x,4)"))
 })
 
+test_that("sync_symmetrical detects identity-rotation (self-mirror) patterns", {
+  # Both hands throw identical heights, so the pattern is its own mirror image
+  expect_true(sync_symmetrical("(4,4)(2,2)"))
+  expect_true(sync_symmetrical("(4x,4x)(2,2)"))
+})
+
 test_that("sync_symmetrical returns FALSE for asymmetrical patterns", {
   expect_false(sync_symmetrical("(6x,4)(4,2x)"))
   expect_false(sync_symmetrical("(6x,4)"))

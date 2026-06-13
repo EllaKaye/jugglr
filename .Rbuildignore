@@ -12,3 +12,4 @@ test_class.R
 ^tests/testthat/_problems$
 ^doc$
 ^Meta$
+^plans$
