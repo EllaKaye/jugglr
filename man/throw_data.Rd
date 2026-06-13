@@ -7,7 +7,9 @@
 throw_data(siteswap, n_cycles = 3, ...)
 }
 \arguments{
-\item{siteswap}{A \code{vanillaSiteswap}, \code{synchronousSiteswap}, or \code{multiplexSiteswap} object.}
+\item{siteswap}{Any siteswap object: a \code{vanillaSiteswap},
+\code{synchronousSiteswap}, \code{multiplexSiteswap}, \code{synchronousMultiplexSiteswap},
+or \code{passingSiteswap}.}
 
 \item{n_cycles}{Number of complete cycles to simulate (default 3). Increase
 for patterns with many props to ensure all appear in the data. Setting
@@ -26,6 +28,10 @@ A data frame with one row per throw and columns:
 \item \code{catch_hand}: hand that catches (0 or 1)
 \item \code{prop}: prop identifier (integer)
 }
+
+Synchronous types add an \code{is_crossing} column. Passing types instead
+include \code{juggler}, \code{is_pass}, and \code{catch_juggler} columns identifying which
+juggler throws and catches each prop.
 }
 \description{
 Returns a data frame describing each throw in the simulated pattern,

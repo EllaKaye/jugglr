@@ -1,3 +1,14 @@
+# Validate the `direction` argument and collapse the "h"/"v" shorthands to the
+# canonical "horizontal"/"vertical" used throughout the ladder plotting code.
+normalise_direction <- function(direction, error_call = rlang::caller_env()) {
+  direction <- rlang::arg_match(
+    direction,
+    c("horizontal", "vertical", "h", "v"),
+    error_call = error_call
+  )
+  if (direction %in% c("h", "horizontal")) "horizontal" else "vertical"
+}
+
 warn_if_props_hidden <- function(siteswap, max_prop) {
   if (siteswap@valid && max_prop < siteswap@n_props) {
     cli::cli_warn(c(

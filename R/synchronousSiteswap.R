@@ -229,12 +229,7 @@ method(ladder, synchronousSiteswap) <- function(
   title = TRUE,
   subtitle = TRUE
 ) {
-  direction <- rlang::arg_match(direction)
-  direction <- if (direction %in% c("h", "horizontal")) {
-    "horizontal"
-  } else {
-    "vertical"
-  }
+  direction <- normalise_direction(direction)
   build_simple_ladder(
     siteswap,
     n_cycles,

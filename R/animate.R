@@ -341,14 +341,14 @@ validate_path <- function(path, ext = "gif") {
 
   if (!rlang::is_character(path, n = 1)) {
     cli::cli_abort(
-      "`path` must be a single character string specifying a file path.",
+      "{.arg path} must be a single character string specifying a file path.",
       class = "jugglr_error_not_string"
     )
   }
 
   if (tolower(tools::file_ext(path)) != tolower(ext)) {
     cli::cli_abort(
-      "`path` must specify a path ending in '.{ext}'.",
+      "{.arg path} must specify a path ending in {.val {paste0('.', ext)}}.",
       class = "jugglr_error_bad_extension"
     )
   }

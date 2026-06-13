@@ -5,7 +5,9 @@
 #' and which prop is thrown. This underpins [timeline()] and [ladder()], and
 #' can be used directly for custom visualisations.
 #'
-#' @param siteswap A `vanillaSiteswap`, `synchronousSiteswap`, or `multiplexSiteswap` object.
+#' @param siteswap Any siteswap object: a `vanillaSiteswap`,
+#'   `synchronousSiteswap`, `multiplexSiteswap`, `synchronousMultiplexSiteswap`,
+#'   or `passingSiteswap`.
 #' @param n_cycles Number of complete cycles to simulate (default 3). Increase
 #'   for patterns with many props to ensure all appear in the data. Setting
 #'   `n_cycles >= period * n_props * 2` guarantees each prop is thrown at least
@@ -19,6 +21,10 @@
 #'   - `catch_beat`: beat on which the prop lands
 #'   - `catch_hand`: hand that catches (0 or 1)
 #'   - `prop`: prop identifier (integer)
+#'
+#'   Synchronous types add an `is_crossing` column. Passing types instead
+#'   include `juggler`, `is_pass`, and `catch_juggler` columns identifying which
+#'   juggler throws and catches each prop.
 #'
 #' @examples
 #' s <- vanillaSiteswap("531")
@@ -37,8 +43,9 @@ throw_data <- new_generic(
 #' across beats. Each arc represents a throw, coloured by prop. The x-axis
 #' labels show the throw heights from the siteswap sequence.
 #'
-#' @param siteswap A `vanillaSiteswap`, `multiplexSiteswap`, `synchronousSiteswap`,
-#'   or `synchronousMultiplexSiteswap` object.
+#' @param siteswap Any siteswap object: a `vanillaSiteswap`,
+#'   `synchronousSiteswap`, `multiplexSiteswap`, `synchronousMultiplexSiteswap`,
+#'   or `passingSiteswap`.
 #' @param n_cycles Number of complete cycles to simulate (default 3). A warning
 #'   is issued if not all props appear within the simulated range.
 #' @param title Logical. If `TRUE` (default), adds a title showing the siteswap
@@ -70,7 +77,9 @@ timeline <- new_generic(
 #' Straight lines indicate self-throws (same hand catches); crossing lines
 #' indicate cross-throws (opposite hand catches).
 #'
-#' @param siteswap A `vanillaSiteswap`, `synchronousSiteswap`, or `multiplexSiteswap` object.
+#' @param siteswap Any siteswap object: a `vanillaSiteswap`,
+#'   `synchronousSiteswap`, `multiplexSiteswap`, `synchronousMultiplexSiteswap`,
+#'   or `passingSiteswap`.
 #' @param n_cycles Number of complete cycles to simulate (default 3).
 #' @param direction Orientation of the diagram: `"horizontal"` (default, time
 #'   runs left to right) or `"vertical"` (time runs top to bottom). Shorthands
@@ -81,7 +90,9 @@ timeline <- new_generic(
 #' @param subtitle Logical. If `TRUE` (default), adds a subtitle showing the
 #'   siteswap type and number of props. Set to `FALSE` to suppress; override
 #'   with [ggplot2::labs()] on the returned plot.
-#' @param ... Additional arguments passed to methods.
+#' @param ... Additional arguments passed to methods. For `passingSiteswap`
+#'   objects, `hand_gap` (default `2`) sets the vertical spacing between each
+#'   juggler's two hands in the diagram.
 #'
 #' @returns A ggplot2 object.
 #'

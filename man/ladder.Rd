@@ -14,7 +14,9 @@ ladder(
 )
 }
 \arguments{
-\item{siteswap}{A \code{vanillaSiteswap}, \code{synchronousSiteswap}, or \code{multiplexSiteswap} object.}
+\item{siteswap}{Any siteswap object: a \code{vanillaSiteswap},
+\code{synchronousSiteswap}, \code{multiplexSiteswap}, \code{synchronousMultiplexSiteswap},
+or \code{passingSiteswap}.}
 
 \item{n_cycles}{Number of complete cycles to simulate (default 3).}
 
@@ -30,7 +32,9 @@ the returned plot.}
 siteswap type and number of props. Set to \code{FALSE} to suppress; override
 with \code{\link[ggplot2:labs]{ggplot2::labs()}} on the returned plot.}
 
-\item{...}{Additional arguments passed to methods.}
+\item{...}{Additional arguments passed to methods. For \code{passingSiteswap}
+objects, \code{hand_gap} (default \code{2}) sets the vertical spacing between each
+juggler's two hands in the diagram.}
 }
 \value{
 A ggplot2 object.

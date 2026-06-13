@@ -7,8 +7,9 @@
 timeline(siteswap, n_cycles = 3, title = TRUE, subtitle = TRUE, ...)
 }
 \arguments{
-\item{siteswap}{A \code{vanillaSiteswap}, \code{multiplexSiteswap}, \code{synchronousSiteswap},
-or \code{synchronousMultiplexSiteswap} object.}
+\item{siteswap}{Any siteswap object: a \code{vanillaSiteswap},
+\code{synchronousSiteswap}, \code{multiplexSiteswap}, \code{synchronousMultiplexSiteswap},
+or \code{passingSiteswap}.}
 
 \item{n_cycles}{Number of complete cycles to simulate (default 3). A warning
 is issued if not all props appear within the simulated range.}

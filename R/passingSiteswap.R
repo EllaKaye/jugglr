@@ -435,12 +435,7 @@ method(ladder, passingSiteswap) <- function(
   subtitle = TRUE,
   hand_gap = 2L
 ) {
-  direction <- rlang::arg_match(direction)
-  direction <- if (direction %in% c("h", "horizontal")) {
-    "horizontal"
-  } else {
-    "vertical"
-  }
+  direction <- normalise_direction(direction)
 
   plot_data <- throw_data(siteswap, n_cycles = n_cycles) |>
     mutate(is_even = is_even(throw)) |>
