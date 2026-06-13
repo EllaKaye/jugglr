@@ -1,15 +1,17 @@
 Package: jugglr
 Title: Juggling Pattern Validation and Visualisation
 Version: 0.0.0.9000
-Authors@R: 
+Authors@R:
     person("Ella", "Kaye", , "ella.kaye@gmail.com", role = c("aut", "cre", "cph"))
 Description: Validate and visualise juggling patterns expressed in siteswap
     notation. Supports vanilla, synchronous, multiplex, synchronous multiplex,
     and passing siteswap, with tools to check pattern validity, produce timeline
     arc diagrams and ladder diagrams, retrieve raw throw data for custom
-    visualisations, and animate patterns via the JugglingLab GIF server.
+    visualisations, and animate patterns via the 'JugglingLab' animation
+    server (<https://jugglinglab.org/>).
 License: GPL (>= 3)
 Encoding: UTF-8
+Language: en-GB
 Config/roxygen2/version: 8.0.0
 Config/roxygen2/markdown: TRUE
 URL: https://github.com/EllaKaye/jugglr, https://ellakaye.github.io/jugglr/

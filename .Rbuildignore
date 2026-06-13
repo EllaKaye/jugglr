@@ -14,3 +14,4 @@ test_class.R
 ^Meta$
 ^plans$
 ^vignettes/articles$
+^cran-comments\.md$
