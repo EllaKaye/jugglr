@@ -198,4 +198,4 @@ animate("423", colors = c("#E69F00", "#56B4E9", "#009E73"))
 knitr::include_graphics("figures/423-animation.gif")
 ```
 
-The `animate` vignette covers the full range of options: colour modes, prop types, speed controls, and how to save animations to disk for use in documents.
+The [animation article](https://ellakaye.github.io/jugglr/articles/animate.html) covers the full range of options: colour modes, prop types, speed controls, and how to save animations to disk for use in documents.

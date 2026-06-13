@@ -13,3 +13,4 @@ test_class.R
 ^doc$
 ^Meta$
 ^plans$
+^vignettes/articles$

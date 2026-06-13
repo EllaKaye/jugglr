@@ -34,7 +34,7 @@ You can install the development version of jugglr from [GitHub](https://github.c
 pak::pak("EllaKaye/jugglr")
 ```
 
-For a full introduction to the package, see `vignette("jugglr")`. For the full range of animation options, see `vignette("animate")`.
+For a full introduction to the package, see `vignette("jugglr")`. For the full range of animation options, see the [animation article](https://ellakaye.github.io/jugglr/articles/animate.html).
 
 ## Siteswap
 

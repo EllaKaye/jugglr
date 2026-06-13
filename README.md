@@ -32,7 +32,8 @@ pak::pak("EllaKaye/jugglr")
 ```
 
 For a full introduction to the package, see `vignette("jugglr")`. For
-the full range of animation options, see `vignette("animate")`.
+the full range of animation options, see the [animation
+article](https://ellakaye.github.io/jugglr/articles/animate.html).
 
 ## Siteswap
 
