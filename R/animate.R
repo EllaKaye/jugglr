@@ -132,6 +132,13 @@ animate <- function(
 
 # Non-exported helpers ---------------------------------------------------
 
+# Remove invisible Unicode format characters (e.g. U+2060 WORD JOINER,
+# zero-width spaces, BOM, soft hyphen, directional marks) that can be
+# introduced when a pattern is copied and pasted from a rich-text source.
+strip_invisible <- function(x) {
+  gsub("\\p{Cf}", "", x, perl = TRUE)
+}
+
 format_color <- function(color) {
   paste0("{", paste(color, collapse = ","), "}")
 }
@@ -205,6 +212,8 @@ jugglinglab_url <- function(
       class = "jugglr_error_invalid_pattern"
     )
   }
+
+  pattern <- strip_invisible(pattern)
 
   url_segments <- paste0("pattern=", pattern)
 

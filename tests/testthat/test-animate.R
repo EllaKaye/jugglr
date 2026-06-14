@@ -89,6 +89,22 @@ test_that("jugglinglab_url accepts Siteswap objects", {
   )
 })
 
+test_that("strip_invisible removes zero-width / format characters", {
+  expect_equal(strip_invisible("⁠<3p|3p>⁠"), "<3p|3p>")
+  expect_equal(strip_invisible("531"), "531")
+})
+
+test_that("jugglinglab_url strips invisible characters from the pattern", {
+  # raw-string path (word joiners U+2060 wrapping the pattern)
+  expect_equal(
+    jugglinglab_url("⁠<3p|3p>⁠"),
+    jugglinglab_url("<3p|3p>")
+  )
+  # Siteswap-object path: an embedded invisible char survives construction
+  ss <- siteswap("<3p3|⁠3p3>")
+  expect_equal(jugglinglab_url(ss), jugglinglab_url("<3p3|3p3>"))
+})
+
 test_that("jugglinglab_url errors for invalid pattern type", {
   expect_error(jugglinglab_url(123), class = "jugglr_error_invalid_pattern")
   expect_error(
