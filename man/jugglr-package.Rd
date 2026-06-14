@@ -8,7 +8,7 @@
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-Validate and visualise juggling patterns expressed in siteswap notation. Supports vanilla, synchronous, multiplex, synchronous multiplex, and passing siteswap, with tools to check pattern validity, produce timeline arc diagrams and ladder diagrams, retrieve raw throw data for custom visualisations, and animate patterns via the JugglingLab GIF server.
+Validate and visualise juggling patterns expressed in siteswap notation. Supports vanilla, synchronous, multiplex, synchronous multiplex, and passing siteswap, with tools to check pattern validity, produce timeline arc diagrams and ladder diagrams, retrieve raw throw data for custom visualisations, and animate patterns via the 'JugglingLab' animation server (\url{https://jugglinglab.org/}).
 }
 \seealso{
 Useful links:

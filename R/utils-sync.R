@@ -75,3 +75,13 @@ sync_symmetrical <- function(sequence) {
   right <- throws[c(FALSE, TRUE)]
   rotations_match(left, right)
 }
+
+# detail bullets for the valid print output of synchronous siteswap types
+sync_print_details <- function(x) {
+  c(
+    if (x@sequence != x@full_sequence) {
+      c("i" = "Full sequence: {x@full_sequence}")
+    },
+    "i" = "It uses {x@n_props} props"
+  )
+}

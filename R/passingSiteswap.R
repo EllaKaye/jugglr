@@ -175,27 +175,8 @@ passingSiteswap <- new_class(
   package = "jugglr"
 )
 
-method(print, passingSiteswap) <- function(x, ...) {
-  if (x@valid) {
-    cli::cli_bullets(c(
-      "v" = "'{x@sequence}' is valid {x@type} siteswap",
-      "i" = "It uses {x@n_props} props across {x@n_jugglers} jugglers",
-      "i" = "It is {x@symmetry} with period {x@period}"
-    ))
-  } else {
-    reasons <- c(
-      if (!x@satisfies_average_theorem) {
-        c("i" = "The throws don't average to a whole number")
-      },
-      if (!x@can_throw) {
-        c("i" = "Two or more throws land on the same beat (collision)")
-      }
-    )
-    cli::cli_bullets(c(
-      "x" = "'{x@sequence}' is not a valid juggling pattern",
-      reasons
-    ))
-  }
+method(print_details, passingSiteswap) <- function(x, ...) {
+  c("i" = "It uses {x@n_props} props across {x@n_jugglers} jugglers")
 }
 
 method(throw_data, passingSiteswap) <- function(siteswap, n_cycles = 3) {

@@ -28,11 +28,18 @@ Siteswap <- new_class(
   package = "jugglr"
 )
 
+# internal hook: class-specific detail bullets for the valid print output
+print_details <- new_generic("print_details", "x")
+
+method(print_details, Siteswap) <- function(x, ...) {
+  c("i" = "It uses {x@n_props} props")
+}
+
 method(print, Siteswap) <- function(x, ...) {
   if (x@valid) {
     cli::cli_bullets(c(
       "v" = "'{x@sequence}' is valid {x@type} siteswap",
-      "i" = "It uses {x@n_props} props",
+      print_details(x),
       "i" = "It is {x@symmetry} with period {x@period}"
     ))
   } else {
