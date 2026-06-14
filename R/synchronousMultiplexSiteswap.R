@@ -194,7 +194,16 @@ method(timeline, synchronousMultiplexSiteswap) <- function(
   title = TRUE,
   subtitle = TRUE
 ) {
-  build_sync_timeline_plot(siteswap, n_cycles, title, subtitle)
+  build_simple_timeline(
+    siteswap,
+    n_cycles,
+    title,
+    subtitle,
+    x_labels = sync_slot_labels(siteswap@full_sequence),
+    title_seq = siteswap@full_sequence,
+    by_hand = TRUE,
+    subtitle_extra = "Solid and dashed lines represent different hands."
+  )
 }
 
 method(ladder, synchronousMultiplexSiteswap) <- function(

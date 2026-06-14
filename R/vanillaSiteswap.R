@@ -150,45 +150,14 @@ method(timeline, vanillaSiteswap) <- function(
   title = TRUE,
   subtitle = TRUE
 ) {
-  throw_data <- throw_data(siteswap, n_cycles = n_cycles)
-
-  max_prop <- max(throw_data$prop, na.rm = TRUE)
-
-  throw_data <- throw_data |>
-    mutate(prop = factor(prop))
-
-  parabolas <- throw_data |>
-    filter(throw > 0) |> # nothing to draw when there's no throw
-    select(beat, catch_beat, throw, prop) |>
-    purrr::pmap(\(beat, catch_beat, throw, prop) {
-      generate_parabola(beat, catch_beat, throw, prop, beat)
-    }) |>
-    purrr::list_rbind()
-
-  warn_if_props_hidden(siteswap, max_prop)
-
-  p <- ggplot(
-    parabolas,
-    aes(x = x, y = y, group = beat, color = prop)
-  ) +
-    geom_path(linewidth = 2, show.legend = FALSE) +
-    prop_color_scale(max_prop) +
-    scale_x_continuous(
-      breaks = seq_len(siteswap@period * n_cycles),
-      labels = rep(siteswap@throws, n_cycles)
-    ) +
-    theme_void() +
-    theme(
-      axis.text.x = element_text(face = "bold", size = rel(1.5)),
-      plot.margin = margin(10, 20, 20, 20)
-    ) +
-    title_subtitle_theme() +
-    labs(
-      title = if (title) siteswap@sequence else NULL,
-      subtitle = if (subtitle) plot_subtitle(siteswap) else NULL
-    )
-
-  p
+  build_simple_timeline(
+    siteswap,
+    n_cycles,
+    title,
+    subtitle,
+    x_labels = siteswap@throws,
+    title_seq = siteswap@sequence
+  )
 }
 
 method(ladder, vanillaSiteswap) <- function(

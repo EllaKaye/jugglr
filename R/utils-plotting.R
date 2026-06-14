@@ -356,24 +356,32 @@ build_simple_ladder <- function(
   )
 }
 
-build_sync_timeline_plot <- function(siteswap, n_cycles, title, subtitle) {
-  throw_data <- throw_data(siteswap, n_cycles = n_cycles)
-  max_prop <- max(throw_data$prop, na.rm = TRUE)
-  throw_data <- throw_data |>
-    mutate(prop = factor(prop))
-  parabolas <- throw_data |>
+build_simple_timeline <- function(
+  siteswap,
+  n_cycles,
+  title,
+  subtitle,
+  x_labels,
+  title_seq,
+  by_hand = FALSE,
+  subtitle_extra = NULL
+) {
+  td <- throw_data(siteswap, n_cycles = n_cycles)
+  max_prop <- max(td$prop, na.rm = TRUE)
+
+  parabolas <- td |>
     filter(.data$throw > 0) |>
+    mutate(prop = factor(.data$prop)) |>
     purrr::pmap(\(beat, catch_beat, throw, prop, hand, ...) {
       df <- generate_parabola(beat, catch_beat, throw, prop, beat)
       df$hand <- hand
       df
     }) |>
     purrr::list_rbind()
+
   warn_if_props_hidden(siteswap, max_prop)
-  slot_labels <- str_extract_all(siteswap@full_sequence, "\\([^)]+\\)")[[1]] |>
-    sub("^\\((.+),(.+)\\)$", "\\1\n\\2", x = _)
-  ggplot(
-    parabolas,
+
+  mapping <- if (by_hand) {
     aes(
       x = .data$x,
       y = .data$y,
@@ -381,12 +389,21 @@ build_sync_timeline_plot <- function(siteswap, n_cycles, title, subtitle) {
       color = .data$prop,
       linetype = factor(.data$hand)
     )
-  ) +
+  } else {
+    aes(
+      x = .data$x,
+      y = .data$y,
+      group = interaction(.data$beat, .data$prop),
+      color = .data$prop
+    )
+  }
+
+  ggplot(parabolas, mapping) +
     geom_path(linewidth = 2, show.legend = FALSE) +
     prop_color_scale(max_prop) +
     scale_x_continuous(
-      breaks = seq_len(siteswap@period / 2L * n_cycles),
-      labels = rep(slot_labels, n_cycles)
+      breaks = seq_len(length(x_labels) * n_cycles),
+      labels = rep(x_labels, n_cycles)
     ) +
     theme_void() +
     theme(
@@ -395,16 +412,19 @@ build_sync_timeline_plot <- function(siteswap, n_cycles, title, subtitle) {
     ) +
     title_subtitle_theme() +
     labs(
-      title = if (title) siteswap@full_sequence else NULL,
+      title = if (title) title_seq else NULL,
       subtitle = if (subtitle) {
-        plot_subtitle(
-          siteswap,
-          extra = "Solid and dashed lines represent different hands."
-        )
+        plot_subtitle(siteswap, extra = subtitle_extra)
       } else {
         NULL
       }
     )
+}
+
+# Slot labels for synchronous timelines: "(a,b)" -> "a\nb"
+sync_slot_labels <- function(full_sequence) {
+  str_extract_all(full_sequence, "\\([^)]+\\)")[[1]] |>
+    sub("^\\((.+),(.+)\\)$", "\\1\n\\2", x = _)
 }
 
 generate_pass_arc <- function(
