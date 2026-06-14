@@ -424,7 +424,7 @@ build_simple_timeline <- function(
 # Slot labels for synchronous timelines: "(a,b)" -> "a\nb"
 sync_slot_labels <- function(full_sequence) {
   str_extract_all(full_sequence, "\\([^)]+\\)")[[1]] |>
-    sub("^\\((.+),(.+)\\)$", "\\1\n\\2", x = _)
+    str_replace("^\\((.+),(.+)\\)$", "\\1\n\\2")
 }
 
 generate_pass_arc <- function(
