@@ -118,7 +118,7 @@ synchronousSiteswap <- new_class(
     )
   ),
   validator = function(self) {
-    if (!str_detect(self@sequence, "^(\\([0-9a-z]x?,[0-9a-z]x?\\))+\\*?$")) {
+    if (!is_sync_notation(self@sequence)) {
       cli::cli_abort(
         "@sequence is not valid synchronous siteswap notation.",
         class = "jugglr_error_invalid_sequence"
