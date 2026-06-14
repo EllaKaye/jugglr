@@ -50,6 +50,20 @@ test_that("get_throws errors for non-string input", {
   expect_error(get_throws(c("4", "2", "3")), class = "jugglr_error_not_string")
 })
 
+test_that("is_vanilla_notation recognises vanilla notation", {
+  expect_true(is_vanilla_notation("531"))
+  expect_true(is_vanilla_notation("97531"))
+  expect_true(is_vanilla_notation("3"))
+  expect_true(is_vanilla_notation("b97531"))
+})
+
+test_that("is_vanilla_notation rejects non-vanilla notation", {
+  expect_false(is_vanilla_notation("(4,4)"))
+  expect_false(is_vanilla_notation("[43]1"))
+  expect_false(is_vanilla_notation("<3p 3 | 3p 3>"))
+  expect_false(is_vanilla_notation(""))
+})
+
 test_that("can_throw works", {
   expect_true(can_throw(c(4, 2, 3)))
   expect_false(can_throw(c(4, 3, 2)))

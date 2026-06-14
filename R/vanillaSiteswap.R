@@ -85,7 +85,7 @@ vanillaSiteswap <- new_class(
     )
   ),
   validator = function(self) {
-    if (!str_detect(self@sequence, "^[a-zA-Z0-9]+$")) {
+    if (!is_vanilla_notation(self@sequence)) {
       cli::cli_abort(
         "@sequence must only contain digits and letters.",
         class = "jugglr_error_invalid_sequence"

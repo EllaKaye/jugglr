@@ -88,7 +88,7 @@ siteswap <- function(sequence) {
       class = "jugglr_error_not_string"
     )
   }
-  if (str_detect(sequence, "^[a-zA-Z0-9]+$")) {
+  if (is_vanilla_notation(sequence)) {
     vanillaSiteswap(sequence)
   } else if (is_sync_multiplex_notation(sequence)) {
     synchronousMultiplexSiteswap(sequence)

@@ -47,6 +47,10 @@ chr_sync_throws_to_num <- function(throws) {
   chr_throws_to_num(str_remove(throws, "(?<=.)x$"))
 }
 
+is_vanilla_notation <- function(sequence) {
+  str_detect(sequence, "^[a-zA-Z0-9]+$")
+}
+
 get_throws <- function(sequence) {
   if (!(rlang::is_character(sequence, 1))) {
     cli::cli_abort(
