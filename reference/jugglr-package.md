@@ -4,7 +4,8 @@ Validate and visualise juggling patterns expressed in siteswap notation.
 Supports vanilla, synchronous, multiplex, synchronous multiplex, and
 passing siteswap, with tools to check pattern validity, produce timeline
 arc diagrams and ladder diagrams, retrieve raw throw data for custom
-visualisations, and animate patterns via the JugglingLab GIF server.
+visualisations, and animate patterns via the 'JugglingLab' animation
+server (<https://jugglinglab.org/>).
 
 ## See also
 
