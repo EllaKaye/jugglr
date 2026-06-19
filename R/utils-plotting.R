@@ -59,6 +59,11 @@ title_subtitle_theme <- function(direction = NULL) {
     margin(0, 0, 8, 0)
   }
   theme(
+    # Span title/subtitle across the full plot, not the panel column. Otherwise
+    # `coord_fixed` (in ladders) can shrink the panel so the marquee subtitle's
+    # `width = unit(1, "npc")` wraps too narrowly and overlaps the panel.
+    plot.title.position = "plot",
+    plot.caption.position = "plot",
     plot.title = element_text(
       size = rel(1.8),
       margin = margin(12, 0, 8, 0)

@@ -66,3 +66,9 @@ test_that("title_subtitle_theme returns a theme object for horizontal direction"
 test_that("title_subtitle_theme returns a theme object for vertical direction", {
   expect_s3_class(title_subtitle_theme("vertical"), "theme")
 })
+
+test_that("title_subtitle_theme spans title/subtitle across the full plot", {
+  th <- title_subtitle_theme()
+  expect_equal(th$plot.title.position, "plot")
+  expect_equal(th$plot.caption.position, "plot")
+})
