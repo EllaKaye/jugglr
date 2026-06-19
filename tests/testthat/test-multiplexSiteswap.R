@@ -155,6 +155,22 @@ test_that("ladder works with n_cycles argument", {
   expect_s3_class(ladder(ms, n_cycles = 2), "ggplot")
 })
 
+test_that("ladder fans duplicate multiplex throws to distinct curves", {
+  # [33]'s two equal 3s would otherwise render as one overlapping line; the fan
+  # must give each a distinct rank so the curves separate.
+  arcs <- dplyr::filter(throw_data(ms_33), throw > 0)
+  fanned <- duplicate_fan_rank(
+    arcs,
+    c("beat", "hand", "throw", "catch_beat", "catch_hand")
+  )
+  per_slot <- dplyr::summarise(
+    dplyr::group_by(fanned, beat, hand),
+    n_fan = dplyr::n_distinct(fan),
+    .groups = "drop"
+  )
+  expect_true(all(per_slot$n_fan == 2))
+})
+
 test_that("ladder respects title = FALSE", {
   p <- ladder(ms, title = FALSE)
   expect_s3_class(p, "ggplot")

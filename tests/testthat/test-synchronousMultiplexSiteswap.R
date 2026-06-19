@@ -162,6 +162,30 @@ test_that("ladder works with vertical direction", {
   expect_s3_class(ladder(smp, direction = "vertical"), "ggplot")
 })
 
+test_that("ladder fans duplicate multiplex throws to distinct curves", {
+  # ([66],4)'s two equal 6s share a hand, height and landing; the fan must give
+  # them distinct ranks so their arcs do not coincide.
+  arcs <- dplyr::filter(
+    throw_data(synchronousMultiplexSiteswap("([66],4)")),
+    throw > 0
+  )
+  fanned <- duplicate_fan_rank(
+    arcs,
+    c("beat", "hand", "throw", "catch_beat", "catch_hand")
+  )
+  dup <- dplyr::filter(
+    dplyr::summarise(
+      dplyr::group_by(fanned, beat, hand, throw, catch_beat, catch_hand),
+      n_throws = dplyr::n(),
+      n_fan = dplyr::n_distinct(fan),
+      .groups = "drop"
+    ),
+    n_throws > 1
+  )
+  expect_true(nrow(dup) > 0)
+  expect_true(all(dup$n_fan == dup$n_throws))
+})
+
 test_that("ladder respects title = FALSE", {
   p <- ladder(smp, title = FALSE)
   expect_s3_class(p, "ggplot")
