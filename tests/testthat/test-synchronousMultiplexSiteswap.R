@@ -193,7 +193,9 @@ test_that("timeline respects subtitle = FALSE", {
   expect_null(p$labels$subtitle)
 })
 
-test_that("timeline uses linetype aesthetic to distinguish hands", {
+test_that("timeline places the two hands on opposite sides of the centre line", {
   p <- timeline(smp)
-  expect_true("linetype" %in% names(p$mapping))
+  pd <- ggplot2::layer_data(p, length(p$layers))
+  expect_lt(min(pd$y), 0)
+  expect_gt(max(pd$y), 0)
 })

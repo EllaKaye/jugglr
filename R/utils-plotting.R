@@ -367,6 +367,9 @@ build_simple_ladder <- function(
   )
 }
 
+# For two-sided synchronous timelines `x_labels` holds the bottom-hand (hand 1)
+# throw notation and `top_labels` the top-hand (hand 0) notation; single-sided
+# types pass only `x_labels` and leave `top_labels` NULL.
 build_simple_timeline <- function(
   siteswap,
   n_cycles,
@@ -374,7 +377,8 @@ build_simple_timeline <- function(
   subtitle,
   x_labels,
   title_seq,
-  by_hand = FALSE,
+  two_sided = FALSE,
+  top_labels = NULL,
   subtitle_extra = NULL
 ) {
   td <- throw_data(siteswap, n_cycles = n_cycles)
@@ -382,9 +386,13 @@ build_simple_timeline <- function(
 
   parabolas <- td |>
     filter(.data$throw > 0) |>
+    fan_duplicate_heights() |>
     mutate(prop = factor(.data$prop)) |>
-    purrr::pmap(\(beat, catch_beat, throw, prop, hand, ...) {
-      df <- generate_parabola(beat, catch_beat, throw, prop, beat)
+    purrr::pmap(\(beat, catch_beat, peak, prop, hand, ...) {
+      df <- generate_parabola(beat, catch_beat, peak, prop, beat)
+      if (two_sided && hand == 1L) {
+        df$y <- -df$y
+      }
       df$hand <- hand
       df
     }) |>
@@ -392,35 +400,46 @@ build_simple_timeline <- function(
 
   warn_if_props_hidden(siteswap, max_prop)
 
-  mapping <- if (by_hand) {
-    aes(
-      x = .data$x,
-      y = .data$y,
-      group = interaction(.data$beat, .data$prop),
-      color = .data$prop,
-      linetype = factor(.data$hand)
-    )
+  mapping <- aes(
+    x = .data$x,
+    y = .data$y,
+    group = interaction(.data$beat, .data$prop),
+    color = .data$prop
+  )
+
+  p <- ggplot(parabolas, mapping)
+  if (two_sided) {
+    p <- p + geom_hline(yintercept = 0, color = "grey80", linewidth = 0.5)
+  }
+  p <- p +
+    geom_path(linewidth = 2, show.legend = FALSE) +
+    prop_color_scale(max_prop)
+
+  beats <- sort(unique(td$beat))
+  if (two_sided) {
+    p <- p +
+      scale_x_continuous(
+        breaks = beats,
+        labels = rep(x_labels, n_cycles),
+        sec.axis = dup_axis(labels = rep(top_labels, n_cycles))
+      ) +
+      theme_void() +
+      theme(
+        axis.text.x.bottom = element_text(face = "bold", size = rel(1.5)),
+        axis.text.x.top = element_text(face = "bold", size = rel(1.5)),
+        plot.margin = margin(10, 20, 20, 20)
+      )
   } else {
-    aes(
-      x = .data$x,
-      y = .data$y,
-      group = interaction(.data$beat, .data$prop),
-      color = .data$prop
-    )
+    p <- p +
+      scale_x_continuous(breaks = beats, labels = rep(x_labels, n_cycles)) +
+      theme_void() +
+      theme(
+        axis.text.x = element_text(face = "bold", size = rel(1.5)),
+        plot.margin = margin(10, 20, 20, 20)
+      )
   }
 
-  ggplot(parabolas, mapping) +
-    geom_path(linewidth = 2, show.legend = FALSE) +
-    prop_color_scale(max_prop) +
-    scale_x_continuous(
-      breaks = sort(unique(td$beat)),
-      labels = rep(x_labels, n_cycles)
-    ) +
-    theme_void() +
-    theme(
-      axis.text.x = element_text(face = "bold", size = rel(1.5)),
-      plot.margin = margin(10, 20, 20, 20)
-    ) +
+  p +
     title_subtitle_theme() +
     labs(
       title = if (title) title_seq else NULL,
@@ -432,10 +451,28 @@ build_simple_timeline <- function(
     )
 }
 
-# Slot labels for synchronous timelines: "(a,b)" -> "a\nb"
-sync_slot_labels <- function(full_sequence) {
-  str_extract_all(full_sequence, "\\([^)]+\\)")[[1]] |>
-    str_replace("^\\((.+),(.+)\\)$", "\\1\n\\2")
+# Multiplex slots can throw several props of the *same* height from one hand,
+# producing identical, fully overlapping arcs. Give each such duplicate a
+# slightly different peak height (a symmetric fan) so every prop is visible.
+# Throws with distinct heights or catch beats keep their exact height.
+fan_duplicate_heights <- function(arc_data, fan_offset = 0.18) {
+  arc_data |>
+    dplyr::group_by(.data$beat, .data$hand, .data$throw, .data$catch_beat) |>
+    mutate(
+      peak = .data$throw *
+        (1 + fan_offset * (dplyr::row_number() - (dplyr::n() + 1) / 2))
+    ) |>
+    dplyr::ungroup()
+}
+
+# Per-hand labels for two-sided synchronous timelines: split each "(a,b)" slot
+# into the top-hand (hand 0) label `a` and the bottom-hand (hand 1) label `b`.
+sync_hand_labels <- function(full_sequence) {
+  slots <- str_extract_all(full_sequence, "\\([^)]+\\)")[[1]]
+  list(
+    top = str_replace(slots, "^\\((.+),(.+)\\)$", "\\1"),
+    bottom = str_replace(slots, "^\\((.+),(.+)\\)$", "\\2")
+  )
 }
 
 generate_pass_arc <- function(

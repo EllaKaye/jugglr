@@ -198,15 +198,17 @@ method(timeline, synchronousSiteswap) <- function(
   title = TRUE,
   subtitle = TRUE
 ) {
+  hand_labels <- sync_hand_labels(siteswap@full_sequence)
   build_simple_timeline(
     siteswap,
     n_cycles,
     title,
     subtitle,
-    x_labels = sync_slot_labels(siteswap@full_sequence),
+    x_labels = hand_labels$bottom,
     title_seq = siteswap@full_sequence,
-    by_hand = TRUE,
-    subtitle_extra = "Solid and dashed lines represent different hands."
+    two_sided = TRUE,
+    top_labels = hand_labels$top,
+    subtitle_extra = "Each hand's throws are shown above and below the centre line."
   )
 }
 

@@ -128,6 +128,18 @@ test_that("timeline works with n_cycles argument", {
   expect_s3_class(timeline(ms, n_cycles = 2), "ggplot")
 })
 
+test_that("timeline fans duplicate multiplex throws to distinct heights", {
+  # [33] throws two equal 3s per slot; their arcs must not coincide.
+  arcs <- dplyr::filter(throw_data(ms_33), throw > 0)
+  fanned <- fan_duplicate_heights(arcs)
+  per_slot <- dplyr::summarise(
+    dplyr::group_by(fanned, beat, hand),
+    n_peaks = dplyr::n_distinct(peak),
+    .groups = "drop"
+  )
+  expect_true(all(per_slot$n_peaks == 2))
+})
+
 # ladder ---------------------------------------------------------------------
 
 test_that("ladder returns a ggplot for multiplexSiteswap", {

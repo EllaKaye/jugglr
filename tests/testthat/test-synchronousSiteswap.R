@@ -187,7 +187,9 @@ test_that("timeline works with n_cycles argument for synchronousSiteswap", {
   expect_s3_class(timeline(ss, n_cycles = 2), "ggplot")
 })
 
-test_that("timeline uses linetype aesthetic to distinguish hands", {
-  p <- timeline(ss)
-  expect_true("linetype" %in% names(p$mapping))
+test_that("timeline places the two hands on opposite sides of the centre line", {
+  p <- timeline(ss_44)
+  pd <- ggplot2::layer_data(p, length(p$layers))
+  expect_lt(min(pd$y), 0)
+  expect_gt(max(pd$y), 0)
 })
