@@ -142,7 +142,13 @@ create_curve_points <- function(
   data.frame(x = x, y = y, prop = prop_num)
 }
 
-build_ladder_plot <- function(plot_data, direction, title, subtitle = NULL) {
+build_ladder_plot <- function(
+  plot_data,
+  direction,
+  title,
+  subtitle = NULL,
+  beat_step = 1L
+) {
   is_vertical <- direction == "vertical"
   max_prop <- max(plot_data$prop, na.rm = TRUE)
 
@@ -249,47 +255,50 @@ build_ladder_plot <- function(plot_data, direction, title, subtitle = NULL) {
       )
   }
 
+  # Rungs/labels sit on the regular beat grid; beat_step > 1 (e.g. synchronous)
+  # skips the empty intermediate beats so labels read 0, 2, 4, ...
+  min_beat <- min(plot_data$beat)
+  max_beat <- max(plot_data$catch_beat)
+  beats_grid <- seq(min_beat, max_beat, by = beat_step)
+
   if (is_vertical) {
-    n_beats <- max(-plot_data$y_end)
-    beats <- -seq_len(n_beats)
     rung_data <- data.frame(
       x = 0,
-      y = beats,
+      y = -beats_grid,
       xend = 1,
-      yend = beats
+      yend = -beats_grid
     )
     rail_data <- data.frame(
       x = c(0, 1),
-      y = c(-1, -1),
+      y = c(-min_beat, -min_beat),
       xend = c(0, 1),
-      yend = c(-n_beats, -n_beats)
+      yend = c(-max_beat, -max_beat)
     )
   } else {
-    n_beats <- max(plot_data$x_end)
-    beats <- seq_len(n_beats)
     rung_data <- data.frame(
-      x = beats,
+      x = beats_grid,
       y = 0,
-      xend = beats,
+      xend = beats_grid,
       yend = 1
     )
     rail_data <- data.frame(
-      x = c(1, 1),
+      x = c(min_beat, min_beat),
       y = c(0, 1),
-      xend = c(n_beats, n_beats),
+      xend = c(max_beat, max_beat),
       yend = c(0, 1)
     )
   }
 
-  # hand_axis gets limits; time_axis gets no limits
+  # hand_axis gets limits; time_axis gets no limits. The ratio compensates for
+  # beat_step so larger steps keep the same rendered proportions.
   hand_limits <- c(-0.2, 1.2)
-  ratio <- ifelse(is_vertical, 0.3, 3)
+  ratio <- if (is_vertical) 0.3 / beat_step else 3 * beat_step
 
   # Beat number labels positioned just outside the bottom/left rail in data coords
   beat_label_data <- if (!is_vertical) {
-    data.frame(x = seq_len(n_beats), y = -0.12, label = seq_len(n_beats))
+    data.frame(x = beats_grid, y = -0.12, label = beats_grid)
   } else {
-    data.frame(x = -0.12, y = -seq_len(n_beats), label = seq_len(n_beats))
+    data.frame(x = -0.12, y = -beats_grid, label = beats_grid)
   }
 
   p <- p +
@@ -343,7 +352,8 @@ build_simple_ladder <- function(
   title,
   subtitle,
   is_even_col,
-  title_seq
+  title_seq,
+  beat_step = 1L
 ) {
   plot_data <- throw_data(siteswap, n_cycles = n_cycles) |>
     mutate(is_even = {{ is_even_col }}) |>
@@ -352,7 +362,8 @@ build_simple_ladder <- function(
     plot_data,
     direction,
     title = if (title) title_seq else NULL,
-    subtitle = if (subtitle) plot_subtitle(siteswap) else NULL
+    subtitle = if (subtitle) plot_subtitle(siteswap) else NULL,
+    beat_step = beat_step
   )
 }
 
@@ -402,7 +413,7 @@ build_simple_timeline <- function(
     geom_path(linewidth = 2, show.legend = FALSE) +
     prop_color_scale(max_prop) +
     scale_x_continuous(
-      breaks = seq_len(length(x_labels) * n_cycles),
+      breaks = sort(unique(td$beat)),
       labels = rep(x_labels, n_cycles)
     ) +
     theme_void() +

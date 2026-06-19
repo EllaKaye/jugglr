@@ -137,6 +137,13 @@ test_that("throw_data has correct row count (one row per individual throw)", {
   expect_equal(nrow(throw_data(smp, n_cycles = 3)), 15L)
 })
 
+test_that("throw_data uses even beats and catch beats", {
+  td <- throw_data(smp)
+  expect_true(all(td$beat %% 2 == 0))
+  expect_true(all(td$catch_beat %% 2 == 0))
+  expect_equal(min(td$beat), 0)
+})
+
 test_that("throw_data errors for invalid n_cycles", {
   expect_error(
     throw_data(smp, n_cycles = 1.3),

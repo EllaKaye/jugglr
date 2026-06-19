@@ -152,7 +152,8 @@ method(throw_data, synchronousMultiplexSiteswap) <- function(
 
   for (cycle in seq_len(n_cycles)) {
     for (slot_idx in seq_len(n_slots)) {
-      beat <- (cycle - 1L) * n_slots + slot_idx
+      # Even beats (0, 2, 4, ...): synchronous throws are simultaneous and even.
+      beat <- ((cycle - 1L) * n_slots + slot_idx - 1L) * 2L
 
       for (hand in 0:1) {
         slot_throw <- if (hand == 0L) {
@@ -165,7 +166,7 @@ method(throw_data, synchronousMultiplexSiteswap) <- function(
         for (j in seq_along(parsed$heights)) {
           h <- parsed$heights[[j]]
           cross <- parsed$crossings[[j]]
-          catch_beat <- beat + as.integer(h / 2L)
+          catch_beat <- beat + h
           catch_hand <- if (cross) 1L - hand else hand
           row_idx <- row_idx + 1L
           rows[[row_idx]] <- data.frame(
@@ -221,6 +222,7 @@ method(ladder, synchronousMultiplexSiteswap) <- function(
     title,
     subtitle,
     !is_crossing,
-    siteswap@full_sequence
+    siteswap@full_sequence,
+    beat_step = 2L
   )
 }

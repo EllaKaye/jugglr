@@ -148,7 +148,9 @@ method(throw_data, synchronousSiteswap) <- function(siteswap, n_cycles = 3) {
   hand_0_throws <- rep(hands$hand_1, times = n_cycles)
   hand_1_throws <- rep(hands$hand_2, times = n_cycles)
 
-  beat <- rep(seq_len(n_total), each = 2)
+  # Synchronous throws happen on even beats (0, 2, 4, ...); both hands throw
+  # simultaneously and every throw height is even, so catch beats are even too.
+  beat <- rep((seq_len(n_total) - 1L) * 2L, each = 2)
   hand <- rep(c(0L, 1L), times = n_total)
   throw_raw <- character(n_total * 2)
   throw_raw[c(TRUE, FALSE)] <- hand_0_throws
@@ -156,7 +158,7 @@ method(throw_data, synchronousSiteswap) <- function(siteswap, n_cycles = 3) {
 
   is_crossing <- str_detect(throw_raw, "(?<=.)x$")
   throw_val <- chr_sync_throws_to_num(throw_raw)
-  catch_beat <- beat + as.integer(throw_val / 2)
+  catch_beat <- beat + throw_val
   catch_hand <- ifelse(is_crossing, 1L - hand, hand)
 
   throws <- data.frame(
@@ -223,6 +225,7 @@ method(ladder, synchronousSiteswap) <- function(
     title,
     subtitle,
     !is_crossing,
-    siteswap@full_sequence
+    siteswap@full_sequence,
+    beat_step = 2L
   )
 }
