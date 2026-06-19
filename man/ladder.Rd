@@ -14,9 +14,9 @@ ladder(
 )
 }
 \arguments{
-\item{siteswap}{Any siteswap object: a \code{vanillaSiteswap},
-\code{synchronousSiteswap}, \code{multiplexSiteswap}, \code{synchronousMultiplexSiteswap},
-or \code{passingSiteswap}.}
+\item{siteswap}{A \link{vanillaSiteswap},
+\link{synchronousSiteswap}, \link{multiplexSiteswap}, \link{synchronousMultiplexSiteswap},
+or \link{passingSiteswap} object.}
 
 \item{n_cycles}{Number of complete cycles to simulate (default 3).}
 
@@ -40,12 +40,51 @@ juggler's two hands in the diagram.}
 A ggplot2 object.
 }
 \description{
-Produces a ladder diagram showing prop paths between hands across beats.
-Straight lines indicate self-throws (same hand catches); crossing lines
-indicate cross-throws (opposite hand catches).
+Produces a ladder diagram showing prop paths between hands across beats. The
+rails represent the hands and the rungs represent the beats. Each throw
+connects to its catch: cross-hand throws are drawn as straight segments
+between the rails, while same-hand throws curve back to the same rail.
+Throws are coloured by prop using the colour-blind-friendly Okabe-Ito
+palette (a ggplot2 default scale is used beyond seven props), and beat
+numbers are labelled along the axis.
+}
+\details{
+\code{ladder()} is an S7 generic. There are methods available for the following
+classes:
+
+\itemize{
+\item \code{jugglr::multiplexSiteswap}
+\item \code{jugglr::passingSiteswap}
+\item \code{jugglr::synchronousMultiplexSiteswap}
+\item \code{jugglr::synchronousSiteswap}
+\item \code{jugglr::vanillaSiteswap}
+}
+
+Where multiplex throws overlap (e.g. \verb{[33]}), the lines fan apart slightly
+so they are visible. Passing patterns use one pair of rails per juggler,
+spaced by \code{hand_gap} and throws between jugglers cross between the rails.
+
+The result is a standard ggplot2 object, so beyond the \code{title} and \code{subtitle}
+toggles you can modify it by adding any ggplot2 function, for example
+\code{\link[ggplot2:labs]{ggplot2::labs()}} or \code{\link[ggplot2:scale_colour_manual]{ggplot2::scale_colour_manual()}}.
 }
 \examples{
-s <- vanillaSiteswap("531")
-ladder(s)
+# Vanilla: straight cross-hand throws, curved same-hand throws
+ladder(siteswap("423"))
+
+# Synchronous: even-only beat numbering, crossing denoted by "x"
+ladder(siteswap("(4,2x)(2x,4)"))
+ladder(siteswap("(2,6x)([6x4x],2x)"))
+
+# Multiplex: identical simultaneous throws fan into separate curves
+ladder(siteswap("[33]"), n_cycles = 6)
+
+# Passing: one pair of rails per juggler
+ladder(siteswap("<3p 3|3p 3>"))
+ladder(siteswap("<4.5 3 3 | 3 4 3.5>"))
+
+# Vertical orientation, and customise like any ggplot2 object
+ladder(siteswap("423"), direction = "v", subtitle = FALSE) +
+  ggplot2::labs(title = "423 or W")
 
 }
