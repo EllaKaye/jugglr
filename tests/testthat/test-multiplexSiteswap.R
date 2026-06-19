@@ -171,6 +171,15 @@ test_that("ladder fans duplicate multiplex throws to distinct curves", {
   expect_true(all(per_slot$n_fan == 2))
 })
 
+test_that("ladder curves only throws that need it", {
+  geoms <- function(p) vapply(p$layers, \(l) class(l$geom)[1], character(1))
+  # 531: all throws are odd and unique, so they stay straight geom_segments and
+  # no curve layer is added (only rungs + rails are segments).
+  expect_false("GeomPath" %in% geoms(ladder(siteswap("531"))))
+  # [33]: the two equal 3s per slot overlap, so they are curved apart instead.
+  expect_true("GeomPath" %in% geoms(ladder(ms_33)))
+})
+
 test_that("ladder respects title = FALSE", {
   p <- ladder(ms, title = FALSE)
   expect_s3_class(p, "ggplot")

@@ -208,13 +208,18 @@ build_ladder_plot <- function(
     c("beat", "hand", "throw", "catch_beat", "catch_hand")
   )
 
-  # Every throw goes through one Bezier generator: odd cross-hand throws come out
-  # straight, even same-hand throws bow toward centre, and the fan rank nudges
-  # duplicate multiplex throws apart so each prop's arc stays visible. This
-  # replaces the former even-arc/odd-segment split, which left identical
-  # multiplex throws fully overlapping.
-  if (nrow(plot_data) > 0) {
-    curve_data <- plot_data |>
+  # Ordinary straight (odd, cross-hand) throws stay cheap geom_segments. Curves
+  # are reserved for throws that need them: even same-hand arcs, and the rare
+  # genuinely-overlapping duplicates (n_dup > 1), which the fan bows apart so each
+  # prop's arc stays visible. A duplicate group is curved as a whole, so the
+  # middle throw of an odd triple (fan = 0) still comes out exactly straight.
+  curved <- plot_data |>
+    filter(is_even | .data$n_dup > 1)
+  straight <- plot_data |>
+    filter(!is_even & .data$n_dup == 1)
+
+  if (nrow(curved) > 0) {
+    curve_data <- curved |>
       purrr::pmap(\(
         x_start,
         y_start,
@@ -268,6 +273,22 @@ build_ladder_plot <- function(
           x = .data$x,
           y = .data$y,
           group = .data$group,
+          color = factor(.data$prop)
+        ),
+        linewidth = 0.8,
+        show.legend = FALSE
+      )
+  }
+
+  if (nrow(straight) > 0) {
+    p <- p +
+      geom_segment(
+        data = straight,
+        aes(
+          x = .data$x_start,
+          y = .data$y_start,
+          xend = .data$x_end,
+          yend = .data$y_end,
           color = factor(.data$prop)
         ),
         linewidth = 0.8,
@@ -475,11 +496,15 @@ build_simple_timeline <- function(
 # arcs. Assign each a centred rank within its duplicate group: 0 when the throw
 # is unique, and a symmetric spread otherwise (e.g. -0.5, +0.5 for a pair like
 # `[33]`; -1, 0, 1 for a triple). Callers turn this rank into a small offset so
-# every prop stays visible.
+# every prop stays visible. `n_dup` (group size) lets callers single out the
+# genuinely-overlapping throws (`n_dup > 1`).
 duplicate_fan_rank <- function(data, group_cols) {
   data |>
     dplyr::group_by(dplyr::across(dplyr::all_of(group_cols))) |>
-    mutate(fan = dplyr::row_number() - (dplyr::n() + 1) / 2) |>
+    mutate(
+      fan = dplyr::row_number() - (dplyr::n() + 1) / 2,
+      n_dup = dplyr::n()
+    ) |>
     dplyr::ungroup()
 }
 
@@ -556,27 +581,14 @@ build_passing_ladder_plot <- function(
       )
   }
 
-  # Fan identical multiplex throws apart; a multiplex pass repeats across the
-  # same throw/juggler pair, so include the juggler columns in the grouping.
-  plot_data <- duplicate_fan_rank(
-    plot_data,
-    c(
-      "beat",
-      "hand",
-      "throw",
-      "catch_beat",
-      "catch_hand",
-      "juggler",
-      "catch_juggler"
-    )
-  )
+  # Self even throws: Bezier arcs; everything else: straight segments. (Passing
+  # patterns cannot express multiplex slots, so there are no duplicate throws to
+  # fan apart here, unlike the simple ladder builder.)
+  self_even <- plot_data |> filter(!.data$is_pass, .data$is_even)
+  straight <- plot_data |> filter(.data$is_pass | !.data$is_even)
 
-  # Every throw goes through one Bezier generator. Self-thrown even throws bow
-  # toward their juggler's centre line; passes and odd throws keep a straight
-  # (collinear) control point. The fan offset on the hand-axis control coordinate
-  # separates duplicate multiplex throws so each prop stays visible.
-  if (nrow(plot_data) > 0) {
-    curve_data <- plot_data |>
+  if (nrow(self_even) > 0) {
+    curve_data <- self_even |>
       purrr::pmap(\(
         x_start,
         y_start,
@@ -587,27 +599,16 @@ build_passing_ladder_plot <- function(
         throw,
         prop,
         juggler,
-        is_pass,
-        is_even,
-        fan,
         ...
       ) {
-        bow <- !is_pass && is_even
-        cross_base <- if (bow) {
-          (juggler - 1L) * hand_gap + 0.5
-        } else if (is_vertical) {
-          mean(c(x_start, x_end))
-        } else {
-          mean(c(y_start, y_end))
-        }
-        spread <- if (bow) ladder_fan_spread_even else ladder_fan_spread_odd
+        y_center <- (juggler - 1L) * hand_gap + 0.5
         t <- seq(0, 1, length.out = 50)
         if (is_vertical) {
-          x_ctrl <- cross_base + fan * spread
+          x_ctrl <- y_center
           y_ctrl <- mean(c(y_start, y_end))
         } else {
           x_ctrl <- mean(c(x_start, x_end))
-          y_ctrl <- cross_base + fan * spread
+          y_ctrl <- y_center
         }
         x_pts <- (1 - t)^2 * x_start + 2 * (1 - t) * t * x_ctrl + t^2 * x_end
         y_pts <- (1 - t)^2 * y_start + 2 * (1 - t) * t * y_ctrl + t^2 * y_end
@@ -638,6 +639,22 @@ build_passing_ladder_plot <- function(
           x = .data$x,
           y = .data$y,
           group = .data$group,
+          color = factor(.data$prop)
+        ),
+        linewidth = 0.8,
+        show.legend = FALSE
+      )
+  }
+
+  if (nrow(straight) > 0) {
+    p <- p +
+      geom_segment(
+        data = straight,
+        aes(
+          x = .data$x_start,
+          y = .data$y_start,
+          xend = .data$x_end,
+          yend = .data$y_end,
           color = factor(.data$prop)
         ),
         linewidth = 0.8,

@@ -1,136 +1,104 @@
-# Separate overlapping ladder arcs for identical multiplex throws
+# Refine ladder overlap fix: segments by default, curve only on overlap
 
-> On implementation, save this plan to `plans/2026-06-19-ladder-multiplex-overlap.md`
-> (per CLAUDE.md) and ensure `^plans$` is in `.Rbuildignore`.
+> On implementation, update `plans/2026-06-19-ladder-multiplex-overlap.md`
+> (per CLAUDE.md) to reflect this refinement.
 
 ## Context
 
-A recent fix ([R/utils-plotting.R](R/utils-plotting.R) `fan_duplicate_heights()`,
-commit `0127237`) solved overlapping arcs in **timeline** plots for identical
-multiplex throws such as `siteswap("[33]")`: duplicate throws had their parabola
-**peak heights** fanned symmetrically (±18%) so each prop's arc is visible.
+The overlapping-arc fix for ladder plots is already implemented and committed
+(`2e564ec`, `4d121f0`): identical multiplex throws (e.g. the two 3s in `[33]`)
+are fanned apart by nudging a quadratic-Bézier control point. To do this the
+implementation routed **every** ladder throw through `create_curve_points()` and
+a single `geom_path`, replacing the original even-arc/odd-segment split.
 
-The same overlap exists in **ladder** plots and is currently unhandled. For
-`[33]`, `throw_data()` produces two rows with identical
-`beat/hand/throw/catch_beat/catch_hand` but distinct `prop`. They render directly
-on top of each other, so only the last-drawn prop colour is visible.
+On review, that unification is heavier than the problem needs: every straight
+(odd, cross-hand) throw — the common case — is now a 50-point degenerate Bézier
+instead of a cheap 2-point `geom_segment`, and the original deliberate
+even=curve / odd=segment design was erased. It also forced a refactor of the
+**passing** builder that turned out to be a no-op: `passingSiteswap` does not
+expand multiplex notation (`<[33]|[33]>` parses to single throws), so passing has
+no duplicate throws, the fan is always 0, and the rewritten passing builder
+produces output identical to the original.
 
-Ladder throws split into two render paths:
-- **Even-height** (same-hand) throws → curved Bézier arcs via `create_curve_points()` (`geom_path`).
-- **Odd-height** (cross-hand) throws → straight `geom_segment`. `[33]` (height 3, odd) is this case.
+**Goal:** keep the (good) fan behaviour, but render straight throws with their
+natural primitive again, and limit curve generation to throws that actually need
+it: same-hand arcs plus the genuinely-overlapping duplicates. Revert the passing
+builder to its original tested form.
 
-**Goal:** mirror the timeline fix in ladder plots so duplicate multiplex throws
-are visibly separated, anchored at their true nodes, across all multiplex-capable
-types (`multiplexSiteswap`, `synchronousMultiplexSiteswap`, and passing variants).
+## Design decisions (settled with the user)
 
-## Key insight (verified)
+- **`[333]` middle line stays straight.** The fan rank is symmetric and centred
+  (`row_number() - (n+1)/2`), so a triple gets `-1, 0, +1`; the middle throw's
+  `fan = 0` yields an exact straight line while the outer two bow apart. This is
+  preserved because the *whole* duplicate group is routed through the curve
+  generator (where `fan = 0` is exactly straight).
+- **Partition on duplicate-group size, not `fan != 0`.** The middle of `[333]`
+  has `fan = 0` yet is part of an overlapping group, so it must still be grouped
+  with its siblings. Partition on `n > 1`.
+- **Passing: full revert, no dormant fan code.** A passing pattern with two
+  simultaneous identical throws cannot be constructed today, so any fan code in
+  the passing builder would be untestable dead code. If multiplex/synchronous
+  passing is added later, re-apply the simple builder's pattern then.
 
-For a horizontal ladder, `create_curve_points()` uses control point
-`(mean(x_start, x_end), 0.5)` for every throw. For an **odd cross-hand** throw
-from `(beat, 0)` to `(catch_beat, 1)`, that control point is the exact segment
-midpoint, so the quadratic Bézier reduces to a **straight line** (algebraically
-verified: `x = beat + (Δbeat)·t`, `y = t`). For an **even same-hand** throw it
-produces the existing bow toward centre.
+## Changes — all in [R/utils-plotting.R](R/utils-plotting.R)
 
-So even and odd throws can share **one** curve generator, and a symmetric fan
-applied to the control point's **hand-axis** coordinate (`y_control` horizontal /
-`x_control` vertical) separates duplicates in both cases:
-- non-duplicated throws (fan = 0) render exactly as today (straight stays straight);
-- duplicates bow/peak symmetrically apart.
-
-## Approach: fan the Bézier control point (mirrors timeline fix)
-
-### 1. Shared fan-rank helper — [R/utils-plotting.R](R/utils-plotting.R)
-Add a helper that assigns each throw a centred rank within its duplicate group:
-
+### 1. `duplicate_fan_rank()` — also return group size
+Add a group-size column so callers can partition on it:
 ```r
-duplicate_fan_rank <- function(data, ...group_cols...) {
-  data |>
-    dplyr::group_by(<keys>) |>
-    mutate(fan = dplyr::row_number() - (dplyr::n() + 1) / 2) |>
-    dplyr::ungroup()
-}
+mutate(fan = dplyr::row_number() - (dplyr::n() + 1) / 2, n_dup = dplyr::n())
 ```
+Harmless for the timeline caller (`fan_duplicate_heights()` ignores `n_dup`).
 
-`fan` is `0` for unique throws, and e.g. `-0.5, +0.5` for a pair like `[33]`.
-Optionally refactor `fan_duplicate_heights()` to reuse this rank (it currently
-recomputes the same `row_number() - (n+1)/2` expression at line 468).
+### 2. `build_ladder_plot()` — restore the segment/curve split
+After `duplicate_fan_rank()` (grouped by `beat, hand, throw, catch_beat,
+catch_hand`):
+- **curved** = `is_even | n_dup > 1` → `purrr::pmap()` through
+  `create_curve_points(..., fan = fan)` → one `geom_path` (as now).
+- **straight** = `!is_even & n_dup == 1` → `geom_segment` (restore the original
+  block: `x_start/y_start → x_end/y_end`, coloured by `factor(prop)`).
 
-### 2. Extend `create_curve_points()` ([R/utils-plotting.R:124](R/utils-plotting.R#L124))
-Add a `fan = 0` parameter and a small module-level `ladder_fan_spread` constant.
-Offset the hand-axis control coordinate:
-- horizontal: `y_control <- 0.5 + fan * ladder_fan_spread`
-- vertical:   `x_control <- 0.5 + fan * ladder_fan_spread`
+Even arcs keep their bow + fan; non-overlapping odd throws are cheap segments;
+overlapping odd duplicates flow through the curve path and bow apart (middle of a
+triple stays straight via `fan = 0`).
 
-Keep the time-axis control coordinate as the beat midpoint. Tune
-`ladder_fan_spread` (~0.3–0.5) so apex/bow separation is clearly visible while
-control coords stay within the `hand_limits = c(-0.2, 1.2)` band.
+### 3. `create_curve_points()` — unchanged
+Keeps its `fan` parameter, `same_hand` detection, and the two spreads
+(`ladder_fan_spread_odd = 0.3`, `ladder_fan_spread_even = 0.14`). The curved set
+contains both even arcs and bowed odd duplicates, so this logic is still needed.
 
-### 3. `build_ladder_plot()` ([R/utils-plotting.R:150](R/utils-plotting.R#L150))
-- Apply `duplicate_fan_rank()` grouped by `beat, hand, throw, catch_beat, catch_hand`.
-- **Route all throws through `create_curve_points()`**, passing each throw's `fan`;
-  drop the odd/`geom_segment` split (lines 181–184, 247–261). Non-duplicated odd
-  throws still render as exact straight lines (proven above); even arcs keep their
-  bow plus the fan. Preserve the per-throw `group` id (includes `prop`).
-- Single `geom_path` over the combined curve data (lines 232–245 already do this).
+### 4. `build_passing_ladder_plot()` — revert to original
+Restore the original split: self-even throws → inline Bézier arc (`geom_path`,
+control at `y_center`, no fan); passes and odd self-throws → straight
+`geom_segment`. Remove the `duplicate_fan_rank()` call and all `fan`/`spread`
+handling from this function.
 
-### 4. `build_passing_ladder_plot()` ([R/utils-plotting.R:501](R/utils-plotting.R#L501))
-Apply the same fan, grouping by `beat, hand, throw, catch_beat, catch_hand,
-juggler, catch_juggler`. Offset the control point's cross-(hand)-axis coordinate
-by `fan * ladder_fan_spread`:
-- self-even arcs (lines 540–572): add the fan to the existing `y_ctrl`/`x_ctrl`
-  (built around `y_center`).
-- pass / odd straight throws (lines 537–538, 599–613): route duplicated ones
-  through a Bézier with control = endpoint midpoint + fan offset so they bow
-  apart; non-duplicated ones (fan = 0) stay straight. Factor the inline Bézier
-  (lines 555–564) into the shared generator if practical.
-
-### 5. Method wiring (no change expected)
-`multiplexSiteswap`, `synchronousMultiplexSiteswap`, and passing `ladder` methods
-all funnel through `build_simple_ladder()` / `build_passing_ladder_plot()`, so the
-fix is centralised. The `is_even` column is already supplied by each method.
-
-## Critical files
-- [R/utils-plotting.R](R/utils-plotting.R) — `create_curve_points`, `build_ladder_plot`, `build_passing_ladder_plot`, new fan helper.
-- [tests/testthat/test-multiplexSiteswap.R](tests/testthat/test-multiplexSiteswap.R) — ladder fan test alongside the existing timeline fan test (lines 131–142).
-- `tests/testthat/test-synchronousMultiplexSiteswap.R` and `test-passingSiteswap.R` — sync-multiplex and passing ladder fan tests.
-- `NEWS.md` — user-facing bullet.
-
-## Tests
-Mirror the timeline test (test-multiplexSiteswap.R:131). For `[33]` (odd) and an
-even-duplicate case (e.g. `[44]`), build the ladder plot data and assert duplicate
-throws receive **distinct** control points / fan values (`n_distinct(fan) == n`
-per slot) so their rendered paths no longer coincide. Add an analogous test for a
-sync-multiplex pattern and a passing-multiplex pattern. Keep tests minimal per
-CLAUDE.md conventions.
+## Tests — [tests/testthat/](tests/testthat/)
+- Existing fan-rank tests stay valid (they call `duplicate_fan_rank()` directly):
+  `test-multiplexSiteswap.R` (`[33]`) and `test-synchronousMultiplexSiteswap.R`
+  (`([66],4)`).
+- Add one targeted assertion that the segment/curve split works: e.g. for a
+  plain pattern with odd non-duplicated throws (`siteswap("531")`), the built
+  ladder has a `GeomSegment` layer carrying those throws; for `[33]` the
+  overlapping odd duplicates instead appear in the `GeomPath` layer (no straight
+  segments). Use `ggplot2::ggplot_build()` / layer classes. Keep it minimal.
+- Passing smoke tests are unaffected by the revert (original code passed them).
 
 ## Verification
 ```
-Rscript --quiet --vanilla -e 'devtools::load_all(); print(ladder(siteswap("[33]")))'   # odd: bows apart
-Rscript --quiet --vanilla -e 'devtools::load_all(); print(ladder(siteswap("[44]")))'   # even: fanned apex
-# plus a synchronous-multiplex and a passing-multiplex pattern, both directions (h/v)
-Rscript --quiet --vanilla -e 'devtools::test(filter = "multiplexSiteswap", reporter = "check")'
+Rscript --quiet --vanilla -e 'devtools::load_all(); print(ladder(siteswap("[33]")))'    # odd dup: bows apart
+Rscript --quiet --vanilla -e 'devtools::load_all(); print(ladder(siteswap("531")))'      # odd: plain segments
+Rscript --quiet --vanilla -e 'devtools::load_all(); print(ladder(siteswap("[44]")))'     # even dup: fanned apex
+Rscript --quiet --vanilla -e 'devtools::load_all(); print(ladder(siteswap("([66],4)")))' # sync-multiplex dup
+Rscript --quiet --vanilla -e 'devtools::load_all(); print(ladder(passingSiteswap("<4 3 | 3 4>")))' # passing unchanged
 Rscript --quiet --vanilla -e 'devtools::test()'   # full suite
 air format .
 ```
-Visually confirm: non-duplicated throws look identical to before (straight stays
-straight); duplicate multiplex throws are clearly separated and still anchored at
-the correct beat/hand nodes; colours for each prop are now both visible.
-
-## Code comments
-Match the existing "why" comment style (e.g. the explanatory block above
-`fan_duplicate_heights()` at [R/utils-plotting.R:459](R/utils-plotting.R#L459)).
-Where we deviate from the obvious, add a short comment explaining the *reason*:
-- why even and odd throws are unified through one Bézier generator (a Bézier with
-  control `(midpoint, 0.5)` draws an exact straight line for cross-hand throws);
-- why the control point's hand-axis coordinate is fanned (to separate otherwise
-  identical, fully overlapping multiplex arcs — the ladder analogue of the
-  timeline peak-height fan).
+Visually confirm: ordinary straight throws render as plain segments (as before
+the fix); duplicate multiplex throws still separate; the middle of an odd triple
+is straight; passing ladders are pixel-identical to before the original fix.
 
 ## Commits
-1. Helper + `create_curve_points` fan parameter.
-2. `build_ladder_plot` unification + fan (with tests).
-3. `build_passing_ladder_plot` fan (with tests).
-4. NEWS.md bullet + docs (`devtools::document()` if signatures change).
+1. `build_ladder_plot` segment/curve split + `duplicate_fan_rank` group size (with test).
+2. Revert `build_passing_ladder_plot` to its original segment/curve form.
 
 Run `cca` after each commit.
