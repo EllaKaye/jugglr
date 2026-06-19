@@ -121,7 +121,14 @@ siteswap("<4.5 3 3 | 3 4 3.5>")
 
 A sequence of numbers only tells you so much about a pattern. jugglr provides two diagrams, each revealing different aspects of the same sequence.
 
-Both `timeline()` and `ladder()` return ggplot2 objects, so you can customise them further with standard ggplot2 functions.
+Both diagrams colour throws by prop using the colour-blind-friendly [Okabe-Ito palette](https://clauswilke.com/dataviz/color-pitfalls.html#not-designing-for-color-vision-deficiency) (up to seven props, after which ggplot2's default scale takes over). The same colours can be passed to `animate()` for consistency across static and animated views — see the [animation article](animate.html).
+
+Both `timeline()` and `ladder()` return ggplot2 objects, so you can customise them with any standard ggplot2 function:
+
+```{r ggplot-customise, fig.alt="Timeline diagram for the 423 pattern with a custom title added via ggplot2::labs()"}
+timeline(ss_423) +
+  ggplot2::labs(title = "My favourite three-ball pattern")
+```
 
 ### Timeline
 
@@ -156,6 +163,34 @@ ladder(ss_21)
 ```
 
 The collision is visible: two arcs land on the same beat, two lines converge at the same point. The colours show where props appear out of nowhere or need to be in two places at once. This is a useful debugging tool when an invented pattern doesn't feel right — the diagram tells you exactly where it breaks.
+
+### Synchronous patterns
+
+Both diagrams adapt to each notation type. Because synchronous patterns throw from both hands at once, the timeline is drawn two-sided: one hand's arcs sit above a faint centre line and the other's mirror below it, each with its own throw labels.
+
+```{r timeline-sync, fig.alt="Two-sided timeline for the synchronous (4,2x)* pattern, with one hand's arcs above the centre line and the other's mirrored below"}
+ss_sync <- siteswap("(4,2x)*")
+timeline(ss_sync)
+```
+
+The ladder follows suit, numbering only the even beats, since both hands throw together:
+
+```{r ladder-sync, fig.alt="Ladder diagram for the synchronous (4,2x)* pattern, numbered on even beats only"}
+ladder(ss_sync)
+```
+
+### Multiplex patterns
+
+When a hand throws two identical props at once, their arcs would otherwise land on top of each other. Both diagrams fan such throws apart — to slightly different heights in the timeline, and into separate curves in the ladder — so each prop stays visible:
+
+```{r timeline-multiplex, fig.alt="Timeline for the multiplex [22]2 pattern, with the two simultaneous throws fanned to slightly different heights"}
+ss_mult <- siteswap("[22]2")
+timeline(ss_mult)
+```
+
+```{r ladder-multiplex, fig.alt="Ladder diagram for the multiplex [22]2 pattern, with the two simultaneous throws fanned into separate curves"}
+ladder(ss_mult)
+```
 
 ### Passing patterns
 
