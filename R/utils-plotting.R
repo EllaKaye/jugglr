@@ -275,7 +275,7 @@ build_ladder_plot <- function(
           group = .data$group,
           color = factor(.data$prop)
         ),
-        linewidth = 0.8,
+        linewidth = 2,
         show.legend = FALSE
       )
   }
@@ -291,7 +291,7 @@ build_ladder_plot <- function(
           yend = .data$y_end,
           color = factor(.data$prop)
         ),
-        linewidth = 0.8,
+        linewidth = 2,
         show.legend = FALSE
       )
   }
@@ -641,7 +641,7 @@ build_passing_ladder_plot <- function(
           group = .data$group,
           color = factor(.data$prop)
         ),
-        linewidth = 0.8,
+        linewidth = 2,
         show.legend = FALSE
       )
   }
@@ -657,7 +657,7 @@ build_passing_ladder_plot <- function(
           yend = .data$y_end,
           color = factor(.data$prop)
         ),
-        linewidth = 0.8,
+        linewidth = 2,
         show.legend = FALSE
       )
   }
