@@ -44,3 +44,11 @@ s <- vanillaSiteswap("531")
 throw_data(s)
 
 }
+\seealso{
+The siteswap constructors, e.g. \code{\link[=siteswap]{siteswap()}} and \code{\link[=vanillaSiteswap]{vanillaSiteswap()}}.
+
+Other siteswap visualisation:
+\code{\link[=ladder]{ladder()}},
+\code{\link[=timeline]{timeline()}}
+}
+\concept{siteswap visualisation}

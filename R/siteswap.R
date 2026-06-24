@@ -12,6 +12,8 @@ NULL
 #' @param sequence A single character string of siteswap notation.
 #'
 #' @prop sequence The raw siteswap sequence string.
+#'
+#' @noRd
 Siteswap <- new_class(
   "Siteswap",
   properties = list(
@@ -72,6 +74,10 @@ method(print, Siteswap) <- function(x, ...) {
 #'
 #' @returns A [vanillaSiteswap], [synchronousSiteswap], [multiplexSiteswap],
 #'   [synchronousMultiplexSiteswap], or [passingSiteswap] S7 object.
+#'
+#' @family siteswap constructors
+#' @seealso The visualisation functions [timeline()], [ladder()] and
+#'   [throw_data()].
 #'
 #' @export
 #'

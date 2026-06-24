@@ -28,31 +28,45 @@ s <- multiplexSiteswap("[43]1")
 s@n_props
 s@valid
 }
+\seealso{
+The visualisation functions \code{\link[=timeline]{timeline()}}, \code{\link[=ladder]{ladder()}} and
+\code{\link[=throw_data]{throw_data()}}.
+
+Other siteswap constructors:
+\code{\link[=passingSiteswap]{passingSiteswap()}},
+\code{\link[=siteswap]{siteswap()}},
+\code{\link[=synchronousMultiplexSiteswap]{synchronousMultiplexSiteswap()}},
+\code{\link[=synchronousSiteswap]{synchronousSiteswap()}},
+\code{\link[=vanillaSiteswap]{vanillaSiteswap()}}
+}
+\concept{siteswap constructors}
 \section{Additional properties}{
 
 \describe{
 \item{\code{@type}}{Always \code{"multiplex"} (read-only).}
 
 \item{\code{@slots}}{List of integer vectors, one element per time slot. Single-throw
-slots are length-1 vectors; multiplex slots have length > 1.}
+slots are length-1 vectors; multiplex slots have length > 1 (read-only).}
 
 \item{\code{@throws}}{Integer vector of all individual throw heights (flattened across
-all slots).}
+all slots) (read-only).}
 
-\item{\code{@period}}{Number of time slots per cycle.}
+\item{\code{@period}}{Number of time slots per cycle (read-only).}
 
 \item{\code{@symmetry}}{\code{"symmetrical"} when period is odd; \code{"asymmetrical"} when
-period is even.}
+period is even (read-only).}
 
 \item{\code{@n_props}}{Total of all throw heights divided by the period — the number
-of props required. (Note: \code{sum(throws) / period}, not \code{mean(throws)}.)}
+of props required. (Note: \code{sum(throws) / period}, not \code{mean(throws)}.)
+(read-only).}
 
 \item{\code{@can_throw}}{\code{TRUE} if for every slot the number of props thrown equals
-the number of props landing (no conservation violation).}
+the number of props landing (no conservation violation) (read-only).}
 
-\item{\code{@satisfies_average_theorem}}{\code{TRUE} if \code{n_props} is a whole number.}
+\item{\code{@satisfies_average_theorem}}{\code{TRUE} if \code{n_props} is a whole number
+(read-only).}
 
 \item{\code{@valid}}{\code{TRUE} if both \code{can_throw} and \code{satisfies_average_theorem} are
-\code{TRUE}.}
+\code{TRUE} (read-only).}
 }}
 

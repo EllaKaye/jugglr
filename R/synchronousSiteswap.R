@@ -18,20 +18,28 @@ NULL
 #' @returns A `synchronousSiteswap` S7 object.
 #'
 #' @prop type Always `"synchronous"` (read-only).
-#' @prop full_sequence The expanded sequence with the `*` shorthand resolved.
+#' @prop full_sequence The expanded sequence with the `*` shorthand resolved
+#'   (read-only).
 #' @prop throws Character vector of all individual throw values across one
-#'   expanded cycle.
+#'   expanded cycle (read-only).
 #' @prop throws_by_hand Named list with elements `hand_1` and `hand_2`,
-#'   each a character vector of throws for that hand per slot.
+#'   each a character vector of throws for that hand per slot (read-only).
 #' @prop period Number of throw slots per full cycle (counts both hands per
-#'   simultaneous beat, so always even).
+#'   simultaneous beat, so always even) (read-only).
 #' @prop symmetry `"symmetrical"` if the pattern is its own mirror image;
-#'   `"asymmetrical"` otherwise.
-#' @prop n_props Mean of the slide sequence, equal to the number of props.
-#' @prop can_throw `TRUE` if no collisions occur in the slide sequence.
-#' @prop satisfies_average_theorem `TRUE` if `n_props` is a whole number.
+#'   `"asymmetrical"` otherwise (read-only).
+#' @prop n_props Mean of the slide sequence, equal to the number of props
+#'   (read-only).
+#' @prop can_throw `TRUE` if no collisions occur in the slide sequence
+#'   (read-only).
+#' @prop satisfies_average_theorem `TRUE` if `n_props` is a whole number
+#'   (read-only).
 #' @prop valid `TRUE` if both `can_throw` and `satisfies_average_theorem` are
-#'   `TRUE`.
+#'   `TRUE` (read-only).
+#'
+#' @family siteswap constructors
+#' @seealso The visualisation functions [timeline()], [ladder()] and
+#'   [throw_data()].
 #'
 #' @export
 #'

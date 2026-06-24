@@ -40,37 +40,52 @@ s <- passingSiteswap("<4p 3 | 3 4p>")
 s@n_props
 s@valid
 }
+\seealso{
+The visualisation functions \code{\link[=timeline]{timeline()}}, \code{\link[=ladder]{ladder()}} and
+\code{\link[=throw_data]{throw_data()}}.
+
+Other siteswap constructors:
+\code{\link[=multiplexSiteswap]{multiplexSiteswap()}},
+\code{\link[=siteswap]{siteswap()}},
+\code{\link[=synchronousMultiplexSiteswap]{synchronousMultiplexSiteswap()}},
+\code{\link[=synchronousSiteswap]{synchronousSiteswap()}},
+\code{\link[=vanillaSiteswap]{vanillaSiteswap()}}
+}
+\concept{siteswap constructors}
 \section{Additional properties}{
 
 \describe{
 \item{\code{@type}}{Always \code{"passing"} (read-only).}
 
-\item{\code{@is_fractional}}{\code{TRUE} for fractional notation; \code{FALSE} for p-notation.}
+\item{\code{@is_fractional}}{\code{TRUE} for fractional notation; \code{FALSE} for p-notation
+(read-only).}
 
-\item{\code{@n_jugglers}}{Number of jugglers (sections in the sequence).}
+\item{\code{@n_jugglers}}{Number of jugglers (sections in the sequence) (read-only).}
 
 \item{\code{@sequences_by_juggler}}{List of character vectors, one per juggler, each
-giving the raw tokens (e.g. \code{c("3p", "3", "3")}).}
+giving the raw tokens (e.g. \code{c("3p", "3", "3")}) (read-only).}
 
 \item{\code{@throws_by_juggler}}{List of numeric vectors, one per juggler, of throw
-heights (integers for p-notation; may include \code{.5} for fractional).}
+heights (integers for p-notation; may include \code{.5} for fractional)
+(read-only).}
 
 \item{\code{@is_pass_by_juggler}}{List of logical vectors, one per juggler, indicating
-which throws are passes.}
+which throws are passes (read-only).}
 
-\item{\code{@period}}{Number of throws per juggler per cycle.}
+\item{\code{@period}}{Number of throws per juggler per cycle (read-only).}
 
 \item{\code{@symmetry}}{\code{"symmetrical"} when period is odd; \code{"asymmetrical"} when
-period is even.}
+period is even (read-only).}
 
-\item{\code{@n_props}}{Total number of props (\verb{sum(all throws) / period}).}
+\item{\code{@n_props}}{Total number of props (\verb{sum(all throws) / period}) (read-only).}
 
 \item{\code{@can_throw}}{\code{TRUE} if no two throws land on the same
-\verb{(juggler, beat, hand)} triple (no collision).}
+\verb{(juggler, beat, hand)} triple (no collision) (read-only).}
 
-\item{\code{@satisfies_average_theorem}}{\code{TRUE} if \code{n_props} is a whole number.}
+\item{\code{@satisfies_average_theorem}}{\code{TRUE} if \code{n_props} is a whole number
+(read-only).}
 
 \item{\code{@valid}}{\code{TRUE} if both \code{can_throw} and \code{satisfies_average_theorem} are
-\code{TRUE}.}
+\code{TRUE} (read-only).}
 }}
 

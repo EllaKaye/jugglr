@@ -88,3 +88,11 @@ ladder(siteswap("423"), direction = "v", subtitle = FALSE) +
   ggplot2::labs(title = "423 or W")
 
 }
+\seealso{
+The siteswap constructors, e.g. \code{\link[=siteswap]{siteswap()}} and \code{\link[=vanillaSiteswap]{vanillaSiteswap()}}.
+
+Other siteswap visualisation:
+\code{\link[=throw_data]{throw_data()}},
+\code{\link[=timeline]{timeline()}}
+}
+\concept{siteswap visualisation}

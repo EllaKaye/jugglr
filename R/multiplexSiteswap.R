@@ -20,19 +20,25 @@ NULL
 #'
 #' @prop type Always `"multiplex"` (read-only).
 #' @prop slots List of integer vectors, one element per time slot. Single-throw
-#'   slots are length-1 vectors; multiplex slots have length > 1.
+#'   slots are length-1 vectors; multiplex slots have length > 1 (read-only).
 #' @prop throws Integer vector of all individual throw heights (flattened across
-#'   all slots).
-#' @prop period Number of time slots per cycle.
+#'   all slots) (read-only).
+#' @prop period Number of time slots per cycle (read-only).
 #' @prop symmetry `"symmetrical"` when period is odd; `"asymmetrical"` when
-#'   period is even.
+#'   period is even (read-only).
 #' @prop n_props Total of all throw heights divided by the period — the number
 #'   of props required. (Note: `sum(throws) / period`, not `mean(throws)`.)
+#'   (read-only).
 #' @prop can_throw `TRUE` if for every slot the number of props thrown equals
-#'   the number of props landing (no conservation violation).
-#' @prop satisfies_average_theorem `TRUE` if `n_props` is a whole number.
+#'   the number of props landing (no conservation violation) (read-only).
+#' @prop satisfies_average_theorem `TRUE` if `n_props` is a whole number
+#'   (read-only).
 #' @prop valid `TRUE` if both `can_throw` and `satisfies_average_theorem` are
-#'   `TRUE`.
+#'   `TRUE` (read-only).
+#'
+#' @family siteswap constructors
+#' @seealso The visualisation functions [timeline()], [ladder()] and
+#'   [throw_data()].
 #'
 #' @export
 #'

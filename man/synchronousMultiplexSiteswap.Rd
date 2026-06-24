@@ -33,34 +33,49 @@ s <- synchronousMultiplexSiteswap("(2,4)([4x4],2x)")
 s@n_props
 s@valid
 }
+\seealso{
+The visualisation functions \code{\link[=timeline]{timeline()}}, \code{\link[=ladder]{ladder()}} and
+\code{\link[=throw_data]{throw_data()}}.
+
+Other siteswap constructors:
+\code{\link[=multiplexSiteswap]{multiplexSiteswap()}},
+\code{\link[=passingSiteswap]{passingSiteswap()}},
+\code{\link[=siteswap]{siteswap()}},
+\code{\link[=synchronousSiteswap]{synchronousSiteswap()}},
+\code{\link[=vanillaSiteswap]{vanillaSiteswap()}}
+}
+\concept{siteswap constructors}
 \section{Additional properties}{
 
 \describe{
 \item{\code{@type}}{Always \code{"synchronous multiplex"} (read-only).}
 
-\item{\code{@full_sequence}}{The expanded sequence with the \code{*} shorthand resolved.}
+\item{\code{@full_sequence}}{The expanded sequence with the \code{*} shorthand resolved
+(read-only).}
 
 \item{\code{@throws}}{Character vector of all slot throw strings across one expanded
-cycle. Multiplex groups are kept as single elements, e.g. \code{"[4x4]"}.}
+cycle. Multiplex groups are kept as single elements, e.g. \code{"[4x4]"}
+(read-only).}
 
 \item{\code{@throws_by_hand}}{Named list with elements \code{hand_1} and \code{hand_2}, each a
-character vector of throw strings per slot (one per sync slot).}
+character vector of throw strings per slot (one per sync slot) (read-only).}
 
 \item{\code{@period}}{Number of throw slots per full cycle (2 × number of sync slots,
-since both hands throw on every beat; always even).}
+since both hands throw on every beat; always even) (read-only).}
 
 \item{\code{@symmetry}}{\code{"symmetrical"} if the pattern is its own mirror image;
-\code{"asymmetrical"} otherwise.}
+\code{"asymmetrical"} otherwise (read-only).}
 
 \item{\code{@n_props}}{Number of props: sum of all throw heights divided by the
-period.}
+period (read-only).}
 
 \item{\code{@can_throw}}{\code{TRUE} if thrown and landing prop counts balance at every
-(slot, hand) pair within one cycle.}
+(slot, hand) pair within one cycle (read-only).}
 
-\item{\code{@satisfies_average_theorem}}{\code{TRUE} if \code{n_props} is a whole number.}
+\item{\code{@satisfies_average_theorem}}{\code{TRUE} if \code{n_props} is a whole number
+(read-only).}
 
 \item{\code{@valid}}{\code{TRUE} if both \code{can_throw} and \code{satisfies_average_theorem} are
-\code{TRUE}.}
+\code{TRUE} (read-only).}
 }}
 

@@ -24,22 +24,29 @@ NULL
 #' @returns A `synchronousMultiplexSiteswap` S7 object.
 #'
 #' @prop type Always `"synchronous multiplex"` (read-only).
-#' @prop full_sequence The expanded sequence with the `*` shorthand resolved.
+#' @prop full_sequence The expanded sequence with the `*` shorthand resolved
+#'   (read-only).
 #' @prop throws Character vector of all slot throw strings across one expanded
-#'   cycle. Multiplex groups are kept as single elements, e.g. `"[4x4]"`.
+#'   cycle. Multiplex groups are kept as single elements, e.g. `"[4x4]"`
+#'   (read-only).
 #' @prop throws_by_hand Named list with elements `hand_1` and `hand_2`, each a
-#'   character vector of throw strings per slot (one per sync slot).
+#'   character vector of throw strings per slot (one per sync slot) (read-only).
 #' @prop period Number of throw slots per full cycle (2 × number of sync slots,
-#'   since both hands throw on every beat; always even).
+#'   since both hands throw on every beat; always even) (read-only).
 #' @prop symmetry `"symmetrical"` if the pattern is its own mirror image;
-#'   `"asymmetrical"` otherwise.
+#'   `"asymmetrical"` otherwise (read-only).
 #' @prop n_props Number of props: sum of all throw heights divided by the
-#'   period.
+#'   period (read-only).
 #' @prop can_throw `TRUE` if thrown and landing prop counts balance at every
-#'   (slot, hand) pair within one cycle.
-#' @prop satisfies_average_theorem `TRUE` if `n_props` is a whole number.
+#'   (slot, hand) pair within one cycle (read-only).
+#' @prop satisfies_average_theorem `TRUE` if `n_props` is a whole number
+#'   (read-only).
 #' @prop valid `TRUE` if both `can_throw` and `satisfies_average_theorem` are
-#'   `TRUE`.
+#'   `TRUE` (read-only).
+#'
+#' @family siteswap constructors
+#' @seealso The visualisation functions [timeline()], [ladder()] and
+#'   [throw_data()].
 #'
 #' @export
 #'

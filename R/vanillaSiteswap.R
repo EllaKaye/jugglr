@@ -15,16 +15,22 @@ NULL
 #' @returns A `vanillaSiteswap` S7 object.
 #'
 #' @prop type Always `"vanilla"` (read-only).
-#' @prop throws Integer vector of throw heights for one cycle.
-#' @prop period Number of throws per cycle (length of `throws`).
+#' @prop throws Integer vector of throw heights for one cycle (read-only).
+#' @prop period Number of throws per cycle (length of `throws`) (read-only).
 #' @prop symmetry `"symmetrical"` when period is odd (pattern repeats with
-#'   swapped hands); `"asymmetrical"` when period is even.
-#' @prop n_props Mean throw height, equal to the number of props required.
+#'   swapped hands); `"asymmetrical"` when period is even (read-only).
+#' @prop n_props Mean throw height, equal to the number of props required
+#'   (read-only).
 #' @prop can_throw `TRUE` if no two throws land on the same beat (no
-#'   collisions).
-#' @prop satisfies_average_theorem `TRUE` if `n_props` is a whole number.
+#'   collisions) (read-only).
+#' @prop satisfies_average_theorem `TRUE` if `n_props` is a whole number
+#'   (read-only).
 #' @prop valid `TRUE` if both `can_throw` and `satisfies_average_theorem` are
-#'   `TRUE`.
+#'   `TRUE` (read-only).
+#'
+#' @family siteswap constructors
+#' @seealso The visualisation functions [timeline()], [ladder()] and
+#'   [throw_data()].
 #'
 #' @export
 #'

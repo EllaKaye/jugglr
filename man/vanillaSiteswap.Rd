@@ -26,26 +26,40 @@ s <- vanillaSiteswap("531")
 s@n_props
 s@valid
 }
+\seealso{
+The visualisation functions \code{\link[=timeline]{timeline()}}, \code{\link[=ladder]{ladder()}} and
+\code{\link[=throw_data]{throw_data()}}.
+
+Other siteswap constructors:
+\code{\link[=multiplexSiteswap]{multiplexSiteswap()}},
+\code{\link[=passingSiteswap]{passingSiteswap()}},
+\code{\link[=siteswap]{siteswap()}},
+\code{\link[=synchronousMultiplexSiteswap]{synchronousMultiplexSiteswap()}},
+\code{\link[=synchronousSiteswap]{synchronousSiteswap()}}
+}
+\concept{siteswap constructors}
 \section{Additional properties}{
 
 \describe{
 \item{\code{@type}}{Always \code{"vanilla"} (read-only).}
 
-\item{\code{@throws}}{Integer vector of throw heights for one cycle.}
+\item{\code{@throws}}{Integer vector of throw heights for one cycle (read-only).}
 
-\item{\code{@period}}{Number of throws per cycle (length of \code{throws}).}
+\item{\code{@period}}{Number of throws per cycle (length of \code{throws}) (read-only).}
 
 \item{\code{@symmetry}}{\code{"symmetrical"} when period is odd (pattern repeats with
-swapped hands); \code{"asymmetrical"} when period is even.}
+swapped hands); \code{"asymmetrical"} when period is even (read-only).}
 
-\item{\code{@n_props}}{Mean throw height, equal to the number of props required.}
+\item{\code{@n_props}}{Mean throw height, equal to the number of props required
+(read-only).}
 
 \item{\code{@can_throw}}{\code{TRUE} if no two throws land on the same beat (no
-collisions).}
+collisions) (read-only).}
 
-\item{\code{@satisfies_average_theorem}}{\code{TRUE} if \code{n_props} is a whole number.}
+\item{\code{@satisfies_average_theorem}}{\code{TRUE} if \code{n_props} is a whole number
+(read-only).}
 
 \item{\code{@valid}}{\code{TRUE} if both \code{can_throw} and \code{satisfies_average_theorem} are
-\code{TRUE}.}
+\code{TRUE} (read-only).}
 }}
 

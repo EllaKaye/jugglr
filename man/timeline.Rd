@@ -94,3 +94,11 @@ timeline(siteswap("3"), n_cycles = 6)
 timeline(siteswap("423")) + ggplot2::labs(title = "423 or W")
 
 }
+\seealso{
+The siteswap constructors, e.g. \code{\link[=siteswap]{siteswap()}} and \code{\link[=vanillaSiteswap]{vanillaSiteswap()}}.
+
+Other siteswap visualisation:
+\code{\link[=ladder]{ladder()}},
+\code{\link[=throw_data]{throw_data()}}
+}
+\concept{siteswap visualisation}

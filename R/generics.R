@@ -26,6 +26,9 @@
 #'   include `juggler`, `is_pass`, and `catch_juggler` columns identifying which
 #'   juggler throws and catches each prop.
 #'
+#' @family siteswap visualisation
+#' @seealso The siteswap constructors, e.g. [siteswap()] and [vanillaSiteswap()].
+#'
 #' @examples
 #' s <- vanillaSiteswap("531")
 #' throw_data(s)
@@ -86,6 +89,9 @@ throw_data <- new_generic(
 #'   heights, so otherwise-overlapping throws render as concentric parabolas.
 #' * **Passing** patterns are drawn with one lane per juggler; passes arc
 #'   between lanes. Fractional notation offsets the beat positions accordingly.
+#'
+#' @family siteswap visualisation
+#' @seealso The siteswap constructors, e.g. [siteswap()] and [vanillaSiteswap()].
 #'
 #' @examples
 #' # Vanilla: single-sided arcs
@@ -159,6 +165,9 @@ timeline <- new_generic(
 #'   juggler's two hands in the diagram.
 #'
 #' @returns A ggplot2 object.
+#'
+#' @family siteswap visualisation
+#' @seealso The siteswap constructors, e.g. [siteswap()] and [vanillaSiteswap()].
 #'
 #' @examples
 #' # Vanilla: straight cross-hand throws, curved same-hand throws

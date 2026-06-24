@@ -24,23 +24,30 @@ NULL
 #' @returns A `passingSiteswap` S7 object.
 #'
 #' @prop type Always `"passing"` (read-only).
-#' @prop is_fractional `TRUE` for fractional notation; `FALSE` for p-notation.
-#' @prop n_jugglers Number of jugglers (sections in the sequence).
+#' @prop is_fractional `TRUE` for fractional notation; `FALSE` for p-notation
+#'   (read-only).
+#' @prop n_jugglers Number of jugglers (sections in the sequence) (read-only).
 #' @prop sequences_by_juggler List of character vectors, one per juggler, each
-#'   giving the raw tokens (e.g. `c("3p", "3", "3")`).
+#'   giving the raw tokens (e.g. `c("3p", "3", "3")`) (read-only).
 #' @prop throws_by_juggler List of numeric vectors, one per juggler, of throw
-#'   heights (integers for p-notation; may include `.5` for fractional).
+#'   heights (integers for p-notation; may include `.5` for fractional)
+#'   (read-only).
 #' @prop is_pass_by_juggler List of logical vectors, one per juggler, indicating
-#'   which throws are passes.
-#' @prop period Number of throws per juggler per cycle.
+#'   which throws are passes (read-only).
+#' @prop period Number of throws per juggler per cycle (read-only).
 #' @prop symmetry `"symmetrical"` when period is odd; `"asymmetrical"` when
-#'   period is even.
-#' @prop n_props Total number of props (`sum(all throws) / period`).
+#'   period is even (read-only).
+#' @prop n_props Total number of props (`sum(all throws) / period`) (read-only).
 #' @prop can_throw `TRUE` if no two throws land on the same
-#'   `(juggler, beat, hand)` triple (no collision).
-#' @prop satisfies_average_theorem `TRUE` if `n_props` is a whole number.
+#'   `(juggler, beat, hand)` triple (no collision) (read-only).
+#' @prop satisfies_average_theorem `TRUE` if `n_props` is a whole number
+#'   (read-only).
 #' @prop valid `TRUE` if both `can_throw` and `satisfies_average_theorem` are
-#'   `TRUE`.
+#'   `TRUE` (read-only).
+#'
+#' @family siteswap constructors
+#' @seealso The visualisation functions [timeline()], [ladder()] and
+#'   [throw_data()].
 #'
 #' @export
 #'

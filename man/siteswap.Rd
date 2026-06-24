@@ -29,3 +29,15 @@ siteswap("[43]1")
 siteswap("(2,4)([4x4],2x)")
 siteswap("<3p 3 3 3 3 3 | 3p 3 3 3 3 3>")
 }
+\seealso{
+The visualisation functions \code{\link[=timeline]{timeline()}}, \code{\link[=ladder]{ladder()}} and
+\code{\link[=throw_data]{throw_data()}}.
+
+Other siteswap constructors:
+\code{\link[=multiplexSiteswap]{multiplexSiteswap()}},
+\code{\link[=passingSiteswap]{passingSiteswap()}},
+\code{\link[=synchronousMultiplexSiteswap]{synchronousMultiplexSiteswap()}},
+\code{\link[=synchronousSiteswap]{synchronousSiteswap()}},
+\code{\link[=vanillaSiteswap]{vanillaSiteswap()}}
+}
+\concept{siteswap constructors}
