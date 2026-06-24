@@ -72,6 +72,17 @@ e.g. <code>"(4,4)"</code> or <code>"(4,2x)*"</code>.</p></dd>
     <p>A <code>synchronousSiteswap</code> S7 object.</p>
     </div>
     <div class="section level2">
+    <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
+    <div class="dont-index"><p>The visualisation functions <code><a href="timeline.html">timeline()</a></code>, <code><a href="ladder.html">ladder()</a></code> and
+<code><a href="throw_data.html">throw_data()</a></code>.</p>
+<p>Other siteswap constructors:
+<code><a href="multiplexSiteswap.html">multiplexSiteswap()</a></code>,
+<code><a href="passingSiteswap.html">passingSiteswap()</a></code>,
+<code><a href="siteswap.html">siteswap()</a></code>,
+<code><a href="synchronousMultiplexSiteswap.html">synchronousMultiplexSiteswap()</a></code>,
+<code><a href="vanillaSiteswap.html">vanillaSiteswap()</a></code></p></div>
+    </div>
+    <div class="section level2">
     <h2 id="additional-properties">Additional properties<a class="anchor" aria-label="anchor" href="#additional-properties"></a></h2>
 
 
@@ -80,44 +91,48 @@ e.g. <code>"(4,4)"</code> or <code>"(4,2x)*"</code>.</p></dd>
 
 
 <dt><code>@full_sequence</code></dt>
-<dd><p>The expanded sequence with the <code>*</code> shorthand resolved.</p></dd>
+<dd><p>The expanded sequence with the <code>*</code> shorthand resolved
+(read-only).</p></dd>
 
 
 <dt><code>@throws</code></dt>
 <dd><p>Character vector of all individual throw values across one
-expanded cycle.</p></dd>
+expanded cycle (read-only).</p></dd>
 
 
 <dt><code>@throws_by_hand</code></dt>
 <dd><p>Named list with elements <code>hand_1</code> and <code>hand_2</code>,
-each a character vector of throws for that hand per slot.</p></dd>
+each a character vector of throws for that hand per slot (read-only).</p></dd>
 
 
 <dt><code>@period</code></dt>
 <dd><p>Number of throw slots per full cycle (counts both hands per
-simultaneous beat, so always even).</p></dd>
+simultaneous beat, so always even) (read-only).</p></dd>
 
 
 <dt><code>@symmetry</code></dt>
 <dd><p><code>"symmetrical"</code> if the pattern is its own mirror image;
-<code>"asymmetrical"</code> otherwise.</p></dd>
+<code>"asymmetrical"</code> otherwise (read-only).</p></dd>
 
 
 <dt><code>@n_props</code></dt>
-<dd><p>Mean of the slide sequence, equal to the number of props.</p></dd>
+<dd><p>Mean of the slide sequence, equal to the number of props
+(read-only).</p></dd>
 
 
 <dt><code>@can_throw</code></dt>
-<dd><p><code>TRUE</code> if no collisions occur in the slide sequence.</p></dd>
+<dd><p><code>TRUE</code> if no collisions occur in the slide sequence
+(read-only).</p></dd>
 
 
 <dt><code>@satisfies_average_theorem</code></dt>
-<dd><p><code>TRUE</code> if <code>n_props</code> is a whole number.</p></dd>
+<dd><p><code>TRUE</code> if <code>n_props</code> is a whole number
+(read-only).</p></dd>
 
 
 <dt><code>@valid</code></dt>
 <dd><p><code>TRUE</code> if both <code>can_throw</code> and <code>satisfies_average_theorem</code> are
-<code>TRUE</code>.</p></dd>
+<code>TRUE</code> (read-only).</p></dd>
 
 
 </dl></div>

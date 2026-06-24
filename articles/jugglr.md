@@ -25,7 +25,7 @@ notation: vanilla, synchronous, multiplex, synchronous multiplex, and
 passing. Each is introduced in the sections below.
 
 In **jugglr**, you define a sequence with the function
-[`siteswap()`](https://ellakaye.github.io/jugglr/reference/Siteswap.md),
+[`siteswap()`](https://ellakaye.github.io/jugglr/reference/siteswap.md),
 which creates an [S7](https://rconsortium.github.io/S7/) object with
 class `Siteswap` as well as a child class corresponding to its type:
 `vanillaSiteswap`, `synchronousSiteswap`, `multiplexSiteswap`,
@@ -52,7 +52,7 @@ sequences do not work.
 
 The simplest form is *vanilla* siteswap: one prop thrown per beat, hands
 alternating. Create a pattern with
-[`siteswap()`](https://ellakaye.github.io/jugglr/reference/Siteswap.md):
+[`siteswap()`](https://ellakaye.github.io/jugglr/reference/siteswap.md):
 
 ``` r
 

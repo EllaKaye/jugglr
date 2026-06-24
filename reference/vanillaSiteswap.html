@@ -66,6 +66,17 @@ patterns where one prop is thrown per beat, alternating hands.</p>
     <p>A <code>vanillaSiteswap</code> S7 object.</p>
     </div>
     <div class="section level2">
+    <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
+    <div class="dont-index"><p>The visualisation functions <code><a href="timeline.html">timeline()</a></code>, <code><a href="ladder.html">ladder()</a></code> and
+<code><a href="throw_data.html">throw_data()</a></code>.</p>
+<p>Other siteswap constructors:
+<code><a href="multiplexSiteswap.html">multiplexSiteswap()</a></code>,
+<code><a href="passingSiteswap.html">passingSiteswap()</a></code>,
+<code><a href="siteswap.html">siteswap()</a></code>,
+<code><a href="synchronousMultiplexSiteswap.html">synchronousMultiplexSiteswap()</a></code>,
+<code><a href="synchronousSiteswap.html">synchronousSiteswap()</a></code></p></div>
+    </div>
+    <div class="section level2">
     <h2 id="additional-properties">Additional properties<a class="anchor" aria-label="anchor" href="#additional-properties"></a></h2>
 
 
@@ -74,34 +85,36 @@ patterns where one prop is thrown per beat, alternating hands.</p>
 
 
 <dt><code>@throws</code></dt>
-<dd><p>Integer vector of throw heights for one cycle.</p></dd>
+<dd><p>Integer vector of throw heights for one cycle (read-only).</p></dd>
 
 
 <dt><code>@period</code></dt>
-<dd><p>Number of throws per cycle (length of <code>throws</code>).</p></dd>
+<dd><p>Number of throws per cycle (length of <code>throws</code>) (read-only).</p></dd>
 
 
 <dt><code>@symmetry</code></dt>
 <dd><p><code>"symmetrical"</code> when period is odd (pattern repeats with
-swapped hands); <code>"asymmetrical"</code> when period is even.</p></dd>
+swapped hands); <code>"asymmetrical"</code> when period is even (read-only).</p></dd>
 
 
 <dt><code>@n_props</code></dt>
-<dd><p>Mean throw height, equal to the number of props required.</p></dd>
+<dd><p>Mean throw height, equal to the number of props required
+(read-only).</p></dd>
 
 
 <dt><code>@can_throw</code></dt>
 <dd><p><code>TRUE</code> if no two throws land on the same beat (no
-collisions).</p></dd>
+collisions) (read-only).</p></dd>
 
 
 <dt><code>@satisfies_average_theorem</code></dt>
-<dd><p><code>TRUE</code> if <code>n_props</code> is a whole number.</p></dd>
+<dd><p><code>TRUE</code> if <code>n_props</code> is a whole number
+(read-only).</p></dd>
 
 
 <dt><code>@valid</code></dt>
 <dd><p><code>TRUE</code> if both <code>can_throw</code> and <code>satisfies_average_theorem</code> are
-<code>TRUE</code>.</p></dd>
+<code>TRUE</code> (read-only).</p></dd>
 
 
 </dl></div>

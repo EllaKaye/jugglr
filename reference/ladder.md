@@ -95,6 +95,17 @@ example
 or
 [`ggplot2::scale_colour_manual()`](https://ggplot2.tidyverse.org/reference/scale_manual.html).
 
+## See also
+
+The siteswap constructors, e.g.
+[`siteswap()`](https://ellakaye.github.io/jugglr/reference/siteswap.md)
+and
+[`vanillaSiteswap()`](https://ellakaye.github.io/jugglr/reference/vanillaSiteswap.md).
+
+Other siteswap visualisation:
+[`throw_data()`](https://ellakaye.github.io/jugglr/reference/throw_data.md),
+[`timeline()`](https://ellakaye.github.io/jugglr/reference/timeline.md)
+
 ## Examples
 
 ``` r

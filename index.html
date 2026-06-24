@@ -62,7 +62,7 @@
 </div>
 <!-- badges: start -->
 
-<p><strong>jugglr</strong> is an R package for validating and visualising juggling patterns expressed in <a href="https://en.wikipedia.org/wiki/Siteswap" class="external-link">siteswap notation</a>. The <code><a href="reference/Siteswap.html">siteswap()</a></code> function is a factory that auto-detects the notation type and returns an S7 object of the appropriate subclass: <code>vanillaSiteswap</code>, <code>synchronousSiteswap</code>, <code>multiplexSiteswap</code>, <code>synchronousMultiplexSiteswap</code>, or <code>passingSiteswap</code>, all of which inherit from an abstract <code>Siteswap</code> parent class. Functions such as <code><a href="reference/timeline.html">timeline()</a></code>, <code><a href="reference/ladder.html">ladder()</a></code>, and <code><a href="reference/throw_data.html">throw_data()</a></code> work across all these types via dedicated methods for each subclass.</p>
+<p><strong>jugglr</strong> is an R package for validating and visualising juggling patterns expressed in <a href="https://en.wikipedia.org/wiki/Siteswap" class="external-link">siteswap notation</a>. The <code><a href="reference/siteswap.html">siteswap()</a></code> function is a factory that auto-detects the notation type and returns an S7 object of the appropriate subclass: <code>vanillaSiteswap</code>, <code>synchronousSiteswap</code>, <code>multiplexSiteswap</code>, <code>synchronousMultiplexSiteswap</code>, or <code>passingSiteswap</code>, all of which inherit from an abstract <code>Siteswap</code> parent class. Functions such as <code><a href="reference/timeline.html">timeline()</a></code>, <code><a href="reference/ladder.html">ladder()</a></code>, and <code><a href="reference/throw_data.html">throw_data()</a></code> work across all these types via dedicated methods for each subclass.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -75,13 +75,13 @@
 <div class="section level2">
 <h2 id="siteswap">Siteswap<a class="anchor" aria-label="anchor" href="#siteswap"></a>
 </h2>
-<p>The <code><a href="reference/Siteswap.html">siteswap()</a></code> function auto-detects the notation type and returns the appropriate subclass. Each object’s print method reports whether the pattern is valid, how many props it requires, and its period and symmetry.</p>
+<p>The <code><a href="reference/siteswap.html">siteswap()</a></code> function auto-detects the notation type and returns the appropriate subclass. Each object’s print method reports whether the pattern is valid, how many props it requires, and its period and symmetry.</p>
 <div class="section level3">
 <h3 id="vanilla">Vanilla<a class="anchor" aria-label="anchor" href="#vanilla"></a>
 </h3>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/EllaKaye/jugglr" class="external-link">jugglr</a></span><span class="op">)</span></span>
-<span><span class="va">ss423</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/Siteswap.html">siteswap</a></span><span class="op">(</span><span class="st">"423"</span><span class="op">)</span></span>
+<span><span class="va">ss423</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/siteswap.html">siteswap</a></span><span class="op">(</span><span class="st">"423"</span><span class="op">)</span></span>
 <span><span class="va">ss423</span></span>
 <span><span class="co">#&gt; ✔ '423' is valid vanilla siteswap</span></span>
 <span><span class="co">#&gt; ℹ It uses 3 props</span></span>
@@ -91,7 +91,7 @@
 <h3 id="synchronous">Synchronous<a class="anchor" aria-label="anchor" href="#synchronous"></a>
 </h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">ss44</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/Siteswap.html">siteswap</a></span><span class="op">(</span><span class="st">"(4,4)"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">ss44</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/siteswap.html">siteswap</a></span><span class="op">(</span><span class="st">"(4,4)"</span><span class="op">)</span></span>
 <span><span class="va">ss44</span></span>
 <span><span class="co">#&gt; ✔ '(4,4)' is valid synchronous siteswap</span></span>
 <span><span class="co">#&gt; ℹ It uses 4 props</span></span>
@@ -102,7 +102,7 @@
 <h3 id="passing">Passing<a class="anchor" aria-label="anchor" href="#passing"></a>
 </h3>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">ss_pass</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/Siteswap.html">siteswap</a></span><span class="op">(</span><span class="st">"&lt;3p 3|3p 3&gt;"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">ss_pass</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/siteswap.html">siteswap</a></span><span class="op">(</span><span class="st">"&lt;3p 3|3p 3&gt;"</span><span class="op">)</span></span>
 <span><span class="va">ss_pass</span></span>
 <span><span class="co">#&gt; ✔ '&lt;3p 3|3p 3&gt;' is valid passing siteswap</span></span>
 <span><span class="co">#&gt; ℹ It uses 6 props across 2 jugglers</span></span>
@@ -114,7 +114,7 @@
 </h3>
 <p>Patterns that cannot be juggled are caught at construction time:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">ss21</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/Siteswap.html">siteswap</a></span><span class="op">(</span><span class="st">"21"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">ss21</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/siteswap.html">siteswap</a></span><span class="op">(</span><span class="st">"21"</span><span class="op">)</span></span>
 <span><span class="va">ss21</span></span>
 <span><span class="co">#&gt; ✖ '21' is not a valid juggling pattern</span></span>
 <span><span class="co">#&gt; ℹ The throws don't average to a whole number</span></span>

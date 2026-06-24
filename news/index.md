@@ -5,7 +5,7 @@
 First release. jugglr validates and visualises juggling patterns written
 in siteswap notation.
 
-- [`siteswap()`](https://ellakaye.github.io/jugglr/reference/Siteswap.md)
+- [`siteswap()`](https://ellakaye.github.io/jugglr/reference/siteswap.md)
   detects the notation style of a sequence and returns a typed S7
   object:
   [`vanillaSiteswap()`](https://ellakaye.github.io/jugglr/reference/vanillaSiteswap.md),

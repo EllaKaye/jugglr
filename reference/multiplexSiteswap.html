@@ -72,6 +72,17 @@ e.g. <code>"[43]1"</code> or <code>"[33]"</code>.</p></dd>
     <p>A <code>multiplexSiteswap</code> S7 object.</p>
     </div>
     <div class="section level2">
+    <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
+    <div class="dont-index"><p>The visualisation functions <code><a href="timeline.html">timeline()</a></code>, <code><a href="ladder.html">ladder()</a></code> and
+<code><a href="throw_data.html">throw_data()</a></code>.</p>
+<p>Other siteswap constructors:
+<code><a href="passingSiteswap.html">passingSiteswap()</a></code>,
+<code><a href="siteswap.html">siteswap()</a></code>,
+<code><a href="synchronousMultiplexSiteswap.html">synchronousMultiplexSiteswap()</a></code>,
+<code><a href="synchronousSiteswap.html">synchronousSiteswap()</a></code>,
+<code><a href="vanillaSiteswap.html">vanillaSiteswap()</a></code></p></div>
+    </div>
+    <div class="section level2">
     <h2 id="additional-properties">Additional properties<a class="anchor" aria-label="anchor" href="#additional-properties"></a></h2>
 
 
@@ -81,40 +92,42 @@ e.g. <code>"[43]1"</code> or <code>"[33]"</code>.</p></dd>
 
 <dt><code>@slots</code></dt>
 <dd><p>List of integer vectors, one element per time slot. Single-throw
-slots are length-1 vectors; multiplex slots have length &gt; 1.</p></dd>
+slots are length-1 vectors; multiplex slots have length &gt; 1 (read-only).</p></dd>
 
 
 <dt><code>@throws</code></dt>
 <dd><p>Integer vector of all individual throw heights (flattened across
-all slots).</p></dd>
+all slots) (read-only).</p></dd>
 
 
 <dt><code>@period</code></dt>
-<dd><p>Number of time slots per cycle.</p></dd>
+<dd><p>Number of time slots per cycle (read-only).</p></dd>
 
 
 <dt><code>@symmetry</code></dt>
 <dd><p><code>"symmetrical"</code> when period is odd; <code>"asymmetrical"</code> when
-period is even.</p></dd>
+period is even (read-only).</p></dd>
 
 
 <dt><code>@n_props</code></dt>
 <dd><p>Total of all throw heights divided by the period — the number
-of props required. (Note: <code>sum(throws) / period</code>, not <code>mean(throws)</code>.)</p></dd>
+of props required. (Note: <code>sum(throws) / period</code>, not <code>mean(throws)</code>.)
+(read-only).</p></dd>
 
 
 <dt><code>@can_throw</code></dt>
 <dd><p><code>TRUE</code> if for every slot the number of props thrown equals
-the number of props landing (no conservation violation).</p></dd>
+the number of props landing (no conservation violation) (read-only).</p></dd>
 
 
 <dt><code>@satisfies_average_theorem</code></dt>
-<dd><p><code>TRUE</code> if <code>n_props</code> is a whole number.</p></dd>
+<dd><p><code>TRUE</code> if <code>n_props</code> is a whole number
+(read-only).</p></dd>
 
 
 <dt><code>@valid</code></dt>
 <dd><p><code>TRUE</code> if both <code>can_throw</code> and <code>satisfies_average_theorem</code> are
-<code>TRUE</code>.</p></dd>
+<code>TRUE</code> (read-only).</p></dd>
 
 
 </dl></div>

@@ -80,6 +80,17 @@ beat and alternate hands together. In fractional notation, the second juggler
 is offset by half a beat in the combined timeline.</p>
     </div>
     <div class="section level2">
+    <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
+    <div class="dont-index"><p>The visualisation functions <code><a href="timeline.html">timeline()</a></code>, <code><a href="ladder.html">ladder()</a></code> and
+<code><a href="throw_data.html">throw_data()</a></code>.</p>
+<p>Other siteswap constructors:
+<code><a href="multiplexSiteswap.html">multiplexSiteswap()</a></code>,
+<code><a href="siteswap.html">siteswap()</a></code>,
+<code><a href="synchronousMultiplexSiteswap.html">synchronousMultiplexSiteswap()</a></code>,
+<code><a href="synchronousSiteswap.html">synchronousSiteswap()</a></code>,
+<code><a href="vanillaSiteswap.html">vanillaSiteswap()</a></code></p></div>
+    </div>
+    <div class="section level2">
     <h2 id="additional-properties">Additional properties<a class="anchor" aria-label="anchor" href="#additional-properties"></a></h2>
 
 
@@ -88,53 +99,56 @@ is offset by half a beat in the combined timeline.</p>
 
 
 <dt><code>@is_fractional</code></dt>
-<dd><p><code>TRUE</code> for fractional notation; <code>FALSE</code> for p-notation.</p></dd>
+<dd><p><code>TRUE</code> for fractional notation; <code>FALSE</code> for p-notation
+(read-only).</p></dd>
 
 
 <dt><code>@n_jugglers</code></dt>
-<dd><p>Number of jugglers (sections in the sequence).</p></dd>
+<dd><p>Number of jugglers (sections in the sequence) (read-only).</p></dd>
 
 
 <dt><code>@sequences_by_juggler</code></dt>
 <dd><p>List of character vectors, one per juggler, each
-giving the raw tokens (e.g. <code>c("3p", "3", "3")</code>).</p></dd>
+giving the raw tokens (e.g. <code>c("3p", "3", "3")</code>) (read-only).</p></dd>
 
 
 <dt><code>@throws_by_juggler</code></dt>
 <dd><p>List of numeric vectors, one per juggler, of throw
-heights (integers for p-notation; may include <code>.5</code> for fractional).</p></dd>
+heights (integers for p-notation; may include <code>.5</code> for fractional)
+(read-only).</p></dd>
 
 
 <dt><code>@is_pass_by_juggler</code></dt>
 <dd><p>List of logical vectors, one per juggler, indicating
-which throws are passes.</p></dd>
+which throws are passes (read-only).</p></dd>
 
 
 <dt><code>@period</code></dt>
-<dd><p>Number of throws per juggler per cycle.</p></dd>
+<dd><p>Number of throws per juggler per cycle (read-only).</p></dd>
 
 
 <dt><code>@symmetry</code></dt>
 <dd><p><code>"symmetrical"</code> when period is odd; <code>"asymmetrical"</code> when
-period is even.</p></dd>
+period is even (read-only).</p></dd>
 
 
 <dt><code>@n_props</code></dt>
-<dd><p>Total number of props (<code>sum(all throws) / period</code>).</p></dd>
+<dd><p>Total number of props (<code>sum(all throws) / period</code>) (read-only).</p></dd>
 
 
 <dt><code>@can_throw</code></dt>
 <dd><p><code>TRUE</code> if no two throws land on the same
-<code>(juggler, beat, hand)</code> triple (no collision).</p></dd>
+<code>(juggler, beat, hand)</code> triple (no collision) (read-only).</p></dd>
 
 
 <dt><code>@satisfies_average_theorem</code></dt>
-<dd><p><code>TRUE</code> if <code>n_props</code> is a whole number.</p></dd>
+<dd><p><code>TRUE</code> if <code>n_props</code> is a whole number
+(read-only).</p></dd>
 
 
 <dt><code>@valid</code></dt>
 <dd><p><code>TRUE</code> if both <code>can_throw</code> and <code>satisfies_average_theorem</code> are
-<code>TRUE</code>.</p></dd>
+<code>TRUE</code> (read-only).</p></dd>
 
 
 </dl></div>

@@ -24,6 +24,20 @@ synchronousSiteswap(sequence = character(0))
 
 A `synchronousSiteswap` S7 object.
 
+## See also
+
+The visualisation functions
+[`timeline()`](https://ellakaye.github.io/jugglr/reference/timeline.md),
+[`ladder()`](https://ellakaye.github.io/jugglr/reference/ladder.md) and
+[`throw_data()`](https://ellakaye.github.io/jugglr/reference/throw_data.md).
+
+Other siteswap constructors:
+[`multiplexSiteswap()`](https://ellakaye.github.io/jugglr/reference/multiplexSiteswap.md),
+[`passingSiteswap()`](https://ellakaye.github.io/jugglr/reference/passingSiteswap.md),
+[`siteswap()`](https://ellakaye.github.io/jugglr/reference/siteswap.md),
+[`synchronousMultiplexSiteswap()`](https://ellakaye.github.io/jugglr/reference/synchronousMultiplexSiteswap.md),
+[`vanillaSiteswap()`](https://ellakaye.github.io/jugglr/reference/vanillaSiteswap.md)
+
 ## Additional properties
 
 - `@type`:
@@ -32,43 +46,44 @@ A `synchronousSiteswap` S7 object.
 
 - `@full_sequence`:
 
-  The expanded sequence with the `*` shorthand resolved.
+  The expanded sequence with the `*` shorthand resolved (read-only).
 
 - `@throws`:
 
   Character vector of all individual throw values across one expanded
-  cycle.
+  cycle (read-only).
 
 - `@throws_by_hand`:
 
   Named list with elements `hand_1` and `hand_2`, each a character
-  vector of throws for that hand per slot.
+  vector of throws for that hand per slot (read-only).
 
 - `@period`:
 
   Number of throw slots per full cycle (counts both hands per
-  simultaneous beat, so always even).
+  simultaneous beat, so always even) (read-only).
 
 - `@symmetry`:
 
   `"symmetrical"` if the pattern is its own mirror image;
-  `"asymmetrical"` otherwise.
+  `"asymmetrical"` otherwise (read-only).
 
 - `@n_props`:
 
-  Mean of the slide sequence, equal to the number of props.
+  Mean of the slide sequence, equal to the number of props (read-only).
 
 - `@can_throw`:
 
-  `TRUE` if no collisions occur in the slide sequence.
+  `TRUE` if no collisions occur in the slide sequence (read-only).
 
 - `@satisfies_average_theorem`:
 
-  `TRUE` if `n_props` is a whole number.
+  `TRUE` if `n_props` is a whole number (read-only).
 
 - `@valid`:
 
-  `TRUE` if both `can_throw` and `satisfies_average_theorem` are `TRUE`.
+  `TRUE` if both `can_throw` and `satisfies_average_theorem` are `TRUE`
+  (read-only).
 
 ## Examples
 

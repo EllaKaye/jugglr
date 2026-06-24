@@ -21,6 +21,20 @@ vanillaSiteswap(sequence = character(0))
 
 A `vanillaSiteswap` S7 object.
 
+## See also
+
+The visualisation functions
+[`timeline()`](https://ellakaye.github.io/jugglr/reference/timeline.md),
+[`ladder()`](https://ellakaye.github.io/jugglr/reference/ladder.md) and
+[`throw_data()`](https://ellakaye.github.io/jugglr/reference/throw_data.md).
+
+Other siteswap constructors:
+[`multiplexSiteswap()`](https://ellakaye.github.io/jugglr/reference/multiplexSiteswap.md),
+[`passingSiteswap()`](https://ellakaye.github.io/jugglr/reference/passingSiteswap.md),
+[`siteswap()`](https://ellakaye.github.io/jugglr/reference/siteswap.md),
+[`synchronousMultiplexSiteswap()`](https://ellakaye.github.io/jugglr/reference/synchronousMultiplexSiteswap.md),
+[`synchronousSiteswap()`](https://ellakaye.github.io/jugglr/reference/synchronousSiteswap.md)
+
 ## Additional properties
 
 - `@type`:
@@ -29,32 +43,34 @@ A `vanillaSiteswap` S7 object.
 
 - `@throws`:
 
-  Integer vector of throw heights for one cycle.
+  Integer vector of throw heights for one cycle (read-only).
 
 - `@period`:
 
-  Number of throws per cycle (length of `throws`).
+  Number of throws per cycle (length of `throws`) (read-only).
 
 - `@symmetry`:
 
   `"symmetrical"` when period is odd (pattern repeats with swapped
-  hands); `"asymmetrical"` when period is even.
+  hands); `"asymmetrical"` when period is even (read-only).
 
 - `@n_props`:
 
-  Mean throw height, equal to the number of props required.
+  Mean throw height, equal to the number of props required (read-only).
 
 - `@can_throw`:
 
-  `TRUE` if no two throws land on the same beat (no collisions).
+  `TRUE` if no two throws land on the same beat (no collisions)
+  (read-only).
 
 - `@satisfies_average_theorem`:
 
-  `TRUE` if `n_props` is a whole number.
+  `TRUE` if `n_props` is a whole number (read-only).
 
 - `@valid`:
 
-  `TRUE` if both `can_throw` and `satisfies_average_theorem` are `TRUE`.
+  `TRUE` if both `can_throw` and `satisfies_average_theorem` are `TRUE`
+  (read-only).
 
 ## Examples
 

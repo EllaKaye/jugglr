@@ -23,6 +23,20 @@ multiplexSiteswap(sequence = character(0))
 
 A `multiplexSiteswap` S7 object.
 
+## See also
+
+The visualisation functions
+[`timeline()`](https://ellakaye.github.io/jugglr/reference/timeline.md),
+[`ladder()`](https://ellakaye.github.io/jugglr/reference/ladder.md) and
+[`throw_data()`](https://ellakaye.github.io/jugglr/reference/throw_data.md).
+
+Other siteswap constructors:
+[`passingSiteswap()`](https://ellakaye.github.io/jugglr/reference/passingSiteswap.md),
+[`siteswap()`](https://ellakaye.github.io/jugglr/reference/siteswap.md),
+[`synchronousMultiplexSiteswap()`](https://ellakaye.github.io/jugglr/reference/synchronousMultiplexSiteswap.md),
+[`synchronousSiteswap()`](https://ellakaye.github.io/jugglr/reference/synchronousSiteswap.md),
+[`vanillaSiteswap()`](https://ellakaye.github.io/jugglr/reference/vanillaSiteswap.md)
+
 ## Additional properties
 
 - `@type`:
@@ -32,39 +46,41 @@ A `multiplexSiteswap` S7 object.
 - `@slots`:
 
   List of integer vectors, one element per time slot. Single-throw slots
-  are length-1 vectors; multiplex slots have length \> 1.
+  are length-1 vectors; multiplex slots have length \> 1 (read-only).
 
 - `@throws`:
 
   Integer vector of all individual throw heights (flattened across all
-  slots).
+  slots) (read-only).
 
 - `@period`:
 
-  Number of time slots per cycle.
+  Number of time slots per cycle (read-only).
 
 - `@symmetry`:
 
   `"symmetrical"` when period is odd; `"asymmetrical"` when period is
-  even.
+  even (read-only).
 
 - `@n_props`:
 
   Total of all throw heights divided by the period — the number of props
   required. (Note: `sum(throws) / period`, not `mean(throws)`.)
+  (read-only).
 
 - `@can_throw`:
 
   `TRUE` if for every slot the number of props thrown equals the number
-  of props landing (no conservation violation).
+  of props landing (no conservation violation) (read-only).
 
 - `@satisfies_average_theorem`:
 
-  `TRUE` if `n_props` is a whole number.
+  `TRUE` if `n_props` is a whole number (read-only).
 
 - `@valid`:
 
-  `TRUE` if both `can_throw` and `satisfies_average_theorem` are `TRUE`.
+  `TRUE` if both `can_throw` and `satisfies_average_theorem` are `TRUE`
+  (read-only).
 
 ## Examples
 

@@ -3,7 +3,7 @@
 **jugglr** is an R package for validating and visualising juggling
 patterns expressed in [siteswap
 notation](https://en.wikipedia.org/wiki/Siteswap). The
-[`siteswap()`](https://ellakaye.github.io/jugglr/reference/Siteswap.md)
+[`siteswap()`](https://ellakaye.github.io/jugglr/reference/siteswap.md)
 function is a factory that auto-detects the notation type and returns an
 S7 object of the appropriate subclass: `vanillaSiteswap`,
 `synchronousSiteswap`, `multiplexSiteswap`,
@@ -33,7 +33,7 @@ article](https://ellakaye.github.io/jugglr/articles/animate.html).
 ## Siteswap
 
 The
-[`siteswap()`](https://ellakaye.github.io/jugglr/reference/Siteswap.md)
+[`siteswap()`](https://ellakaye.github.io/jugglr/reference/siteswap.md)
 function auto-detects the notation type and returns the appropriate
 subclass. Each object’s print method reports whether the pattern is
 valid, how many props it requires, and its period and symmetry.

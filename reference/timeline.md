@@ -97,6 +97,17 @@ or
   between lanes. Fractional notation offsets the beat positions
   accordingly.
 
+## See also
+
+The siteswap constructors, e.g.
+[`siteswap()`](https://ellakaye.github.io/jugglr/reference/siteswap.md)
+and
+[`vanillaSiteswap()`](https://ellakaye.github.io/jugglr/reference/vanillaSiteswap.md).
+
+Other siteswap visualisation:
+[`ladder()`](https://ellakaye.github.io/jugglr/reference/ladder.md),
+[`throw_data()`](https://ellakaye.github.io/jugglr/reference/throw_data.md)
+
 ## Examples
 
 ``` r

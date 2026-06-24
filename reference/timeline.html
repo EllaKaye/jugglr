@@ -125,37 +125,44 @@ heights, so otherwise-overlapping throws render as concentric parabolas.</p></li
 <li><p><strong>Passing</strong> patterns are drawn with one lane per juggler; passes arc
 between lanes. Fractional notation offsets the beat positions accordingly.</p></li>
 </ul></div>
+    <div class="section level2">
+    <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
+    <div class="dont-index"><p>The siteswap constructors, e.g. <code><a href="siteswap.html">siteswap()</a></code> and <code><a href="vanillaSiteswap.html">vanillaSiteswap()</a></code>.</p>
+<p>Other siteswap visualisation:
+<code><a href="ladder.html">ladder()</a></code>,
+<code><a href="throw_data.html">throw_data()</a></code></p></div>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Vanilla: single-sided arcs</span></span></span>
-<span class="r-in"><span><span class="fu">timeline</span><span class="op">(</span><span class="fu"><a href="Siteswap.html">siteswap</a></span><span class="op">(</span><span class="st">"423"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">timeline</span><span class="op">(</span><span class="fu"><a href="siteswap.html">siteswap</a></span><span class="op">(</span><span class="st">"423"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="timeline-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Synchronous: two-sided, hands mirrored about a centre line</span></span></span>
-<span class="r-in"><span><span class="fu">timeline</span><span class="op">(</span><span class="fu"><a href="Siteswap.html">siteswap</a></span><span class="op">(</span><span class="st">"(4,2x)(2x,4)"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">timeline</span><span class="op">(</span><span class="fu"><a href="siteswap.html">siteswap</a></span><span class="op">(</span><span class="st">"(4,2x)(2x,4)"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="timeline-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span><span class="fu">timeline</span><span class="op">(</span><span class="fu"><a href="Siteswap.html">siteswap</a></span><span class="op">(</span><span class="st">"(2,6x)([6x4x],2x)"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">timeline</span><span class="op">(</span><span class="fu"><a href="siteswap.html">siteswap</a></span><span class="op">(</span><span class="st">"(2,6x)([6x4x],2x)"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="timeline-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Multiplex: identical simultaneous throws fan to distinct heights</span></span></span>
-<span class="r-in"><span><span class="fu">timeline</span><span class="op">(</span><span class="fu"><a href="Siteswap.html">siteswap</a></span><span class="op">(</span><span class="st">"[54]24"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">timeline</span><span class="op">(</span><span class="fu"><a href="siteswap.html">siteswap</a></span><span class="op">(</span><span class="st">"[54]24"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="timeline-4.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span><span class="fu">timeline</span><span class="op">(</span><span class="fu"><a href="Siteswap.html">siteswap</a></span><span class="op">(</span><span class="st">"[33]"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">timeline</span><span class="op">(</span><span class="fu"><a href="siteswap.html">siteswap</a></span><span class="op">(</span><span class="st">"[33]"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="timeline-5.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Passing: one lane per juggler, with passes arcing between them</span></span></span>
-<span class="r-in"><span><span class="fu">timeline</span><span class="op">(</span><span class="fu"><a href="Siteswap.html">siteswap</a></span><span class="op">(</span><span class="st">"&lt;3p 3|3p 3&gt;"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">timeline</span><span class="op">(</span><span class="fu"><a href="siteswap.html">siteswap</a></span><span class="op">(</span><span class="st">"&lt;3p 3|3p 3&gt;"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="timeline-6.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span><span class="fu">timeline</span><span class="op">(</span><span class="fu"><a href="Siteswap.html">siteswap</a></span><span class="op">(</span><span class="st">"&lt;4.5 3 3 | 3 4 3.5&gt;"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">timeline</span><span class="op">(</span><span class="fu"><a href="siteswap.html">siteswap</a></span><span class="op">(</span><span class="st">"&lt;4.5 3 3 | 3 4 3.5&gt;"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="timeline-7.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Increasing n_cycles helpful for sequences with short period</span></span></span>
-<span class="r-in"><span><span class="fu">timeline</span><span class="op">(</span><span class="fu"><a href="Siteswap.html">siteswap</a></span><span class="op">(</span><span class="st">"3"</span><span class="op">)</span>, n_cycles <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">timeline</span><span class="op">(</span><span class="fu"><a href="siteswap.html">siteswap</a></span><span class="op">(</span><span class="st">"3"</span><span class="op">)</span>, n_cycles <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="timeline-8.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># ggplot2 object: customise like any other plot</span></span></span>
-<span class="r-in"><span><span class="fu">timeline</span><span class="op">(</span><span class="fu"><a href="Siteswap.html">siteswap</a></span><span class="op">(</span><span class="st">"423"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"423 or W"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">timeline</span><span class="op">(</span><span class="fu"><a href="siteswap.html">siteswap</a></span><span class="op">(</span><span class="st">"423"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"423 or W"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="timeline-9.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

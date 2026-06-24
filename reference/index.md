@@ -2,7 +2,7 @@
 
 ## Creating siteswap objects
 
-- [`siteswap()`](https://ellakaye.github.io/jugglr/reference/Siteswap.md)
+- [`siteswap()`](https://ellakaye.github.io/jugglr/reference/siteswap.md)
   : Create a siteswap object
 - [`vanillaSiteswap()`](https://ellakaye.github.io/jugglr/reference/vanillaSiteswap.md)
   : Vanilla siteswap

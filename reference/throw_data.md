@@ -52,6 +52,17 @@ Synchronous types add an `is_crossing` column. Passing types instead
 include `juggler`, `is_pass`, and `catch_juggler` columns identifying
 which juggler throws and catches each prop.
 
+## See also
+
+The siteswap constructors, e.g.
+[`siteswap()`](https://ellakaye.github.io/jugglr/reference/siteswap.md)
+and
+[`vanillaSiteswap()`](https://ellakaye.github.io/jugglr/reference/vanillaSiteswap.md).
+
+Other siteswap visualisation:
+[`ladder()`](https://ellakaye.github.io/jugglr/reference/ladder.md),
+[`timeline()`](https://ellakaye.github.io/jugglr/reference/timeline.md)
+
 ## Examples
 
 ``` r
