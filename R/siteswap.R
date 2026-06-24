@@ -11,8 +11,6 @@ NULL
 #'
 #' @param sequence A single character string of siteswap notation.
 #'
-#' @prop sequence The raw siteswap sequence string.
-#'
 #' @noRd
 Siteswap <- new_class(
   "Siteswap",
