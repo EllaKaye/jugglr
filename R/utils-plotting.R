@@ -263,39 +263,6 @@ build_ladder_plot <- function(
     )
   }
 
-  p <- ggplot()
-
-  if (nrow(curve_data) > 0) {
-    p <- p +
-      geom_path(
-        data = curve_data,
-        aes(
-          x = .data$x,
-          y = .data$y,
-          group = .data$group,
-          color = factor(.data$prop)
-        ),
-        linewidth = 2,
-        show.legend = FALSE
-      )
-  }
-
-  if (nrow(straight) > 0) {
-    p <- p +
-      geom_segment(
-        data = straight,
-        aes(
-          x = .data$x_start,
-          y = .data$y_start,
-          xend = .data$x_end,
-          yend = .data$y_end,
-          color = factor(.data$prop)
-        ),
-        linewidth = 2,
-        show.legend = FALSE
-      )
-  }
-
   # Rungs/labels sit on the regular beat grid; beat_step > 1 (e.g. synchronous)
   # skips the empty intermediate beats so labels read 0, 2, 4, ...
   min_beat <- min(plot_data$beat)
@@ -342,7 +309,7 @@ build_ladder_plot <- function(
     data.frame(x = -0.12, y = -beats_grid, label = beats_grid)
   }
 
-  p <- p +
+  p <- ggplot() +
     geom_text(
       data = beat_label_data,
       aes(x = .data$x, y = .data$y, label = .data$label),
@@ -362,7 +329,42 @@ build_ladder_plot <- function(
       data = rail_data,
       aes(x = .data$x, y = .data$y, xend = .data$xend, yend = .data$yend),
       linewidth = 0.8
-    ) +
+    )
+
+  # Paths are drawn on top of the rungs/rails so props read as passing over
+  # the ladder rather than being obscured by it.
+  if (nrow(curve_data) > 0) {
+    p <- p +
+      geom_path(
+        data = curve_data,
+        aes(
+          x = .data$x,
+          y = .data$y,
+          group = .data$group,
+          color = factor(.data$prop)
+        ),
+        linewidth = 2,
+        show.legend = FALSE
+      )
+  }
+
+  if (nrow(straight) > 0) {
+    p <- p +
+      geom_segment(
+        data = straight,
+        aes(
+          x = .data$x_start,
+          y = .data$y_start,
+          xend = .data$x_end,
+          yend = .data$y_end,
+          color = factor(.data$prop)
+        ),
+        linewidth = 2,
+        show.legend = FALSE
+      )
+  }
+
+  p +
     prop_color_scale(max_prop) +
     scale_x_continuous(
       limits = if (is_vertical) hand_limits,
@@ -382,8 +384,6 @@ build_ladder_plot <- function(
       x = "",
       y = ""
     )
-
-  p
 }
 
 build_simple_ladder <- function(
@@ -629,39 +629,6 @@ build_passing_ladder_plot <- function(
     )
   }
 
-  p <- ggplot()
-
-  if (nrow(curve_data) > 0) {
-    p <- p +
-      geom_path(
-        data = curve_data,
-        aes(
-          x = .data$x,
-          y = .data$y,
-          group = .data$group,
-          color = factor(.data$prop)
-        ),
-        linewidth = 2,
-        show.legend = FALSE
-      )
-  }
-
-  if (nrow(straight) > 0) {
-    p <- p +
-      geom_segment(
-        data = straight,
-        aes(
-          x = .data$x_start,
-          y = .data$y_start,
-          xend = .data$x_end,
-          yend = .data$y_end,
-          color = factor(.data$prop)
-        ),
-        linewidth = 2,
-        show.legend = FALSE
-      )
-  }
-
   hand_max <- (n_jugglers - 1L) * hand_gap + 1L
 
   if (is_vertical) {
@@ -715,7 +682,7 @@ build_passing_ladder_plot <- function(
     data.frame(x = -0.12, y = -seq_len(n_beats), label = seq_len(n_beats))
   }
 
-  p +
+  p <- ggplot() +
     geom_text(
       data = beat_label_data,
       aes(x = .data$x, y = .data$y, label = .data$label),
@@ -735,7 +702,42 @@ build_passing_ladder_plot <- function(
       data = rail_data,
       aes(x = .data$x, y = .data$y, xend = .data$xend, yend = .data$yend),
       linewidth = 0.8
-    ) +
+    )
+
+  # Paths are drawn on top of the rungs/rails so props read as passing over
+  # the ladder rather than being obscured by it.
+  if (nrow(curve_data) > 0) {
+    p <- p +
+      geom_path(
+        data = curve_data,
+        aes(
+          x = .data$x,
+          y = .data$y,
+          group = .data$group,
+          color = factor(.data$prop)
+        ),
+        linewidth = 2,
+        show.legend = FALSE
+      )
+  }
+
+  if (nrow(straight) > 0) {
+    p <- p +
+      geom_segment(
+        data = straight,
+        aes(
+          x = .data$x_start,
+          y = .data$y_start,
+          xend = .data$x_end,
+          yend = .data$y_end,
+          color = factor(.data$prop)
+        ),
+        linewidth = 2,
+        show.legend = FALSE
+      )
+  }
+
+  p +
     prop_color_scale(max_prop) +
     scale_x_continuous(
       limits = if (is_vertical) hand_limits,
