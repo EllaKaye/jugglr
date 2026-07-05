@@ -5,10 +5,11 @@ Authors@R:
     person("Ella", "Kaye", , "hello@ellakaye.co.uk", role = c("aut", "cre", "cph"))
 Description: Validate and visualise juggling patterns expressed in siteswap
     notation. Supports vanilla, synchronous, multiplex, synchronous multiplex,
-    and passing siteswap, with tools to check pattern validity, produce timeline
-    arc diagrams and ladder diagrams, retrieve raw throw data for custom
-    visualisations, and animate patterns via the 'JugglingLab' animation
-    server (<https://jugglinglab.org/>).
+    and passing siteswap, with tools to check pattern validity and to retrieve
+    raw throw data for custom visualisations. Patterns can be plotted as
+    timeline arc diagrams or ladder diagrams, and animated via the
+    'JugglingLab' animation server
+    (<https://jugglinglab.org/html/animinfo.html>).
 License: GPL (>= 3)
 Encoding: UTF-8
 Language: en-GB
