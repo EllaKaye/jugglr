@@ -2,7 +2,7 @@ Package: jugglr
 Title: Juggling Pattern Validation and Visualisation
 Version: 0.0.0.9000
 Authors@R:
-    person("Ella", "Kaye", , "ella.kaye@gmail.com", role = c("aut", "cre", "cph"))
+    person("Ella", "Kaye", , "hello@ellakaye.co.uk", role = c("aut", "cre", "cph"))
 Description: Validate and visualise juggling patterns expressed in siteswap
     notation. Supports vanilla, synchronous, multiplex, synchronous multiplex,
     and passing siteswap, with tools to check pattern validity, produce timeline
