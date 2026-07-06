@@ -1,6 +1,7 @@
 url: https://ellakaye.github.io/jugglr/
 template:
   bootstrap: 5
+  light-switch: true
 
 reference:
   - title: "Creating siteswap objects"
