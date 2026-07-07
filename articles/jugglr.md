@@ -5,14 +5,20 @@
 library(jugglr)
 ```
 
-Juggling sequences can be written in a notation called siteswap. A
-3-ball cascade — the first sequence most jugglers learn — is written as
-“3”, where each ball is thrown the same height and caught in the
-opposite hand three beats later. “531”, “423” and “441” are also valid
-3-ball juggling patterns, though with balls thrown to different heights,
-or caught in the same hand that throws them. Each number in a siteswap
-sequence encodes how many beats until that prop needs to be thrown
-again. However, not everything that can be written in siteswap is a
+## Introduction to siteswap notation
+
+Juggling sequences can be written in a notation called siteswap. Each
+number in a siteswap sequence encodes how many beats until that prop is
+thrown again. The simplest form is *vanilla* siteswap: one prop thrown
+per beat, hands alternating.
+
+A 3-ball cascade — the first sequence most jugglers learn — is written
+as “3”, where each ball is thrown the same height, caught in the
+opposite hand and thrown again three beats later. “531”, “423” and “441”
+are also valid 3-ball juggling patterns. A “4” is thrown and caught in
+the same hand, a “5” is similar to a “3” but thrown higher, a “2” is
+held in the hand for one beat, and a “1” is a quick pass to the other
+hand. However, not everything that can be written in siteswap is a
 valid, juggleable pattern. For example, in the sequence “432”, the first
 two props thrown would need to be caught in the same hand at the same
 time.
@@ -22,7 +28,22 @@ R.
 
 There are several different types of siteswap, distinguished by their
 notation: vanilla, synchronous, multiplex, synchronous multiplex, and
-passing. Each is introduced in the sections below.
+passing:
+
+- vanilla:**423**
+- synchronous (throwing a ball from each hand simultaneously):
+  **(4,4)(4x,4x)**, **(4,2x)\***
+- multiplex (throwing multiple balls from the same hand simultaneously):
+  **\[54\]24**
+- synchronous multiplex: **(2,6x)(\[6x4x\],2x)**
+- passing (throwing between more than one juggler): **\<3p33\|3p33\>**
+  or **\<4.5 3 3 \| 3 4 3.5\>**
+
+See the Wikipedia article on
+[siteswap](https://en.wikipedia.org/wiki/Siteswap) for a more detailed
+introduction to each type and the notation.
+
+## Introduction to jugglr
 
 In **jugglr**, you define a sequence with the function
 [`siteswap()`](https://ellakaye.github.io/jugglr/reference/siteswap.md),
@@ -31,264 +52,155 @@ class `Siteswap` as well as a child class corresponding to its type:
 `vanillaSiteswap`, `synchronousSiteswap`, `multiplexSiteswap`,
 `synchronousMultiplexSiteswap`, or `passingSiteswap`.
 
-Each child class has a `print` method that shows the sequence and
-whether it is valid. For valid sequences, it also reports the number of
-props the pattern requires, its period (how many beats before it
-repeats), and whether it is symmetrical (i.e. whether both hands do the
-same thing, just offset in time). For patterns that aren’t valid, it
-reports why not: either the sequence does not satisfy the average
-theorem, or it has collisions.
-
-Two visualisation methods work for every class:
-[`timeline()`](https://ellakaye.github.io/jugglr/reference/timeline.md),
-which shows the beats on which each prop is thrown and caught, and
-[`ladder()`](https://ellakaye.github.io/jugglr/reference/ladder.md),
-which conveys that same information along with which hands the props are
-thrown from and caught in. These visualisations are useful both for
-seeing how valid sequences fit together and for diagnosing why invalid
-sequences do not work.
-
-## Vanilla siteswap
-
-The simplest form is *vanilla* siteswap: one prop thrown per beat, hands
-alternating. Create a pattern with
-[`siteswap()`](https://ellakaye.github.io/jugglr/reference/siteswap.md):
-
 ``` r
 
-siteswap("3")
-#> ✔ '3' is valid vanilla siteswap
-#> ℹ It uses 3 props
-#> ℹ It is symmetrical with period 1
-```
-
-The print method tells you four things: whether the pattern is valid,
-how many props it requires, its period (how many beats before it
-repeats), and whether it’s symmetrical — meaning both hands do the same
-thing, just offset in time.
-
-Here’s a trickier pattern:
-
-``` r
-
-ss_423 <- siteswap("423")
-ss_423
+library(jugglr)
+ss423 <- siteswap("423")
+ss423
 #> ✔ '423' is valid vanilla siteswap
 #> ℹ It uses 3 props
 #> ℹ It is symmetrical with period 3
 ```
 
-Still three props, period 3. The 4 is a high self-throw that buys you a
-moment, the 2 is a low hold, and the 3 is a standard cascade throw. The
-pattern starts to take shape even from the numbers. And for the jugglers
-working towards five balls:
+Note that
+[`siteswap()`](https://ellakaye.github.io/jugglr/reference/siteswap.md)
+is a factory function. It parses the sequence to determine the type of
+siteswap and calls the appropriate constructor for that type,
+e.g. [`vanillaSiteswap()`](https://ellakaye.github.io/jugglr/reference/vanillaSiteswap.md).
+Each of these specific classes also has the abstract `Siteswap` class as
+a parent.
+
+Printing a `Siteswap` object shows the sequence and whether it is a
+valid juggling pattern. For valid sequences, it also reports the number
+of props the pattern requires, its period (how many beats before it
+repeats), and whether it is symmetrical (i.e. whether both hands do the
+same thing, just offset in time).
+
+Patterns that cannot be juggled are still `Siteswap` objects with the
+appropriate subclass. Their print method reports that they are not valid
+juggling patterns.
+
+For patterns that aren’t valid, it reports why not: either the sequence
+does not satisfy the average theorem (i.e. couldn’t be juggled with a
+whole number of props) or it has collisions.
 
 ``` r
 
-siteswap("5")
-#> ✔ '5' is valid vanilla siteswap
-#> ℹ It uses 5 props
-#> ℹ It is symmetrical with period 1
-```
-
-### Invalid patterns
-
-Not every sequence of numbers makes a jugglable pattern. jugglr checks
-validity at construction:
-
-``` r
-
-ss_21 <- siteswap("21")
-ss_21
-#> ✖ '21' is not a valid juggling pattern
-#> ℹ The throws don't average to a whole number
+ss432 <- siteswap("432")
+ss432
+#> ✖ '432' is not a valid juggling pattern
 #> ℹ Two or more throws land on the same beat (collision)
 ```
 
-Two problems, both reported separately. The average of 2 and 1 is 1.5,
-which would require 1.5 props — impossible. And even setting that aside,
-two throws would land on the same beat: a collision. The diagrams in the
-[visualising patterns](#visualising-patterns) section below make this
-concrete.
+## Visualising the patterns
 
-This is genuinely useful when you’re inventing patterns. Check the
-sequence before picking up the clubs.
-
-## Other notation types
-
-Vanilla siteswap is one prop per beat from alternating hands. jugglr
-handles four more notation types for more complex juggling styles.
-
-### Synchronous siteswap
-
-Both hands throw at the same time, written as pairs in parentheses:
-
-``` r
-
-siteswap("(4,4)")
-#> ✔ '(4,4)' is valid synchronous siteswap
-#> ℹ It uses 4 props
-#> ℹ It is symmetrical with period 2
-```
-
-An `x` suffix on a throw value marks it as crossing to the other side.
-The `*` shorthand indicates the pattern alternates between two states —
-jugglr expands it into the full sequence:
-
-``` r
-
-siteswap("(4,2x)*")
-#> ✔ '(4,2x)*' is valid synchronous siteswap
-#> ℹ Full sequence: (4,2x)(2x,4)
-#> ℹ It uses 3 props
-#> ℹ It is symmetrical with period 4
-```
-
-### Multiplex siteswap
-
-Multiple props thrown from one hand simultaneously, with square brackets
-grouping them:
-
-``` r
-
-siteswap("[43]1")
-#> ✔ '[43]1' is valid multiplex siteswap
-#> ℹ It uses 4 props
-#> ℹ It is asymmetrical with period 2
-```
-
-### Synchronous multiplex siteswap
-
-Both hands throwing at the same time, with multiplex groups:
-
-``` r
-
-siteswap("(4,[42x])*")
-#> ✔ '(4,[42x])*' is valid synchronous multiplex siteswap
-#> ℹ Full sequence: (4,[42x])([42x],4)
-#> ℹ It uses 5 props
-#> ℹ It is symmetrical with period 4
-```
-
-### Passing siteswap
-
-Patterns for multiple jugglers. The `<A|B>` notation separates each
-juggler’s sequence; `p` on a throw value marks a pass to the other
-juggler:
-
-``` r
-
-siteswap("<3p 3|3p 3>")
-#> ✔ '<3p 3|3p 3>' is valid passing siteswap
-#> ℹ It uses 6 props across 2 jugglers
-#> ℹ It is asymmetrical with period 2
-```
-
-Six props between two jugglers, each passing on every other throw.
-Experienced passers often prefer fractional notation, where a `.5` on a
-throw indicates it’s a pass:
-
-``` r
-
-siteswap("<4.5 3 3 | 3 4 3.5>")
-#> ✔ '<4.5 3 3 | 3 4 3.5>' is valid passing siteswap
-#> ℹ It uses 7 props across 2 jugglers
-#> ℹ It is symmetrical with period 3
-```
-
-## Visualising patterns
-
-A sequence of numbers only tells you so much about a pattern. jugglr
-provides two diagrams, each revealing different aspects of the same
-sequence.
-
-Both diagrams colour throws by prop using the colour-blind-friendly
-[Okabe-Ito
+[`timeline()`](https://ellakaye.github.io/jugglr/reference/timeline.md)
+and [`ladder()`](https://ellakaye.github.io/jugglr/reference/ladder.md)
+work across all siteswap types, returning ggplot2 objects that can be
+further customised. The path of each prop is shown in a different
+colour. Both diagrams colour throws by prop using the
+colour-blind-friendly [Okabe-Ito
 palette](https://clauswilke.com/dataviz/color-pitfalls.html#not-designing-for-color-vision-deficiency)
-(up to seven props, after which ggplot2’s default scale takes over). The
-same colours can be passed to
-[`animate()`](https://ellakaye.github.io/jugglr/reference/animate.md)
-for consistency across static and animated views — see the [animation
-article](https://ellakaye.github.io/jugglr/articles/animate.md).
+(up to seven props, after which ggplot2’s default scale takes over).
+
+[`timeline()`](https://ellakaye.github.io/jugglr/reference/timeline.md)
+shows the throws and catches of each prop over time, with a focus on the
+beat. It draws arcs: each arc represents one throw, with height
+proportional to the throw value, colour-coded by prop.
+
+[`ladder()`](https://ellakaye.github.io/jugglr/reference/ladder.md)
+additionally shows which hand throws and catches each prop. The ‘rails’
+of the ladder represent the hands, with straight lines between them
+representing throws caught in the opposite hand, and arcs representing
+throws caught in the same hand.
+
+[`throw_data()`](https://ellakaye.github.io/jugglr/reference/throw_data.md)
+returns a data frame containing information about each throw and catch,
+which can be used for custom visualisations.
+
+``` r
+
+timeline(ss423)
+```
+
+![](jugglr_files/figure-html/timeline-valid-1.png)
+
+``` r
+
+ladder(ss423)
+```
+
+![](jugglr_files/figure-html/ladder-valid-1.png)
+
+These plots are also useful for understanding why non-valid sequences
+are not jugglable. We can see, for example, where two props would need
+to be caught at the same time (which is not permissible in vanilla
+siteswap), or where props are “created” or “destroyed” (i.e. when the
+sequence demands that a prop should be thrown or caught, but there’s not
+a prop available to do so).
+
+``` r
+
+timeline(ss432)
+```
+
+![](jugglr_files/figure-html/timeline-invalid-1.png)
+
+``` r
+
+ladder(ss432)
+```
+
+![](jugglr_files/figure-html/ladder-invalid-1.png)
+
+[`timeline()`](https://ellakaye.github.io/jugglr/reference/timeline.md)
+plots for synchronous patterns are drawn two-sided: one hand’s arcs sit
+above a faint centre line and the other’s below it.
+
+``` r
+
+timeline(siteswap("(4,4)(4x,4x)"))
+```
+
+![](jugglr_files/figure-html/sync-timeline-1.png)
+
+Multiplex patterns in which a hand throws two props at once with the
+same value are fanned apart so each prop is visible (which corresponds
+to the way jugglers throw them in real life): By detault, timelines show
+three cycles of the pattern, but you can increase this with the
+`n_cycles` argument - this is recommended for patterns with short
+cycles:
+
+``` r
+
+timeline(siteswap("[33]"), n_cycles = 6)
+```
+
+![](jugglr_files/figure-html/unnamed-chunk-2-1.png)
 
 Both
 [`timeline()`](https://ellakaye.github.io/jugglr/reference/timeline.md)
 and [`ladder()`](https://ellakaye.github.io/jugglr/reference/ladder.md)
-return ggplot2 objects, so you can customise them with any standard
-ggplot2 function:
+have `title` and `subtitle` arguments, which are `TRUE` by default - the
+title shows the sequence and the subtitle shows the validity and number
+of props, and explains that colours represent props. If you prefer to
+set your own titles, set these to `FALSE` and use
+[`ggplot2::labs()`](https://ggplot2.tidyverse.org/reference/labs.html)
+to add your own. Since these plots return ggplot2 objects, they can be
+further customised with any standard ggplot2 function:
 
 ``` r
 
-timeline(ss_423) +
-  ggplot2::labs(title = "My favourite three-ball pattern")
+library(ggplot2)
+timeline(ss423, subtitle = FALSE) +
+  labs(title = "423 or W") +
+  scale_colour_manual(values = c("#D4006A", "#006AD4", "#00D46A"))
+#> Scale for colour is already present.
+#> Adding another scale for colour, which will replace the existing scale.
 ```
 
 ![Timeline diagram for the 423 pattern with a custom title added via
 ggplot2::labs()](jugglr_files/figure-html/ggplot-customise-1.png)
-
-### Timeline
-
-[`timeline()`](https://ellakaye.github.io/jugglr/reference/timeline.md)
-draws arcs: each arc represents one throw, with height proportional to
-the throw value, colour-coded by prop. It’s roughly what the pattern
-looks like from the side.
-
-``` r
-
-timeline(ss_423)
-```
-
-![Timeline arc diagram for the 423 pattern, showing three arcs per cycle
-colour-coded by prop](jugglr_files/figure-html/timeline-valid-1.png)
-
-Follow any single colour to track one prop through the pattern. Each arc
-shows when it was thrown, how high, and when it lands.
-
-### Ladder diagram
-
-[`ladder()`](https://ellakaye.github.io/jugglr/reference/ladder.md)
-shows the schedule: beats across the axis, with lines connecting throws
-to catches. Straight lines are self-throws; crossing lines go to the
-other hand.
-
-``` r
-
-ladder(ss_423)
-```
-
-![Ladder diagram for the 423 pattern showing throws and catches
-connected by lines](jugglr_files/figure-html/ladder-valid-1.png)
-
-Where the timeline shows the shape of the pattern in the air, the ladder
-shows the mechanics hand-to-hand.
-
-### Invalid patterns
-
-Both diagrams become most instructive when something goes wrong:
-
-``` r
-
-timeline(ss_21)
-```
-
-![Timeline diagram for the invalid 21 pattern, showing a collision where
-two arcs land on the same
-beat](jugglr_files/figure-html/timeline-invalid-1.png)
-
-``` r
-
-ladder(ss_21)
-```
-
-![Ladder diagram for the invalid 21 pattern, showing two lines
-converging at the same
-beat](jugglr_files/figure-html/ladder-invalid-1.png)
-
-The collision is visible: two arcs land on the same beat, two lines
-converge at the same point. The colours show where props appear out of
-nowhere or need to be in two places at once. This is a useful debugging
-tool when an invented pattern doesn’t feel right — the diagram tells you
-exactly where it breaks.
 
 ### Synchronous patterns
 
@@ -387,7 +299,7 @@ returns the underlying data frame:
 
 ``` r
 
-throw_data(ss_423)
+throw_data(ss423)
 #>   beat hand throw catch_beat catch_hand prop
 #> 1    1    0     4          5          0    1
 #> 2    2    1     2          4          1    2
