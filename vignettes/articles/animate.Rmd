@@ -18,16 +18,15 @@ knitr::opts_chunk$set(
 library(jugglr)
 ```
 
-The `animate()` function produces an animated GIF of a juggling pattern. It uses the [Juggling Lab GIF server](https://jugglinglab/html/animinfo.html) to generate the animation, so requires an internet connection.
+The `animate()` function produces an animated GIF of a juggling pattern. It uses the [Juggling Lab GIF server](https://jugglinglab/html/animinfo.html) to generate the animation, so requires an internet connection. 
+For a juggler learning a new trick, or communicating a pattern to someone else, 
+these animations are a particularly useful visual aid.
 
 The time it takes to render depends on the options you pass and whether Juggling Lab has the pattern cached. It will typically take a few seconds for a simple call, longer for more complex patterns. 
 Setting the `colors` argument also notably increases the time it takes to render.
 
-By default, `animate()` opens the animation in your browser or in the Viewer pane of your IDE, if that's where you're calling it from, or in a browser otherwise. 
-Setting the `path` argument allows you to save the GIF to disk at the specified location.
-
-For a juggler learning a new trick, or communicating a pattern to someone else, 
-these animations are a particularly useful visual aid.
+By default, `animate()` opens the animation in the Viewer pane of your IDE, if that's where you're calling it from, or in a browser otherwise. 
+Setting the `path` argument althers this behavior, saving the GIF to disk at the specified location instead.
 
 ## Pattern
 
@@ -35,7 +34,6 @@ The `animate()` function requires a `pattern` to be specified. This can either b
 The advantage of passing a `Siteswap` object over a string is that this already captures whether the pattern is a valid juggling sequence, and will throw an error in R if it is not, rather than waiting for the Juggling Lab server to reject it.
 
 ```{r basic-string, eval=FALSE}
-# these produce identical animations:
 animate("531")
 animate(siteswap("531"))
 ```
@@ -45,8 +43,6 @@ These both produce the same animation:
 ```{r basic-gif, echo=FALSE, out.width="40%", fig.alt="Animated GIF of the 531 juggling pattern with default Juggling Lab styling"}
 knitr::include_graphics("figures/531-default.gif")
 ```
-
-The animation is identical either way.
 
 One limitation: `passingSiteswap` objects using fractional notation (e.g. `"<4.5 3 3 | 3 4 3.5>"`) can't be animated because Juggling Lab doesn't recognise that format. P-notation passing patterns (e.g. `"<3p 3 3|3p 3 3>"`) work fine.
 
