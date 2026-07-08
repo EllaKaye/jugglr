@@ -5,7 +5,7 @@
 library(jugglr)
 ```
 
-## Introduction to siteswap notation
+## Introduction to siteswap
 
 Juggling sequences can be written in a notation called siteswap. Each
 number in a siteswap sequence encodes how many beats until that prop is
@@ -15,20 +15,19 @@ per beat, hands alternating.
 A 3-ball cascade — the first sequence most jugglers learn — is written
 as “3”, where each ball is thrown the same height, caught in the
 opposite hand and thrown again three beats later. “531”, “423” and “441”
-are also valid 3-ball juggling patterns. A “4” is thrown and caught in
-the same hand, a “5” is similar to a “3” but thrown higher, a “2” is
-held in the hand for one beat, and a “1” is a quick pass to the other
+are also valid 3-ball juggling patterns. The sequence “4” represents the
+4-ball fountain, where each “4” is thrown and caught in the same hand. A
+“5” throw is similar to a “3” but thrown higher. A “2” is held in the
+hand for one beat then thrown, and a “1” is a quick pass to the other
 hand. However, not everything that can be written in siteswap is a
 valid, juggleable pattern. For example, in the sequence “432”, the first
 two props thrown would need to be caught in the same hand at the same
 time.
 
-**jugglr** lets you create, validate, and visualise siteswap patterns in
-R.
-
-There are several different types of siteswap, distinguished by their
-notation: vanilla, synchronous, multiplex, synchronous multiplex, and
-passing:
+There are other types of siteswap, which relax the requirements of
+vanilla siteswap in some way, distinguished by their notation. These
+include synchronous, multiplex, synchronous multiplex, and passing,
+shown here with with examples:
 
 - vanilla:**423**
 - synchronous (throwing a ball from each hand simultaneously):
@@ -36,8 +35,8 @@ passing:
 - multiplex (throwing multiple balls from the same hand simultaneously):
   **\[54\]24**
 - synchronous multiplex: **(2,6x)(\[6x4x\],2x)**
-- passing (throwing between more than one juggler): **\<3p33\|3p33\>**
-  or **\<4.5 3 3 \| 3 4 3.5\>**
+- passing (throwing between more than one juggler): **\<3p33\|3p33\>**,
+  **\<4.5 3 3 \| 3 4 3.5\>**
 
 See the Wikipedia article on
 [siteswap](https://en.wikipedia.org/wiki/Siteswap) for a more detailed
@@ -45,7 +44,8 @@ introduction to each type and the notation.
 
 ## Introduction to jugglr
 
-In **jugglr**, you define a sequence with the function
+**jugglr** lets you create, validate, and visualise siteswap patterns in
+R. In **jugglr**, you define a sequence with the function
 [`siteswap()`](https://ellakaye.github.io/jugglr/reference/siteswap.md),
 which creates an [S7](https://rconsortium.github.io/S7/) object with
 class `Siteswap` as well as a child class corresponding to its type:
@@ -78,11 +78,9 @@ same thing, just offset in time).
 
 Patterns that cannot be juggled are still `Siteswap` objects with the
 appropriate subclass. Their print method reports that they are not valid
-juggling patterns.
-
-For patterns that aren’t valid, it reports why not: either the sequence
-does not satisfy the average theorem (i.e. couldn’t be juggled with a
-whole number of props) or it has collisions.
+juggling patterns. For patterns that aren’t valid, it reports why not:
+either the sequence does not satisfy the average theorem (i.e. couldn’t
+be juggled with a whole number of props) or it has collisions.
 
 ``` r
 
@@ -94,29 +92,31 @@ ss432
 
 ## Visualising the patterns
 
+jugglr implements two types of plots to visualise siteswap sequences,
 [`timeline()`](https://ellakaye.github.io/jugglr/reference/timeline.md)
-and [`ladder()`](https://ellakaye.github.io/jugglr/reference/ladder.md)
-work across all siteswap types, returning ggplot2 objects that can be
-further customised. The path of each prop is shown in a different
-colour. Both diagrams colour throws by prop using the
-colour-blind-friendly [Okabe-Ito
+and [`ladder()`](https://ellakaye.github.io/jugglr/reference/ladder.md).
+They both work across all siteswap types, returning ggplot2 objects that
+can be further customised. In both, the path of each prop is shown in a
+different colour, using the colour-blind-friendly [Okabe-Ito
 palette](https://clauswilke.com/dataviz/color-pitfalls.html#not-designing-for-color-vision-deficiency)
 (up to seven props, after which ggplot2’s default scale takes over).
 
 [`timeline()`](https://ellakaye.github.io/jugglr/reference/timeline.md)
 shows the throws and catches of each prop over time, with a focus on the
 beat. It draws arcs: each arc represents one throw, with height
-proportional to the throw value, colour-coded by prop.
+proportional to the throw value.
 
-[`ladder()`](https://ellakaye.github.io/jugglr/reference/ladder.md)
-additionally shows which hand throws and catches each prop. The ‘rails’
-of the ladder represent the hands, with straight lines between them
-representing throws caught in the opposite hand, and arcs representing
-throws caught in the same hand.
+[`ladder()`](https://ellakaye.github.io/jugglr/reference/ladder.md) is
+also plotted by bear, additionally showing which hand throws and catches
+each prop. The ‘rails’ of the ladder represent the hands, with straight
+lines between them representing throws caught in the opposite hand, and
+arcs representing throws caught in the same hand.
 
-[`throw_data()`](https://ellakaye.github.io/jugglr/reference/throw_data.md)
-returns a data frame containing information about each throw and catch,
-which can be used for custom visualisations.
+**Note that the plots look better in the [vignette on the package
+website](https://ellakaye.github.io/jugglr/articles/jugglr.html) - we
+recommend reading it there rather than the locally installed copy.**
+
+### Vanilla
 
 ``` r
 
@@ -153,9 +153,12 @@ ladder(ss432)
 
 ![](jugglr_files/figure-html/ladder-invalid-1.png)
 
+### Synchronous
+
 [`timeline()`](https://ellakaye.github.io/jugglr/reference/timeline.md)
-plots for synchronous patterns are drawn two-sided: one hand’s arcs sit
-above a faint centre line and the other’s below it.
+plots for synchronous patterns are drawn two-sided: the arcs for props
+thrown from one hand sit above a faint centre line, and arcs from the
+other hand below it.
 
 ``` r
 
@@ -164,19 +167,47 @@ timeline(siteswap("(4,4)(4x,4x)"))
 
 ![](jugglr_files/figure-html/sync-timeline-1.png)
 
+### Multiplex
+
+In multiplex patterns, more than one ball can be thrown from the same
+hand at the same time.
+
+``` r
+
+timeline(siteswap("[54]24"))
+```
+
+![](jugglr_files/figure-html/unnamed-chunk-2-1.png)
+
 Multiplex patterns in which a hand throws two props at once with the
 same value are fanned apart so each prop is visible (which corresponds
-to the way jugglers throw them in real life): By detault, timelines show
+to the way jugglers throw them in real life). By detault, timelines show
 three cycles of the pattern, but you can increase this with the
 `n_cycles` argument - this is recommended for patterns with short
 cycles:
 
 ``` r
 
-timeline(siteswap("[33]"), n_cycles = 6)
+ladder(siteswap("[33]"), n_cycles = 6)
 ```
 
-![](jugglr_files/figure-html/unnamed-chunk-2-1.png)
+![](jugglr_files/figure-html/unnamed-chunk-3-1.png)
+
+### Passing
+
+Passing patterns show one lane per juggler, with passes appearing as
+arcs (or lines) that cross between the juggler lanes.:
+
+``` r
+
+timeline(siteswap("<3p 3 3|3p 3 3>"))
+```
+
+![Timeline arc diagram for the \<3p 3 3\|3p 3 3\> passing pattern, with
+two juggler lanes and passes arcing between
+them](jugglr_files/figure-html/timeline-passing-1.png)
+
+### Customising the plots
 
 Both
 [`timeline()`](https://ellakaye.github.io/jugglr/reference/timeline.md)
@@ -202,100 +233,19 @@ timeline(ss423, subtitle = FALSE) +
 ![Timeline diagram for the 423 pattern with a custom title added via
 ggplot2::labs()](jugglr_files/figure-html/ggplot-customise-1.png)
 
-### Synchronous patterns
+[`ladder()`](https://ellakaye.github.io/jugglr/reference/ladder.md)
+plots can also be displayed vertically, by setting the `direction`
+argument to `"vertical"` or `"v"`.
 
-Both diagrams adapt to each notation type. Because synchronous patterns
-throw from both hands at once, the timeline is drawn two-sided: one
-hand’s arcs sit above a faint centre line and the other’s mirror below
-it, each with its own throw labels.
+## Throw data
 
-``` r
-
-ss_sync <- siteswap("(4,2x)*")
-timeline(ss_sync)
-```
-
-![Two-sided timeline for the synchronous (4,2x)\* pattern, with one
-hand's arcs above the centre line and the other's mirrored
-below](jugglr_files/figure-html/timeline-sync-1.png)
-
-The ladder follows suit, numbering only the even beats, since both hands
-throw together:
-
-``` r
-
-ladder(ss_sync)
-```
-
-![Ladder diagram for the synchronous (4,2x)\* pattern, numbered on even
-beats only](jugglr_files/figure-html/ladder-sync-1.png)
-
-### Multiplex patterns
-
-When a hand throws two identical props at once, their arcs would
-otherwise land on top of each other. Both diagrams fan such throws apart
-— to slightly different heights in the timeline, and into separate
-curves in the ladder — so each prop stays visible:
-
-``` r
-
-ss_mult <- siteswap("[22]2")
-timeline(ss_mult)
-```
-
-![Timeline for the multiplex \[22\]2 pattern, with the two simultaneous
-throws fanned to slightly different
-heights](jugglr_files/figure-html/timeline-multiplex-1.png)
-
-``` r
-
-ladder(ss_mult)
-```
-
-![Ladder diagram for the multiplex \[22\]2 pattern, with the two
-simultaneous throws fanned into separate
-curves](jugglr_files/figure-html/ladder-multiplex-1.png)
-
-### Passing patterns
-
-Both diagrams extend naturally to passing patterns, with one lane per
-juggler:
-
-``` r
-
-ss_pass <- siteswap("<3p 3|3p 3>")
-timeline(ss_pass)
-```
-
-![Timeline arc diagram for the \<3p 3\|3p 3\> passing pattern, with two
-juggler lanes and passes arcing between
-them](jugglr_files/figure-html/timeline-passing-1.png)
-
-``` r
-
-ladder(ss_pass)
-```
-
-![Ladder diagram for the \<3p 3\|3p 3\> passing pattern, with two
-juggler rows and passes shown as diagonal
-lines](jugglr_files/figure-html/ladder-passing-1.png)
-
-Passes appear as arcs (or lines) that cross between the juggler lanes.
-
-### A few options
-
-The `n_cycles` argument controls how many repetitions to show — the
-default of 3 is usually enough to see the full structure, but increase
-it to trace individual props further.
-[`ladder()`](https://ellakaye.github.io/jugglr/reference/ladder.md) also
-accepts `direction = "vertical"` if you prefer that orientation.
-
-## The raw data
-
-If you want to build your own visualisation or work directly with the
-numbers,
 [`throw_data()`](https://ellakaye.github.io/jugglr/reference/throw_data.md)
-returns the underlying data frame:
+returns a data frame with one row per throw, detailing the beat it’s
+thrown on, the throw value, the hand that its thrown from and caught in,
+and which prop it is. This data underpins the
+[`timeline()`](https://ellakaye.github.io/jugglr/reference/timeline.md)
+and [`ladder()`](https://ellakaye.github.io/jugglr/reference/ladder.md)
+plots, and facilitates custom data visualisations.
 
 ``` r
 
@@ -312,15 +262,10 @@ throw_data(ss423)
 #> 9    9    0     3         12          1    3
 ```
 
-One row per throw: when it was thrown, which hand, the throw value, when
-and where it lands, and which prop it belongs to. This is the same data
-that drives the diagrams.
-
 ## Animation
 
-jugglr can also produce animated GIFs of patterns via the
-[JugglingLab](https://jugglinglab.org) server. Here’s `423` animated
-with three colours:
+jugglr can also produce animated GIFs of patterns via the [Juggling Lab
+GIF server](https://jugglinglab.org/html/animinfo.html):
 
 ``` r
 
@@ -331,6 +276,5 @@ animate("423", colors = c("#E69F00", "#56B4E9", "#009E73"))
 balls](figures/423-animation.gif)
 
 The [animation
-article](https://ellakaye.github.io/jugglr/articles/animate.html) covers
-the full range of options: colour modes, prop types, speed controls, and
-how to save animations to disk for use in documents.
+article](https://ellakaye.github.io/jugglr/articles/animate.html)
+provides further details.

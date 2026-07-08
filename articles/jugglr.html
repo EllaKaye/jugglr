@@ -76,7 +76,7 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/EllaKaye/jugglr" class="external-link">jugglr</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
-<h2 id="introduction-to-siteswap-notation">Introduction to siteswap notation<a class="anchor" aria-label="anchor" href="#introduction-to-siteswap-notation"></a>
+<h2 id="introduction-to-siteswap">Introduction to siteswap<a class="anchor" aria-label="anchor" href="#introduction-to-siteswap"></a>
 </h2>
 <p>Juggling sequences can be written in a notation called siteswap. Each
 number in a siteswap sequence encodes how many beats until that prop is
@@ -85,18 +85,18 @@ thrown per beat, hands alternating.</p>
 <p>A 3-ball cascade — the first sequence most jugglers learn — is
 written as “3”, where each ball is thrown the same height, caught in the
 opposite hand and thrown again three beats later. “531”, “423” and “441”
-are also valid 3-ball juggling patterns. A “4” is thrown and caught in
-the same hand, a “5” is similar to a “3” but thrown higher, a “2” is
-held in the hand for one beat, and a “1” is a quick pass to the other
+are also valid 3-ball juggling patterns. The sequence “4” represents the
+4-ball fountain, where each “4” is thrown and caught in the same hand. A
+“5” throw is similar to a “3” but thrown higher. A “2” is held in the
+hand for one beat then thrown, and a “1” is a quick pass to the other
 hand. However, not everything that can be written in siteswap is a
 valid, juggleable pattern. For example, in the sequence “432”, the first
 two props thrown would need to be caught in the same hand at the same
 time.</p>
-<p><strong>jugglr</strong> lets you create, validate, and visualise
-siteswap patterns in R.</p>
-<p>There are several different types of siteswap, distinguished by their
-notation: vanilla, synchronous, multiplex, synchronous multiplex, and
-passing:</p>
+<p>There are other types of siteswap, which relax the requirements of
+vanilla siteswap in some way, distinguished by their notation. These
+include synchronous, multiplex, synchronous multiplex, and passing,
+shown here with with examples:</p>
 <ul>
 <li>vanilla:<strong>423</strong>
 </li>
@@ -109,7 +109,7 @@ simultaneously): <strong>[54]24</strong>
 <li>synchronous multiplex: <strong>(2,6x)([6x4x],2x)</strong>
 </li>
 <li>passing (throwing between more than one juggler):
-<strong>&lt;3p33|3p33&gt;</strong> or <strong>&lt;4.5 3 3 | 3 4
+<strong>&lt;3p33|3p33&gt;</strong>, <strong>&lt;4.5 3 3 | 3 4
 3.5&gt;</strong>
 </li>
 </ul>
@@ -119,8 +119,9 @@ detailed introduction to each type and the notation.</p>
 <div class="section level2">
 <h2 id="introduction-to-jugglr">Introduction to jugglr<a class="anchor" aria-label="anchor" href="#introduction-to-jugglr"></a>
 </h2>
-<p>In <strong>jugglr</strong>, you define a sequence with the function
-<code><a href="../reference/siteswap.html">siteswap()</a></code>, which creates an <a href="https://rconsortium.github.io/S7/" class="external-link">S7</a> object with class
+<p><strong>jugglr</strong> lets you create, validate, and visualise
+siteswap patterns in R. In <strong>jugglr</strong>, you define a
+sequence with the function <code><a href="../reference/siteswap.html">siteswap()</a></code>, which creates an <a href="https://rconsortium.github.io/S7/" class="external-link">S7</a> object with class
 <code>Siteswap</code> as well as a child class corresponding to its
 type: <code>vanillaSiteswap</code>, <code>synchronousSiteswap</code>,
 <code>multiplexSiteswap</code>,
@@ -145,10 +146,10 @@ beats before it repeats), and whether it is symmetrical (i.e. whether
 both hands do the same thing, just offset in time).</p>
 <p>Patterns that cannot be juggled are still <code>Siteswap</code>
 objects with the appropriate subclass. Their print method reports that
-they are not valid juggling patterns.</p>
-<p>For patterns that aren’t valid, it reports why not: either the
-sequence does not satisfy the average theorem (i.e. couldn’t be juggled
-with a whole number of props) or it has collisions.</p>
+they are not valid juggling patterns. For patterns that aren’t valid, it
+reports why not: either the sequence does not satisfy the average
+theorem (i.e. couldn’t be juggled with a whole number of props) or it
+has collisions.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ss432</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/siteswap.html">siteswap</a></span><span class="op">(</span><span class="st">"432"</span><span class="op">)</span></span>
 <span><span class="va">ss432</span></span>
@@ -158,23 +159,27 @@ with a whole number of props) or it has collisions.</p>
 <div class="section level2">
 <h2 id="visualising-the-patterns">Visualising the patterns<a class="anchor" aria-label="anchor" href="#visualising-the-patterns"></a>
 </h2>
-<p><code><a href="../reference/timeline.html">timeline()</a></code> and <code><a href="../reference/ladder.html">ladder()</a></code> work across all
-siteswap types, returning ggplot2 objects that can be further
-customised. The path of each prop is shown in a different colour. Both
-diagrams colour throws by prop using the colour-blind-friendly <a href="https://clauswilke.com/dataviz/color-pitfalls.html#not-designing-for-color-vision-deficiency" class="external-link">Okabe-Ito
+<p>jugglr implements two types of plots to visualise siteswap sequences,
+<code><a href="../reference/timeline.html">timeline()</a></code> and <code><a href="../reference/ladder.html">ladder()</a></code>. They both work across
+all siteswap types, returning ggplot2 objects that can be further
+customised. In both, the path of each prop is shown in a different
+colour, using the colour-blind-friendly <a href="https://clauswilke.com/dataviz/color-pitfalls.html#not-designing-for-color-vision-deficiency" class="external-link">Okabe-Ito
 palette</a> (up to seven props, after which ggplot2’s default scale
 takes over).</p>
 <p><code><a href="../reference/timeline.html">timeline()</a></code> shows the throws and catches of each prop
 over time, with a focus on the beat. It draws arcs: each arc represents
-one throw, with height proportional to the throw value, colour-coded by
-prop.</p>
-<p><code><a href="../reference/ladder.html">ladder()</a></code> additionally shows which hand throws and
-catches each prop. The ‘rails’ of the ladder represent the hands, with
-straight lines between them representing throws caught in the opposite
-hand, and arcs representing throws caught in the same hand.</p>
-<p><code><a href="../reference/throw_data.html">throw_data()</a></code> returns a data frame containing information
-about each throw and catch, which can be used for custom
-visualisations.</p>
+one throw, with height proportional to the throw value.</p>
+<p><code><a href="../reference/ladder.html">ladder()</a></code> is also plotted by bear, additionally showing
+which hand throws and catches each prop. The ‘rails’ of the ladder
+represent the hands, with straight lines between them representing
+throws caught in the opposite hand, and arcs representing throws caught
+in the same hand.</p>
+<p><strong>Note that the plots look better in the <a href="https://ellakaye.github.io/jugglr/articles/jugglr.html">vignette
+on the package website</a> - we recommend reading it there rather than
+the locally installed copy.</strong></p>
+<div class="section level3">
+<h3 id="vanilla">Vanilla<a class="anchor" aria-label="anchor" href="#vanilla"></a>
+</h3>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/timeline.html">timeline</a></span><span class="op">(</span><span class="va">ss423</span><span class="op">)</span></span></code></pre></div>
 <p><img src="jugglr_files/figure-html/timeline-valid-1.png" class="r-plt" alt="" width="700"></p>
@@ -193,21 +198,47 @@ a prop available to do so).</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/ladder.html">ladder</a></span><span class="op">(</span><span class="va">ss432</span><span class="op">)</span></span></code></pre></div>
 <p><img src="jugglr_files/figure-html/ladder-invalid-1.png" class="r-plt" alt="" width="700"></p>
+</div>
+<div class="section level3">
+<h3 id="synchronous">Synchronous<a class="anchor" aria-label="anchor" href="#synchronous"></a>
+</h3>
 <p><code><a href="../reference/timeline.html">timeline()</a></code> plots for synchronous patterns are drawn
-two-sided: one hand’s arcs sit above a faint centre line and the other’s
-below it.</p>
+two-sided: the arcs for props thrown from one hand sit above a faint
+centre line, and arcs from the other hand below it.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/timeline.html">timeline</a></span><span class="op">(</span><span class="fu"><a href="../reference/siteswap.html">siteswap</a></span><span class="op">(</span><span class="st">"(4,4)(4x,4x)"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="jugglr_files/figure-html/sync-timeline-1.png" class="r-plt" alt="" width="700"></p>
+</div>
+<div class="section level3">
+<h3 id="multiplex">Multiplex<a class="anchor" aria-label="anchor" href="#multiplex"></a>
+</h3>
+<p>In multiplex patterns, more than one ball can be thrown from the same
+hand at the same time.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/timeline.html">timeline</a></span><span class="op">(</span><span class="fu"><a href="../reference/siteswap.html">siteswap</a></span><span class="op">(</span><span class="st">"[54]24"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="jugglr_files/figure-html/unnamed-chunk-2-1.png" class="r-plt" alt="" width="700"></p>
 <p>Multiplex patterns in which a hand throws two props at once with the
 same value are fanned apart so each prop is visible (which corresponds
-to the way jugglers throw them in real life): By detault, timelines show
+to the way jugglers throw them in real life). By detault, timelines show
 three cycles of the pattern, but you can increase this with the
 <code>n_cycles</code> argument - this is recommended for patterns with
 short cycles:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/timeline.html">timeline</a></span><span class="op">(</span><span class="fu"><a href="../reference/siteswap.html">siteswap</a></span><span class="op">(</span><span class="st">"[33]"</span><span class="op">)</span>, n_cycles <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span></code></pre></div>
-<p><img src="jugglr_files/figure-html/unnamed-chunk-2-1.png" class="r-plt" alt="" width="700"></p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/ladder.html">ladder</a></span><span class="op">(</span><span class="fu"><a href="../reference/siteswap.html">siteswap</a></span><span class="op">(</span><span class="st">"[33]"</span><span class="op">)</span>, n_cycles <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span></code></pre></div>
+<p><img src="jugglr_files/figure-html/unnamed-chunk-3-1.png" class="r-plt" alt="" width="700"></p>
+</div>
+<div class="section level3">
+<h3 id="passing">Passing<a class="anchor" aria-label="anchor" href="#passing"></a>
+</h3>
+<p>Passing patterns show one lane per juggler, with passes appearing as
+arcs (or lines) that cross between the juggler lanes.:</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/timeline.html">timeline</a></span><span class="op">(</span><span class="fu"><a href="../reference/siteswap.html">siteswap</a></span><span class="op">(</span><span class="st">"&lt;3p 3 3|3p 3 3&gt;"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="jugglr_files/figure-html/timeline-passing-1.png" class="r-plt" alt="Timeline arc diagram for the &lt;3p 3 3|3p 3 3&gt; passing pattern, with two juggler lanes and passes arcing between them" width="700"></p>
+</div>
+<div class="section level3">
+<h3 id="customising-the-plots">Customising the plots<a class="anchor" aria-label="anchor" href="#customising-the-plots"></a>
+</h3>
 <p>Both <code><a href="../reference/timeline.html">timeline()</a></code> and <code><a href="../reference/ladder.html">ladder()</a></code> have
 <code>title</code> and <code>subtitle</code> arguments, which are
 <code>TRUE</code> by default - the title shows the sequence and the
@@ -216,7 +247,7 @@ colours represent props. If you prefer to set your own titles, set these
 to <code>FALSE</code> and use <code><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggplot2::labs()</a></code> to add your
 own. Since these plots return ggplot2 objects, they can be further
 customised with any standard ggplot2 function:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/timeline.html">timeline</a></span><span class="op">(</span><span class="va">ss423</span>, subtitle <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"423 or W"</span><span class="op">)</span> <span class="op">+</span></span>
@@ -224,70 +255,20 @@ customised with any standard ggplot2 function:</p>
 <span><span class="co">#&gt; Scale for <span style="color: #00BB00;">colour</span> is already present.</span></span>
 <span><span class="co">#&gt; Adding another scale for <span style="color: #00BB00;">colour</span>, which will replace the existing scale.</span></span></code></pre></div>
 <p><img src="jugglr_files/figure-html/ggplot-customise-1.png" class="r-plt" alt="Timeline diagram for the 423 pattern with a custom title added via ggplot2::labs()" width="700"></p>
-<div class="section level3">
-<h3 id="synchronous-patterns">Synchronous patterns<a class="anchor" aria-label="anchor" href="#synchronous-patterns"></a>
-</h3>
-<p>Both diagrams adapt to each notation type. Because synchronous
-patterns throw from both hands at once, the timeline is drawn two-sided:
-one hand’s arcs sit above a faint centre line and the other’s mirror
-below it, each with its own throw labels.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">ss_sync</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/siteswap.html">siteswap</a></span><span class="op">(</span><span class="st">"(4,2x)*"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/timeline.html">timeline</a></span><span class="op">(</span><span class="va">ss_sync</span><span class="op">)</span></span></code></pre></div>
-<p><img src="jugglr_files/figure-html/timeline-sync-1.png" class="r-plt" alt="Two-sided timeline for the synchronous (4,2x)* pattern, with one hand's arcs above the centre line and the other's mirrored below" width="700"></p>
-<p>The ladder follows suit, numbering only the even beats, since both
-hands throw together:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/ladder.html">ladder</a></span><span class="op">(</span><span class="va">ss_sync</span><span class="op">)</span></span></code></pre></div>
-<p><img src="jugglr_files/figure-html/ladder-sync-1.png" class="r-plt" alt="Ladder diagram for the synchronous (4,2x)* pattern, numbered on even beats only" width="700"></p>
-</div>
-<div class="section level3">
-<h3 id="multiplex-patterns">Multiplex patterns<a class="anchor" aria-label="anchor" href="#multiplex-patterns"></a>
-</h3>
-<p>When a hand throws two identical props at once, their arcs would
-otherwise land on top of each other. Both diagrams fan such throws apart
-— to slightly different heights in the timeline, and into separate
-curves in the ladder — so each prop stays visible:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">ss_mult</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/siteswap.html">siteswap</a></span><span class="op">(</span><span class="st">"[22]2"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/timeline.html">timeline</a></span><span class="op">(</span><span class="va">ss_mult</span><span class="op">)</span></span></code></pre></div>
-<p><img src="jugglr_files/figure-html/timeline-multiplex-1.png" class="r-plt" alt="Timeline for the multiplex [22]2 pattern, with the two simultaneous throws fanned to slightly different heights" width="700"></p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/ladder.html">ladder</a></span><span class="op">(</span><span class="va">ss_mult</span><span class="op">)</span></span></code></pre></div>
-<p><img src="jugglr_files/figure-html/ladder-multiplex-1.png" class="r-plt" alt="Ladder diagram for the multiplex [22]2 pattern, with the two simultaneous throws fanned into separate curves" width="700"></p>
-</div>
-<div class="section level3">
-<h3 id="passing-patterns">Passing patterns<a class="anchor" aria-label="anchor" href="#passing-patterns"></a>
-</h3>
-<p>Both diagrams extend naturally to passing patterns, with one lane per
-juggler:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">ss_pass</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/siteswap.html">siteswap</a></span><span class="op">(</span><span class="st">"&lt;3p 3|3p 3&gt;"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/timeline.html">timeline</a></span><span class="op">(</span><span class="va">ss_pass</span><span class="op">)</span></span></code></pre></div>
-<p><img src="jugglr_files/figure-html/timeline-passing-1.png" class="r-plt" alt="Timeline arc diagram for the &lt;3p 3|3p 3&gt; passing pattern, with two juggler lanes and passes arcing between them" width="700"></p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/ladder.html">ladder</a></span><span class="op">(</span><span class="va">ss_pass</span><span class="op">)</span></span></code></pre></div>
-<p><img src="jugglr_files/figure-html/ladder-passing-1.png" class="r-plt" alt="Ladder diagram for the &lt;3p 3|3p 3&gt; passing pattern, with two juggler rows and passes shown as diagonal lines" width="700"></p>
-<p>Passes appear as arcs (or lines) that cross between the juggler
-lanes.</p>
-</div>
-<div class="section level3">
-<h3 id="a-few-options">A few options<a class="anchor" aria-label="anchor" href="#a-few-options"></a>
-</h3>
-<p>The <code>n_cycles</code> argument controls how many repetitions to
-show — the default of 3 is usually enough to see the full structure, but
-increase it to trace individual props further. <code><a href="../reference/ladder.html">ladder()</a></code>
-also accepts <code>direction = "vertical"</code> if you prefer that
-orientation.</p>
+<p><code><a href="../reference/ladder.html">ladder()</a></code> plots can also be displayed vertically, by
+setting the <code>direction</code> argument to <code>"vertical"</code>
+or <code>"v"</code>.</p>
 </div>
 </div>
 <div class="section level2">
-<h2 id="the-raw-data">The raw data<a class="anchor" aria-label="anchor" href="#the-raw-data"></a>
+<h2 id="throw-data">Throw data<a class="anchor" aria-label="anchor" href="#throw-data"></a>
 </h2>
-<p>If you want to build your own visualisation or work directly with the
-numbers, <code><a href="../reference/throw_data.html">throw_data()</a></code> returns the underlying data
-frame:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<p><code><a href="../reference/throw_data.html">throw_data()</a></code> returns a data frame with one row per
+throw, detailing the beat it’s thrown on, the throw value, the hand that
+its thrown from and caught in, and which prop it is. This data underpins
+the <code><a href="../reference/timeline.html">timeline()</a></code> and <code><a href="../reference/ladder.html">ladder()</a></code> plots, and
+facilitates custom data visualisations.</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/throw_data.html">throw_data</a></span><span class="op">(</span><span class="va">ss423</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   beat hand throw catch_beat catch_hand prop</span></span>
 <span><span class="co">#&gt; 1    1    0     4          5          0    1</span></span>
@@ -299,22 +280,17 @@ frame:</p>
 <span><span class="co">#&gt; 7    7    0     4         11          0    1</span></span>
 <span><span class="co">#&gt; 8    8    1     2         10          1    2</span></span>
 <span><span class="co">#&gt; 9    9    0     3         12          1    3</span></span></code></pre></div>
-<p>One row per throw: when it was thrown, which hand, the throw value,
-when and where it lands, and which prop it belongs to. This is the same
-data that drives the diagrams.</p>
 </div>
 <div class="section level2">
 <h2 id="animation">Animation<a class="anchor" aria-label="anchor" href="#animation"></a>
 </h2>
-<p>jugglr can also produce animated GIFs of patterns via the <a href="https://jugglinglab.org" class="external-link">JugglingLab</a> server. Here’s
-<code>423</code> animated with three colours:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<p>jugglr can also produce animated GIFs of patterns via the <a href="https://jugglinglab.org/html/animinfo.html" class="external-link">Juggling Lab GIF
+server</a>:</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/animate.html">animate</a></span><span class="op">(</span><span class="st">"423"</span>, colors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#E69F00"</span>, <span class="st">"#56B4E9"</span>, <span class="st">"#009E73"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figures/423-animation.gif" class="r-plt" alt="Animated GIF of the 423 juggling pattern with three coloured balls" width="40%"></p>
 <p>The <a href="https://ellakaye.github.io/jugglr/articles/animate.html">animation
-article</a> covers the full range of options: colour modes, prop types,
-speed controls, and how to save animations to disk for use in
-documents.</p>
+article</a> provides further details.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
@@ -327,7 +303,7 @@ documents.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>
