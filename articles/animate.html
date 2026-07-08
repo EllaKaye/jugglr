@@ -75,139 +75,126 @@
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/EllaKaye/jugglr" class="external-link">jugglr</a></span><span class="op">)</span></span></code></pre></div>
-<p>Before you run <code><a href="../reference/animate.html">animate()</a></code>, know this: it talks to a
-server at <a href="https://jugglinglab.org" class="external-link">jugglinglab.org</a> and
-downloads a GIF. You need an internet connection. The time it takes
-depends on the options you pass and whether JugglingLab has the pattern
-cached — typically a few seconds for a simple call, longer when you
-specify colours.</p>
-<p>What you get back is a full animation of the pattern. For a juggler
-learning a new trick, or communicating a pattern to someone else, it’s
-the most informative thing jugglr can produce.</p>
+<p>The <code><a href="../reference/animate.html">animate()</a></code> function produces an animated GIF of a
+juggling pattern. It uses the <a href="https://jugglinglab/html/animinfo.html" class="external-link">Juggling Lab GIF
+server</a> to generate the animation, so requires an internet
+connection.</p>
+<p>The time it takes to render depends on the options you pass and
+whether Juggling Lab has the pattern cached. It will typically take a
+few seconds for a simple call, longer for more complex patterns. Setting
+the <code>colors</code> argument also notably increases the time it
+takes to render.</p>
+<p>By default, <code><a href="../reference/animate.html">animate()</a></code> opens the animation in your
+browser or in the Viewer pane of your IDE, if that’s where you’re
+calling it from, or in a browser otherwise. Setting the
+<code>path</code> argument allows you to save the GIF to disk at the
+specified location.</p>
+<p>For a juggler learning a new trick, or communicating a pattern to
+someone else, these animations are a particularly useful visual aid.</p>
 <div class="section level2">
-<h2 id="basic-usage">Basic usage<a class="anchor" aria-label="anchor" href="#basic-usage"></a>
+<h2 id="pattern">Pattern<a class="anchor" aria-label="anchor" href="#pattern"></a>
 </h2>
-<p>Pass a pattern as a string:</p>
+<p>The <code><a href="../reference/animate.html">animate()</a></code> function requires a <code>pattern</code>
+to be specified. This can either be a string representing a siteswap
+sequence, or a <code>Siteswap</code> object (i.e. something created by
+the <code><a href="../reference/siteswap.html">siteswap()</a></code> function or one of the subclass constructor
+functions). The advantage of passing a <code>Siteswap</code> object over
+a string is that this already captures whether the pattern is a valid
+juggling sequence, and will throw an error in R if it is not, rather
+than waiting for the Juggling Lab server to reject it.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/animate.html">animate</a></span><span class="op">(</span><span class="st">"531"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="figures/531-default.gif" class="r-plt" alt="Animated GIF of the 531 juggling pattern with default JugglingLab styling" width="40%"></p>
-<p>In Positron or RStudio, the animation appears in the Viewer pane.
-Otherwise it opens in the browser.</p>
-<p>You can also pass any <code>Siteswap</code> object directly — jugglr
-extracts the sequence string for you:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/animate.html">animate</a></span><span class="op">(</span><span class="fu"><a href="../reference/siteswap.html">siteswap</a></span><span class="op">(</span><span class="st">"531"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># these produce identical animations:</span></span>
+<span><span class="fu"><a href="../reference/animate.html">animate</a></span><span class="op">(</span><span class="st">"531"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/animate.html">animate</a></span><span class="op">(</span><span class="fu"><a href="../reference/siteswap.html">siteswap</a></span><span class="op">(</span><span class="st">"531"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>These both produce the same animation:</p>
+<p><img src="figures/531-default.gif" class="r-plt" alt="Animated GIF of the 531 juggling pattern with default Juggling Lab styling" width="40%"></p>
 <p>The animation is identical either way.</p>
 <p>One limitation: <code>passingSiteswap</code> objects using fractional
 notation (e.g. <code>"&lt;4.5 3 3 | 3 4 3.5&gt;"</code>) can’t be
-animated because JugglingLab doesn’t recognise that format. P-notation
-passing patterns (e.g. <code>"&lt;3p 3|3p 3&gt;"</code>) work fine.</p>
+animated because Juggling Lab doesn’t recognise that format. P-notation
+passing patterns (e.g. <code>"&lt;3p 3 3|3p 3 3&gt;"</code>) work
+fine.</p>
 </div>
 <div class="section level2">
-<h2 id="colours">Colours<a class="anchor" aria-label="anchor" href="#colours"></a>
+<h2 id="named-arguments">Named arguments<a class="anchor" aria-label="anchor" href="#named-arguments"></a>
 </h2>
-<p>The <code>colors</code> argument is the most visually impactful
-option.</p>
-<p><strong>No colours specified</strong> — JugglingLab uses its default
-(a single colour):</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/animate.html">animate</a></span><span class="op">(</span><span class="st">"531"</span><span class="op">)</span></span></code></pre></div>
-<p><strong><code>colors = "mixed"</code></strong> — each prop gets a
-different colour. Useful for tracking individual balls through the
-pattern:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<p>Juggling Lab has a large number of parameters that can be set to
+control the animation. The <code><a href="../reference/animate.html">animate()</a></code> function exposes a
+small subset of these as named arguments: <code>colors</code>,
+<code>prop</code>, <code>slowdown</code>, <code>bps</code>,
+<code>width</code> and <code>height</code>. These are all default to
+<code>NULL</code> (in R), which means that Juggling Lab’s defaults are
+used. If you want to change any of these, you can pass an appropriate
+value to the argument.</p>
+<div class="section level3">
+<h3 id="colours-and-props">Colours and props<a class="anchor" aria-label="anchor" href="#colours-and-props"></a>
+</h3>
+<p>For most variables, the value should be passed in the format
+described in the Juggling Lab documentation. The <code>colors</code>
+argument is the one exception, since R gives us more convenient and
+familiar ways of specifying colours than the Juggling Lab format.
+<code>colors</code> can be specified as color names, hex codes, or a
+positive integer, as per the <code>col</code> argument of
+<code><a href="https://rdrr.io/r/grDevices/col2rgb.html" class="external-link">grDevices::col2rgb()</a></code>. Note that the way of specifying RGB
+colours in Juggling Lab is <strong><em>not</em></strong> supported as
+way of specifying <code>colors</code> in <code><a href="../reference/animate.html">animate()</a></code>.
+However, the special strings <code>"mixed"</code> (where each prop gets
+a different colour) and <code>"orbits"</code> are supported, which are
+the only two special strings recognised by Juggling Lab. If
+<code>colors</code> is <code>NULL</code> (the R default), Juggling Lab
+uses its default (red).</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/animate.html">animate</a></span><span class="op">(</span><span class="st">"531"</span>, colors <span class="op">=</span> <span class="st">"mixed"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figures/531-mixed.gif" class="r-plt" alt="Animated GIF of the 531 pattern with each ball a different colour" width="40%"></p>
-<p><strong><code>colors = "orbits"</code></strong> — props that follow
-the same path through the pattern share a colour. This is the most
-analytically useful mode: it shows you the orbit structure at a
-glance:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/animate.html">animate</a></span><span class="op">(</span><span class="st">"531"</span>, colors <span class="op">=</span> <span class="st">"orbits"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="figures/531-orbits.gif" class="r-plt" alt="Animated GIF of the 531 pattern with balls coloured by orbit" width="40%"></p>
-<p><strong>Custom colours</strong> — a vector of R colour names or hex
-codes, one per prop:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/animate.html">animate</a></span><span class="op">(</span><span class="st">"531"</span>, colors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#E69F00"</span>, <span class="st">"#56B4E9"</span>, <span class="st">"#009E73"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figures/531-oi-colors.gif" class="r-plt" alt="Animated GIF of the 531 pattern with Okabe-Ito palette colours" width="40%"></p>
-<p>These are the same Okabe-Ito colours used in <code><a href="../reference/timeline.html">timeline()</a></code>
-and <code><a href="../reference/ladder.html">ladder()</a></code> — a good choice if you want consistency across
-your visualisations.</p>
-<p>Note that specifying colours takes noticeably longer than the
-default, because the coloured version isn’t typically cached on the
-JugglingLab server.</p>
+<p>These are the same Okabe-Ito colours used by default in
+<code><a href="../reference/timeline.html">timeline()</a></code> and <code><a href="../reference/ladder.html">ladder()</a></code>.</p>
+<p>Recognised <code>prop</code> arguments are <code>"ball"</code>,
+<code>"ring"</code>, and <code>"image"</code>. If <code>prop</code> is
+<code>NULL</code> (the R default), Juggling Lab uses its default
+(ball).</p>
 </div>
-<div class="section level2">
-<h2 id="props">Props<a class="anchor" aria-label="anchor" href="#props"></a>
-</h2>
-<p>The default prop is a ball. Rings and an image prop are also
-available:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/animate.html">animate</a></span><span class="op">(</span><span class="st">"531"</span>, prop <span class="op">=</span> <span class="st">"ring"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="figures/531-ring.gif" class="r-plt" alt="Animated GIF of the 531 pattern with ring props" width="40%"></p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/animate.html">animate</a></span><span class="op">(</span><span class="st">"531"</span>, prop <span class="op">=</span> <span class="st">"image"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="figures/531-image.gif" class="r-plt" alt="Animated GIF of the 531 pattern with image props" width="40%"></p>
-</div>
-<div class="section level2">
-<h2 id="speed-and-timing">Speed and timing<a class="anchor" aria-label="anchor" href="#speed-and-timing"></a>
-</h2>
-<p>Two parameters control the animation speed.</p>
-<p><code>slowdown</code> stretches the throw arcs in time — the
-JugglingLab default is <code>2.0</code>. Increase it to slow the
-animation down, which is useful when you’re studying a new pattern:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="section level3">
+<h3 id="speed-and-timing">Speed and timing<a class="anchor" aria-label="anchor" href="#speed-and-timing"></a>
+</h3>
+<p>Two parameters control the animation speed: <code>slowdown</code> and
+<code>bps</code>.</p>
+<p><code>slowdown</code> stretches the throw arcs in time. The Juggling
+Lab default is <code>2.0</code>. Increase it to slow the animation down,
+which is useful when you’re studying a new pattern:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/animate.html">animate</a></span><span class="op">(</span><span class="st">"531"</span>, slowdown <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figures/531-slowdown.gif" class="r-plt" alt="Animated GIF of the 531 pattern at reduced speed with slowdown = 4" width="40%"></p>
 <p><code>bps</code> sets the beats per second — the tempo of the
 pattern. Increase it to see the pattern at full juggling speed:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/animate.html">animate</a></span><span class="op">(</span><span class="st">"531"</span>, bps <span class="op">=</span> <span class="fl">8</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figures/531-fast.gif" class="r-plt" alt="Animated GIF of the 531 pattern at high speed with bps = 8" width="40%"></p>
+</div>
+<div class="section level3">
+<h3 id="gif-size">GIF size<a class="anchor" aria-label="anchor" href="#gif-size"></a>
+</h3>
 <p><code>width</code> and <code>height</code> control the pixel
-dimensions of the animation if you need a specific size.</p>
+dimensions of the animation if you need a specific size, which default
+to 400 and 450 pixels respectively. The aspect ratio is fixed, so if you
+set one of these, the other is automatically adjusted to maintain the
+correct aspect ratio.</p>
+</div>
 </div>
 <div class="section level2">
-<h2 id="saving-animations-to-disk">Saving animations to disk<a class="anchor" aria-label="anchor" href="#saving-animations-to-disk"></a>
+<h2 id="arguments-through----">Arguments through <code>...</code><a class="anchor" aria-label="anchor" href="#arguments-through----"></a>
 </h2>
-<p>To embed an animation in an R Markdown or Quarto document, save it to
-disk first and then reference the file:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/animate.html">animate</a></span><span class="op">(</span><span class="st">"531"</span>, path <span class="op">=</span> <span class="st">"figures/531.gif"</span>, colors <span class="op">=</span> <span class="st">"orbits"</span><span class="op">)</span></span></code></pre></div>
-<p>Then in a separate chunk:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/include_graphics.html" class="external-link">include_graphics</a></span><span class="op">(</span><span class="st">"figures/531.gif"</span><span class="op">)</span></span></code></pre></div>
-<p>Set display options via chunk arguments:
-<code>out.width = "40%"</code> keeps the GIF from filling the full page
-width. This is the approach used throughout this vignette.</p>
-</div>
-<div class="section level2">
-<h2 id="advanced-parameters">Advanced parameters<a class="anchor" aria-label="anchor" href="#advanced-parameters"></a>
-</h2>
-<p><code><a href="../reference/animate.html">animate()</a></code> passes additional named arguments through to
-JugglingLab. A few worth knowing:</p>
-<ul>
-<li>
-<code>gravity</code>: the default feels like Earth. Set
-<code>gravity = 700</code> for a pattern that looks like it’s being
-juggled somewhere with lower gravity:</li>
-</ul>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/animate.html">animate</a></span><span class="op">(</span><span class="st">"531"</span>, gravity <span class="op">=</span> <span class="fl">700</span><span class="op">)</span></span></code></pre></div>
-<p><img src="figures/531-moon.gif" class="r-plt" alt="Animated GIF of the 531 pattern with reduced gravity, showing higher arcing throws" width="40%"></p>
-<ul>
-<li>
-<code>propdiam</code>: prop diameter in metres. Adjust if the props
-look too large or small relative to the juggler.</li>
-<li>
-<code>camangle</code>: camera angle in degrees around the vertical
-axis. Useful for a different perspective on the pattern.</li>
-<li>
-<code>showground</code>: set to <code>true</code> to show the ground
-plane.</li>
-</ul>
-<p>The full list of parameters is documented in the <a href="https://jugglinglab.org/html/animinfo.html" class="external-link">JugglingLab GIF server
+<p>Any other variable allowed by Juggling Lab can be passed through
+<code>...</code> as key-value pairs, e.g. <code>propdiam = 20</code>
+will set the prop diameter to 20cm (from the default of 10cm). A full
+list of variables and the values they can take is documented in the <a href="https://jugglinglab/html/animinfo.html" class="external-link">Juggling Lab GIF server
 reference</a>.</p>
+<p><code><a href="../reference/animate.html">animate()</a></code> will throw an error if you pass a parameter
+that Juggling Lab doesn’t recognise, and will raise a warning if you
+pass a parameter that Juggling Lab recognises but ignores for web link
+animations.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

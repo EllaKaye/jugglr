@@ -15,7 +15,6 @@ animate(
   bps = NULL,
   width = NULL,
   height = NULL,
-  fps = NULL,
   slowdown = NULL,
   ...,
   path = NULL
@@ -36,7 +35,8 @@ animate(
   Passing patterns in p-notation (e.g. `"<3p 3|3p 3>"`) animate
   correctly; passing patterns in fractional notation (e.g.
   `"<4.5 3 3 | 3 4 3.5>"`) are not recognised by JugglingLab and cannot
-  be animated.
+  be animated. If a siteswap object is passed and it is not a valid
+  juggling pattern, `animate()` errors.
 
 - colors:
 
@@ -55,10 +55,6 @@ animate(
 - width, height:
 
   Width and height of the animation in pixels (numeric scalars).
-
-- fps:
-
-  Frames per second (numeric scalar).
 
 - slowdown:
 
@@ -95,7 +91,7 @@ renders the animation.
 ``` r
 if (FALSE) { # \dontrun{
 animate("531")
-animate(vanillaSiteswap("531"), prop = "ring", bps = 5)
+animate(siteswap("531"), colors="mixed")
 animate("531", path = tempfile(fileext = ".gif"))
 } # }
 ```

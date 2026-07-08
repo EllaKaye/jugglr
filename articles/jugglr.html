@@ -98,7 +98,7 @@ vanilla siteswap in some way, distinguished by their notation. These
 include synchronous, multiplex, synchronous multiplex, and passing,
 shown here with with examples:</p>
 <ul>
-<li>vanilla:<strong>423</strong>
+<li>vanilla: <strong>423</strong>
 </li>
 <li>synchronous (throwing a ball from each hand simultaneously):
 <strong>(4,4)(4x,4x)</strong>, <strong>(4,2x)*</strong>
@@ -108,9 +108,8 @@ simultaneously): <strong>[54]24</strong>
 </li>
 <li>synchronous multiplex: <strong>(2,6x)([6x4x],2x)</strong>
 </li>
-<li>passing (throwing between more than one juggler):
-<strong>&lt;3p33|3p33&gt;</strong>, <strong>&lt;4.5 3 3 | 3 4
-3.5&gt;</strong>
+<li>passing (throwing between more than one juggler): <strong>&lt;3p 3
+3|3p 3 3&gt;</strong>, <strong>&lt;4.5 3 3 | 3 4 3.5&gt;</strong>
 </li>
 </ul>
 <p>See the Wikipedia article on <a href="https://en.wikipedia.org/wiki/Siteswap" class="external-link">siteswap</a> for a more
@@ -174,9 +173,9 @@ which hand throws and catches each prop. The ‘rails’ of the ladder
 represent the hands, with straight lines between them representing
 throws caught in the opposite hand, and arcs representing throws caught
 in the same hand.</p>
-<p><strong>Note that the plots look better in the <a href="https://ellakaye.github.io/jugglr/articles/jugglr.html">vignette
-on the package website</a> - we recommend reading it there rather than
-the locally installed copy.</strong></p>
+<p><em>Note that the plots look better in the <a href="https://ellakaye.github.io/jugglr/articles/jugglr.html">vignette
+on the package website</a> than in the locally installed copy of the
+vignette.</em></p>
 <div class="section level3">
 <h3 id="vanilla">Vanilla<a class="anchor" aria-label="anchor" href="#vanilla"></a>
 </h3>
@@ -219,12 +218,12 @@ hand at the same time.</p>
 <p><img src="jugglr_files/figure-html/unnamed-chunk-2-1.png" class="r-plt" alt="" width="700"></p>
 <p>Multiplex patterns in which a hand throws two props at once with the
 same value are fanned apart so each prop is visible (which corresponds
-to the way jugglers throw them in real life). By detault, timelines show
+to the way jugglers throw them in real life). By default, timelines show
 three cycles of the pattern, but you can increase this with the
 <code>n_cycles</code> argument - this is recommended for patterns with
 short cycles:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/ladder.html">ladder</a></span><span class="op">(</span><span class="fu"><a href="../reference/siteswap.html">siteswap</a></span><span class="op">(</span><span class="st">"[33]"</span><span class="op">)</span>, n_cycles <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/ladder.html">ladder</a></span><span class="op">(</span><span class="fu"><a href="../reference/siteswap.html">siteswap</a></span><span class="op">(</span><span class="st">"[33]"</span><span class="op">)</span>, n_cycles <span class="op">=</span> <span class="fl">9</span><span class="op">)</span></span></code></pre></div>
 <p><img src="jugglr_files/figure-html/unnamed-chunk-3-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 <div class="section level3">

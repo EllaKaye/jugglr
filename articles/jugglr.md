@@ -29,14 +29,14 @@ vanilla siteswap in some way, distinguished by their notation. These
 include synchronous, multiplex, synchronous multiplex, and passing,
 shown here with with examples:
 
-- vanilla:**423**
+- vanilla: **423**
 - synchronous (throwing a ball from each hand simultaneously):
   **(4,4)(4x,4x)**, **(4,2x)\***
 - multiplex (throwing multiple balls from the same hand simultaneously):
   **\[54\]24**
 - synchronous multiplex: **(2,6x)(\[6x4x\],2x)**
-- passing (throwing between more than one juggler): **\<3p33\|3p33\>**,
-  **\<4.5 3 3 \| 3 4 3.5\>**
+- passing (throwing between more than one juggler): **\<3p 3 3\|3p 3
+  3\>**, **\<4.5 3 3 \| 3 4 3.5\>**
 
 See the Wikipedia article on
 [siteswap](https://en.wikipedia.org/wiki/Siteswap) for a more detailed
@@ -112,9 +112,9 @@ each prop. The ‘rails’ of the ladder represent the hands, with straight
 lines between them representing throws caught in the opposite hand, and
 arcs representing throws caught in the same hand.
 
-**Note that the plots look better in the [vignette on the package
-website](https://ellakaye.github.io/jugglr/articles/jugglr.html) - we
-recommend reading it there rather than the locally installed copy.**
+*Note that the plots look better in the [vignette on the package
+website](https://ellakaye.github.io/jugglr/articles/jugglr.html) than in
+the locally installed copy of the vignette.*
 
 ### Vanilla
 
@@ -181,14 +181,14 @@ timeline(siteswap("[54]24"))
 
 Multiplex patterns in which a hand throws two props at once with the
 same value are fanned apart so each prop is visible (which corresponds
-to the way jugglers throw them in real life). By detault, timelines show
+to the way jugglers throw them in real life). By default, timelines show
 three cycles of the pattern, but you can increase this with the
 `n_cycles` argument - this is recommended for patterns with short
 cycles:
 
 ``` r
 
-ladder(siteswap("[33]"), n_cycles = 6)
+ladder(siteswap("[33]"), n_cycles = 9)
 ```
 
 ![](jugglr_files/figure-html/unnamed-chunk-3-1.png)
