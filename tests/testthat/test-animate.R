@@ -244,6 +244,13 @@ test_that("animate errors for invalid dot args", {
   expect_error(animate("3", foo = 1), class = "jugglr_error_invalid_args")
 })
 
+test_that("animate errors for invalid siteswap pattern", {
+  expect_error(
+    animate(vanillaSiteswap("432")),
+    class = "jugglr_error_invalid_siteswap"
+  )
+})
+
 test_that("animate with path downloads and returns path invisibly", {
   path <- file.path(tempdir(), "test.gif")
   local_mocked_bindings(

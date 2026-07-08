@@ -13,7 +13,8 @@
 #'   [synchronousMultiplexSiteswap], or [passingSiteswap]. Passing patterns in
 #'   p-notation (e.g. `"<3p 3|3p 3>"`) animate correctly; passing patterns in
 #'   fractional notation (e.g. `"<4.5 3 3 | 3 4 3.5>"`) are not recognised by
-#'   JugglingLab and cannot be animated.
+#'   JugglingLab and cannot be animated. If a siteswap object is passed and it
+#'   is not a valid juggling pattern, `animate()` errors.
 #' @param colors Optional. A vector of R colours (one per prop), or one of the
 #'   special strings `"mixed"` or `"orbits"`. Passed to JugglingLab.
 #' @param prop Prop type: `"ball"`, `"ring"`, or `"image"`. If `NULL` (default)
@@ -56,6 +57,8 @@ animate <- function(
   ...,
   path = NULL
 ) {
+  check_pattern(pattern)
+
   if (!is.null(path)) {
     validate_path(path, ext = "gif")
   }
@@ -193,6 +196,24 @@ fmt_string <- function(arg, value) {
   paste0(arg, "=", value)
 }
 
+check_pattern <- function(pattern, call = rlang::caller_env()) {
+  if (S7_inherits(pattern, Siteswap)) {
+    if (!pattern@valid) {
+      cli::cli_abort(
+        "{.arg pattern} is not a valid juggling pattern, so cannot be animated.",
+        class = "jugglr_error_invalid_siteswap",
+        call = call
+      )
+    }
+  } else if (!rlang::is_string(pattern)) {
+    cli::cli_abort(
+      "{.arg pattern} must be a single character string or a {.cls Siteswap} object.",
+      class = "jugglr_error_invalid_pattern",
+      call = call
+    )
+  }
+}
+
 jugglinglab_url <- function(
   pattern,
   colors = NULL,
@@ -204,13 +225,9 @@ jugglinglab_url <- function(
   slowdown = NULL,
   ...
 ) {
-  if (S7::S7_inherits(pattern, Siteswap)) {
+  check_pattern(pattern)
+  if (S7_inherits(pattern, Siteswap)) {
     pattern <- pattern@sequence
-  } else if (!rlang::is_string(pattern)) {
-    cli::cli_abort(
-      "{.arg pattern} must be a single character string or a {.cls Siteswap} object.",
-      class = "jugglr_error_invalid_pattern"
-    )
   }
 
   pattern <- strip_invisible(pattern)

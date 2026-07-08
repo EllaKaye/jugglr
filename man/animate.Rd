@@ -23,7 +23,8 @@ object: \link{vanillaSiteswap}, \link{synchronousSiteswap}, \link{multiplexSites
 \link{synchronousMultiplexSiteswap}, or \link{passingSiteswap}. Passing patterns in
 p-notation (e.g. \code{"<3p 3|3p 3>"}) animate correctly; passing patterns in
 fractional notation (e.g. \code{"<4.5 3 3 | 3 4 3.5>"}) are not recognised by
-JugglingLab and cannot be animated.}
+JugglingLab and cannot be animated. If a siteswap object is passed and it
+is not a valid juggling pattern, \code{animate()} errors.}
 
 \item{colors}{Optional. A vector of R colours (one per prop), or one of the
 special strings \code{"mixed"} or \code{"orbits"}. Passed to JugglingLab.}
