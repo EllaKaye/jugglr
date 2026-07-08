@@ -20,12 +20,11 @@
 #' @param prop Prop type: `"ball"`, `"ring"`, or `"image"`. If `NULL` (default)
 #'   the JugglingLab default (a ball) is used.
 #' @param bps Beats per second (numeric scalar). Controls the animation speed.
-#' @param width,height Width and height of the animation in pixels (numeric
-#'   scalars).
-#' @param fps Frames per second (numeric scalar).
 #' @param slowdown Slowdown factor (numeric scalar). The JugglingLab default is
 #'   `2.0`; values greater than this slow the animation further, values less
 #'   than `2.0` speed it up.
+#' @param width,height Width and height of the animation in pixels (numeric
+#'   scalars).
 #' @param ... Additional named arguments passed to the JugglingLab GIF server.
 #'   Pattern-setting arguments include `dwell`, `hands`, `body`, `propdiam`,
 #'   `gravity`, `bouncefrac`, `squeezebeats`, `hss`, `handspec`,
@@ -40,7 +39,7 @@
 #' @examples
 #' \dontrun{
 #' animate("531")
-#' animate(vanillaSiteswap("531"), prop = "ring", bps = 5)
+#' animate(siteswap("531"), colors="mixed")
 #' animate("531", path = tempfile(fileext = ".gif"))
 #' }
 #'
@@ -52,7 +51,6 @@ animate <- function(
   bps = NULL,
   width = NULL,
   height = NULL,
-  fps = NULL,
   slowdown = NULL,
   ...,
   path = NULL
@@ -70,7 +68,6 @@ animate <- function(
     bps,
     width,
     height,
-    fps,
     slowdown,
     ...
   )
@@ -178,7 +175,7 @@ colors_string <- function(colors) {
   paste0("colors=", colors_fmt)
 }
 
-# used with arg = bps, width, height, fps, slowdown
+# used with arg = bps, width, height, slowdown
 fmt_string <- function(arg, value) {
   if (length(value) != 1 || !is.numeric(value)) {
     message <- c(
@@ -221,7 +218,6 @@ jugglinglab_url <- function(
   bps = NULL,
   width = NULL,
   height = NULL,
-  fps = NULL,
   slowdown = NULL,
   ...
 ) {
@@ -250,7 +246,6 @@ jugglinglab_url <- function(
       bps = bps,
       width = width,
       height = height,
-      fps = fps,
       slowdown = slowdown
     )
   )

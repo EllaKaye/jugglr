@@ -11,7 +11,6 @@ animate(
   bps = NULL,
   width = NULL,
   height = NULL,
-  fps = NULL,
   slowdown = NULL,
   ...,
   path = NULL
@@ -36,8 +35,6 @@ the JugglingLab default (a ball) is used.}
 
 \item{width, height}{Width and height of the animation in pixels (numeric
 scalars).}
-
-\item{fps}{Frames per second (numeric scalar).}
 
 \item{slowdown}{Slowdown factor (numeric scalar). The JugglingLab default is
 \code{2.0}; values greater than this slow the animation further, values less
@@ -69,7 +66,7 @@ renders the animation.
 \examples{
 \dontrun{
 animate("531")
-animate(vanillaSiteswap("531"), prop = "ring", bps = 5)
+animate(siteswap("531"), colors="mixed")
 animate("531", path = tempfile(fileext = ".gif"))
 }
 

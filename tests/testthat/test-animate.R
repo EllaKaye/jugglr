@@ -141,7 +141,6 @@ test_that("jugglinglab_url includes named numeric params", {
   expect_true(grepl("bps=2", jugglinglab_url("3", bps = 2)))
   expect_true(grepl("width=400", jugglinglab_url("3", width = 400)))
   expect_true(grepl("height=300", jugglinglab_url("3", height = 300)))
-  expect_true(grepl("fps=25", jugglinglab_url("3", fps = 25)))
   expect_true(grepl("slowdown=2", jugglinglab_url("3", slowdown = 2)))
 })
 
