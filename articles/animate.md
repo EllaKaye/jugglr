@@ -9,7 +9,9 @@ The
 [`animate()`](https://ellakaye.github.io/jugglr/reference/animate.md)
 function produces an animated GIF of a juggling pattern. It uses the
 [Juggling Lab GIF server](https://jugglinglab/html/animinfo.html) to
-generate the animation, so requires an internet connection.
+generate the animation, so requires an internet connection. For a
+juggler learning a new trick, or communicating a pattern to someone
+else, these animations are a particularly useful visual aid.
 
 The time it takes to render depends on the options you pass and whether
 Juggling Lab has the pattern cached. It will typically take a few
@@ -18,13 +20,10 @@ seconds for a simple call, longer for more complex patterns. Setting the
 
 By default,
 [`animate()`](https://ellakaye.github.io/jugglr/reference/animate.md)
-opens the animation in your browser or in the Viewer pane of your IDE,
-if that’s where you’re calling it from, or in a browser otherwise.
-Setting the `path` argument allows you to save the GIF to disk at the
-specified location.
-
-For a juggler learning a new trick, or communicating a pattern to
-someone else, these animations are a particularly useful visual aid.
+opens the animation in the Viewer pane of your IDE, if that’s where
+you’re calling it from, or in a browser otherwise. Setting the `path`
+argument althers this behavior, saving the GIF to disk at the specified
+location instead.
 
 ## Pattern
 
@@ -42,7 +41,6 @@ to reject it.
 
 ``` r
 
-# these produce identical animations:
 animate("531")
 animate(siteswap("531"))
 ```
@@ -51,8 +49,6 @@ These both produce the same animation:
 
 ![Animated GIF of the 531 juggling pattern with default Juggling Lab
 styling](figures/531-default.gif)
-
-The animation is identical either way.
 
 One limitation: `passingSiteswap` objects using fractional notation
 (e.g. `"<4.5 3 3 | 3 4 3.5>"`) can’t be animated because Juggling Lab

@@ -78,19 +78,18 @@
 <p>The <code><a href="../reference/animate.html">animate()</a></code> function produces an animated GIF of a
 juggling pattern. It uses the <a href="https://jugglinglab/html/animinfo.html" class="external-link">Juggling Lab GIF
 server</a> to generate the animation, so requires an internet
-connection.</p>
+connection. For a juggler learning a new trick, or communicating a
+pattern to someone else, these animations are a particularly useful
+visual aid.</p>
 <p>The time it takes to render depends on the options you pass and
 whether Juggling Lab has the pattern cached. It will typically take a
 few seconds for a simple call, longer for more complex patterns. Setting
 the <code>colors</code> argument also notably increases the time it
 takes to render.</p>
-<p>By default, <code><a href="../reference/animate.html">animate()</a></code> opens the animation in your
-browser or in the Viewer pane of your IDE, if that’s where you’re
-calling it from, or in a browser otherwise. Setting the
-<code>path</code> argument allows you to save the GIF to disk at the
-specified location.</p>
-<p>For a juggler learning a new trick, or communicating a pattern to
-someone else, these animations are a particularly useful visual aid.</p>
+<p>By default, <code><a href="../reference/animate.html">animate()</a></code> opens the animation in the Viewer
+pane of your IDE, if that’s where you’re calling it from, or in a
+browser otherwise. Setting the <code>path</code> argument althers this
+behavior, saving the GIF to disk at the specified location instead.</p>
 <div class="section level2">
 <h2 id="pattern">Pattern<a class="anchor" aria-label="anchor" href="#pattern"></a>
 </h2>
@@ -103,12 +102,10 @@ a string is that this already captures whether the pattern is a valid
 juggling sequence, and will throw an error in R if it is not, rather
 than waiting for the Juggling Lab server to reject it.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># these produce identical animations:</span></span>
-<span><span class="fu"><a href="../reference/animate.html">animate</a></span><span class="op">(</span><span class="st">"531"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/animate.html">animate</a></span><span class="op">(</span><span class="st">"531"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/animate.html">animate</a></span><span class="op">(</span><span class="fu"><a href="../reference/siteswap.html">siteswap</a></span><span class="op">(</span><span class="st">"531"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>These both produce the same animation:</p>
 <p><img src="figures/531-default.gif" class="r-plt" alt="Animated GIF of the 531 juggling pattern with default Juggling Lab styling" width="40%"></p>
-<p>The animation is identical either way.</p>
 <p>One limitation: <code>passingSiteswap</code> objects using fractional
 notation (e.g. <code>"&lt;4.5 3 3 | 3 4 3.5&gt;"</code>) can’t be
 animated because Juggling Lab doesn’t recognise that format. P-notation
