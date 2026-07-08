@@ -1,6 +1,6 @@
 # Changelog
 
-## jugglr (development version)
+## jugglr 0.1.0
 
 First release. jugglr validates and visualises juggling patterns written
 in siteswap notation.
