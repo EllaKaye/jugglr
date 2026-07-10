@@ -1,8 +1,3 @@
-#' @include utils-multiplex.R
-#' @include utils-sync-multiplex.R
-#' @include utils-passing.R
-NULL
-
 #' Siteswap base class
 #'
 #' Abstract parent class for all siteswap types. Not intended to be
