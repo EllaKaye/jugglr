@@ -342,7 +342,7 @@ jugglinglab_url <- function(
 
   paste0(
     "https://jugglinglab.org/anim?",
-    paste(c(url_segments, "redirect=true"), collapse = ";")
+    paste(c(url_segments), collapse = ";")
   )
 }
 

@@ -64,14 +64,10 @@ test_that("fmt_string errors if value is not length 1", {
 test_that("jugglinglab_url builds a basic URL", {
   expect_equal(
     jugglinglab_url("3"),
-    "https://jugglinglab.org/anim?pattern=3;redirect=true"
+    "https://jugglinglab.org/anim?pattern=3"
   )
 })
 
-test_that("jugglinglab_url always ends with redirect=true", {
-  url <- jugglinglab_url("531")
-  expect_true(endsWith(url, "redirect=true"))
-})
 
 test_that("jugglinglab_url accepts Siteswap objects", {
   expect_equal(jugglinglab_url(vanillaSiteswap("531")), jugglinglab_url("531"))
@@ -134,7 +130,7 @@ test_that("jugglinglab_url percent-encodes the pattern value", {
 
   # The ";" segment separators and "=" remain structural
   url2 <- jugglinglab_url("<3p 3|3p 3>", bps = 3)
-  expect_true(grepl(";bps=3;redirect=true$", url2))
+  expect_true(grepl(";bps=3$", url2))
 })
 
 test_that("jugglinglab_url includes named numeric params", {
