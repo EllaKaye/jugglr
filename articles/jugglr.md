@@ -203,8 +203,8 @@ arcs (or lines) that cross between the juggler lanes.:
 timeline(siteswap("<3p 3 3|3p 3 3>"))
 ```
 
-![Timeline arc diagram for the \<3p 3 3\|3p 3 3\> passing pattern, with
-two juggler lanes and passes arcing between
+![Timeline arc diagram for the passing pattern, with two juggler lanes
+and passes arcing between
 them](jugglr_files/figure-html/timeline-passing-1.png)
 
 ### Customising the plots
