@@ -1,7 +1,4 @@
 #' @include siteswap.R
-#' @include utils.R
-#' @include utils-plotting.R
-#' @include utils-sync.R
 NULL
 
 #' Synchronous siteswap

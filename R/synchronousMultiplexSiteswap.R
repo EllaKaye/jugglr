@@ -1,9 +1,4 @@
 #' @include siteswap.R
-#' @include utils.R
-#' @include utils-plotting.R
-#' @include utils-sync.R
-#' @include utils-sync-multiplex.R
-#' @include utils-siteswap.R
 NULL
 
 #' Synchronous multiplex siteswap

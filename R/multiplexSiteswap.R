@@ -1,8 +1,4 @@
 #' @include siteswap.R
-#' @include utils.R
-#' @include utils-plotting.R
-#' @include utils-multiplex.R
-#' @include utils-siteswap.R
 NULL
 
 #' Multiplex siteswap

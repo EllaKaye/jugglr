@@ -1,6 +1,4 @@
 #' @include siteswap.R
-#' @include utils.R
-#' @include utils-plotting.R
 NULL
 
 #' Vanilla siteswap
